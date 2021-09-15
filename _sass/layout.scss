@@ -7,6 +7,7 @@
   display: flex;
   flex-wrap: wrap;
   background-color: $sidebar-color;
+  overflow: auto;
 
   @include mq(md) {
     flex-wrap: nowrap;
@@ -19,8 +20,8 @@
   }
 
   @include mq(lg) {
-    width: calc((100% - #{$nav-width *2 + $content-width}) / 2 + #{$nav-width});
-    min-width: $nav-width;
+    min-width: calc((100% - #{$nav-width *2 + $content-width}) / 2 + #{$nav-width});
+    //min-width: $nav-width;
   }
 }
 
@@ -29,6 +30,7 @@
   display: flex;
   flex-wrap: wrap;
   background-color: $sidebar-color;
+  overflow: auto;
 
   @include mq(md) {
     right: 0;
@@ -43,9 +45,37 @@
   }
 
   @include mq(lg) {
-    width: calc((100% - #{$nav-width *2 + $content-width}) / 2 + #{$nav-width});
-    min-width: $nav-width;
+    min-width: calc((100% - #{$nav-width *2 + $content-width}) / 2 + #{$nav-width});
+    //min-width: $nav-width;
   }
+}
+
+.toc-ol {
+  list-style-type: decimal-leading-zero
+}
+
+.toc-ol1 {
+  list-style-type: upper-alpha
+}
+
+.toc-ol2 {
+  list-style-type: lower-alpha
+}
+
+.toc-ol3 {
+  list-style-type: upper-roman
+}
+
+.toc-ol4 {
+  list-style-type: lower-roman
+}
+
+.toc-ol5 {
+  list-style-type: disc
+}
+
+.toc-li1 {
+  border-top: rgba(80, 80, 89, 0.97) dashed 1px;
 }
 
 .main {
@@ -101,7 +131,7 @@
   width: 100%;
 
   @include mq(lg) {
-    width: $nav-width;
+    min-width: $nav-width;
   }
 }
 

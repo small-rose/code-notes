@@ -468,19 +468,4 @@ jtd.onReady(function(){
 
 })(window.jtd = window.jtd || {});
 
-window.onload=function AddImgClickEvent()
-{
-  const objs = document.getElementsByTagName("img");
-  for(let i=0; i<objs.length; i++)
-  {
-    objs[i].onclick=function()
-    {
-      new Viewer(this);
-    }
-     objs[i].style.cursor = "pointer";
-  }
-}
-
-// AddImgClickEvent();
-
 {% include js/custom.js %}

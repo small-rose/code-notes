@@ -235,5 +235,21 @@ layout: table_wrappers
     {% include toc.html html=content item_class='toc-li%level%' ordered=true submenu_class='toc-ol%level%'
     class='toc-ol'%}
 </div>
+
+<script>
+    window.onload=function AddImgClickEvent()
+    {
+        const objs = document.getElementsByTagName("img");
+        for(let i=0; i<objs.length; i++)
+        {
+            objs[i].onclick=function()
+            {
+                new Viewer(this);
+            };
+            objs[i].style.cursor = "pointer";
+        }
+    }
+</script>
+
 </body>
 </html>

@@ -20,8 +20,8 @@
   }
 
   @include mq(lg) {
-    min-width: calc((100% - #{$nav-width *2 + $content-width}) / 2 + #{$nav-width});
-    //min-width: $nav-width;
+    width: calc((100% - #{$nav-width *2 + $content-width}) / 2 + #{$nav-width});
+    min-width: $nav-width;
   }
 }
 
@@ -45,8 +45,8 @@
   }
 
   @include mq(lg) {
-    min-width: calc((100% - #{$nav-width *2 + $content-width}) / 2 + #{$nav-width});
-    //min-width: $nav-width;
+    width: calc((100% - #{$nav-width *2 + $content-width}) / 2 + #{$nav-width});
+    min-width: $nav-width;
   }
 }
 
@@ -79,6 +79,8 @@
 }
 
 .main {
+  overflow: auto;
+
   @include mq(md) {
     position: relative;
     max-width: $content-width;

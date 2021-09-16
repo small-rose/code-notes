@@ -1,4 +1,4 @@
 ---
-layout: default
+layout: docs
 title: 222
 ---

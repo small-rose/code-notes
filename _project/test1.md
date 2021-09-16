@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: docs
 title: 111按电话强无敌好久好久的hi殴打好囧黄金借我点进去我家
 ---
 

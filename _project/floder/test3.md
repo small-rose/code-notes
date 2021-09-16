@@ -1,8 +1,10 @@
 ---
-layout: default
+layout: docs
 title: Buttons
-parent: UI Components
+parent: ui
 nav_order: 2
+has_children: true
+
 ---
 
 aaa

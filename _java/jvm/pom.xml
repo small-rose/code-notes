@@ -10,12 +10,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>javase</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>getting-started</module>
-        <module>learning-the-java-language</module>
-    </modules>
+    <artifactId>jvm</artifactId>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

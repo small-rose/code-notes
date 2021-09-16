@@ -6,8 +6,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="jvm" />
+        <module name="design-pattern" />
+        <module name="getting-started" />
+        <module name="learning-the-java-language" />
         <module name="data-structure" />
-        <module name="javase" />
+        <module name="Spring" />
+        <module name="javaee" />
       </profile>
     </annotationProcessing>
   </component>

@@ -82,7 +82,7 @@ layout: table_wrappers
         {% include nav.html pages=site.html_pages %}
         {% endif %}
     </nav>
-    <footer class="site-footer" style="text-align: center;">
+    <footer class="site-footer" style="text-align: right;">
         <img src="https://img.shields.io/github/languages/code-size/guosonglu/code-notes" style="margin-right: 10px">
         <img src="https://img.shields.io/github/last-commit/guosonglu/code-notes">
     </footer>
@@ -169,8 +169,7 @@ layout: table_wrappers
             <hr>
             <h2 class="text-delta">目录</h2>
             <ol>
-                {%- assign children_list = pages_list | where: "parent", page.title | where: "grand_parent", page.parent
-                -%}
+                {%- assign children_list = pages_list | where: "parent", page.title | where: "grand_parent", page.parent -%}
                 {% for child in children_list %}
                 <li>
                     <a href="{{ child.url | absolute_url }}">{{ child.title }}</a>{% if child.summary %} - {{

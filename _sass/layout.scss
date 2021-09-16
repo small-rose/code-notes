@@ -2,7 +2,7 @@
 // The basic two column layout
 //
 
-@import url('https://fonts.googleapis.com/css?family=ZCOOL KuaiLe');
+@import url('https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital@1&display=swap');
 
 .side-bar {
@@ -232,7 +232,7 @@ body {
   position: relative;
   padding-bottom: $sp-10;
   overflow-y: scroll;
-  font-family: 'Source Code Pro', monospace,"ZCOOL KuaiLe";
+  font-family: 'Source Code Pro','ZCOOL KuaiLe';
 
   @include mq(md) {
     position: static;

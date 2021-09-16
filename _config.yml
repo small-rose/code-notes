@@ -2,7 +2,6 @@ title: 陆国松的编程笔记
 email: luguosong8@163.com
 #description: >- # this means to ignore newlines until "baseurl:"
 #  编程学习笔记
-baseurl: "/code-notes" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: jekyllrb
 github_username: jekyll

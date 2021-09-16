@@ -27,13 +27,17 @@ plugins:
 #layouts:     ./_layouts
 #data_source: ./_data
 collections:
-  project:
+  java:
+    output: true
+  c:
     output: true
 
 just_the_docs:
   collections:
-    project:
-      name: Project
+    java:
+      name: Java
+    c:
+      name: C
 
 ## 阅读处理
 #safe:         false

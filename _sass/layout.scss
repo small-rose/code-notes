@@ -2,6 +2,19 @@
 // The basic two column layout
 //
 
+//@import url('https://fonts.googleapis.com/css?family=ZCOOL KuaiLe');
+//@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital@1&display=swap');
+
+@font-face {
+  font-family:SourceCodePro;
+  src:url("/assets/fonts/SourceCodePro-MediumItalic.ttf");
+}
+
+@font-face {
+  font-family:ZCOOLKuaiLe;
+  src:url("/assets/fonts/ZCOOLKuaiLe-Regular.ttf");
+}
+
 .side-bar {
   z-index: 0;
   display: flex;
@@ -229,6 +242,7 @@ body {
   position: relative;
   padding-bottom: $sp-10;
   overflow-y: scroll;
+  font-family: SourceCodePro,ZCOOLKuaiLe;
 
   @include mq(md) {
     position: static;

@@ -1,8 +1,6 @@
 ---
 layout: docs
-title: ui
-nav_order: 3
+title: 数据结构
 has_children: true
+nav_order: 2
 ---
-
-# UI Components

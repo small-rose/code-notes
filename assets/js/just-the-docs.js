@@ -74,7 +74,7 @@ function initSearch() {
   request.onload = function(){
     if (request.status >= 200 && request.status < 400) {
       var docs = JSON.parse(request.responseText);
-      
+
       lunr.tokenizer.separator = {{ site.search.tokenizer_separator | default: site.search_tokenizer_separator | default: "/[\s\-/]+/" }}
 
       var index = lunr(function(){
@@ -467,5 +467,20 @@ jtd.onReady(function(){
 });
 
 })(window.jtd = window.jtd || {});
+
+window.onload=function AddImgClickEvent()
+{
+  const objs = document.getElementsByTagName("img");
+  for(let i=0; i<objs.length; i++)
+  {
+    objs[i].onclick=function()
+    {
+      new Viewer(this);
+    }
+     objs[i].style.cursor = "pointer";
+  }
+}
+
+// AddImgClickEvent();
 
 {% include js/custom.js %}

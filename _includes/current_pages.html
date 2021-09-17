@@ -1,0 +1,31 @@
+<!--当前collection中所有页排序-->
+
+{%- assign current_titled_pages = include.pages
+| where_exp:"item", "item.title != nil" -%}
+
+{%- assign current_string_ordered_pages = current_titled_pages
+| where_exp:"item", "item.nav_order == nil" -%}
+{%- assign current_nav_ordered_pages = current_titled_pages
+| where_exp:"item", "item.nav_order != nil"  -%}
+
+{%- assign nav_ordered_groups = current_nav_ordered_pages
+| group_by_exp:"item", "item.nav_order | jsonify | slice: 0" -%}
+{%- assign number_ordered_pages = "" | split:"X" -%}
+{%- for group in nav_ordered_groups -%}
+{%- if group.name == '"' -%}
+{%- assign current_string_ordered_pages = current_string_ordered_pages | concat: group.items -%}
+{%- else -%}
+{%- assign number_ordered_pages = number_ordered_pages | concat: group.items -%}
+{%- endif -%}
+{%- endfor -%}
+
+{%- assign sorted_number_ordered_pages = number_ordered_pages | sort:"nav_order" -%}
+
+{%- assign string_ordered_groups = current_string_ordered_pages | group_by_exp:"item", "item.nav_order | default: item.title | append:''" -%}
+
+{%- assign sorted_string_ordered_pages = "" | split:"X" -%}
+{%- for group in string_ordered_groups -%}
+{%- assign sorted_string_ordered_pages = sorted_string_ordered_pages | concat: group.items -%}
+{%- endfor -%}
+
+{%- assign current_list = sorted_number_ordered_pages | concat: sorted_string_ordered_pages -%}

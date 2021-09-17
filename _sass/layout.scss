@@ -34,6 +34,9 @@
   flex-wrap: wrap;
   background-color: $sidebar-color;
   overflow: auto;
+  padding-top: 2em;
+  padding-left: 1em;
+  font-size: 0.9em;
 
   @include mq(md) {
     right: 0;
@@ -58,7 +61,7 @@
 }
 
 .toc-ol1 {
-  list-style-type: upper-alpha
+  list-style-type: upper-alpha;
 }
 
 .toc-ol2 {
@@ -75,10 +78,6 @@
 
 .toc-ol5 {
   list-style-type: disc
-}
-
-.toc-li1 {
-  border-top: rgba(80, 80, 89, 0.97) dashed 1px;
 }
 
 .main {

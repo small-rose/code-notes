@@ -55,6 +55,15 @@ layout: table_wrappers
     </symbol>
 </svg>
 
+{%- comment -%}
+获取当前collection中的页面
+{%- endcomment -%}
+{% assign current_collection = site[page.collection] %}
+{% include current_pages.html pages=current_collection %}
+
+
+
+
 <div class="side-bar">
     <div class="site-header">
         <a href="{{ '/' | absolute_url }}" class="site-title lh-tight">{% include title.html %}</a>
@@ -65,7 +74,6 @@ layout: table_wrappers
         </a>
     </div>
     <nav role="navigation" aria-label="Main" id="site-nav" class="site-nav">
-        {% if site.just_the_docs.collections %}
         {% assign collections_size = site.just_the_docs.collections | size %}
         {% for collection_entry in site.just_the_docs.collections %}
         {% assign collection_key = collection_entry[0] %}
@@ -78,13 +86,10 @@ layout: table_wrappers
         {% include nav.html pages=collection %}
         {% endif %}
         {% endfor %}
-        {% else %}
-        {% include nav.html pages=site.html_pages %}
-        {% endif %}
     </nav>
-    <footer class="site-footer" style="text-align: right;">
-        <img src="https://img.shields.io/github/languages/code-size/guosonglu/code-notes" style="margin-right: 10px">
-        <img src="https://img.shields.io/github/last-commit/guosonglu/code-notes">
+    <footer class="site-footer" >
+        <img src="https://img.shields.io/github/languages/code-size/guosonglu/code-notes?style=social" style="margin-right: 10px">
+        <img src="https://img.shields.io/github/stars/guosonglu/code-notes?style=social">
     </footer>
 </div>
 <div class="main" id="top">
@@ -123,16 +128,17 @@ layout: table_wrappers
         </nav>
         {% endif %}
     </div>
+
     <div id="main-content-wrap" class="main-content-wrap">
         {% unless page.url == "/" %}
         {% if page.parent %}
-        {%- for node in pages_list -%}
+        {%- for node in current_list -%}
         {%- if node.parent == nil -%}
         {%- if page.parent == node.title or page.grand_parent == node.title -%}
         {%- assign first_level_url = node.url | absolute_url -%}
         {%- endif -%}
         {%- if node.has_children -%}
-        {%- assign children_list = pages_list | where: "parent", node.title -%}
+        {%- assign children_list = current_list | where: "parent", node.title -%}
         {%- for child in children_list -%}
         {%- if page.url == child.url or page.parent == child.title -%}
         {%- assign second_level_url = child.url | absolute_url -%}
@@ -154,6 +160,7 @@ layout: table_wrappers
         </nav>
         {% endif %}
         {% endunless %}
+
         <div id="main-content" class="main-content" role="main">
             {% if site.heading_anchors != false %}
             {% include vendor/anchor_headings.html html=content beforeHeading="true" anchorBody="
@@ -166,6 +173,18 @@ layout: table_wrappers
             {% endif %}
 
 
+            {% if page.has_children == true and page.has_toc != false %}
+            <hr>
+            <h2 class="text-delta">{{page.title}}-目录</h2>
+            <ul>
+                {%- assign children_list = current_list | where: "parent", page.title | where: "grand_parent", page.parent -%}
+                {% for child in children_list %}
+                <li>
+                    <a href="{{ child.url | absolute_url }}">{{ child.title }}</a>{% if child.summary %} - {{ child.summary }}{% endif %}
+                </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
 
             {% capture footer_custom %}
             {%- include footer_custom.html -%}

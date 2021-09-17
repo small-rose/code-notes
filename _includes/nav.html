@@ -1,7 +1,6 @@
 <ul class="nav-list">
   {%- assign titled_pages = include.pages
         | where_exp:"item", "item.title != nil" -%}
-
   {%- comment -%}
   `title` 和 `nav_order` 的值可以是数字或字符串。
   Jekyll 在对不同类型的混合物进行排序时会导致构建失败，
@@ -13,7 +12,7 @@
 
   字符串排序是否区分大小写由`site.nav_sort` 决定。
   {%- endcomment -%}
-  
+
   {%- assign string_ordered_pages = titled_pages
         | where_exp:"item", "item.nav_order == nil" -%}
   {%- assign nav_ordered_pages = titled_pages
@@ -34,9 +33,9 @@
       {%- assign number_ordered_pages = number_ordered_pages | concat: group.items -%}
     {%- endif -%}
   {%- endfor -%}
-  
+
   {%- assign sorted_number_ordered_pages = number_ordered_pages | sort:"nav_order" -%}
-  
+
   {%- comment -%}
     The string_ordered_pages have to be sorted by nav_order, and otherwise title
     (where appending the empty string to a numeric title converts it to a string).
@@ -56,7 +55,7 @@
   {%- endfor -%}
 
   {%- assign pages_list = sorted_number_ordered_pages | concat: sorted_string_ordered_pages -%}
-  
+
   {%- for node in pages_list -%}
     {%- if node.parent == nil -%}
       {%- unless node.nav_exclude -%}

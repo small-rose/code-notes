@@ -10,6 +10,17 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>learning-the-java-language</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>object-oriented-programming-concepts</module>
+        <module>language-basics</module>
+        <module>classes-and-objects</module>
+        <module>annotations</module>
+        <module>interfaces-and-inheritance</module>
+        <module>numbers-and-strings</module>
+        <module>generics</module>
+        <module>packages</module>
+    </modules>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

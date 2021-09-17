@@ -3,22 +3,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>code-notes</artifactId>
+        <artifactId>essential-java-classes</artifactId>
         <groupId>org.example</groupId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath>../../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>javase</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>getting-started</module>
-        <module>learning-the-java-language</module>
-        <module>essential-java-classes</module>
-        <module>building-on-the-foundation</module>
-        <module>client</module>
-    </modules>
+    <artifactId>regular-expressions</artifactId>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

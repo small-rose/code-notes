@@ -7,12 +7,27 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="jvm" />
+        <module name="server" />
+        <module name="language-basics" />
+        <module name="classes-and-objects" />
+        <module name="data-structure" />
+        <module name="io" />
+        <module name="annotations" />
+        <module name="building-on-the-foundation" />
+        <module name="object-oriented-programming-concepts" />
+        <module name="Spring" />
+        <module name="packages" />
+        <module name="the-platform-environment" />
+        <module name="javaee" />
+        <module name="exceptions" />
+        <module name="concurrency" />
         <module name="design-pattern" />
         <module name="getting-started" />
-        <module name="learning-the-java-language" />
-        <module name="data-structure" />
-        <module name="Spring" />
-        <module name="javaee" />
+        <module name="generics" />
+        <module name="client" />
+        <module name="interfaces-and-inheritance" />
+        <module name="numbers-and-strings" />
+        <module name="regular-expressions" />
       </profile>
     </annotationProcessing>
   </component>

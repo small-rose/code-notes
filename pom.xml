@@ -15,6 +15,7 @@
         <module>_java/design-pattern</module>
         <module>_java/javaee</module>
         <module>_java/Spring</module>
+        <module>_java/javase/server</module>
     </modules>
 
     <properties>

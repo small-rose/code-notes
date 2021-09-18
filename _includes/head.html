@@ -25,6 +25,28 @@
           src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
   </script>
 
+  {% if page.mermaid %}
+  <script>
+    function initMermaid() {
+      var config = {
+        startOnLoad: true,
+        theme: "forest",
+        flowchart:{
+          useMaxWidth: true,
+          htmlLabels: true
+        }
+      };
+      mermaid.initialize(config);
+      window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+    }
+  </script>
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/mermaid/8.6.0/mermaid.min.js"
+          async
+          onload="initMermaid()">
+  </script>
+  {% endif %}
+
 
   <link rel="shortcut icon" href="{{ 'favicon.ico' | relative_url }}" type="image/x-icon">
 

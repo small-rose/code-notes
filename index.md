@@ -2,6 +2,11 @@
 layout: docs
 ---
 
+![](https://img.shields.io/github/repo-size/guosonglu/code-notes?label=%E4%BB%93%E5%BA%93%E5%A4%A7%E5%B0%8F&style=social)
+
+项目详细说明请转到[我的博客](https://www.luguosong.com/)
+
+
 # 图片显示问题
 
 - 本网站大部分图片采用github作为图床，由于
@@ -52,5 +57,8 @@ layout: docs
 # 编程史
 
 ![](https://edrawcloudpubliccn.oss-cn-shenzhen.aliyuncs.com/viewer/self/1059758/share/2021-7-30/1627611901/main.svg)
+
+
+
 
 

@@ -32,6 +32,10 @@ collections:
     output: true
   c:
     output: true
+  math:
+    output: true
+  environment:
+    output: true
 
 just_the_docs:
   collections:
@@ -39,6 +43,10 @@ just_the_docs:
       name: Java
     c:
       name: C
+    math:
+      name: 数学
+    environment:
+      name: 环境与工具
 
 ## 阅读处理
 #safe:         false

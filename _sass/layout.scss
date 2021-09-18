@@ -87,10 +87,11 @@
     position: relative;
     //max-width: $content-width;
     margin-left: $nav-width;
-    width: 60%;
+    width: calc(80% - 300px);
   }
 
   @include mq(lg) {
+    width: 60%;
     margin-left: 20%;
   }
 }

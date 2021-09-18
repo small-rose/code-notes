@@ -6,13 +6,15 @@ nav_order: 1
 ---
 
 # 关于Java
-> 技术既是一种编程语言，又是一个平台。
+
+技术既是一种编程语言，又是一个平台。
 
 ![](https://raw.githubusercontent.com/guosonglu/images/master/blog-img/202108271048586.jpeg)
 
 ## Java发展史
 
 ![](https://raw.githubusercontent.com/guosonglu/images/master/blog-img/202108271056669.jpeg)
+
 ![](https://raw.githubusercontent.com/guosonglu/images/master/blog-img/202108271404392.png)
 
 

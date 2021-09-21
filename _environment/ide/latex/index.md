@@ -1,7 +1,8 @@
 ---
 layout: docs
 title: LaTeX编写数学公式
-nav_order: 1000
+nav_order: 200
+parent: ide和环境配置
 ---
 
 # 简介

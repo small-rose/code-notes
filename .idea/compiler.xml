@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="jvm" />
         <module name="server" />
+        <module name="junit5" />
         <module name="language-basics" />
         <module name="classes-and-objects" />
         <module name="data-structure" />

@@ -15,7 +15,6 @@
         <module name="annotations" />
         <module name="building-on-the-foundation" />
         <module name="object-oriented-programming-concepts" />
-        <module name="Spring" />
         <module name="packages" />
         <module name="the-platform-environment" />
         <module name="javaee" />
@@ -23,6 +22,7 @@
         <module name="concurrency" />
         <module name="design-pattern" />
         <module name="getting-started" />
+        <module name="spring-security-hello" />
         <module name="generics" />
         <module name="client" />
         <module name="interfaces-and-inheritance" />
@@ -31,5 +31,11 @@
         <module name="base" />
       </profile>
     </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="spring-security" options="-parameters" />
+      <module name="spring-security-hello" options="-parameters" />
+    </option>
   </component>
 </project>

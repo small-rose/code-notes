@@ -1,6 +1,6 @@
 ---
 layout: docs
-title: Spring全家桶
+title: Spring相关
 has_children: true
 nav_order: 6
 ---

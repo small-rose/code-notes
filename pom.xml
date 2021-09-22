@@ -14,7 +14,7 @@
         <module>_java/jvm</module>
         <module>_java/design-pattern</module>
         <module>_java/javaee</module>
-        <module>_java/Spring</module>
+        <module>_java/spring</module>
         <module>_java/javase/server</module>
         <module>_environment/ide/junit5</module>
     </modules>

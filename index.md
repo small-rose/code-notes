@@ -2,11 +2,6 @@
 layout: docs
 ---
 
-![](https://img.shields.io/github/repo-size/guosonglu/code-notes?label=%E4%BB%93%E5%BA%93%E5%A4%A7%E5%B0%8F&style=social)
-
-项目详细说明请转到[我的博客](https://www.luguosong.com/)
-
-
 # 图片显示问题
 
 - 本网站大部分图片采用github作为图床，由于
@@ -35,32 +30,28 @@ layout: docs
 
 [项目地址](https://github.com/guosonglu/code-notes)
 
-| 目录或文件     | 说明                                |
-|:-------------|:------------------------------------|
-| _c           | c语言相关项目                         |
-| _environment | 环境和工具说明文档                     |
-| _includes    | 网站公共html                         |
-| _java        | Java相关项目                         |
-| _layouts     | 网站布局                             |
-| _math        | 数学相关笔记                          |
-| _sass        | 样式文件                             |
-| assets       | 网站资源目录                          |
-| .gitignore   | Git忽略文件                          |
-| 404.html     | 404页面                             |
-| _config.yml  | jekyll配置文件，全局设置               |
-| CNAME        | github pages域名解析                 |
-| favicon.ico  | 网站图标                             |
-| Gemfile      | 描述gem之间依赖                       |
-| Gemfile.lock | Bundler记录已经安装了的版本            |
-| index.md     | 网站首页                             |
+
+| 目录或文件   | 说明                                     |
+| :------------- | :----------------------------------------- |
+| _c           | c语言相关项目                            |
+| _environment | 环境和工具说明文档                       |
+| _includes    | 网站公共html                             |
+| _java        | Java相关项目                             |
+| _layouts     | 网站布局                                 |
+| _math        | 数学相关笔记                             |
+| _sass        | 样式文件                                 |
+| assets       | 网站资源目录                             |
+| .gitignore   | Git忽略文件                              |
+| 404.html     | 404页面                                  |
+| _config.yml  | jekyll配置文件，全局设置                 |
+| CNAME        | github pages域名解析                     |
+| favicon.ico  | 网站图标                                 |
+| Gemfile      | 描述gem之间依赖                          |
+| Gemfile.lock | Bundler记录已经安装了的版本              |
+| index.md     | 网站首页                                 |
 | pom.xml      | 整个项目基于Maven，这个pom做全局版本管理 |
-| README.md    | github首页说明                       |
+| README.md    | github首页说明                           |
 
 # 编程史
 
 ![](https://edrawcloudpubliccn.oss-cn-shenzhen.aliyuncs.com/viewer/self/1059758/share/2021-7-30/1627611901/main.svg)
-
-
-
-
-

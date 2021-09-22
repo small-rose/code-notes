@@ -11,7 +11,6 @@
         <module name="junit5" />
         <module name="classes-and-objects" />
         <module name="language-basics" />
-        <module name="data-structure" />
         <module name="io" />
         <module name="annotations" />
         <module name="building-on-the-foundation" />
@@ -29,6 +28,7 @@
         <module name="interfaces-and-inheritance" />
         <module name="numbers-and-strings" />
         <module name="regular-expressions" />
+        <module name="base" />
       </profile>
     </annotationProcessing>
   </component>

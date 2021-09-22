@@ -25,6 +25,7 @@ layout: docs
   - [jekyll](https://jekyllrb.com/)
   - jekyll主题：
     [just-the-docs](https://github.com/pmarsceill/just-the-docs)
+  - [jekyll-toc](https://github.com/allejo/jekyll-toc)
   - [liquid](https://github.com/Shopify/liquid/wiki)
   - 数学公式排版：[LaTeX](https://www.latex-project.org/)
   - 流程图： [mermaid](https://mermaid-js.github.io/mermaid/#/)

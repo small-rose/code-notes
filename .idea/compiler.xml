@@ -9,8 +9,8 @@
         <module name="jvm" />
         <module name="server" />
         <module name="junit5" />
-        <module name="language-basics" />
         <module name="classes-and-objects" />
+        <module name="language-basics" />
         <module name="data-structure" />
         <module name="io" />
         <module name="annotations" />

@@ -82,9 +82,13 @@ h6 {
 }
 
 p {
-  text-indent: 2em;
   margin-top: 1em;
   margin-bottom: 1em;
+}
+
+div>p {
+  text-indent: 2em;
+
 }
 
 a {

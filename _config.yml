@@ -20,6 +20,13 @@ gh_edit_branch: "master" # the branch that your docs is served from
 # gh_edit_source: docs # the source that your files originate from
 gh_edit_view_mode: "tree" # "tree" or "edit" if you want the user to jump into the editor immediately
 
+# 这个使用的是小号，安全隐患
+gitment_owner: luguosong
+gitment_repo: luguosong.github.io
+gitment_oauth:
+  client_id: 0d8aaec11145d797cdfa
+  client_secret: 43cec67aeda473d51e3975f5f9ea4b2d60fb1cb3
+
 # Build settings
 theme: "just-the-docs"
 color_scheme: dark

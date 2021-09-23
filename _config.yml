@@ -7,26 +7,26 @@ twitter_username: jekyllrb
 github_username: jekyll
 markdown: kramdown
 
+# Footer content
+# appears at the bottom of every page's main content
+# Note: The footer_content option is deprecated and will be removed in a future major release. Please use `_includes/footer_custom.html` for more robust markup / liquid-based content.
+footer_content: "Email: luguosong8@163.com"
+
+# Footer "Edit this page on GitHub" link text
+gh_edit_link: true # show or hide edit this page link
+gh_edit_link_text: "Edit this page on GitHub."
+gh_edit_repository: "https://github.com/guosonglu/code-notes" # the github URL for your repo
+gh_edit_branch: "master" # the branch that your docs is served from
+# gh_edit_source: docs # the source that your files originate from
+gh_edit_view_mode: "tree" # "tree" or "edit" if you want the user to jump into the editor immediately
+
 # Build settings
 theme: "just-the-docs"
 color_scheme: dark
 plugins:
   - jekyll-feed
 
-#默认配置
-#defaults:
-#  - scope: #范围
-#      path: ""  #路径匹配
-#    values:  #YAML 头信息
-#      layout: "default"
 
-
-## 目录结构
-#source:      .
-#destination: ./_site
-#plugins:     ./_plugins
-#layouts:     ./_layouts
-#data_source: ./_data
 collections:
   java:
     output: true
@@ -47,68 +47,6 @@ just_the_docs:
       name: 数学
     environment:
       name: 环境与配置
-
-## 阅读处理
-#safe:         false
-#include:      [".htaccess"]
-#exclude:      []
-#keep_files:   [".git", ".svn"]
-#encoding:     "utf-8"
-#markdown_ext: "markdown,mkdown,mkdn,mkd,md"
-
-## 内容过滤
-#show_drafts: null
-#limit_posts: 0
-#future:      true
-#unpublished: false
-
-## 插件
-#whitelist: []
-#gems:      []
-
-## 转换
-#markdown:    kramdown
-#highlighter: rouge
-#lsi:         false
-#excerpt_separator: "\n\n"
-#incremental: false
-
-## 服务器选项
-#detach:  false
-#port:    4000
-#host:    127.0.0.1
-#baseurl: "" # does not include hostname
-
-## 输出
-#permalink:     date
-#paginate_path: /page:num
-#timezone:      null
-
-#quiet:    false
-#defaults: []
-
-## Markdown 处理器
-#rdiscount:
-#  extensions: []
-
-#redcarpet:
-#  extensions: []
-
-#kramdown:
-#  auto_ids:       true
-#  footnote_nr:    1
-#  entity_output:  as_char
-#  toc_levels:     1..6
-#  smart_quotes:   lsquo,rsquo,ldquo,rdquo
-#  enable_coderay: false
-
-#  coderay:
-#    coderay_wrap:              div
-#    coderay_line_numbers:      inline
-#    coderay_line_number_start: 1
-#    coderay_tab_width:         4
-#    coderay_bold_every:        10
-#    coderay_css:               style
 
 aux_links:
   "code-notes on GitHub":

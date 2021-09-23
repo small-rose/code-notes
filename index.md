@@ -13,7 +13,7 @@ layout: docs
     目前查到的ip是`185.199.110.133`,后面变了会更新
     ![](/assets/images/Snipaste_2021-09-18_17-03-50.png)
 
-# 网站用到技术
+# 网站构建技术选型
 
 - 网站采用github pages搭建，主要涉及以下技术：
   - [github pages](https://docs.github.com/cn/pages)
@@ -23,7 +23,7 @@ layout: docs
     [just-the-docs](https://github.com/pmarsceill/just-the-docs)
   - 页面目录：[jekyll-toc](https://github.com/allejo/jekyll-toc)
   - 图片查看：[Viewer.js](https://github.com/fengyuanchen/viewerjs)
-  - 数学公式排版：[LaTeX](https://www.latex-project.org/)
+  - 数学公式排版：[LaTeX](https://www.latex-project.org/) [MathJax](http://docs.mathjax.org/en/latest/)
   - 流程图： [mermaid](https://mermaid-js.github.io/mermaid/#/)
 
 # 项目目录结构

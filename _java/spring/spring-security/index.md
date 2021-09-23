@@ -11,6 +11,10 @@ Spring Security 版本：`5.3.3.RELEASE`
 
 Spring Security的版本并不需要亲自指定，[父工程](#父工程)继承自`spring-boot-starter-parent`，`spring-boot-starter-parent`中已经帮我们做好了版本管理
 
+[官方文档](https://docs.spring.io/spring-security/site/docs/5.3.3.RELEASE/reference/html5/)
+
+[中文文档](http://docs.jcohy.com/docs/spring-security/5.3.0.RELEASE/html5/zh-cn)
+
 # 代码演示
 
 ## 父工程
@@ -129,3 +133,13 @@ public class TestController {
 ![](https://raw.githubusercontent.com/guosonglu/images/master/blog-img/202109230909889.png)
 
 - 通过默认提供的用户名和密码，可以成功访问到Controller
+
+## 自定义用户名密码
+
+上面Hello world程序中，默认密码为`user`,默认密码为控制台自动生成的。现在我们想要使用自己的密码
+
+### 方法一
+
+### 方法二
+
+### 方法三

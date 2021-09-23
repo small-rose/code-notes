@@ -244,9 +244,10 @@ layout: table_wrappers
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
 <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
-
+<script src="/assets/js/md5.js"></script>
 <script>
     let gitalk = new Gitalk({
+        id: md5('{{ page.url }}'),
         clientID: '0d8aaec11145d797cdfa',
         clientSecret: '43cec67aeda473d51e3975f5f9ea4b2d60fb1cb3',
         repo: 'notes-comment',

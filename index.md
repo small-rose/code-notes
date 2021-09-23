@@ -19,8 +19,8 @@ layout: docs
   - [github pages](https://docs.github.com/cn/pages)
   - [jekyll](https://jekyllrb.com/)
   - [liquid](https://github.com/Shopify/liquid/wiki)
-  - jekyll主题：
-    [just-the-docs](https://github.com/pmarsceill/just-the-docs)
+  - jekyll主题：[just-the-docs](https://github.com/pmarsceill/just-the-docs)
+  - 博客评论功能：[Gitalk](https://github.com/gitalk/gitalk)
   - 页面目录：[jekyll-toc](https://github.com/allejo/jekyll-toc)
   - 图片查看：[Viewer.js](https://github.com/fengyuanchen/viewerjs)
   - 数学公式排版：[LaTeX](https://www.latex-project.org/) [MathJax](http://docs.mathjax.org/en/latest/)

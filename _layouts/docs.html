@@ -190,20 +190,6 @@ layout: table_wrappers
             {% if footer_custom != "" or site.last_edit_timestamp or site.gh_edit_link %}
             <hr>
             <footer>
-                <div id="gitmentContainer"></div>
-                <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
-                <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
-                <script>
-                    var gitment = new Gitment({
-                        owner: 'guosonglu',
-                        repo: 'code-notes',
-                        oauth: {
-                            client_id: '27c24674849fbfdf67b8',
-                            client_secret: '65d47cf44a23581260e543484b4182a774b2232f',
-                        },
-                    });
-                    gitment.render('gitmentContainer');
-                </script>
 
 
                 {% if site.back_to_top %}

@@ -34,9 +34,8 @@
   display: flex;
   flex-wrap: wrap;
   background-color: $sidebar-color;
-  overflow: auto;
-  padding-top: 2em;
-  padding-left: 1em;
+  margin-top: 60px;
+  overflow: scroll;
   font-size: 0.9em;
 
   @include mq(md) {
@@ -46,7 +45,7 @@
     position: fixed;
     height: 100%;
     flex-direction: column;
-    border-left: $border $border-color;
+    //border-left: $border $border-color;
     align-items: flex-start;
     width: 20%;
   }
@@ -57,28 +56,9 @@
   }
 }
 
-.toc-ol {
-  list-style-type: decimal-leading-zero
-}
-
-.toc-ol1 {
-  list-style-type: upper-alpha;
-}
-
-.toc-ol2 {
-  list-style-type: lower-alpha
-}
-
-.toc-ol3 {
-  list-style-type: upper-roman
-}
-
-.toc-ol4 {
-  list-style-type: lower-roman
-}
-
-.toc-ol5 {
-  list-style-type: disc
+toc>toc-list {
+  margin: 0;
+  position: relative;
 }
 
 .main {

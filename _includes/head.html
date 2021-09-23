@@ -1,24 +1,36 @@
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-
   {% unless site.plugins contains "jekyll-seo-tag" %}
   <title>{% if page.title %}{{ page.title }} - {% endif %} {{ site.title }}</title>
-
   {% if page.description %}
   <meta name="Description" content="{{ page.description }}">
   {% endif %}
   {% endunless %}
-
   <meta name="keywords" content="陆国松,博客,编程,Java,java,数学,c,操作系统"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  <link rel="shortcut icon" href="{{ 'favicon.ico' | relative_url }}" type="image/x-icon">
+  <link rel="stylesheet" href="{{ '/assets/css/just-the-docs-default.css' | relative_url }}">
+  {% if site.ga_tracking != nil %}
+  <script async src="https://www.googletagmanager.com/gtag/js?id={{ site.ga_tracking }}"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', '{{ site.ga_tracking }}'{% unless site.ga_tracking_anonymize_ip == nil %}, { 'anonymize_ip': true }{% endunless %});
+  </script>
+  {% endif %}
+
+  <!--toc目录-->
+  <link rel="stylesheet" href="/assets/css/tocbot/tocbot.css">
+  <script src="/assets/js/tocbot/tocbot.min.js"></script>
   <!--博客评论功能-->
   <link rel="stylesheet" href="/assets/css/gitalk/gitalk.css">
   <script src="/assets/js/gitalk/gitalk.min.js"></script>
   <script src="/assets/js/md5.js"></script>
-
-  {% if page.latex %}
   <!--支持LaTeX显示-->
+  {% if page.latex %}
   <script>
     MathJax = {
       tex: {
@@ -33,7 +45,6 @@
           src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
   </script>
   {% endif %}
-
   <!--mermaid-->
   {% if page.mermaid %}
   <script>
@@ -50,38 +61,20 @@
       window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
     }
   </script>
-
   <script src="//cdnjs.cloudflare.com/ajax/libs/mermaid/8.6.0/mermaid.min.js"
           async
           onload="initMermaid()">
   </script>
   {% endif %}
-
-  <link rel="shortcut icon" href="{{ 'favicon.ico' | relative_url }}" type="image/x-icon">
-
-  <link rel="stylesheet" href="{{ '/assets/css/just-the-docs-default.css' | relative_url }}">
-
-  {% if site.ga_tracking != nil %}
-  <script async src="https://www.googletagmanager.com/gtag/js?id={{ site.ga_tracking }}"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', '{{ site.ga_tracking }}'{% unless site.ga_tracking_anonymize_ip == nil %}, { 'anonymize_ip': true }{% endunless %});
-    </script>
-
-  {% endif %}
-
+  <!--图片查看-->
   <link rel="stylesheet" href="/assets/css/viewerjs/viewer.css">
   <script type="text/javascript" src="/assets/js/viewerjs/viewer.js"></script>
-
+  <!--搜索功能-->
   {% if site.search_enabled != false %}
     <script type="text/javascript" src="{{ '/assets/js/vendor/lunr.min.js' | relative_url }}"></script>
   {% endif %}
+
   <script  type="text/javascript" src="{{ '/assets/js/just-the-docs.js' | relative_url }}"></script>
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
   {% include head_custom.html %}
-
 </head>

@@ -110,14 +110,14 @@ figure.highlight {
 }
 
 .language-plaintext {
+  font-weight: 600;
   color: lightskyblue;
   font-size: 0.9em;
-  margin: 0 0.2em;
+  background: none;
+  border: none;
 }
 
 .highlight {
-
-
   $apple-blossom: #ac4142;
   $alto: #d0d0d0;
   $bouquet: #aa759f;

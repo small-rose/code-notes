@@ -170,7 +170,6 @@ layout: table_wrappers
             {{ content }}
             {% endif %}
 
-
             {% if page.has_children == true and page.has_toc != false %}
             <hr>
             <h2 class="text-delta">{{page.title}}-目录</h2>
@@ -237,10 +236,9 @@ layout: table_wrappers
     <div class="search-overlay"></div>
     {% endif %}
 </div>
-<div class="side-bar-right">
-    {% include toc.html html=content item_class='toc-li%level%' ordered=true submenu_class='toc-ol%level%'
-    class='toc-ol'%}
+<div class="toc side-bar-right js-toc">
 </div>
+
 
 
 <script>
@@ -252,7 +250,17 @@ layout: table_wrappers
         owner: 'luguosong',
         admin: ['luguosong'],
     });
-    gitalk.render('gitalk-container')
+    gitalk.render('gitalk-container');
+
+    tocbot.init({
+        tocSelector: '.js-toc',
+        contentSelector: '.main-content',
+        headingSelector: 'h1, h2, h3, h4, h5, h6',
+        hasInnerContainers: false,
+        linkClass: 'toc-link',
+        fixedSidebarOffset: 'auto',
+        ignoreSelector: '.text-delta'
+    });
 </script>
 
 <script>
@@ -269,6 +277,5 @@ layout: table_wrappers
         }
     }
 </script>
-
 </body>
 </html>

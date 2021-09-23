@@ -116,3 +116,16 @@ public class TestController {
   }
 }
 ```
+
+### 运行测试
+
+- 启动`spring-security-hello`项目
+- 访问`http://localhost:8080/test/hello`,页面会转到`http://localhost:8080/login`
+
+![](https://raw.githubusercontent.com/guosonglu/images/master/blog-img/202109230908900.png)
+
+- 默认用户名为：`user`,密码会在控制台显示
+
+![](https://raw.githubusercontent.com/guosonglu/images/master/blog-img/202109230909889.png)
+
+- 通过默认提供的用户名和密码，可以成功访问到Controller

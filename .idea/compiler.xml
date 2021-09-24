@@ -6,27 +6,29 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="jvm" />
         <module name="server" />
         <module name="junit5" />
-        <module name="classes-and-objects" />
         <module name="language-basics" />
-        <module name="io" />
         <module name="annotations" />
         <module name="building-on-the-foundation" />
-        <module name="object-oriented-programming-concepts" />
-        <module name="packages" />
         <module name="the-platform-environment" />
-        <module name="javaee" />
-        <module name="exceptions" />
-        <module name="concurrency" />
         <module name="design-pattern" />
-        <module name="getting-started" />
         <module name="spring-security-hello" />
         <module name="generics" />
         <module name="client" />
         <module name="interfaces-and-inheritance" />
         <module name="numbers-and-strings" />
+        <module name="jvm" />
+        <module name="spring-security-custom-username-password1" />
+        <module name="classes-and-objects" />
+        <module name="spring-security-custom-username-password2" />
+        <module name="io" />
+        <module name="object-oriented-programming-concepts" />
+        <module name="packages" />
+        <module name="javaee" />
+        <module name="exceptions" />
+        <module name="concurrency" />
+        <module name="getting-started" />
         <module name="regular-expressions" />
         <module name="base" />
       </profile>
@@ -35,6 +37,8 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="spring-security" options="-parameters" />
+      <module name="spring-security-custom-username-password1" options="-parameters" />
+      <module name="spring-security-custom-username-password2" options="-parameters" />
       <module name="spring-security-hello" options="-parameters" />
     </option>
   </component>

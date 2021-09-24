@@ -7,8 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author luguosong
  */
 @SpringBootApplication
-public class SpringSecurityHelloApplication {
+public class SpringSecurityCustom1Application {
   public static void main(String[] args) {
-    SpringApplication.run(SpringSecurityHelloApplication.class,args);
+    SpringApplication.run(SpringSecurityCustom1Application.class, args);
   }
 }

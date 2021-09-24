@@ -32,6 +32,7 @@ Spring Security的版本并不需要亲自指定，[父工程](#父工程)继承
     <packaging>pom</packaging>
     <modules>
         <module>spring-security-hello</module>
+        <module>spring-security-custom-username-password1</module>
     </modules>
 
     <parent>
@@ -44,6 +45,17 @@ Spring Security的版本并不需要亲自指定，[父工程](#父工程)继承
     <groupId>org.example</groupId>
     <artifactId>spring-security</artifactId>
     <version>1.0-SNAPSHOT</version>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>
 ```
@@ -72,17 +84,6 @@ Spring Security的版本并不需要亲自指定，[父工程](#父工程)继承
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-    </dependencies>
 </project>
 ```
 
@@ -139,6 +140,16 @@ public class TestController {
 上面Hello world程序中，默认密码为`user`,默认密码为控制台自动生成的。现在我们想要使用自己的密码
 
 ### 方法一
+
+- `resources`目录下`application.yml`配置文件，自定义用户名密码
+
+```yaml
+spring:
+  security:
+    user:
+      name: luguosong
+      password: 12345678
+```
 
 ### 方法二
 

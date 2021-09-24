@@ -9,13 +9,13 @@ nav_order: 1
 
 技术既是一种编程语言，又是一个平台。
 
-![](https://raw.githubusercontent.com/guosonglu/images/master/blog-img/202108271048586.jpeg)
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202108271048586.jpeg)
 
 ## Java发展史
 
-![](https://raw.githubusercontent.com/guosonglu/images/master/blog-img/202108271056669.jpeg)
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202108271056669.jpeg)
 
-![](https://raw.githubusercontent.com/guosonglu/images/master/blog-img/202108271404392.png)
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202108271404392.png)
 
 
 - `1991年` 由James Gosling博士领导的绿色计划（Green Project）开始启动，这个计划的产品就是Java语言的前身：`Oak`
@@ -98,11 +98,11 @@ nav_order: 1
 
 > 在 Java 编程语言中，所有源代码首先编写在以 .java 扩展名结尾的纯文本文件中。 然后这些源文件被 javac 编译器编译成 .class 文件。 .class 文件不包含处理器的原生代码； 相反，它包含字节码——Java 虚拟机  (Java VM) 的机器语言。 然后，java 启动器工具使用 Java 虚拟机的实例运行您的应用程序。
 
-![Java编译过程](https://raw.githubusercontent.com/guosonglu/images/master/blog-img/202108092131409.gif)
+![Java编译过程](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202108092131409.gif)
 
 > 由于 Java VM 可用于许多不同的操作系统，因此相同的 .class 文件能够在 Microsoft Windows、Solaris™ 操作系统 (Solaris OS)、Linux 或 Mac OS 上运行。 一些虚拟机，例如 Java SE HotSpot at a Glance，在运行时执行额外的步骤来提升应用程序的性能。 这包括各种任务，例如查找性能瓶颈和重新编译（到本机代码）经常使用的代码部分。
 
-![通过JVM,一个程序可以在多个平台运行](https://raw.githubusercontent.com/guosonglu/images/master/blog-img/202108092154284.gif)
+![通过JVM,一个程序可以在多个平台运行](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202108092154284.gif)
 
 ## 作为平台
 
@@ -114,7 +114,7 @@ nav_order: 1
 
 `Java应用程序接口和JVM虚拟机将程序与底层硬件隔离:`
 
-![](https://raw.githubusercontent.com/guosonglu/images/master/blog-img/202108092204754.gif)
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202108092204754.gif)
 
 > 作为一个独立于平台的环境，Java平台可能比本机代码慢一些，然而，编译器和虚拟机技术的进步使得性能可以接近本机代码，而且不会威胁可移植性
 

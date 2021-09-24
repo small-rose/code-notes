@@ -129,7 +129,7 @@ toc>toc-list {
 
   @include mq(md) {
     display: block;
-    padding-top: $sp-8;
+    padding-top: $sp-4;
     padding-bottom: $gutter-spacing-sm;
     overflow-y: auto;
     flex: 1 1 auto;
@@ -156,7 +156,7 @@ toc>toc-list {
   align-items: center;
   padding-top: $sp-3;
   padding-bottom: $sp-3;
-  color: $body-heading-color;
+  color: #cfcfcf;
   @include fs-6;
 
   @include mq(md) {

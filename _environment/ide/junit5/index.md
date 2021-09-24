@@ -154,10 +154,10 @@ public class Calculator {
 
 1. 将光标放在 Calculator 类声明上，然后按 Alt + Enter。或者，右键单击它并选择“显示上下文操作”。从菜单中选择`创建测试`。
    
-   ![](https://raw.githubusercontent.com/guosonglu/images/master/blog-img/202109221339447.png)
+   ![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202109221339447.png)
 3. 选择我们要测试的两个方法
 
-   ![](https://raw.githubusercontent.com/guosonglu/images/master/blog-img/202109221341753.png)
+   ![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202109221341753.png)
 4. 成功创建测试类
 
 ```java
@@ -193,10 +193,10 @@ class CalculatorTest {
 
 1. 要运行单个测试，点击测试方法前的`三角按钮`，选择`Run`。若要在测试类中运行所有测试，则点击测试类前的`三角按钮`，选择`Run`
    
-   ![](https://raw.githubusercontent.com/guosonglu/images/master/blog-img/202109221359841.png)
+   ![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202109221359841.png)
 
 2. 可以在`运行`窗口中查看测试结果
 
-   ![](https://raw.githubusercontent.com/guosonglu/images/master/blog-img/202109221400433.png)
+   ![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202109221400433.png)
 
 

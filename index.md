@@ -2,17 +2,6 @@
 layout: docs
 ---
 
-# 图片显示问题
-
-- 本网站大部分图片采用github作为图床，由于
-  [防火长城](https://zh.wikipedia.org/wiki/%E9%98%B2%E7%81%AB%E9%95%BF%E5%9F%8E)
-  对`raw.githubusercontent.com`域名做了
-  [DNS污染](https://zh.wikipedia.org/wiki/%E5%9F%9F%E5%90%8D%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%93%E5%AD%98%E6%B1%A1%E6%9F%93)，如果国内用户无法正常查看图片，解决方案如下：
-  - 方法一：科学上网，`中华人民共和国计算机信息网络国际联网管理暂行规定`中第六条规定计算机信息网络直接进行国际联网，必须使用邮电部国家公用电信网提供的国际出入口信道。`任何单位和个人不得自行建立或者使用其他信道进行国际联网`。所有不建议使用此方法
-  - 方法二：本地hosts文件配置`raw.githubusercontent.com`域名指向对应IP，
-    目前查到的ip是`185.199.110.133`,后面变了会更新
-    ![](/assets/images/Snipaste_2021-09-18_17-03-50.png)
-
 # 网站构建技术选型
 
 - 网站采用github pages搭建，主要涉及以下技术：
@@ -22,6 +11,7 @@ layout: docs
   - jekyll主题：[just-the-docs](https://github.com/pmarsceill/just-the-docs)
   - 博客评论功能：[Gitalk](https://github.com/gitalk/gitalk)
   - 页面目录：[tocbot](https://github.com/tscanlin/tocbot)
+  - 网站图片：[github图床](https://github.com/guosonglu/images)+[jsdelivr加速](https://www.jsdelivr.com/github)+[PicGo工具](https://github.com/Molunerfinn/PicGo)
   - 图片查看：[Viewer.js](https://github.com/fengyuanchen/viewerjs)
   - 数学公式排版：[LaTeX](https://www.latex-project.org/) [MathJax](http://docs.mathjax.org/en/latest/)
   - 流程图： [mermaid](https://mermaid-js.github.io/mermaid/#/)

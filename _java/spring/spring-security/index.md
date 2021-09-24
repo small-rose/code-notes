@@ -60,7 +60,7 @@ Spring Security的版本并不需要亲自指定，[父工程](#父工程)继承
 </project>
 ```
 
-## HelloWord工程
+## HelloWorld工程
 
 ### 工程创建
 

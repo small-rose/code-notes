@@ -92,9 +92,11 @@ div>p {
 }
 
 a {
+  font-size: 1.2em;
+  padding: 0 2px;
   color: $link-color;
   text-decoration: none;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 a:not([class]) {
@@ -129,7 +131,8 @@ li {
 }
 
 img {
-  max-width: 95%;
+  background-color: #FFFFFF;
+  max-width: calc(100% - 4em);
   height: auto;
 }
 

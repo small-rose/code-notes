@@ -7,7 +7,7 @@ layout: docs
 - 网站采用github pages搭建，主要涉及以下技术：
   - [github pages](https://docs.github.com/cn/pages)
   - [jekyll](https://jekyllrb.com/)
-  - [liquid](https://github.com/Shopify/liquid/wiki)
+  - [liquid](https://github.com/Shopify/liquid/wiki) [中文文档](https://liquid.bootcss.com/)
   - jekyll主题：[just-the-docs](https://github.com/pmarsceill/just-the-docs)
   - 博客评论功能：[Gitalk](https://github.com/gitalk/gitalk)
   - 页面目录：[tocbot](https://github.com/tscanlin/tocbot)

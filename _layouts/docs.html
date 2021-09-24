@@ -85,9 +85,13 @@ layout: table_wrappers
         {% endif %}
         {% endfor %}
     </nav>
-    <footer class="site-footer" >
-        <a href="https://github.com/guosonglu/code-notes"><img src="https://img.shields.io/github/repo-size/guosonglu/code-notes?label=%E4%BB%93%E5%BA%93%E5%A4%A7%E5%B0%8F&style=social" style="margin-right: 10px"></a>
-        <a href="https://github.com/guosonglu/code-notes"><img src="https://img.shields.io/github/stars/guosonglu/code-notes?style=social"></a>
+    <footer class="site-footer">
+        &copy;{{ "now" | date: "%Y" }} <a href="#" id="weixing">陆国松</a>.
+        &nbsp; <a href="#" id="apply">打赏支持</a>
+        <img id="applyImg" src="https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202109241659148.jpg"
+             hidden>
+        <img id="weixingImg" src="https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202109241714054.jpg"
+             hidden>
     </footer>
 </div>
 <div class="main" id="top">
@@ -196,7 +200,6 @@ layout: table_wrappers
                 <p><a href="#top" id="back-to-top">{{ site.back_to_top_text }}</a></p>
                 {% endif %}
 
-                {{ footer_custom }}
                 {% if site.last_edit_timestamp or site.gh_edit_link %}
                 <div class="d-flex mt-2">
                     {% if site.last_edit_timestamp and site.last_edit_time_format and page.last_modified_date %}
@@ -218,6 +221,8 @@ layout: table_wrappers
                     {% endif %}
                 </div>
                 {% endif %}
+
+                {{ footer_custom }}
             </footer>
             {% endif %}
 
@@ -266,17 +271,29 @@ layout: table_wrappers
 </script>
 
 <script>
-    window.onload=function AddImgClickEvent()
-    {
+    window.onload=function AddImgClickEvent() {
         const objs = document.getElementsByTagName("img");
-        for(let i=0; i<objs.length; i++)
-        {
-            objs[i].onclick=function()
-            {
-                new Viewer(this);
-            };
+        const apply = document.getElementById("apply");
+        const applyImg = document.getElementById("applyImg");
+        const weixing = document.getElementById("weixing");
+        const weixingImg = document.getElementById("weixingImg");
+
+
+        for (let i = 0; i < objs.length; i++) {
+            new Viewer(objs[i]);
             objs[i].style.cursor = "pointer";
         }
+        ;
+
+        apply.onclick = function () {
+            applyImg.click();
+            return false;
+        };
+
+        weixing.onclick = function () {
+            weixingImg.click();
+            return false;
+        };
     }
 </script>
 </body>

@@ -29,6 +29,7 @@
         <module name="exceptions" />
         <module name="concurrency" />
         <module name="getting-started" />
+        <module name="spring-security-custom-username-password3" />
         <module name="regular-expressions" />
         <module name="base" />
       </profile>
@@ -39,6 +40,7 @@
       <module name="spring-security" options="-parameters" />
       <module name="spring-security-custom-username-password1" options="-parameters" />
       <module name="spring-security-custom-username-password2" options="-parameters" />
+      <module name="spring-security-custom-username-password3" options="-parameters" />
       <module name="spring-security-hello" options="-parameters" />
     </option>
   </component>

@@ -198,6 +198,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 ## 注解配置权限
 
+## 用户退出配置
+
 
 
 

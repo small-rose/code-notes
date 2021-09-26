@@ -1,7 +1,7 @@
 ---
 layout: docs
 title: 数据结构与算法
-nav_order: 1
+nav_order: 10
 has_children: true
 ---
 

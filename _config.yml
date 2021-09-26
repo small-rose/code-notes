@@ -41,9 +41,11 @@ plugins:
 collections:
   general:
     output: true
+  c:
+    output: true
   java:
     output: true
-  c:
+  front:
     output: true
   math:
     output: true
@@ -55,10 +57,12 @@ just_the_docs:
   collections:
     general:
       name: 编程基础
+    c:
+      name: C语言
     java:
       name: Java
-    c:
-      name: C
+    front:
+      name: 前端
     math:
       name: 数学
     environment:

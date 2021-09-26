@@ -42,6 +42,14 @@ layout: docs
 | pom.xml      | 整个项目基于Maven，这个pom做全局版本管理 |
 | README.md    | github首页说明                           |
 
+# 网站性能优化
+
+由于网站是使用github pages部署的，国内访问相对很慢，可以做如下优化提高访问速度：
+
+- 网站中的静态资源（图片、js、css）使用[jsdelivr](https://www.jsdelivr.com/github)加速
+- 网站使用[cloudflare](https://dash.cloudflare.com/)做CDN加速
+- Html页面头部添加`<meta http-equiv="Cache-Control" content="max-age=7200" />`，防止每次刷新页面都反复获取静态文件
+
 # 编程史
 
 ![](https://edrawcloudpubliccn.oss-cn-shenzhen.aliyuncs.com/viewer/self/1059758/share/2021-7-30/1627611901/main.svg)

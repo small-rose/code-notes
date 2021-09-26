@@ -16,6 +16,7 @@ title: 主页
   - 图片查看：[Viewer.js](https://github.com/fengyuanchen/viewerjs)
   - 数学公式排版：[LaTeX](https://www.latex-project.org/) [MathJax](http://docs.mathjax.org/en/latest/)
   - 流程图： [mermaid](https://mermaid-js.github.io/mermaid/#/)
+  - 网站访问计数：[不蒜子](http://busuanzi.ibruce.info/) [百度统计](https://tongji.baidu.com/web/10000396058/welcome/login)
 
 # 项目目录结构
 

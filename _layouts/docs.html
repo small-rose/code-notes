@@ -86,16 +86,18 @@ layout: table_wrappers
         {% endfor %}
     </nav>
     <footer class="site-footer">
-        <div><span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span> </div>
+        <div>
+            <span id="busuanzi_container_site_uv" style='display:none'>本站访客数<span id="busuanzi_value_site_uv"></span>人次</span>
+            <a href="#" id="apply">打赏支持</a>
+        </div>
         <div>
             &copy;{{ "now" | date: "%Y" }} <a href="#" id="weixing">陆国松</a>.
-            &nbsp; <a href="#" id="apply">打赏支持</a>
             <img id="applyImg" src="https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202109241659148.jpg"
                  hidden>
             <img id="weixingImg" src="https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202109241714054.jpg"
                  hidden>
         </div>
-</span>
+        </span>
     </footer>
 </div>
 <div class="main" id="top">
@@ -276,19 +278,30 @@ layout: table_wrappers
 </script>
 
 <script>
-    window.onload=function AddImgClickEvent() {
+
+    const sitenav = document.getElementById("site-nav");
+
+    function setCookie(sName, sValue) {
+        sessionStorage.setItem(sName,escape(sValue));
+    }
+
+    function getCookie(sName) {
+        return sessionStorage.getItem(sName);
+    }
+
+    sitenav.scrollTop = getCookie("scrollTop");
+
+    window.onload = function AddImgClickEvent() {
         const objs = document.getElementsByTagName("img");
         const apply = document.getElementById("apply");
         const applyImg = document.getElementById("applyImg");
         const weixing = document.getElementById("weixing");
         const weixingImg = document.getElementById("weixingImg");
 
-
         for (let i = 0; i < objs.length; i++) {
             new Viewer(objs[i]);
             objs[i].style.cursor = "pointer";
-        }
-        ;
+        };
 
         apply.onclick = function () {
             applyImg.click();
@@ -299,7 +312,11 @@ layout: table_wrappers
             weixingImg.click();
             return false;
         };
-    }
+
+        sitenav.onscroll = function () {
+            setCookie("scrollTop", sitenav.scrollTop);
+        }
+    };
 </script>
 </body>
 </html>

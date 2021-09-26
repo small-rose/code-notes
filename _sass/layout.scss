@@ -131,7 +131,8 @@ toc>toc-list {
     display: block;
     padding-top: $sp-4;
     padding-bottom: $gutter-spacing-sm;
-    overflow-y: auto;
+    overflow: auto;
+    overflow-anchor: auto;
     flex: 1 1 auto;
   }
 }

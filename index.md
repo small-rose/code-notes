@@ -1,5 +1,6 @@
 ---
 layout: docs
+title: 主页
 ---
 
 # 网站构建技术选型

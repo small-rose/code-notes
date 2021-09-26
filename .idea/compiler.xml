@@ -9,6 +9,7 @@
         <module name="server" />
         <module name="junit5" />
         <module name="language-basics" />
+        <module name="spring-security-config" />
         <module name="annotations" />
         <module name="building-on-the-foundation" />
         <module name="the-platform-environment" />
@@ -38,6 +39,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="spring-security" options="-parameters" />
+      <module name="spring-security-config" options="-parameters" />
       <module name="spring-security-custom-username-password1" options="-parameters" />
       <module name="spring-security-custom-username-password2" options="-parameters" />
       <module name="spring-security-custom-username-password3" options="-parameters" />

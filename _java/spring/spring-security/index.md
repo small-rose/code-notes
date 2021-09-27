@@ -200,6 +200,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 ## 用户退出配置
 
+## 自动登录
+
+## CSRF
+
+## 微服务架构中的应用
+
 
 
 

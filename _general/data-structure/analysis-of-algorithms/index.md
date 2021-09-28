@@ -1,8 +1,7 @@
 ---
-layout:
-title:
-nav_order:
-has_children:
-parent:
-grand_parent:
+layout: docs
+title: 算法分析
+nav_order: 1
+parent: 数据结构与算法
 ---
+

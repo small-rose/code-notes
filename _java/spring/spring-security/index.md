@@ -206,6 +206,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 ## 微服务架构中的应用
 
+### 后台搭建
 
+后台模块结构：
 
+- spring-security-microservice 项目依赖版本管理
+  - spring-
 
+#### 父工程创建
+
+- 创建spring-security-microservice模块
+- 

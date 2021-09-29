@@ -1,10 +1,8 @@
 ---
 layout: table_wrappers
 ---
-
 <!DOCTYPE html>
-
-<html lang="{{ site.lang | default: 'en-US' }}">
+<html lang="{{ site.lang | default: 'zh-CN' }}">
 {% include head.html %}
 <body>
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
@@ -317,6 +315,69 @@ layout: table_wrappers
             setCookie("scrollTop", sitenav.scrollTop);
         }
     };
+</script>
+
+<script>
+    const codes = document.getElementsByClassName("highlighter-rouge");
+    for (let i = 0; i < codes.length; i++) {
+        if (codes[i].tagName == "DIV") {
+            const eleTitle = document.createElement('p');
+            const s = codes[i].getAttribute("class").toString();
+            eleTitle.innerHTML = s.split(" ")[0].substring(9);
+            eleTitle.style.textAlign = 'right';
+            eleTitle.style.margin = 0;
+            eleTitle.style.color = '#999';
+            eleTitle.style.fontSize = '0.5em';
+            eleTitle.style.borderBottomWidth = '1px';
+            eleTitle.style.borderBottomStyle = 'solid';
+            eleTitle.style.borderBottomColor = '#5e5e5e';
+            codes[i].prepend(eleTitle);
+        }
+    }
+
+    function showEle(eleButton,ele, show) {
+        if (show){
+            eleButton.style.backgroundImage = 'url("https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202109291928471.png")';
+        }else{
+            eleButton.style.backgroundImage = 'url("https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202109291928434.png")';
+        }
+        let next = ele.nextElementSibling;
+        while (next.tagName != "HE") {
+            if (show){
+                next.style.display = 'block';
+            }else{
+                next.style.display = 'none';
+            }
+            next = next.nextElementSibling;
+        }
+    }
+
+    function showState(ele) {
+        return ele.nextElementSibling.style.display;
+    }
+
+    const hiddens = document.getElementsByTagName('hb');
+    for (let i = 0; i < hiddens.length; i++) {
+        const eleButton = document.createElement('button');
+        eleButton.style.display = 'inline-block';
+        eleButton.style.width = '25px';
+        eleButton.style.height = '25px';
+        eleButton.style.padding = '0';
+        eleButton.style.backgroundSize = 'cover';
+        eleButton.style.backgroundColor = 'transparent';
+        eleButton.style.border = 'none';
+        eleButton.onclick = function () {
+            if (showState(hiddens[i]) == 'none') {
+                showEle(eleButton,hiddens[i],true);
+            } else {
+                showEle(eleButton,hiddens[i],false);
+            }
+        };
+        showEle(eleButton,hiddens[i],false);
+        hiddens[i].before(eleButton);
+    }
+
+
 </script>
 </body>
 </html>

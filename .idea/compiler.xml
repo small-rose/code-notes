@@ -29,6 +29,7 @@
         <module name="javaee" />
         <module name="exceptions" />
         <module name="concurrency" />
+        <module name="spring-security-microservice" />
         <module name="getting-started" />
         <module name="spring-security-custom-username-password3" />
         <module name="regular-expressions" />

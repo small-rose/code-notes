@@ -1,6 +1,11 @@
 {% if site.logo %}
-  <div class="site-logo"></div>
+<div class="site-logo"></div>
 {% else %}
-  <img src="https://cdn.jsdelivr.net/gh/guosonglu/code-notes@master/assets/images/hacker.png" style="height: 1.2em;width: 1.2em;margin-right: 1em;background: none">
-  {{ site.title }}
+<div class="shake">
+  <img src="https://cdn.jsdelivr.net/gh/guosonglu/code-notes@master/assets/images/hacker.png"
+       style="height: 1.2em;width: 1.2em;background: none">
+</div>
+<div class="shake">
+  &nbsp{{ site.title }}
+</div>
 {% endif %}

@@ -24,12 +24,12 @@
         <module name="classes-and-objects" />
         <module name="spring-security-custom-username-password2" />
         <module name="io" />
+        <module name="spring-framework" />
         <module name="object-oriented-programming-concepts" />
         <module name="packages" />
         <module name="javaee" />
         <module name="exceptions" />
         <module name="concurrency" />
-        <module name="spring-security-microservice" />
         <module name="getting-started" />
         <module name="spring-security-custom-username-password3" />
         <module name="regular-expressions" />

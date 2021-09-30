@@ -86,20 +86,8 @@ layout: table_wrappers
     <footer class="site-footer">
         <div>
             <span id="busuanzi_container_site_uv" style='display:none'>访客数<span id="busuanzi_value_site_uv"></span>人次 |</span>
-            <span>
-            {% assign allcount = 0 %}
-
-            {% for document in site.documents %}
-            {% assign document_count = document.content | strip_html | strip_newlines | strip | remove: " " | size %}
-            {% assign allcount = allcount | plus: document_count %}
-            {% endfor %}
-
-            {% if allcount > 10000 %}
-            {{ allcount | divided_by: 10000 }}万{{ allcount | modulo: 10000 }}字
-            {% else %}
-            {{ allcount }}字
-            {% endif %}
-            </span>
+            <img src="https://img.shields.io/github/repo-size/guosonglu/code-notes?color=22272e&label=%E4%BB%93%E5%BA%93&style=flat-square"
+                 style="vertical-align: bottom" class="shake">
         </div>
         <div>
             &copy;{{ "now" | date: "%Y" }} <a href="#" id="weixing">陆国松</a>.
@@ -151,14 +139,16 @@ layout: table_wrappers
         {% endif %}
     </div>
     <h1 class="js-toc-ignore shake" style="text-align:center;margin: 0;color: white">{{ page.title }}</h1>
-    <div class="page-count shake">
-        本文：
-        {% assign count = page.content | strip_html | strip_newlines | remove: " " | size %}
-        {% if count > 10000 %}
-        {{ count | divided_by: 10000 }} 万 {{ count | modulo: 10000 }}
-        {% else %}
-        {{ count }}
-        {% endif %}字
+    <div style="text-align: right">
+        <div class="page-count shake">
+            本文：
+            {% assign count = page.content | strip_html | strip_newlines | remove: " " | size %}
+            {% if count > 10000 %}
+            {{ count | divided_by: 10000 }} 万 {{ count | modulo: 10000 }}
+            {% else %}
+            {{ count }}
+            {% endif %}字
+        </div>
     </div>
     <div id="main-content-wrap" class="main-content-wrap">
         {% unless page.url == "/" %}

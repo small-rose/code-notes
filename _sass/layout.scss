@@ -34,8 +34,7 @@
   display: flex;
   flex-wrap: wrap;
   background-color: $sidebar-color;
-  margin-top: 60px;
-  overflow: scroll;
+  overflow: auto;
   font-size: 0.9em;
 
   @include mq(md) {
@@ -217,7 +216,7 @@ toc>toc-list {
 body {
   position: relative;
   padding-bottom: $sp-10;
-  overflow-y: scroll;
+  overflow-y: auto;
   font-family: 'Source Code Pro', 'ZCOOL KuaiLe';
 
   @include mq(md) {

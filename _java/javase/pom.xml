@@ -13,16 +13,20 @@
     <artifactId>javase</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>getting-started</module>
-        <module>learning-the-java-language</module>
-        <module>essential-java-classes</module>
-        <module>building-on-the-foundation</module>
-        <module>client</module>
+        <module>new-to-java</module>
     </modules>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
 </project>

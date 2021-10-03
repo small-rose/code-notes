@@ -10,6 +10,17 @@
         <option value="$PROJECT_DIR$/_java/spring/spring-framework/pom.xml" />
       </list>
     </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/_java/javase/building-on-the-foundation/pom.xml" />
+        <option value="$PROJECT_DIR$/_java/javase/client/pom.xml" />
+        <option value="$PROJECT_DIR$/_java/javase/essential-java-classes/pom.xml" />
+        <option value="$PROJECT_DIR$/_java/javase/getting-started/pom.xml" />
+        <option value="$PROJECT_DIR$/_java/javase/learning-the-java-language/pom.xml" />
+        <option value="$PROJECT_DIR$/_java/javase/server/pom.xml" />
+        <option value="$PROJECT_DIR$/new-to-java/pom.xml" />
+      </set>
+    </option>
   </component>
   <component name="PWA">
     <option name="wasEnabledAtLeastOnce" value="true" />

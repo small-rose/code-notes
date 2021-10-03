@@ -15,10 +15,6 @@
   border: 5px solid transparent;
 }
 
-::-webkit-scrollbar-track {
-  box-shadow: 1px 1px 5px rgba(255, 255, 255, 0.2) inset;
-}
-
 ::-webkit-scrollbar-thumb {
   min-height: 20px;
   background-clip: content-box;

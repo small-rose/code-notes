@@ -35,16 +35,17 @@
   flex-wrap: wrap;
   background-color: $sidebar-color;
   margin-top: 60px;
-  overflow: auto;
   font-size: 0.9em;
   width: 20%;
+  height: calc(100% - 60px);
+  overflow: visible;
+  box-sizing: content-box;
 
   @include mq(md) {
     left: 80%;
     top: 0;
     flex-wrap: nowrap;
     position: fixed;
-    height: calc(100% - 60px);
     flex-direction: column;
     //border-left: $border $border-color;
     align-items: flex-start;
@@ -55,11 +56,6 @@
     //min-width: $nav-width;
     //max-width: 400px;
   }
-}
-
-toc>toc-list {
-  margin: 0;
-  position: relative;
 }
 
 .toc-link:hover {

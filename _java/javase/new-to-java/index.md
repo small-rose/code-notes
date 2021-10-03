@@ -258,6 +258,7 @@ Cappuccino Corretto Cortado Doppio Espresso Frappucino Freddo
 - `binarySearch()`: 搜索特定值，返回索引
 - `equals()`: 两数组是否相等
 - `fill()`: 在数组的每个索引位置填上指定值
+- 
 
 ```java
 class ArraysDemo {
@@ -291,4 +292,5 @@ class ArraysDemo {
 }
 ```
 
-#### aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+
+

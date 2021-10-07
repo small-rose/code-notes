@@ -62,4 +62,59 @@ class LanguageBasics {
         Arrays.parallelSort(ints2);
         System.out.println(Arrays.toString(ints2));
     }
+
+    /**
+     * 传递基本数据类型
+     */
+    @Test
+    void passingPrimitiveDataDemo(){
+        int num = 0;
+        change(num);
+        System.out.println(num);//输出0
+    }
+
+    public void change(int numChange){
+        numChange =5;
+    }
+
+    class Person {
+        private String name;
+
+        public Person(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String toString() {
+            return "Person{" +
+                    "name='" + name + '\'' +
+                    '}';
+        }
+    }
+
+    /**
+     * 引用参数传递
+     */
+    @Test
+    void passingReferenceDataDemo(){
+        Person person = new Person("aaa");
+        change(person);
+        System.out.println(person);//输出 ccc 11
+    }
+
+    public void change(Person personChange){
+        personChange.setName("ccc");
+        personChange = new Person("bbb");
+    }
+
+
+
 }

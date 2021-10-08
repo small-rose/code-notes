@@ -190,6 +190,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 ### 方法三
 
+- 自定义编写实现类
+
+
+
 ## 用户自定义配置
 
 除了上面的用户名密码，配置类还可以用来配置其它内容。

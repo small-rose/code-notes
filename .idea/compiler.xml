@@ -20,6 +20,27 @@
         <module name="base" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="annotations" target="8" />
+      <module name="building-on-the-foundation" target="8" />
+      <module name="classes-and-objects" target="8" />
+      <module name="client" target="8" />
+      <module name="concurrency" target="8" />
+      <module name="essential-java-classes" target="8" />
+      <module name="exceptions" target="8" />
+      <module name="generics" target="8" />
+      <module name="getting-started" target="8" />
+      <module name="interfaces-and-inheritance" target="8" />
+      <module name="io" target="8" />
+      <module name="language-basics" target="8" />
+      <module name="learning-the-java-language" target="8" />
+      <module name="numbers-and-strings" target="8" />
+      <module name="object-oriented-programming-concepts" target="8" />
+      <module name="packages" target="8" />
+      <module name="regular-expressions" target="8" />
+      <module name="server" target="8" />
+      <module name="the-platform-environment" target="8" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">

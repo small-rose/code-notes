@@ -8,15 +8,16 @@
         <outputRelativeToContentRoot value="true" />
         <module name="jvm" />
         <module name="junit5" />
-        <module name="design-pattern" />
-        <module name="spring-security-hello" />
         <module name="spring-security-custom-username-password1" />
         <module name="spring-security-custom-username-password2" />
         <module name="spring-security-config" />
+        <module name="mybatis-hello" />
         <module name="spring-framework" />
         <module name="new-to-java" />
-        <module name="spring-security-custom-username-password3" />
         <module name="javaee" />
+        <module name="design-pattern" />
+        <module name="spring-security-hello" />
+        <module name="spring-security-custom-username-password3" />
         <module name="base" />
       </profile>
     </annotationProcessing>

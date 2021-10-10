@@ -6,7 +6,7 @@
 
     <groupId>org.example</groupId>
     <artifactId>code-notes</artifactId>
-
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>_java/javase</module>
@@ -18,21 +18,19 @@
         <module>_environment/ide/junit5</module>
     </modules>
 
-    <packaging>pom</packaging>
+
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-        <junit5.version>5.8.0</junit5.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.junit</groupId>
-                <artifactId>junit-bom</artifactId>
-                <version>${junit5.version}</version>
-                <scope>import</scope>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter</artifactId>
+                <version>5.8.0</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

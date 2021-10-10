@@ -39,4 +39,45 @@ parent: Spring相关
 
 ## 使用XML构建SqlSessionFactory
 
+- 在`resources`目录下创建`mybatis-config.xml`文件
+
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration  PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"></transactionManager>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/code_notes"/>
+                <property name="username" value="root"/>
+                <property name="password" value="12345678"/>
+            </dataSource>
+        </environment>
+    </environments>
+</configuration>
+```
+
+- 通过xml文件创建SqlSessionFactory对象
+
+```java
+class Demo {
+    public static void main(String[] args) {
+        try {
+            //读取xml
+            InputStream inputStream = Resources.getResourceAsStream("mybatis-config.xml");
+            //通过SqlSessionFactoryBuilder创建SqlSessionFactory
+            SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+            System.out.println(sqlSessionFactory);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+## 使用代码构建SqlSessionFactory
+
+
 

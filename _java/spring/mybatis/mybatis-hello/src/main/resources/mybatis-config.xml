@@ -12,4 +12,12 @@
             </dataSource>
         </environment>
     </environments>
+
+    <!--将映射器配置到mybatis-->
+    <mappers>
+        <!--将xml实现的映射器配置到mybatis-->
+        <mapper resource="mapper/PeopleMapper.xml"/>
+        <!--将注解实现的映射器配置到mybatis-->
+        <mapper class="cn.com.lgs.mapper.PeopleMapperByAnnotation"/>
+    </mappers>
 </configuration>

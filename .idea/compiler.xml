@@ -16,6 +16,7 @@
         <module name="spring-framework" />
         <module name="new-to-java" />
         <module name="javaee" />
+        <module name="mybatis-configuration" />
         <module name="design-pattern" />
         <module name="spring-security-hello" />
         <module name="spring-security-custom-username-password3" />

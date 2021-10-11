@@ -16,6 +16,8 @@ parent: Spring相关
 
 案例版本：`3.5.7`
 
+[中文文档](https://mybatis.org/mybatis-3/zh/index.html)
+
 # MyBatis核心组件
 
 - `SqlSessionFactoryBuilder`(构造器)：它会根据配置或者代码来生成SqlSessionFactory，采用分步构建的Builder模式。
@@ -25,11 +27,60 @@ parent: Spring相关
 
 ![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202110091642870.png)
 
+# MyBatis配置文件详解
+
+`SqlSessionFactoryBuilder`可以通过MyBatis配置文件创建`SqlSessionFactory`对象
+
+**总览：**
+
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration  PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!--配置-->
+<configuration>
+    <!--属性-->
+    <properties/>
+    <!--设置-->
+    <settings/>
+    <!--属性命名-->
+    <typeAliases/>
+    <!--属性处理器-->
+    <typeHandlers/>
+    <!--对象工厂-->
+    <objectFactory  type=""/>
+    <!--插件-->
+    <plugins/>
+    <!--配置环境-->
+    <environments default="">
+        <!--环境变量-->
+        <environment id="">
+            <!--事务管理器-->
+            <transactionManager type=""/>
+            <!--数据源-->
+            <dataSource type=""/>
+        </environment>
+    </environments>
+    <!--数据库厂商标识-->
+    <databaseIdProvider type=""/>
+    <!--映射器-->
+    <mappers/>
+</configuration>
+```
+
+
+# SqlSessionFactoryBuilder
+
+**作用：**用于创建`SqlSessionFactory`
+
+**生命周期：**只存在于创建`SqlSessionFactory`的方法，不要让其长期存在
+
 # SqlSessionFactory
 
 每一个MyBatis应用都是以一个`SqlSessionFactory`的实例为中心的。
 
-`SqlSessionFactory`的唯一作用：生产`MyBatis`的核心接口对象`SqlSession`
+`SqlSessionFactory`的唯一作用：生产`MyBatis`的核心接口对象`SqlSession`，可以认为是一个数据库连接池
+
+**生命周期：**存在于整个MyBatis应用中，一旦创建，长期保存
 
 **`SqlSessionFactory`是一个接口，它有两个实现类：**
 - `DefaultSqlSessionFactor`
@@ -79,12 +130,14 @@ class Demo {
 
 # SqlSession
 
-`SqlSession`是MyBatis的核心接口。
+`SqlSession`是MyBatis的核心接口。相当于Connection对象
 
 **作用(`类似JDBC的Connection对象`)：**
 - 获取Mapper接口
 - 发送SQL给数据库
 - 控制数据库事务
+
+**生命周期：**存活在一个业务请求中，处理完请求，应该关闭这条连接，让它归还SqlSessionFactory
 
 **SqlSession有两个实现类：**
 - DefaultSqlSession:单线程使用
@@ -129,9 +182,11 @@ class Demo {
 - SqlSession只是一个门面接口，真正干活的是Executor。
 - 因为SqlSession对象代表一个资源，使用后要及时关闭。不关闭的话数据库的连接资源就会很快被耗光。
 
-# 映射器
+# 映射器Mapper
 
-映射器的主要作用是将SQL查询结果映射为一个POJO，或者将POJO的数据插入到数据库中。
+映射器的主要作用是将SQL查询结果映射为一个POJO，或者将POJO的数据插入到数据库中。代表一个请求中的业务处理
+
+**生命周期：**由`SqlSession`创建，所以生命周期小于等于`SqlSession`。在一个请求中，一旦处理完相关业务就应该废弃它。
 
 定义一个POJO：
 
@@ -294,7 +349,7 @@ class Demo {
 
 ## 使用注解实现映射器
 
-对于稍微复杂一点的语句，Java注解不仅力不从心，还会让你本就复杂的 SQL 语句更加混乱不堪。 因此，如果你需要做一些很复杂的操作，`最好用XML来映射语句`。
+`缺点：`对于稍微复杂一点的语句，Java注解不仅力不从心，还会让你本就复杂的 SQL 语句更加混乱不堪。 因此，如果你需要做一些很复杂的操作，`最好用XML来映射语句`。
 
 ```java
 package cn.com.lgs.mapper;
@@ -386,6 +441,11 @@ class Demo {
     }
 }
 ```
+
+# 生命周期图示
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202110111753679.png)
+
 
 
 

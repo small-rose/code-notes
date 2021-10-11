@@ -14,6 +14,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>mybatis-hello</module>
+        <module>mybatis-configuration</module>
     </modules>
 
     <properties>

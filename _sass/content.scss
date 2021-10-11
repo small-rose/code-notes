@@ -72,16 +72,20 @@
   }
 
   ul {
-    list-style: none;
+    list-style-type: none;
 
     > li {
       &::before {
         position: absolute;
         margin-left: -1.4em;
         color: $grey-dk-000;
-        content: "•";
+        content: "🚀";
       }
     }
+  }
+
+  > ul {
+    margin-left: 2em;
   }
 
   .task-list {

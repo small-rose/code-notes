@@ -2,8 +2,13 @@ package cn.com.lgs;
 
 import org.apache.ibatis.datasource.pooled.PooledDataSource;
 import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.mapping.Environment;
+import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.apache.ibatis.session.SqlSessionManager;
+import org.apache.ibatis.session.defaults.DefaultSqlSession;
+import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -34,9 +39,20 @@ public class MybatisTest {
 
     @Test
     public void createSqlSessionFactoryByCode() {
+        //数据库链接池信息
         PooledDataSource pooledDataSource = new PooledDataSource();
         pooledDataSource.setDriver("com.mysql.jdbc.Driver");
         pooledDataSource.setUrl("jdbc:mysql://localhost:3306/code_notes");
-        pooledDataSource.setUsername("");
+        pooledDataSource.setUsername("root");
+        pooledDataSource.setPassword("12345678");
+        pooledDataSource.setDefaultAutoCommit(false);
+        //采用MyBatis的JDBC事务方式
+        JdbcTransactionFactory jdbcTransactionFactory = new JdbcTransactionFactory();
+        Environment environment = new Environment("development", jdbcTransactionFactory, pooledDataSource);
+        //创建Configuration对象
+        Configuration configuration = new Configuration(environment);
+        //构建SqlSessionFactory对象
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
+        System.out.println(sqlSessionFactory);
     }
 }

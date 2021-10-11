@@ -79,5 +79,44 @@ class Demo {
 
 ## 使用代码构建SqlSessionFactory
 
+```java
+class Demo {
+    public static void main(String[] args) {
+        //数据库链接池信息
+        PooledDataSource pooledDataSource = new PooledDataSource();
+        pooledDataSource.setDriver("com.mysql.jdbc.Driver");
+        pooledDataSource.setUrl("jdbc:mysql://localhost:3306/code_notes");
+        pooledDataSource.setUsername("root");
+        pooledDataSource.setPassword("12345678");
+        pooledDataSource.setDefaultAutoCommit(false);
+        //采用MyBatis的JDBC事务方式
+        JdbcTransactionFactory jdbcTransactionFactory = new JdbcTransactionFactory();
+        Environment environment = new Environment("development", jdbcTransactionFactory, pooledDataSource);
+        //创建Configuration对象
+        Configuration configuration = new Configuration(environment);
+        //构建SqlSessionFactory对象
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
+        System.out.println(sqlSessionFactory);
+    }
+}
+```
+
+# SqlSession
+
+MyBatis的核心接口。
+
+**作用(`类似JDBC的Connection对象`)：**
+- 获取Mapper接口
+- 发送SQL给数据库
+- 控制数据库事务
+
+**SqlSession有两个实现类：**
+- DefaultSqlSession:单线程使用
+- SqlSessionManager：多线程环境下使用
+
+
+
+
+
 
 

@@ -5,7 +5,8 @@
 //
 // stylelint-disable selector-no-type, max-nesting-depth, selector-max-compound-selectors, selector-max-type
 
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Long+Cang&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&family=Long+Cang&display=swap');
 
 .main-content {
   line-height: $content-line-height;
@@ -218,8 +219,7 @@
     position: relative;
     margin-top: 0.5em;
     margin-bottom: 0.25em;
-    letter-spacing: 0.05em;
-    font-family: 'Arial','Noto Serif SC';
+    font-family: 'Indie Flower','Long Cang';
 
     &:first-child {
       margin-top: $sp-2;

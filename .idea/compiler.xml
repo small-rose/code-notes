@@ -14,6 +14,7 @@
         <module name="spring-security-config" />
         <module name="mybatis-hello" />
         <module name="spring-framework" />
+        <module name="jdbc" />
         <module name="new-to-java" />
         <module name="javaee" />
         <module name="mybatis-configuration" />

@@ -260,7 +260,10 @@ public class Author {
 
 ## typeHandler
 
-承担 `jdbcType`和 `javaType`之间的互相转换，一般不需要去配置 `typeHandler`、`jdbcType`和 `javaType`,
+JDBC中，需要在`PrepareStatement`对象中设置那些已经预编译过的SQL语句的参数。执行SQL后，会通过Result对象获取得到数据库的数据。
+而这些在Mybatis中是通过typeHandler实现的。
+
+`typeHandler`承担`jdbcType`和`javaType`之间的互相转换，一般不需要去配置 `typeHandler`、`jdbcType`和 `javaType`,
 因为Mybatis会探测应该使用什么类型的typeHandler进行处理，但有些场景无法探测到，这时需要自定义 `typeHandler`去处理。
 
 ![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202110121125374.png)
@@ -309,7 +312,194 @@ mybatis内置typeHandler：
 | YearMonthTypeHandler       | java.time.YearMonth           | VARCHAR 或 LONGVARCHAR                                                  |
 | JapaneseDateTypeHandler    | java.time.chrono.JapaneseDate | DATE                                                                    |
 
+### 自定义typeHandler
 
+- 实现 `org.apache.ibatis.type.TypeHandler` 接口， 或继承一个很便利的类 `org.apache.ibatis.type.BaseTypeHandler`
+
+```java
+// ExampleTypeHandler.java
+@MappedTypes(String.class)
+@MappedJdbcTypes(JdbcType.VARCHAR)
+public class ExampleTypeHandler extends BaseTypeHandler<String> {
+
+  @Override
+  public void setNonNullParameter(PreparedStatement ps, int i, String parameter, JdbcType jdbcType) throws SQLException {
+    ps.setString(i, parameter);
+  }
+
+  @Override
+  public String getNullableResult(ResultSet rs, String columnName) throws SQLException {
+    return rs.getString(columnName);
+  }
+
+  @Override
+  public String getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
+    return rs.getString(columnIndex);
+  }
+
+  @Override
+  public String getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
+    return cs.getString(columnIndex);
+  }
+}
+```
+
+- 将`ExampleTypeHandler`注册到`Mybatis`
+
+```xml
+<!-- mybatis-config.xml -->
+<typeHandlers>
+  <typeHandler handler="org.mybatis.example.ExampleTypeHandler"/>
+</typeHandlers>
+```
+
+## typeHandlers
+
+若想映射枚举类型 `Enum`，则需要从 `EnumTypeHandler` 或者 `EnumOrdinalTypeHandler` 中选择一个来使用。
+
+比如说我们想存储取近似值时用到的舍入模式。默认情况下，MyBatis 会利用 EnumTypeHandler 来把 Enum 值转换成对应的名字。
+
+**注意 `EnumTypeHandler` 在某种意义上来说是比较特别的，其它的处理器只针对某个特定的类，而它不同，它会处理任意继承了 `Enum` 的类。**
+
+不过，我们可能不想存储名字，相反我们的 DBA 会坚持使用整形值代码。那也一样简单：在配置文件中把 `EnumOrdinalTypeHandler` 加到 `typeHandlers`中即可， 这样每个 `RoundingMode` 将通过他们的序数值来映射成对应的整形数值。
+
+```xml
+<!-- mybatis-config.xml -->
+<typeHandlers>
+  <typeHandler handler="org.apache.ibatis.type.EnumOrdinalTypeHandler" javaType="java.math.RoundingMode"/>
+</typeHandlers>
+```
+
+但要是你想在一个地方将 `Enum` 映射成字符串，在另外一个地方映射成整形值呢？
+
+自动映射器（auto-mapper）会自动地选用 EnumOrdinalTypeHandler 来处理枚举类型， 所以如果我们想用普通的 EnumTypeHandler，就必须要显式地为那些 SQL 语句设置要使用的类型处理器。
+
+（下一节才开始介绍映射器文件，如果你是首次阅读该文档，你可能需要先跳过这里，过会再来看。）
+
+```xml
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.apache.ibatis.submitted.rounding.Mapper">
+	<resultMap type="org.apache.ibatis.submitted.rounding.User" id="usermap">
+		<id column="id" property="id"/>
+		<result column="name" property="name"/>
+		<result column="funkyNumber" property="funkyNumber"/>
+		<result column="roundingMode" property="roundingMode"/>
+	</resultMap>
+
+	<select id="getUser" resultMap="usermap">
+		select * from users
+	</select>
+	<insert id="insert">
+	    insert into users (id, name, funkyNumber, roundingMode) values (
+	    	#{id}, #{name}, #{funkyNumber}, #{roundingMode}
+	    )
+	</insert>
+
+	<resultMap type="org.apache.ibatis.submitted.rounding.User" id="usermap2">
+		<id column="id" property="id"/>
+		<result column="name" property="name"/>
+		<result column="funkyNumber" property="funkyNumber"/>
+		<result column="roundingMode" property="roundingMode" typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
+	</resultMap>
+	<select id="getUser2" resultMap="usermap2">
+		select * from users2
+	</select>
+	<insert id="insert2">
+	    insert into users2 (id, name, funkyNumber, roundingMode) values (
+	    	#{id}, #{name}, #{funkyNumber}, #{roundingMode, typeHandler=org.apache.ibatis.type.EnumTypeHandler}
+	    )
+	</insert>
+
+</mapper>
+```
+
+## objectFactory
+
+每次`MyBatis`创建结果对象的新实例时，它都会使用一个对象工厂（ObjectFactory）实例来完成实例化工作。
+默认的对象工厂需要做的仅仅是实例化目标类，要么通过默认无参构造方法，要么通过存在的参数映射来调用带有参数的构造方法。
+如果想覆盖对象工厂的默认行为，可以通过创建自己的对象工厂来实现。比如：
+
+```java
+// ExampleObjectFactory.java
+public class ExampleObjectFactory extends DefaultObjectFactory {
+  public Object create(Class type) {
+    return super.create(type);
+  }
+  public Object create(Class type, List<Class> constructorArgTypes, List<Object> constructorArgs) {
+    return super.create(type, constructorArgTypes, constructorArgs);
+  }
+  public void setProperties(Properties properties) {
+    super.setProperties(properties);
+  }
+  public <T> boolean isCollection(Class<T> type) {
+    return Collection.class.isAssignableFrom(type);
+  }
+}
+```
+
+```xml
+<!-- mybatis-config.xml -->
+<objectFactory type="org.mybatis.example.ExampleObjectFactory">
+  <property name="someProperty" value="100"/>
+</objectFactory>
+```
+
+`ObjectFactory` 接口很简单，它包含两个创建实例用的方法，一个是处理默认无参构造方法的，另外一个是处理带参数的构造方法的。
+另外，`setProperties` 方法可以被用来配置 `ObjectFactory`，在初始化你的 `ObjectFactory` 实例后，
+`objectFactory` 元素体中定义的属性会被传递给 `setProperties` 方法。
+
+## plugins
+
+MyBatis 允许你在映射语句执行过程中的某一点进行拦截调用。默认情况下，MyBatis 允许使用插件来拦截的方法调用包括：
+- Executor (update, query, flushStatements, commit, rollback, getTransaction, close, isClosed)
+- ParameterHandler (getParameterObject, setParameters)
+- ResultSetHandler (handleResultSets, handleOutputParameters)
+- StatementHandler (prepare, parameterize, batch, update, query)
+
+这些类中方法的细节可以通过查看每个方法的签名来发现，或者直接查看 MyBatis 发行包中的源代码。
+如果你想做的不仅仅是监控方法的调用，那么你最好相当了解要重写的方法的行为。
+因为在试图修改或重写已有方法的行为时，很可能会破坏 MyBatis 的核心模块。
+这些都是更底层的类和方法，所以使用插件的时候要特别当心。
+
+通过 MyBatis提供的强大机制，使用插件是非常简单的，只需实现`Interceptor`接口,并指定想要拦截的方法签名即可。
+
+```java
+// ExamplePlugin.java
+@Intercepts({@Signature(
+  type= Executor.class,
+  method = "update",
+  args = {MappedStatement.class,Object.class})})
+public class ExamplePlugin implements Interceptor {
+  private Properties properties = new Properties();
+  public Object intercept(Invocation invocation) throws Throwable {
+    // implement pre processing if need
+    Object returnObject = invocation.proceed();
+    // implement post processing if need
+    return returnObject;
+  }
+  public void setProperties(Properties properties) {
+    this.properties = properties;
+  }
+}
+```
+
+```xml
+<!-- mybatis-config.xml -->
+<plugins>
+  <plugin interceptor="org.mybatis.example.ExamplePlugin">
+    <property name="someProperty" value="100"/>
+  </plugin>
+</plugins>
+```
+
+上面的插件将会拦截在Executor实例中所有的 “update” 方法调用，这里的 Executor 是负责执行底层映射语句的内部对象。
+
+除了用插件来修改 MyBatis 核心行为以外，还可以通过完全覆盖配置类来达到目的。
+只需继承配置类后覆盖其中的某个方法，再把它传递到 SqlSessionFactoryBuilder.build(myConfig) 方法即可。
+再次重申，这可能会极大影响 MyBatis 的行为，务请慎之又慎。
 
 # SqlSessionFactoryBuilder
 

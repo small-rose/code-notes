@@ -9,11 +9,11 @@
 }
 
 .toc > .toc-list::-webkit-scrollbar-track {
-    box-shadow: 1px 1px 5px #22272e inset;
+    box-shadow: 1px 1px 5px #232425 inset;
 }
 
 .toc > .toc-list::-webkit-scrollbar-thumb {
-    box-shadow: 0 0 0 5px #22272e inset;
+    box-shadow: 0 0 0 5px #232425 inset;
 }
 
 .toc > .toc-list li {
@@ -49,7 +49,7 @@ a.toc-link {
 }
 
 .toc-link::before {
-    background-color: #22272e;
+    background-color: #232425;
     content: ' ';
     display: inline-block;
     height: 1px;
@@ -60,5 +60,5 @@ a.toc-link {
 }
 
 .is-active-link::before {
-    background-color: #22272e
+    background-color: #232425
 }

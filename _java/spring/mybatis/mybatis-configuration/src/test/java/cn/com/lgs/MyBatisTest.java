@@ -6,6 +6,7 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.apache.ibatis.type.StringTypeHandler;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -34,7 +35,9 @@ public class MyBatisTest {
             e.printStackTrace();
             sqlSession.rollback();
         } finally {
-            sqlSession.close();
+            if (sqlSession != null) {
+                sqlSession.close();
+            }
         }
     }
 

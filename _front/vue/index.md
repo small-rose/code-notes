@@ -1,6 +1,6 @@
 ---
 layout: docs
-title: Vue
+title: Vue3
 nav_order: 60
 ---
 
@@ -48,9 +48,72 @@ Vue 被设计为可以自底向上逐层应用。Vue 的核心库只关注视图
 - vue(.runtime).esm-bundler.js
   - 用于通过原生 ES 模块导入使用 (在浏览器中通过 `<script type="module">` 来使用)
 
+本文使用[vue.esm-browser.js](https://cdn.jsdelivr.net/npm/vue@3.2.20/dist/vue.esm-browser.js)
+
 ##  npm 安装
 
+在用Vue构建大型应用时推荐使用`npm`安装.`npm`能很好地和诸如 `webpack` 或 `Rollup` 模块打包器配合使用。
+
+```shell
+# 最新稳定版
+$ npm install vue@next
+```
+
+Vue还提供了编写单文件组件的配套工具。如果你想使用单文件组件，那么你还需要安装`@vue/compiler-sfc`:
+
+```shell
+$ npm install -D @vue/compiler-sfc
+```
+
+大多数情况下，我们更倾向于使用 [Vue CLI](#官方的cli构建) 来创建一个配置最小化的 webpack 构建版本。
+
 ## 官方的CLI构建
+
+[仓库](https://github.com/vuejs/vue-cli)
+
+[文档](https://cli.vuejs.org/zh/)
+
+Vue CLI 是一个基于 Vue.js 进行快速开发的完整系统。提供：
+- 通过 `@vue/cli` 实现的交互式的项目脚手架
+- 通过 `@vue/cli` + `@vue/cli-service-global` 实现的零配置原型开发。
+- 一个运行时依赖 (`@vue/cli-service`)，该依赖：
+  - 可升级；
+  - 基于 webpack 构建，并带有合理的默认配置；
+  - 可以通过项目内的配置文件进行配置；
+  - 可以通过插件进行扩展。
+- 一个丰富的官方插件集合，集成了前端生态中最好的工具。
+- 一套完全图形化的创建和管理 Vue.js 项目的用户界面。
+
+- npm安装 Vue CLI：
+
+```shell
+yarn global add @vue/cli
+# 或
+npm install -g @vue/cli
+```
+
+- 创建一个项目：
+
+```shell
+vue create 项目名
+```
+
+## Vite
+
+[Vite](https://github.com/vitejs/vite)是一个 web 开发构建工具，由于其原生 ES 模块导入方式，可以实现闪电般的冷服务器启动。
+通过在终端中运行以下命令，可以使用 Vite 快速构建 Vue 项目
+
+```shell
+# npm 6.x
+$ npm init vite@latest <project-name> --template vue
+
+# npm 7+，需要加上额外的双短横线
+$ npm init vite@latest <project-name> -- --template vue
+
+$ cd <project-name>
+$ npm install
+$ npm run dev
+```
 
 # Vue Devtools
 
@@ -58,4 +121,45 @@ Vue 被设计为可以自底向上逐层应用。Vue 的核心库只关注视图
 
 - vue3.0得下[beta版](https://chrome.google.com/webstore/detail/vuejs-devtools/ljjemllljcmogpfapbkkighbhhppjdbg/related)，否则没法用
 
-# 模板语法
+# 创建一个应用实例并指定根组件
+
+## 根组件采用html标签
+
+这种方法比较简单，什么都在html文件中进行编写，后面自定义组件也写在里面，比较直观，但实际开发中一般不用这种方式
+
+[示例演示](./helloworld/helloworld.html)
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>创建一个应用实例</title>
+</head>
+<body>
+
+<div id="app">
+    {{counter}}
+</div>
+
+<script type="module">
+    import {createApp} from '../js/vue.esm-browser.js'
+
+    const RootComponent = {
+        /* 选项 */
+        data() {
+            return {
+                counter: 10
+            }
+        }
+    }
+    const app = createApp(RootComponent).mount('#app');
+</script>
+
+</body>
+</html>
+```
+
+## 根组件采用文件组件
+
+实际开发这种用的比较多

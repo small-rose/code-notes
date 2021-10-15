@@ -10,6 +10,7 @@
         <module>spring-security-custom-username-password2</module>
         <module>spring-security-custom-username-password3</module>
         <module>spring-security-config</module>
+        <module>spring-security-hello</module>
     </modules>
 
     <parent>

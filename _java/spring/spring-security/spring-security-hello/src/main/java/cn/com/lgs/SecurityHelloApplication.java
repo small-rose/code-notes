@@ -5,12 +5,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * @author luguosong
+ * @date 2021/10/15 9:16
  */
 @SpringBootApplication
-public class SpringSecurityHelloApplication {
-
-
-  public static void main(String[] args) {
-    SpringApplication.run(SpringSecurityHelloApplication.class,args);
-  }
+public class SecurityHelloApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(SecurityHelloApplication.class,args);
+    }
 }

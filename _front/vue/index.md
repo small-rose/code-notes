@@ -7,7 +7,7 @@ nav_order: 60
 # 概述
 
 Vue (读音 /vjuː/，类似于 view) 是一套用于构建用户界面的`渐进式框架`。与其它大型框架不同的是，
-Vue 被设计为可以自底向上逐层应用。Vue 的核心库只关注视图层，不仅易于上手，还便于与第三方库或既有项目整合。
+Vue 可以自底向上逐层应用。Vue 的核心库只关注视图层，不仅易于上手，还便于与第三方库或既有项目整合。
 另一方面，当与`现代化的工具链`以及各种`支持类库`结合使用时，Vue 也完全能够为复杂的单页应用提供驱动。
 
 # 安装
@@ -40,7 +40,7 @@ Vue 被设计为可以自底向上逐层应用。Vue 的核心库只关注视图
 
 这里面有很多文件，主要分为一下两种：
 - vue(.runtime).global(.prod).js
-  - 通过浏览器中的 <script src="..."> 直接使用，暴露 Vue 全局，相当于一股脑的导入所有的模块
+  - 通过浏览器中的`<script src="...">`直接使用，暴露Vue全局，相当于一股脑的导入所有的模块
   - vue.global.js：包含`编译器`和`运行时`的完整构建版本，因此它支持动态编译[模板](#模板语法)
   - vue.runtime.global.js: 只有`运行时`，需要在构建步骤期间预编译[模板](#模板语法)
   - 内联所有 Vue 核心内部包
@@ -98,6 +98,15 @@ npm install -g @vue/cli
 vue create 项目名
 ```
 
+也可以使用idea创建vue项目（`也是基于Vue CLI`）：
+- 选择新建模块，选择vue.js模块
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202110150940260.png)
+
+- 选择Vue3
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202110150937389.png)
+
 ## Vite
 
 [Vite](https://github.com/vitejs/vite)是一个 web 开发构建工具，由于其原生 ES 模块导入方式，可以实现闪电般的冷服务器启动。
@@ -121,11 +130,11 @@ $ npm run dev
 
 - vue3.0得下[beta版](https://chrome.google.com/webstore/detail/vuejs-devtools/ljjemllljcmogpfapbkkighbhhppjdbg/related)，否则没法用
 
-# 创建一个应用实例并指定根组件
+# 创建应用实例并指定根组件
 
 ## 根组件采用html标签
 
-这种方法比较简单，什么都在html文件中进行编写，后面自定义组件也写在里面，比较直观，但实际开发中一般不用这种方式
+实际开发场景中，这种方式不常用。一般采用`单文件组件`作为根组件
 
 [示例演示](./helloworld/helloworld.html)
 
@@ -160,6 +169,9 @@ $ npm run dev
 </html>
 ```
 
-## 根组件采用文件组件
+## 根组件采用单文件组件
 
-实际开发这种用的比较多
+vue单文件组件需要借助
+
+- 使用Vue CLI创建项目
+- 11

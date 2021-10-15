@@ -10,10 +10,8 @@
     {{counter}}
 </div>
 
-<script type="module">
-    import {createApp} from '../js/vue.esm-browser.js'
-
-
+<script src="js/vue.global.js"></script>
+<script>
     const RootComponent = {
         /* 选项 */
         data() {
@@ -23,7 +21,7 @@
         }
     }
     //创建应用，并指定根组件
-    const app = createApp(RootComponent).mount('#app');
+    const app = Vue.createApp(RootComponent).mount('#app');
 </script>
 
 </body>

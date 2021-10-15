@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>属性插值</title>
+    <style>
+        .blue {
+            color: #0000FF;
+        }
+
+        .darkblue {
+            color: #00008B;
+        }
+    </style>
+</head>
+<body>
+
+<div id="app">
+    <div v-bind:class="color">v-bind属性插值</div>
+    <div :class="color">v-bind省略写法:</div>
+    <div :class="'dark'+color">支持javascript表达式</div>
+</div>
+
+<script src="js/vue.global.js"></script>
+<script>
+    const RootComponent = {
+        /* 选项 */
+        data() {
+            return {
+                color: "blue"
+            }
+        }
+    }
+    //创建应用，并指定根组件
+    const app = Vue.createApp(RootComponent).mount('#app');
+</script>
+
+</body>
+</html>

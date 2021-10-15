@@ -1,16 +1,23 @@
 ---
-layout: docs
-title: Vue3
+layout: docs 
+title: Vue3 
 nav_order: 60
+latex: true
 ---
 
 # 概述
 
-Vue (读音 /vjuː/，类似于 view) 是一套用于构建用户界面的`渐进式框架`。与其它大型框架不同的是，
-Vue 可以自底向上逐层应用。Vue 的核心库只关注视图层，不仅易于上手，还便于与第三方库或既有项目整合。
+Vue (读音 /vjuː/，类似于 view) 是一套用于构建用户界面的`渐进式框架`。与其它大型框架不同的是， Vue 可以自底向上逐层应用。Vue 的核心库只关注视图层，不仅易于上手，还便于与第三方库或既有项目整合。
 另一方面，当与`现代化的工具链`以及各种`支持类库`结合使用时，Vue 也完全能够为复杂的单页应用提供驱动。
 
-# 安装
+# 案例说明
+
+本博客一般情况下`博客文档`和`相关源代码`是在同一目录下的。
+
+Vue项目实际开发环境以`npm`或`CLI`创建项目，并使用`单文档组件`
+。这将到在jekyll本地编译速度严重降低，因此，跟单文档组件相关的案例单独新建工程，[案例地址](https://github.com/guosonglu/vue-demo)
+
+# Vue安装
 
 最新版本：
 
@@ -18,7 +25,7 @@ Vue 可以自底向上逐层应用。Vue 的核心库只关注视图层，不仅
 
 [版本更新说明](https://github.com/vuejs/vue-next/blob/master/CHANGELOG.md)
 
-##  CDN包的形式导入
+## CDN包的形式导入
 
 对于制作原型或学习，你可以这样使用最新版本：
 
@@ -47,8 +54,6 @@ Vue 可以自底向上逐层应用。Vue 的核心库只关注视图层，不仅
   - 包含硬编码的 prod/dev 分支
 - vue(.runtime).esm-bundler.js
   - 用于通过原生 ES 模块导入使用 (在浏览器中通过 `<script type="module">` 来使用)
-
-本文使用[vue.esm-browser.js](https://cdn.jsdelivr.net/npm/vue@3.2.20/dist/vue.esm-browser.js)
 
 ##  npm 安装
 
@@ -136,33 +141,33 @@ $ npm run dev
 
 实际开发场景中，这种方式不常用。一般采用`单文件组件`作为根组件
 
-[示例演示](./helloworld/helloworld.html)
+[示例演示](helloworld.html)
 
 ```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>创建一个应用实例</title>
+  <meta charset="UTF-8">
+  <title>创建一个应用实例</title>
 </head>
 <body>
 
 <div id="app">
-    {{counter}}
+  {{counter}}
 </div>
 
-<script type="module">
-    import {createApp} from '../js/vue.esm-browser.js'
-
-    const RootComponent = {
-        /* 选项 */
-        data() {
-            return {
-                counter: 10
-            }
-        }
+<script src="js/vue.global.js"></script>
+<script>
+  const RootComponent = {
+    /* 选项 */
+    data() {
+      return {
+        counter: 10
+      }
     }
-    const app = createApp(RootComponent).mount('#app');
+  }
+  //创建应用，并指定根组件
+  const app = Vue.createApp(RootComponent).mount('#app');
 </script>
 
 </body>
@@ -171,7 +176,197 @@ $ npm run dev
 
 ## 根组件采用单文件组件
 
-vue单文件组件需要借助
+vue单文件组件需要借助`compiler-sfc`进行预编译，这需要`npm`环境,[相关说明](#案例说明)
 
 - 使用Vue CLI创建项目
-- 11
+- 创建单文档根组件App.vue（自动生成）
+
+```vue
+
+<template>
+  <div>{{ title }}</div>
+</template>
+
+<script>
+
+export default {
+  name: 'App',
+  data() {
+    return {
+      title: "hello world"
+    }
+  }
+}
+</script>
+
+<style>
+
+</style>
+```
+
+- 在main.js中创建应用实例，并指定根组件
+
+```js
+import {createApp} from 'vue'
+import App from './App.vue'
+
+createApp(App).mount('#app')
+```
+
+# 模板语法
+
+Vue.js 使用了基于 HTML 的模板语法，允许开发者声明式地将 DOM 绑定至底层组件实例的数据。所有 Vue.js 的模板都是合法的 HTML，所以能被遵循规范的浏览器和 HTML 解析器解析。
+
+在底层的实现上，Vue 将模板编译成虚拟 DOM 渲染函数。结合响应性系统，Vue 能够智能地计算出最少需要重新渲染多少组件，并把 DOM 操作次数减到最少。
+
+如果你熟悉虚拟 DOM 并且偏爱 JavaScript 的原始力量，你也可以不用模板，`直接写渲染 (render) 函数`，使用可选的 JSX 语法。
+
+## 插值
+
+### 文本
+
+使用`双大括号`进行文本插值
+
+使用`v-once`，执行一次性地插值，当数据改变时，插值处的内容不会更新。
+
+使用`v-html`插值将输出`html代码`，而不是`普通文本`。
+
+文本插值支持JavaScript表达式
+
+[示例：](interpolations-text.html)
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>插值文本</title>
+</head>
+<body>
+
+<div id="app">
+  <div>文本插值:{{msg}}</div>
+  <div v-once>这个将不会改变:{% raw %} {{msg}}{% endraw %}</div>
+  <button @click="msg += 1">改变msg的值</button>
+
+  <p>使用普通文本插值:{% raw %} {{ rawHtml }}{% endraw %} </p>
+  <p>使用v-html文本插值: <span v-html="rawHtml"></span></p>
+
+  <div>文本插值支持JavaScript 表达式：{% raw %} {{msg + 1}}{% endraw %}</div>
+</div>
+
+<script src="js/vue.global.js"></script>
+<script>
+
+  const RootComponent = {
+    /* 选项 */
+    data() {
+      return {
+        msg: 10,
+        rawHtml: '<span style="color: red">This should be red.</span>'
+      }
+    }
+  }
+
+  //创建应用，并指定根组件
+  const app = Vue.createApp(RootComponent).mount('#app');
+</script>
+
+</body>
+</html>
+```
+
+### 属性
+
+使用`v-bind`进行属性插值
+
+`v-bind`可以缩写为`:`
+
+属性插值支持JavaScript表达式
+
+[示例：](interpolations-attribute.html)
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>属性插值</title>
+    <style>
+        .blue {
+            color: #0000FF;
+        }
+
+        .darkblue {
+            color: #00008B;
+        }
+    </style>
+</head>
+<body>
+
+<div id="app">
+    <div v-bind:class="color">v-bind属性插值</div>
+    <div :class="color">v-bind省略写法:</div>
+    <div :class="'dark'+color">支持javascript表达式</div>
+</div>
+
+<script src="js/vue.global.js"></script>
+<script>
+    const RootComponent = {
+        /* 选项 */
+        data() {
+            return {
+                color: "blue"
+            }
+        }
+    }
+    //创建应用，并指定根组件
+    const app = Vue.createApp(RootComponent).mount('#app');
+</script>
+
+</body>
+</html>
+```
+
+
+## 指令
+
+指令(Directives)是带有 `v-`前缀的特殊attribute。
+
+### v-bind
+
+属性绑定
+
+参考上面的[属性插值](#属性)
+
+- 格式：
+  - `v-bind:属性.修饰符='单个JavaScript 表达式'`
+  - `v-bind:[动态属性].修饰符='单个JavaScript 表达式'`
+  - `:属性.修饰符='单个JavaScript 表达式'`
+  - `:[动态属性].修饰符='单个JavaScript 表达式'`
+
+### v-on
+
+用于监听 DOM 事件
+
+- 格式：
+  - `v-on:事件名.修饰符='单个JavaScript 表达式'`
+  - `v-bind:[动态事件名].修饰符='单个JavaScript 表达式'`
+  - `@事件名.修饰符='单个JavaScript 表达式'`
+  - `@[动态事件名].修饰符='单个JavaScript 表达式'`
+
+
+# 组件选项
+
+## data()
+
+是一个函数
+
+创建组件实例时调用该函数，以`$data`的形式存储在组件实例中,
+为方便起见，该对象的任何`顶级property`也直接通过组件实例暴露出来
+
+# 组件
+
+
+
+

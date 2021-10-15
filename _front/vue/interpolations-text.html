@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>插值文本</title>
+</head>
+<body>
+
+<div id="app">
+    <div>文本插值:{{msg}}</div>
+    <div v-once>这个将不会改变:{{msg}}</div>
+    <button @click="msg += 1">改变msg的值</button>
+
+    <p>使用普通文本插值: {{ rawHtml }}</p>
+    <p>使用v-html文本插值: <span v-html="rawHtml"></span></p>
+
+    <div>文本插值支持JavaScript 表达式：{{msg + 1}}</div>
+</div>
+
+<script src="js/vue.global.js"></script>
+<script>
+
+    const RootComponent = {
+        /* 选项 */
+        data() {
+            return {
+                msg: 10,
+                rawHtml: '<span style="color: red">This should be red.</span>'
+            }
+        }
+    }
+
+    //创建应用，并指定根组件
+    const app = Vue.createApp(RootComponent).mount('#app');
+</script>
+
+</body>
+</html>

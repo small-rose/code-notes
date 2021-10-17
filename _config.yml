@@ -56,6 +56,8 @@ collections:
     output: true
   environment:
     output: true
+  foreignlanguage:
+    output: true
 
 
 just_the_docs:
@@ -72,6 +74,8 @@ just_the_docs:
       name: 数学
     environment:
       name: 环境与配置
+    foreignlanguage:
+      name: 外语
 
 
 aux_links:

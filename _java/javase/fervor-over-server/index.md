@@ -205,10 +205,9 @@ class Demo {
 
 ## 处理异常
 
-当 JDBC 在与数据源的交互过程中遇到错误时，它抛出一个 SQLException 实例，而不是 Exception。
+当 JDBC 在与数据源的交互过程中遇到错误时，它抛出一个`SQLException`实例，而不是`Exception`。
 
 SQLException实例包含以下方法，可以帮助您确定错误的原因：
-
 - `public String getMessage()`：异常描述
 - public String getSQLState()：获取SQLState码，多数的代码由 ISO/ANSI 和 Open Group(X/Open) 标准化，但是仍然存在部分的代码由数据库提供商自行实现。
 - public int getErrorCode()：与 SQLState 不同，错误代码是由数据库提供商自行定义的整数值，存在是由基础数据源返回的实际错误代码的可能。

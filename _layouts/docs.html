@@ -198,10 +198,12 @@ layout: table_wrappers
             <hr>
             <h2 class="text-delta js-toc-ignore">{{page.title}}-目录</h2>
             <ul>
-                {%- assign children_list = current_list | where: "parent", page.title | where: "grand_parent", page.parent -%}
+                {%- assign children_list = current_list | where: "parent", page.title | where: "grand_parent",
+                page.parent -%}
                 {% for child in children_list %}
                 <li>
-                    <a href="{{ child.url | absolute_url }}">{{ child.title }}</a>{% if child.summary %} - {{ child.summary }}{% endif %}
+                    <a href="{{ child.url | absolute_url }}">{{ child.title }}</a>{% if child.summary %} - {{
+                    child.summary }}{% endif %}
                 </li>
                 {% endfor %}
             </ul>
@@ -264,6 +266,26 @@ layout: table_wrappers
 <div class="toc side-bar-right js-toc">
 </div>
 
+<!--英标发音-->
+{% if page.phonics == true %}
+<script>
+    const td = document.getElementsByTagName('td');
+    for (let i = 0; i < td.length; i++) {
+        if (td[i].innerHTML.indexOf('.mp3') !== -1) {
+            const str = td[i].innerHTML;
+            td[i].innerHTML = '<audio controls="controls" height="100" width="100"><source src="https://cdn.jsdelivr.net/gh/guosonglu/images@master/phonics/' + str + '" type="audio/mp3" /><embed height="100" width="100" src="https://cdn.jsdelivr.net/gh/guosonglu/images@master/phonics/' + str + '" /></audio>'
+        }
+    }
+</script>
+{% endif %}
+
+<!--语音朗读-->
+<!--{% if page.speech == true %}-->
+<!--<script>-->
+<!--    let utterance = new SpeechSynthesisUtterance("Hello world!");-->
+<!--    speechSynthesis.speak(utterance);-->
+<!--</script>-->
+<!--{% endif %}-->
 
 
 <script>
@@ -295,7 +317,7 @@ layout: table_wrappers
     const sitenav = document.getElementById("site-nav");
 
     function setCookie(sName, sValue) {
-        sessionStorage.setItem(sName,escape(sValue));
+        sessionStorage.setItem(sName, escape(sValue));
     }
 
     function getCookie(sName) {
@@ -314,7 +336,8 @@ layout: table_wrappers
         for (let i = 0; i < objs.length; i++) {
             new Viewer(objs[i]);
             objs[i].style.cursor = "pointer";
-        };
+        }
+        ;
 
         apply.onclick = function () {
             applyImg.click();
@@ -350,17 +373,17 @@ layout: table_wrappers
         }
     }
 
-    function showEle(eleButton,ele, show) {
-        if (show){
+    function showEle(eleButton, ele, show) {
+        if (show) {
             eleButton.style.backgroundImage = 'url("https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202109291928471.png")';
-        }else{
+        } else {
             eleButton.style.backgroundImage = 'url("https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202109291928434.png")';
         }
         let next = ele.nextElementSibling;
         while (next.tagName != "HE") {
-            if (show){
+            if (show) {
                 next.style.display = 'block';
-            }else{
+            } else {
                 next.style.display = 'none';
             }
             next = next.nextElementSibling;
@@ -383,12 +406,12 @@ layout: table_wrappers
         eleButton.style.border = 'none';
         eleButton.onclick = function () {
             if (showState(hiddens[i]) == 'none') {
-                showEle(eleButton,hiddens[i],true);
+                showEle(eleButton, hiddens[i], true);
             } else {
-                showEle(eleButton,hiddens[i],false);
+                showEle(eleButton, hiddens[i], false);
             }
         };
-        showEle(eleButton,hiddens[i],false);
+        showEle(eleButton, hiddens[i], false);
         hiddens[i].before(eleButton);
     }
 

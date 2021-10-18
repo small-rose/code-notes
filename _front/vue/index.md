@@ -360,7 +360,8 @@ class属性和style属性指令增强：
     - `@事件名.修饰符='单个JavaScript 表达式'`
     - `@[动态事件名].修饰符='单个JavaScript 表达式'`
 
-事件处理程序中可以有多个方法，这些方法由逗号运算符分隔。
+事件处理程序中可以有`多个方法`，这些方法由逗号运算符分隔。
+
 
 事件[修饰符](https://v3.cn.vuejs.org/api/directives.html#v-on)：
 - stop

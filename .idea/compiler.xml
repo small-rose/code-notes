@@ -21,11 +21,11 @@
         <module name="design-pattern" />
         <module name="spring-security-hello" />
         <module name="spring-security-custom-username-password3" />
-        <module name="base" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="annotations" target="8" />
+      <module name="base" target="1.8" />
       <module name="building-on-the-foundation" target="8" />
       <module name="classes-and-objects" target="8" />
       <module name="client" target="8" />

@@ -282,11 +282,29 @@ Vue.js 使用了基于 HTML 的模板语法，允许开发者声明式地将 DOM
 
 ### 属性
 
-使用`v-bind`进行属性插值
+使用`v-bind`指令进行属性插值，详见[v-bind](#v-bind)
+
+## 指令
+
+指令(Directives)是带有 `v-`前缀的特殊attribute。
+
+### v-bind
+
+属性绑定
 
 `v-bind`可以缩写为`:`
 
 属性插值支持JavaScript表达式
+
+- 格式：
+    - `v-bind:属性.修饰符='单个JavaScript 表达式'`
+    - `v-bind:[动态属性].修饰符='单个JavaScript 表达式'`
+    - `:属性.修饰符='单个JavaScript 表达式'`
+    - `:[动态属性].修饰符='单个JavaScript 表达式'`
+
+class属性和style属性指令增强：
+- 对象语法
+- 数组语法
 
 [示例：](interpolations-attribute.html)
 
@@ -332,22 +350,6 @@ Vue.js 使用了基于 HTML 的模板语法，允许开发者声明式地将 DOM
 </html>
 ```
 
-## 指令
-
-指令(Directives)是带有 `v-`前缀的特殊attribute。
-
-### v-bind
-
-属性绑定
-
-参考上面的[属性插值](#属性)
-
-- 格式：
-    - `v-bind:属性.修饰符='单个JavaScript 表达式'`
-    - `v-bind:[动态属性].修饰符='单个JavaScript 表达式'`
-    - `:属性.修饰符='单个JavaScript 表达式'`
-    - `:[动态属性].修饰符='单个JavaScript 表达式'`
-
 ### v-on
 
 用于监听 DOM 事件
@@ -357,6 +359,55 @@ Vue.js 使用了基于 HTML 的模板语法，允许开发者声明式地将 DOM
     - `v-bind:[动态事件名].修饰符='单个JavaScript 表达式'`
     - `@事件名.修饰符='单个JavaScript 表达式'`
     - `@[动态事件名].修饰符='单个JavaScript 表达式'`
+
+事件处理程序中可以有多个方法，这些方法由逗号运算符分隔。
+
+事件[修饰符](https://v3.cn.vuejs.org/api/directives.html#v-on)：
+- stop
+- prevent
+- capture
+- self
+- once
+- passive
+
+使用修饰符时，顺序很重要；相应的代码会以同样的顺序产生。因此，用 v-on:click.prevent.self 会阻止所有的点击，
+而 v-on:click.self.prevent 只会阻止对元素自身的点击。
+
+###  v-model
+
+### v-if
+
+`v-if`指令用于`条件性地渲染`一块内容。这块内容只会在指令的表达式返回 truthy 值的时候被渲染。
+
+也可以用`v-else`添加一个`else块`。用`v-else-if`添加一个`else-if块`
+
+因为`v-if`是一个指令，所以必须将它添加到`一个元素上`。但是如果想切换多个元素呢？
+此时可以把一个`<template>`元素当做不可见的包裹元素，并在上面使用`v-if`。
+最终渲染结果将不包含`<template>`元素。
+
+### v-show
+
+`v-show`只是简单地切换元素的CSS property display。
+
+**注意**，`v-show`不支持`<template>` 元素，也不支持 `v-else`。
+
+### v-for
+
+基于一个`数组`来渲染一个`列表`
+
+使用`item in items`形式的特殊语法，其中`items`是源数据数组，而`item`则是被迭代的数组元素的别名。
+
+尽可能在使用`v-for`时提供`key`属性,以便Vue能跟踪每个节点的身份,从而重用和重新排序现有元素，你需要为每项提供一个唯一`key`。
+不要使用`对象`或`数组`之类的非基本类型值作为 `v-for` 的 `key`。请用`字符串`或`数值类型`的值。
+
+在`v-for`块中，我们可以访问所有父作用域的property
+
+v-for还支持一个可选的第二个参数，即`当前项的索引`。
+
+也可以用 `of` 替代 `in` 作为分隔符，因为它更接近JavaScript迭代器的语法：
+
+除了数组还可以用`v-for`来遍历一个对象的property,可以提供第二个的参数为`property名称`(也就是键名 key)
+
 
 # 组件选项
 
@@ -446,6 +497,15 @@ computed: {
 现在再运行 `vm.fullName = 'John Doe'` 时，`setter` 会被调用，`vm.firstName` 和 `vm.lastName` 也会相应地被更新。
 
 这个`setter`个人感觉没啥用，不如直接使用方法
+
+## watch
+
+侦听器：用来响应数据变化
+
+相比于计算属性，侦听器：
+- 允许我们执行异步操作
+- 限制我们执行该操作的频率
+- 在我们得到最终结果前，设置中间状态
 
 # 组件
 

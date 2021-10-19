@@ -4,7 +4,6 @@ title: Vue3
 nav_order: 60 
 latex: true
 ---
-
 # 概述
 
 Vue (读音 /vjuː/，类似于 view) 是一套用于构建用户界面的`渐进式框架`。与其它大型框架不同的是， Vue 可以自底向上逐层应用。Vue 的核心库只关注视图层，不仅易于上手，还便于与第三方库或既有项目整合。
@@ -49,13 +48,13 @@ Vue项目实际开发环境以`npm`或`CLI`创建项目，并使用`单文档组
 这里面有很多文件，主要分为一下两种：
 
 - vue(.runtime).global(.prod).js
-    - 通过浏览器中的`<script src="...">`直接使用，暴露Vue全局，相当于一股脑的导入所有的模块
-    - vue.global.js：包含`编译器`和`运行时`的完整构建版本，因此它支持动态编译[模板](#模板语法)
-    - vue.runtime.global.js: 只有`运行时`，需要在构建步骤期间预编译[模板](#模板语法)
-    - 内联所有 Vue 核心内部包
-    - 包含硬编码的 prod/dev 分支
+  - 通过浏览器中的`<script src="...">`直接使用，暴露Vue全局，相当于一股脑的导入所有的模块
+  - vue.global.js：包含`编译器`和`运行时`的完整构建版本，因此它支持动态编译[模板](#模板语法)
+  - vue.runtime.global.js: 只有`运行时`，需要在构建步骤期间预编译[模板](#模板语法)
+  - 内联所有 Vue 核心内部包
+  - 包含硬编码的 prod/dev 分支
 - vue(.runtime).esm-bundler.js
-    - 用于通过原生 ES 模块导入使用 (在浏览器中通过 `<script type="module">` 来使用)
+  - 用于通过原生 ES 模块导入使用 (在浏览器中通过 `<script type="module">` 来使用)
 
 ## npm 安装
 
@@ -85,13 +84,13 @@ Vue CLI 是一个基于 Vue.js 进行快速开发的完整系统。提供：
 - 通过 `@vue/cli` 实现的交互式的项目脚手架
 - 通过 `@vue/cli` + `@vue/cli-service-global` 实现的零配置原型开发。
 - 一个运行时依赖 (`@vue/cli-service`)，该依赖：
-    - 可升级；
-    - 基于 webpack 构建，并带有合理的默认配置；
-    - 可以通过项目内的配置文件进行配置；
-    - 可以通过插件进行扩展。
+
+  - 可升级；
+  - 基于 webpack 构建，并带有合理的默认配置；
+  - 可以通过项目内的配置文件进行配置；
+  - 可以通过插件进行扩展。
 - 一个丰富的官方插件集合，集成了前端生态中最好的工具。
 - 一套完全图形化的创建和管理 Vue.js 项目的用户界面。
-
 - npm安装 Vue CLI：
 
 ```shell
@@ -136,7 +135,6 @@ $ npm run dev
 
 在使用 Vue 时，我们推荐在你的浏览器上安装`Vue Devtools`，它允许你在一个更友好的界面中审查和调试 Vue 应用。
 
--
 vue3.0得下[beta版](https://chrome.google.com/webstore/detail/vuejs-devtools/ljjemllljcmogpfapbkkighbhhppjdbg/related)，否则没法用
 
 # 创建应用实例并指定根组件
@@ -297,73 +295,98 @@ Vue.js 使用了基于 HTML 的模板语法，允许开发者声明式地将 DOM
 属性插值支持JavaScript表达式
 
 - 格式：
-    - `v-bind:属性.修饰符='单个JavaScript 表达式'`
-    - `v-bind:[动态属性].修饰符='单个JavaScript 表达式'`
-    - `:属性.修饰符='单个JavaScript 表达式'`
-    - `:[动态属性].修饰符='单个JavaScript 表达式'`
+  - `v-bind:属性.修饰符='单个JavaScript 表达式'`
+  - `v-bind:[动态属性].修饰符='单个JavaScript 表达式'`
+  - `:属性.修饰符='单个JavaScript 表达式'`
+  - `:[动态属性].修饰符='单个JavaScript 表达式'`
 
 class属性和style属性指令增强：
+
 - 对象语法
 - 数组语法
 
-[示例：](interpolations-attribute.html)
+[示例：](v-bind.html)
 
 ```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>属性插值</title>
-    <style>
-        .blue {
-            color: #0000FF;
-        }
+  <meta charset="UTF-8">
+  <title>v-bind指令</title>
+  <style>
+    .red {
+      color: red;
+    }
 
-        .darkblue {
-            color: #00008B;
-        }
-    </style>
+    .blue {
+      color: blue;
+    }
+
+    .blod {
+      font-weight: 900;
+    }
+  </style>
 </head>
 <body>
 
 <div id="app">
-    <div v-bind:class="color">v-bind属性插值</div>
-    <div :class="color">v-bind省略写法:</div>
-    <div :class="'dark'+color">支持javascript表达式</div>
+  <h1>v-bind指令</h1>
+
+  <div v-bind:class="divClass">通过v-bind进行属性插值</div>
+  <div :class="divClass">v-bind可以简写为 :</div>
+
+  <div :class="{red:isRed,blue:isBlue}">v-bind对class属性的对象语法增强</div>
+  <div :class="[colorClass,fontClass]">v-bind对class属性的数组语法增强</div>
+
+  <div :style="{color:activeColor,fontWeight:fontWeight}">v-bind对style属性的对象语法增强</div>
+  <div :style="[baseStyles, overridingStyles]">v-bind对style属性的数组语法增强</div>
 </div>
 
 <script src="js/vue.global.js"></script>
 <script>
-    const RootComponent = {
-        /* 选项 */
-        data() {
-            return {
-                color: "blue"
-            }
+  const RootComponent = {
+    /* 选项 */
+    data() {
+      return {
+        divClass: "red",
+        isRed: true,
+        isBlue: false,
+        colorClass: "red",
+        fontClass: "blod",
+        activeColor: 'red',
+        fontWeight: 900,
+        baseStyles: {
+          color: "red"
+        },
+        overridingStyles: {
+          fontWeight: 900
         }
+      }
     }
-    //创建应用，并指定根组件
-    const app = Vue.createApp(RootComponent).mount('#app');
+  }
+  //创建应用，并指定根组件
+  const app = Vue.createApp(RootComponent).mount('#app');
 </script>
 
 </body>
 </html>
 ```
 
+
 ### v-on
 
 用于监听 DOM 事件
 
 - 格式：
-    - `v-on:事件名.修饰符='单个JavaScript 表达式'`
-    - `v-bind:[动态事件名].修饰符='单个JavaScript 表达式'`
-    - `@事件名.修饰符='单个JavaScript 表达式'`
-    - `@[动态事件名].修饰符='单个JavaScript 表达式'`
+  - `v-on:事件名.修饰符='单个JavaScript 表达式'`
+  - `v-bind:[动态事件名].修饰符='单个JavaScript 表达式'`
+  - `@事件名.修饰符='单个JavaScript 表达式'`
+  - `@[动态事件名].修饰符='单个JavaScript 表达式'`
 
 事件处理程序中可以有`多个方法`，这些方法由逗号运算符分隔。
 
-
 事件[修饰符](https://v3.cn.vuejs.org/api/directives.html#v-on)：
+
 - stop
 - prevent
 - capture
@@ -371,10 +394,162 @@ class属性和style属性指令增强：
 - once
 - passive
 
-使用修饰符时，顺序很重要；相应的代码会以同样的顺序产生。因此，用 v-on:click.prevent.self 会阻止所有的点击，
-而 v-on:click.self.prevent 只会阻止对元素自身的点击。
+使用修饰符时，顺序很重要；相应的代码会以同样的顺序产生。因此，用v-on:click.prevent.self会阻止所有的点击，而v-on:click.self.prevent只会阻止对元素自身的点击。
 
-###  v-model
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>v-on事件监听</title>
+  <style>
+    button {
+      display: block;
+      margin: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="app">
+  <h1>v-on事件监听</h1>
+  <button v-on:click="count++">v-on基本用法，{{count}}</button>
+  <button @click="count--">v-on：可以简写为 @ {{count}}</button>
+
+  <button @click="greet">事件处理方法</button>
+
+  <button @click="say('hi')">内联处理器中的方法Say hi</button>
+  <button @click="say('what')">内联处理器中的方法Say what</button>
+
+  <button @click="warn('Form cannot be submitted yet.', $event)">内联语句处理器中访问原始的DOM事件</button>
+</div>
+
+<script src="js/vue.global.js"></script>
+<script>
+  const RootComponent = {
+    /* 选项 */
+    data() {
+      return {
+        count: 0
+      }
+    },
+    methods: {
+      greet(event) {
+        // `methods` 内部的 `this` 指向当前活动实例
+        alert('Hello ' + this.count + '!')
+        // `event` 是原生 DOM event
+        if (event) {
+          alert(event.target.tagName)
+        }
+      },
+      say(message) {
+        alert(message)
+      },
+      warn(message, event) {
+        // 现在可以访问到原生事件
+        if (event) {
+          event.preventDefault()
+        }
+        alert(message)
+      }
+    }
+  }
+  //创建应用，并指定根组件
+  const app = Vue.createApp(RootComponent).mount('#app');
+</script>
+
+</body>
+</html>
+```
+
+### v-model
+
+可以用`v-model`指令在表单`<input>`、`<textarea>`及`<select>`元素上创建双向数据绑定。 它负责监听用户的输入事件来更新数据，并在某种极端场景下进行一些特殊处理。
+
+`v-model`本质上不过是语法糖,相当于`v-bind`+`v-on`
+
+`v-model`在内部为不同的输入元素使用不同的`property`并抛出不同的事件：
+
+- input 和 textarea 元素使用 `value` property 和 `input` 事件；
+- checkbox 和 radio 使用 `checked` property 和 `change` 事件；
+- select 字段将 value 作为 `prop` 并将 `change` 作为事件。
+
+[示例：](v-model.html)
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>v-model指令</title>
+</head>
+<body>
+<div id="app">
+  <h1>v-model指令</h1>
+
+  <h2>input双向绑定:</h2>
+  <input v-model="message" placeholder="edit me"/>
+  <p>Message is: {{ message }}</p>
+
+  <h2>textarea双向绑定</h2>
+  <textarea v-model="message2" placeholder="add multiple lines"></textarea>
+  <p style="white-space: pre-line;">Multiline message is:{{ message2 }}</p>
+
+  <h2>复选框双向绑定</h2>
+  <div id="v-model-multiple-checkboxes">
+    <input type="checkbox" id="jack" value="Jack" v-model="checkedNames"/>
+    <label for="jack">Jack</label>
+    <input type="checkbox" id="john" value="John" v-model="checkedNames"/>
+    <label for="john">John</label>
+    <input type="checkbox" id="mike" value="Mike" v-model="checkedNames"/>
+    <label for="mike">Mike</label>
+    <br/>
+    <span>Checked names: {{ checkedNames }}</span>
+  </div>
+
+  <h2>单选框双向绑定</h2>
+  <div id="v-model-radiobutton">
+    <input type="radio" id="one" value="One" v-model="picked"/>
+    <label for="one">One</label>
+    <br/>
+    <input type="radio" id="two" value="Two" v-model="picked"/>
+    <label for="two">Two</label>
+    <br/>
+    <span>Picked: {{ picked }}</span>
+  </div>
+
+  <h2>select双向绑定</h2>
+  <div id="v-model-select" class="demo">
+    <select v-model="selected">
+      <option disabled value="">Please select one</option>
+      <option>A</option>
+      <option>B</option>
+      <option>C</option>
+    </select>
+    <p>Selected: {{ selected }}</p>
+  </div>
+</div>
+
+<script src="js/vue.global.js"></script>
+<script>
+  const RootComponent = {
+    /* 选项 */
+    data() {
+      return {
+        message: '',
+        message2: '',
+        checkedNames: [],
+        picked: '',
+        selected: ''
+      }
+    }
+  }
+  //创建应用，并指定根组件
+  const app = Vue.createApp(RootComponent).mount('#app');
+</script>
+</body>
+</html>
+```
 
 ### v-if
 
@@ -382,9 +557,7 @@ class属性和style属性指令增强：
 
 也可以用`v-else`添加一个`else块`。用`v-else-if`添加一个`else-if块`
 
-因为`v-if`是一个指令，所以必须将它添加到`一个元素上`。但是如果想切换多个元素呢？
-此时可以把一个`<template>`元素当做不可见的包裹元素，并在上面使用`v-if`。
-最终渲染结果将不包含`<template>`元素。
+因为`v-if`是一个指令，所以必须将它添加到`一个元素上`。但是如果想切换多个元素呢？ 此时可以把一个`<template>`元素当做不可见的包裹元素，并在上面使用`v-if`。 最终渲染结果将不包含`<template>`元素。
 
 ### v-show
 
@@ -408,7 +581,6 @@ v-for还支持一个可选的第二个参数，即`当前项的索引`。
 也可以用 `of` 替代 `in` 作为分隔符，因为它更接近JavaScript迭代器的语法：
 
 除了数组还可以用`v-for`来遍历一个对象的property,可以提供第二个的参数为`property名称`(也就是键名 key)
-
 
 # 组件选项
 
@@ -470,9 +642,10 @@ Vue没有内置支持防抖和节流，但可以使用[Lodash](https://lodash.co
 模板内的表达式的表达式不应该特别复杂，对于任何包含响应式数据的复杂逻辑，你都应该使用`计算属性`。
 
 `computed`与`methods`相比：
-- 计算属性是基于它们的响应依赖关系缓存的,`计算属性`只在相关响应式依赖发生改变时它们才会重新求值。
-这意味着绑定的`data`不发生改变，多次访问`计算属性`。会立刻返回计算属性的结构，而不必再次计算函数
-- 假设我们有一个性能开销比较大的计算属性 list，它需要遍历一个巨大的数组并做大量的计算。然后我们可能有其他的计算属性依赖于 list。如果没有缓存，我们将不可避免的多次执行 list 的 getter！如果你不希望有缓存，请用 method 来替代。
+
+- 计算属性是基于它们的响应依赖关系缓存的,`计算属性`只在相关响应式依赖发生改变时它们才会重新求值。 这意味着绑定的`data`不发生改变，多次访问`计算属性`。会立刻返回计算属性的结构，而不必再次计算函数
+- 假设我们有一个性能开销比较大的计算属性 list，它需要遍历一个巨大的数组并做大量的计算。然后我们可能有其他的计算属性依赖于 list。如果没有缓存，我们将不可避免的多次执行 list 的 getter！如果你不希望有缓存，请用
+  method 来替代。
 
 计算属性默认只有 `getter`，不过在需要时你也可以提供一个 `setter`：
 
@@ -481,11 +654,14 @@ Vue没有内置支持防抖和节流，但可以使用[Lodash](https://lodash.co
 computed: {
   fullName: {
     // getter
-    get() {
+    get()
+    {
       return this.firstName + ' ' + this.lastName
-    },
+    }
+  ,
     // setter
-    set(newValue) {
+    set(newValue)
+    {
       const names = newValue.split(' ')
       this.firstName = names[0]
       this.lastName = names[names.length - 1]
@@ -504,12 +680,175 @@ computed: {
 侦听器：用来响应数据变化
 
 相比于计算属性，侦听器：
+
 - 允许我们执行异步操作
 - 限制我们执行该操作的频率
 - 在我们得到最终结果前，设置中间状态
 
-# 组件
+# 自定义组件
+
+组件示例：
+
+```javascript
+// 创建一个Vue 应用
+const app = Vue.createApp({})
+
+// 定义一个名为 button-counter 的新全局组件
+app.component('button-counter', {
+  data() {
+    return {
+      count: 0
+    }
+  },
+  template: `
+    <button @click="count++">
+      You clicked me {{ count }} times.
+    </button>`
+})
+```
+
+在这里演示的是一个简单的示例，但是在典型的 Vue 应用中，我们使用`单文件组件`而不是字符串模板。
+
+单文件组件项目会导致本地jekyll编译变慢。下面单文档组件示例在[vue-demo](https://github.com/guosonglu/vue-demo)项目中
+
+创建单文档组件：
+
+```vue
+
+<template>
+  <div>
+    <button @click="count++">
+      You clicked me {{ count }} times.
+    </button>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'HelloWorld',
+  data() {
+    return {
+      count: 0
+    }
+  }
+}
+</script>
+
+<style scoped>
+
+</style>
+```
+
+引入组件，并使用：
+
+- import引入组件
+- components属性局部注册组件
+- 使用components中注册的组件
+
+```vue
+
+<template>
+  <hello-world/>
+</template>
+
+<script>
+import HelloWorld from '@/views/components/helloworld/HelloWorld.vue'
+
+export default {
+  name: "index",
+  components: {
+    HelloWorld
+  }
+}
+</script>
+
+<style scoped>
+
+</style>
+```
+
+## 组件注册
+
+### 全局注册
+
+全局注册的组件可以在应用中的任何组件的模板中使用。
+
+```javascript
+const app = Vue.createApp({})
+app.component(全局组件)
+```
+
+### 局部注册
+
+使用`components`注册
+
+```javascript
+const ComponentA = {
+  /* ... */
+}
+
+const ComponentB = {
+  components: {
+    'component-a': ComponentA
+  }
+  // ...
+}
+```
+
+或者：
+
+```javascript
+import ComponentA from './ComponentA.vue'
+
+export default {
+  components: {
+    ComponentA
+  }
+  // ...
+}
+```
+
+## 向自定义组件传递数据
+
+子组件通过`props`接受父组件传来的数据。
+
+props可以是字符串数组形式：
+
+```javascript
+export default {
+  props: ['title', 'likes', 'isPublished', 'commentIds', 'author']
+}
+```
+
+也可以是对象的形式：
+
+```javascript
+export default {
+  props: {
+    title: String,
+    likes: Number,
+    isPublished: Boolean,
+    commentIds: Array,
+    author: Object,
+    callback: Function,
+    contactsPromise: Promise // 或任何其他构造函数
+  }
+}
+```
 
 
+
+## 父组件监听子组件事件
+
+步骤：
+
+- 调用内建的`$emit`方法并传入事件名称来触发一个事件
+- 父组件通过`v-on`或`@`捕获事件
+
+## 通过插槽分发内容
+
+子组件通过`slot`接受父组件传来的内容
+
+## 动态组件
 
 

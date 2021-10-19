@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>v-on事件监听</title>
+  <style>
+    button {
+      display: block;
+      margin: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="app">
+  <h1>v-on事件监听</h1>
+  <button v-on:click="count++">v-on基本用法，{{count}}</button>
+  <button @click="count--">v-on：可以简写为 @ {{count}}</button>
+
+  <button @click="greet">事件处理方法</button>
+
+  <button @click="say('hi')">内联处理器中的方法Say hi</button>
+  <button @click="say('what')">内联处理器中的方法Say what</button>
+
+  <button @click="warn('Form cannot be submitted yet.', $event)">内联语句处理器中访问原始的DOM事件</button>
+</div>
+
+<script src="js/vue.global.js"></script>
+<script>
+  const RootComponent = {
+    /* 选项 */
+    data() {
+      return {
+        count: 0
+      }
+    },
+    methods: {
+      greet(event) {
+        // `methods` 内部的 `this` 指向当前活动实例
+        alert('Hello ' + this.count + '!')
+        // `event` 是原生 DOM event
+        if (event) {
+          alert(event.target.tagName)
+        }
+      },
+      say(message) {
+        alert(message)
+      },
+      warn(message, event) {
+        // 现在可以访问到原生事件
+        if (event) {
+          event.preventDefault()
+        }
+        alert(message)
+      }
+    }
+  }
+  //创建应用，并指定根组件
+  const app = Vue.createApp(RootComponent).mount('#app');
+</script>
+
+</body>
+</html>

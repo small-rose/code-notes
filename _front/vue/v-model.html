@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>v-model指令</title>
+</head>
+<body>
+<div id="app">
+    <h1>v-model指令</h1>
+
+    <h2>input双向绑定:</h2>
+    <input v-model="message" placeholder="edit me"/>
+    <p>Message is: {{ message }}</p>
+
+    <h2>textarea双向绑定</h2>
+    <textarea v-model="message2" placeholder="add multiple lines"></textarea>
+    <p style="white-space: pre-line;">Multiline message is:{{ message2 }}</p>
+
+    <h2>复选框双向绑定</h2>
+    <div id="v-model-multiple-checkboxes">
+        <input type="checkbox" id="jack" value="Jack" v-model="checkedNames" />
+        <label for="jack">Jack</label>
+        <input type="checkbox" id="john" value="John" v-model="checkedNames" />
+        <label for="john">John</label>
+        <input type="checkbox" id="mike" value="Mike" v-model="checkedNames" />
+        <label for="mike">Mike</label>
+        <br />
+        <span>Checked names: {{ checkedNames }}</span>
+    </div>
+
+    <h2>单选框双向绑定</h2>
+    <div id="v-model-radiobutton">
+        <input type="radio" id="one" value="One" v-model="picked" />
+        <label for="one">One</label>
+        <br />
+        <input type="radio" id="two" value="Two" v-model="picked" />
+        <label for="two">Two</label>
+        <br />
+        <span>Picked: {{ picked }}</span>
+    </div>
+
+    <h2>select双向绑定</h2>
+    <div id="v-model-select" class="demo">
+        <select v-model="selected">
+            <option disabled value="">Please select one</option>
+            <option>A</option>
+            <option>B</option>
+            <option>C</option>
+        </select>
+        <p>Selected: {{ selected }}</p>
+    </div>
+</div>
+
+<script src="js/vue.global.js"></script>
+<script>
+    const RootComponent = {
+        /* 选项 */
+        data() {
+            return {
+                message: '',
+                message2: '',
+                checkedNames: [],
+                picked: '',
+                selected: ''
+            }
+        }
+    }
+    //创建应用，并指定根组件
+    const app = Vue.createApp(RootComponent).mount('#app');
+</script>
+</body>
+</html>

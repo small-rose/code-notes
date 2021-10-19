@@ -812,6 +812,42 @@ export default {
 
 子组件通过`props`接受父组件传来的数据。
 
+`单向下行绑定`:父级`prop`的更新会向下流动到子组件中，但是反过来则不行。这样会防止从子组件意外变更父级组件的状态，从而导致你的应用的数据流向难以理解。
+
+每次父级组件发生变更时，子组件中所有的prop 都将会刷新为最新的值。这意味着你`不应该在一个子组件内部改变prop`。如果你这样做了，Vue会在浏览器的控制台中发出警告。
+
+注意在 JavaScript中`对象`和`数组`是通过引用传入的，所以对于一个数组或对象类型的prop来说，在子组件中改变变更这个对象或数组本身将会影响到父组件的状态。
+
+prop在自定义组件中有下面两个措施防止被改变：
+
+- 这个 prop 用来传递一个初始值；`这个子组件接下来希望将其作为一个本地的prop数据来使用`。在这种情况下，最好`定义一个本地的 data property并将这个prop作为其初始值`：
+
+```javascript
+export default {
+  props: ['initialCounter'],
+  data() {
+    return {
+      counter: this.initialCounter
+    }
+  }
+}
+```
+
+- 这个prop以一种原始的值传入且`需要进行转换`。在这种情况下，最好使用这个 prop 的值来定义一个`计算属性`：
+
+```javascript
+export default {
+  props: ['size'],
+  computed: {
+    normalizedSize() {
+      return this.size.trim().toLowerCase()
+    }
+  }
+}
+```
+
+### prop形式
+
 props可以是字符串数组形式：
 
 ```javascript
@@ -836,7 +872,181 @@ export default {
 }
 ```
 
+prop验证：
 
+```javascript
+export default {
+  props: {
+    // 基础的类型检查 (`null` 和 `undefined` 会通过任何类型验证)
+    propA: Number,
+    // 多个可能的类型
+    propB: [String, Number],
+    // 必填的字符串
+    propC: {
+      type: String,
+      required: true
+    },
+    // 带有默认值的数字
+    propD: {
+      type: Number,
+      default: 100
+    },
+    // 带有默认值的对象
+    propE: {
+      type: Object,
+      // 对象或数组默认值必须从一个工厂函数获取
+      default() {
+        return {message: 'hello'}
+      }
+    },
+    // 自定义验证函数
+    propF: {
+      validator(value) {
+        // 这个值必须匹配下列字符串中的一个
+        return ['success', 'warning', 'danger'].includes(value)
+      }
+    },
+    // 具有默认值的函数
+    propG: {
+      type: Function,
+      // 与对象或数组默认值不同，这不是一个工厂函数 —— 这是一个用作默认值的函数
+      default() {
+        return 'Default function'
+      }
+    }
+  }
+}
+```
+
+### 各种类型的参数传递
+
+- 自定义子组件
+
+```vue
+
+<template>
+  <div>传入静态字符串：{{ title1 }}</div>
+  <div>传入变量字符串：{{ title2 }}</div>
+
+  <div>传入静态数字，父组件仍然需要`v-bind`或`:`来告诉Vue这是一个 JavaScript 表达式而不是一个字符串:{{ likes1 }}</div>
+  <div>传入变量数字：{{ likes2 }}</div>
+
+  <div>布尔值不传值默认为：{{ isPublished1 }}</div>
+  <div>传入静态布尔值，父组件仍然需要`v-bind`或`:`来告诉Vue这是一个 JavaScript 表达式而不是一个字符串:{{ isPublished2 }}</div>
+  <div>传入变量布尔值：{{ isPublished3 }}</div>
+
+  <div>传入静态数组，父组件仍然需要`v-bind`或`:`来告诉Vue这是一个 JavaScript 表达式而不是一个字符串:{{ commentIds1 }}</div>
+  <div>传入变量数组：{{ commentIds2 }}</div>
+
+  <div>传入静态对象，父组件仍然需要`v-bind`或`:`来告诉Vue这是一个 JavaScript 表达式而不是一个字符串:{{ author1 }}</div>
+  <div>传入变量对象：{{ author2 }}</div>
+  <div>传入对象的所有property:{{name}} {{company}}</div>
+</template>
+
+<script>
+export default {
+  name: "child",
+  props: {
+    title1: String,
+    title2: String,
+    likes1: Number,
+    likes2: Number,
+    isPublished1: Boolean,
+    isPublished2: Boolean,
+    isPublished3: Boolean,
+    commentIds1: Array,
+    commentIds2: Array,
+    author1: Object,
+    author2: Object,
+    name: String,
+    company: String
+  }
+}
+</script>
+
+<style scoped>
+
+</style>
+```
+
+- 父组件调用
+
+```vue
+
+<template>
+  <child
+          title1="静态字符串"
+          :title2="title"
+
+          :likes1="10"
+          :likes2="like"
+
+          is-published1
+          :is-published2="true"
+          :is-published3="isPublished"
+
+          :comment-ids1="[234, 266, 273]"
+          :comment-ids2="commentIds"
+
+          :author1="{name: 'Veronica',company: 'Veridian Dynamics'}"
+          :author2="author"
+          :="author"
+
+
+  />
+</template>
+
+<script>
+import Child from "./child"
+
+export default {
+  name: "parent",
+  components: {
+    Child
+  },
+  data() {
+    return {
+      title: "变量字符串",
+      like: 20,
+      isPublished: false,
+      commentIds: [10, 20, 30],
+      author: {
+        name: "张三",
+        company: "alibaba"
+      }
+    }
+  }
+}
+</script>
+
+<style scoped>
+
+</style>
+```
+
+### prop命名规范
+
+props是`驼峰命名法`，父组件调用时使用`短横线分隔命名`（因为html是大小写不敏感的，会把大写转成小写）
+
+### 非Prop的Attribute
+
+非`props`的`Attribute`,将自动添加到子组件根节点的attribute中。
+
+如果子组件具有多个根节点，显式绑定`$attrs`,如下：
+
+```html
+<custom-layout id="custom-layout" @click="changeValue"></custom-layout>
+```
+
+```javascript
+app.component('custom-layout', {
+  template: `
+    <header>...</header>
+    <main v-bind="$attrs">...</main>
+    <footer>...</footer>
+  `
+})
+```
 
 ## 父组件监听子组件事件
 

@@ -6,6 +6,32 @@ parent: 项目实战
 grand_parent: Spring相关
 ---
 
-# Spring Cloud Alibaba微服务实战
+# 技术栈
+
+## 后端技术
+
+spring boot
+
+spring cloud
+
+MybatisPlus
+
+spring security
+
+redis
+
+easyExcel
+
+jwt
+
+Oauth2
 
 ## 父工程搭建
+
+Vue
+
+element ui
+
+axios
+
+nodejs

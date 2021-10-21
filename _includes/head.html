@@ -65,9 +65,12 @@
     function initMermaid() {
       var config = {
         startOnLoad: true,
-        theme: "forest",
+        theme: "neutral",
+        fontFamily: 'Source Code Pro,ZCOOL KuaiLe,KaiTi',
         flowchart:{
           useMaxWidth: true,
+          rankSpacing: 30,
+          nodeSpacing:10
         }
       };
       mermaid.initialize(config);

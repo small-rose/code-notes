@@ -236,3 +236,14 @@ figure.highlight {
     border-top-right-radius: 0;
   }
 }
+
+//mermaid文字样式
+.nodeLabel {
+  color: #232425;
+  font-weight: 550;
+}
+
+.language-mermaid {
+  background: none;
+  border: none;
+}

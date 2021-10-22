@@ -7,6 +7,10 @@ speech: true
 ---
 # 自然拼读
 
+## 概述
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202110221725106.png)
+
 ## A a
 
 

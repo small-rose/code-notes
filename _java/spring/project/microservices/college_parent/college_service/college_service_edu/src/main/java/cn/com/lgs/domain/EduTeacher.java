@@ -2,6 +2,7 @@ package cn.com.lgs.domain;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
@@ -53,6 +54,7 @@ public class EduTeacher implements Serializable {
     private Integer sort;
 
     /**
+     * @TableLogic:逻辑删除注解
      * 逻辑删除 1（true）已删除， 0（false）未删除
      */
     private Boolean isDeleted;

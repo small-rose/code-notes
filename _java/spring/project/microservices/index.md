@@ -286,6 +286,10 @@ pom类型
 - 创建`college_service_edu`讲师管理模块，继承自[服务公共模块创建](#服务公共模块创建)
 
 - 配置`application.yml`
+  - mybatis plus逻辑删除
+  - sql语句控制台打印
+  - mysql数据库连接配置
+  - 环境变量: dev test prod
 
 - 创建主启动类
 
@@ -295,4 +299,15 @@ pom类型
 
 - 编写Controller
 
+# 公共模块
+
+## service公共模块
+
+- swagger配置
+
+- MyBatis Plus自动填充
+
+## 公共工具类
+
+- 统一返回数据格式
 

@@ -273,6 +273,20 @@ pom类型
 
 - 配置pom文件进行依赖管理
 
+# 公共模块
+
+## service公共模块
+
+- swagger配置
+
+- MyBatis Plus自动填充
+
+- 统一异常处理
+
+## 公共工具类
+
+- 统一返回数据格式
+
 # 服务公共模块创建
 
 统一引入服务模块所需依赖
@@ -287,9 +301,11 @@ pom类型
 
 - 配置`application.yml`
   - mybatis plus逻辑删除
-  - sql语句控制台打印
+  - sql语句控制台打印（与logback不能同时存在）
   - mysql数据库连接配置
   - 环境变量: dev test prod
+
+- 配置logback-spring.xml
 
 - 创建主启动类
 
@@ -299,15 +315,5 @@ pom类型
 
 - 编写Controller
 
-# 公共模块
 
-## service公共模块
-
-- swagger配置
-
-- MyBatis Plus自动填充
-
-## 公共工具类
-
-- 统一返回数据格式
 

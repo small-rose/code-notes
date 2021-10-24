@@ -15,9 +15,9 @@ spring:
     username: "root"
     password: "12345678"
 mybatis-plus:
-  configuration:
-    # sql语句控制台打印
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  # configuration:
+  # sql语句控制台打印
+  # log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   global-config:
     db-config:
       logic-delete-field: isDeleted # 全局逻辑删除的实体字段名 since 3.3.0

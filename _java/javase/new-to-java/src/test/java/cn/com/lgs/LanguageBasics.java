@@ -104,17 +104,49 @@ class LanguageBasics {
      * 引用参数传递
      */
     @Test
-    void passingReferenceDataDemo(){
+    void passingReferenceDataDemo() {
         Person person = new Person("aaa");
         change(person);
         System.out.println(person);//输出 ccc 11
     }
 
-    public void change(Person personChange){
+    public void change(Person personChange) {
         personChange.setName("ccc");
         personChange = new Person("bbb");
     }
 
+
+    /**
+     * 创建静态嵌套类对象
+     */
+    @Test
+    void testStaticNestedClass() {
+        System.out.println("\nStatic nested class:");
+        System.out.println("--------------------");
+        OuterClass.StaticNestedClass staticNestedObject = new OuterClass.StaticNestedClass();
+        staticNestedObject.accessMembers(new OuterClass());
+    }
+
+    /**
+     * 创建内部类对象
+     */
+    @Test
+    void testInnerClass() {
+        System.out.println("Inner class:");
+        System.out.println("------------");
+        OuterClass outerObject = new OuterClass();
+        OuterClass.InnerClass innerObject = outerObject.new InnerClass();
+        innerObject.accessMembers();
+    }
+
+
+    /**
+     * 局部类
+     */
+    @Test
+    void testLocalClass() {
+        new OuterClass().fun(10);
+    }
 
 
 }

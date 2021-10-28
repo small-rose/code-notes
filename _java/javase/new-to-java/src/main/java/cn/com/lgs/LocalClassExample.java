@@ -16,6 +16,7 @@ public class LocalClassExample {
         // Valid in JDK 8 and later:
 
         // int numberLength = 10;
+
         class PhoneNumber {
 
             String formattedPhoneNumber = null;
@@ -24,10 +25,11 @@ public class LocalClassExample {
                 // numberLength = 7;
                 String currentNumber = phoneNumber.replaceAll(
                         regularExpression, "");
-                if (currentNumber.length() == numberLength)
+                if (currentNumber.length() == numberLength) {
                     formattedPhoneNumber = currentNumber;
-                else
+                } else {
                     formattedPhoneNumber = null;
+                }
             }
 
             public String getNumber() {
@@ -48,14 +50,16 @@ public class LocalClassExample {
 
         //myNumber1.printOriginalNumbers();
 
-        if (myNumber1.getNumber() == null)
+        if (myNumber1.getNumber() == null) {
             System.out.println("First number is invalid");
-        else
+        } else {
             System.out.println("First number is " + myNumber1.getNumber());
-        if (myNumber2.getNumber() == null)
+        }
+        if (myNumber2.getNumber() == null) {
             System.out.println("Second number is invalid");
-        else
+        } else {
             System.out.println("Second number is " + myNumber2.getNumber());
+        }
 
     }
 

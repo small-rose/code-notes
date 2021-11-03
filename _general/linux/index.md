@@ -4,15 +4,27 @@ title: linux
 nav_order: 5
 mermaid: true
 ---
+
 # 参考书推荐
 
 [操作系统设计与实现](https://book.douban.com/subject/2044818/) 当年Linus就是参考这本书附录中12000行Minix源代码写出了Linux内核
 
 # 概述
 
+本文基本使用kali linux作为演示环境
+
 ## 发展史
 
+类Unix系统版本很多，初学者很多搞不清各个版本血统。画张图整理一下主要分支
+
+点击图片查看大图
+
 ![](https://edrawcloudpubliccn.oss-cn-shenzhen.aliyuncs.com/viewer/self/1059758/share/2021-11-2/1635844893/main.svg)
+
+Linux发行版时间线：
+<hb></hb>
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202111030900997.svg)
+<he></he>
 
 ## Unix特征
 
@@ -68,6 +80,49 @@ mermaid: true
 | /lost+found | 当发生错误时， 将一些遗失的片段放置到这个目录下。                                        |
 
 # 基本命令
+
+- Tab键盘，双击Tab键：命令补全，不全文件路径
+
+## 切换用户
+
+```shell
+# su - 用户名称
+su - root
+# 或
+su - luguosong
+```
+
+## 显示管理器设置
+
+X window ->显示管理器 -> 桌面环境
+
+显示管理器是桌面环境的上层
+
+- 选择显示管理器
+
+```shell
+# dpkg-reconfigure 显示管理器名称
+dpkg-reconfigure gdm3
+# 或者
+dpkg-reconfigure lightdm
+
+# 重启生效
+```
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202111031846515.png)
+
+## 桌面环境安装
+
+```shell
+# 查看哪些桌面环境包，以kali为例
+apt search kali-desktop
+
+# 安装想要的包
+
+# 配置默认桌面环境
+update-alternatives --config x-session-manager
+```
+
 
 # 文件管理
 

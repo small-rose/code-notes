@@ -132,6 +132,39 @@ ls -sh
 pwd
 ```
 
+## 切换目录
+
+```shell
+# cd [目录]
+
+cd ~
+```
+
+## 清屏
+
+```shell
+# 清屏
+clear
+```
+
+## 重启
+
+```shell
+# 重启
+reboot
+````
+
+## 关机
+
+```shell
+# 立刻关机
+shutdown -h 0
+shutdown -h now
+halt -p
+
+# 
+```
+
 ## 显示管理器设置
 
 X window ->显示管理器 -> 桌面环境

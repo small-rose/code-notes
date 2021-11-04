@@ -14,20 +14,15 @@
   background-color: $sidebar-color;
   overflow: auto;
 
-  @include mq(md) {
+  @include mq(lg) {
     flex-wrap: nowrap;
     position: fixed;
-    width: $nav-width-md;
+    width: 20%;
     height: 100%;
     flex-direction: column;
     border-right: $border $border-color;
     align-items: flex-end;
     min-width: $nav-width;
-  }
-
-  @include mq(lg) {
-    width: 20%;
-    //max-width: 400px;
   }
 }
 
@@ -49,14 +44,7 @@
     flex-wrap: nowrap;
     position: fixed;
     flex-direction: column;
-    //border-left: $border $border-color;
     align-items: flex-start;
-
-  }
-
-  @include mq(lg) {
-    //min-width: $nav-width;
-    //max-width: 400px;
   }
 }
 
@@ -68,9 +56,8 @@
   overflow: auto;
   @include mq(md) {
     position: relative;
-    //max-width: $content-width;
-    margin-left: $nav-width;
-    width: calc(80% - 300px);
+    margin-left: 10px;
+    width: 80%;
   }
 
   @include mq(lg) {
@@ -120,7 +107,7 @@
   &.nav-open {
     display: block;
 
-    @include mq(md) {
+    @include mq(lg) {
       display: flex;
     }
   }
@@ -143,7 +130,7 @@
     display: block;
   }
 
-  @include mq(md) {
+  @include mq(lg) {
     display: block;
     padding-top: $sp-4;
     padding-bottom: $gutter-spacing-sm;
@@ -162,6 +149,11 @@
     height: $header-height;
     max-height: $header-height;
     border-bottom: $border $border-color;
+    width: 80%;
+  }
+
+  @include mq(lg) {
+    width: 100%;
   }
 }
 
@@ -200,7 +192,7 @@
   align-items: center;
 }
 
-@include mq(md) {
+@include mq(lg) {
   .site-header .site-button {
     display: none;
   }

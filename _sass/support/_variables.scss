@@ -130,7 +130,7 @@ $border-color: $grey-lt-100 !default;
 
 $gutter-spacing: $sp-6 !default;
 $gutter-spacing-sm: $sp-4 !default;
-$nav-width: 300px !default;
+$nav-width: 240px !default;
 $nav-width-md: 248px !default;
 $nav-list-item-height: $sp-6 !default;
 $nav-list-item-height-sm: $sp-8 !default;
@@ -147,7 +147,7 @@ $transition-duration: 400ms;
 $media-queries: (
   xs: 320px,
   sm: 500px,
-  md: $content-width,
-  lg: 1500px,
+  md: 992px,
+  lg: 1200px,
   xl: 2000px,
 ) !default;

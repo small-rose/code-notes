@@ -82,14 +82,54 @@ Linux发行版时间线：
 # 基本命令
 
 - Tab键盘，双击Tab键：命令补全，不全文件路径
+- --help选项可以查看命令帮助文档
 
 ## 切换用户
+
+`-` 代表切换用户时切换根目录
 
 ```shell
 # su - 用户名称
 su - root
 # 或
 su - luguosong
+```
+
+## 查看系统信息
+
+```shell
+# uname [选项]
+
+# 查看全部系统信息
+uname -a
+uname --all
+```
+
+## 列出给定文件信息
+
+```shell
+# ls [选项]... [文件]...
+
+# 查看所有文件包括隐藏文件
+ls -a
+ls -all
+
+# 查看文件详细信息
+ls -l
+ll
+
+# 易于阅读的格式输出文件大小
+ls -lh
+ls -sh
+```
+
+## 打印当前位置
+
+```shell
+# pwd
+# 全称是：print working directory
+
+pwd
 ```
 
 ## 显示管理器设置

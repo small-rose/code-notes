@@ -162,10 +162,47 @@ shutdown -h 0
 shutdown -h now
 halt -p
 
-# 
+# 延迟关机
+shutdown -h 分钟数
+
+# 取消延迟关机
+shutdown -c
 ```
 
-## 显示管理器设置
+## 查看命令类型
+
+```shell
+# 命令类型
+type 命令
+```
+
+## 查看历史输入命令
+
+```shell
+# 历史输入命令
+history
+```
+
+## 更改主机名称
+
+```shell
+# 方法一：更改 /etc/hostname
+
+# hostnamectl set-hostname 主机名称
+hostnamectl set-hostname kali
+```
+
+# 文件操作命令
+
+# 用户管理
+
+# 管道命令
+
+# 基本设置
+
+## 显示设置
+
+### 显示管理器设置
 
 X window ->显示管理器 -> 桌面环境
 
@@ -184,7 +221,7 @@ dpkg-reconfigure lightdm
 
 ![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202111031846515.png)
 
-## 桌面环境安装
+### 桌面环境安装
 
 ```shell
 # 查看哪些桌面环境包，以kali为例
@@ -195,10 +232,3 @@ apt search kali-desktop
 # 配置默认桌面环境
 update-alternatives --config x-session-manager
 ```
-
-
-# 文件管理
-
-# 用户管理
-
-# 管道命令

@@ -194,6 +194,123 @@ hostnamectl set-hostname kali
 
 # 文件操作命令
 
+Linux中文件区分大小写
+
+## 目录创建
+
+```shell
+# mkdir [选项]... 目录...
+mkdir mydir
+
+# -p选项 递归创建目录
+mkdir -p mydir/sub
+```
+
+## 目录删除
+
+```shell
+# 删除空目录
+# rmdir [选项]... 目录...
+rmdir dir
+
+# -p 选项 递归删除空目录
+rmdir -p dir/sub_dir
+
+# 递归删除文件夹中的文件和文件夹
+rm -r dir
+```
+
+## 文件创建
+
+```shell
+# touch [选项]... 文件...
+touche hello
+
+# 根据序号创建多个文件
+touch hello{1..5}
+```
+
+## 文件删除
+
+```shell
+# rm [选项]... [文件]...
+rm hello
+```
+
+## 复制并粘贴
+
+```shell
+# cp [选项]... 源文件... 目录
+cp hello.txt dir
+
+# 复制并重命名
+cp hello.txt hello2.txt
+
+# -r选项 复制文件夹及内部内容
+# 酱dir目录下的所有文件复制到/tmp目录下
+cp -r dir /tmp
+```
+
+## 剪切并粘贴
+
+```shell
+# mv [选项]... 源文件... 目录
+mv dir /tmp
+```
+
+## 重命名
+
+```shell
+# 重命名文件或文件夹
+
+# 重命名同样是mv命令
+mv readme readme.txt
+```
+
+## 打包并压缩
+
+Linux中一批文件无法直接压缩，需要先打包成一个文件
+
+```shell
+# tar [选项...] [FILE]...
+
+# 打包文件
+# 将a.txt,b.txt,c.txt打包成abc.tar
+# -c,--create 表示打包
+# -v,--verbose 表示详细打印出处理文件
+# -f,--file 打包文件
+tar -cvf abc.tar a.txt b.txt c.txt
+
+# 打包，并使用gzip将打包后的文件压缩成.gz格式
+tar -zcf abc.tar.gz a.txt b.txt c.txt
+
+# 查看打包后的文件
+# -t,--list 表示查看打包文件内容
+# -f,-- file 表示打包后的文件名
+tar -tf abc.tar
+
+# 向打包后的文件插入新文件
+# -u,-update 表示更新
+# -f,--file 归档文件
+tar -uf abc.tar d.txt
+```
+
+## 解压并释放文件
+
+```shell
+# tar [选项...] [FILE]...
+
+# 将打包好的文件释放出来
+# -x,--extract,--get
+# -f,--file 表示打包后的文件
+tar -xf abc.tar
+
+# 将.gz压缩文件解压缩
+tar -zxf dab.tar.gz
+```
+
+
+
 # 用户管理
 
 # 管道命令

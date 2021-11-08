@@ -281,8 +281,20 @@ Linux中一批文件无法直接压缩，需要先打包成一个文件
 # -f,--file 打包文件
 tar -cvf abc.tar a.txt b.txt c.txt
 
-# 打包，并使用gzip将打包后的文件压缩成.gz格式
+# 打包，并使用gzip压缩工具将打包后的文件压缩成.gz格式
 tar -zcf abc.tar.gz a.txt b.txt c.txt
+
+# 打包，并使用bzip2压缩工具将打包后的文件压缩成.bz2格式
+tar -jcf abc.tar.bz2 a.txt b.txt c.txt
+
+# 打包，并使用xz压缩工具将打包后的文件压缩成.xz格式
+tar -Jcf abc.tar.xz a.txt b.txt c.txt
+
+# zip压缩文件
+zip a.zip a.txt
+
+# zip递归压缩文件夹
+zip -r abc.zip ./folder
 
 # 查看打包后的文件
 # -t,--list 表示查看打包文件内容
@@ -305,11 +317,71 @@ tar -uf abc.tar d.txt
 # -f,--file 表示打包后的文件
 tar -xf abc.tar
 
-# 将.gz压缩文件解压缩
+# 解压.tar.gz格式
 tar -zxf dab.tar.gz
+tar -zxf dab.tar.gz -C /tmp
+
+# 解压.tar.bz2格式
+tar -jxf abc.tar.bz2
+tar -jxf abc.tar.bz2 -C /tmp
+
+# 解压.tar.xz格式
+tar -Jxf abc.tar.xz
+tar -Jxf abc.tar.xz -C /tmp
+
+# 解压.zip文件格式
+unzip abc.zip
+unzip abc.zip -d /tmp
 ```
 
+# Vim
 
+Vim(Vi improved)是Linux中的文件编辑器。
+
+前身：vi（visual editor）
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20211108233825.png)
+
+## 一般模式
+
+vim打开文件后的默认模式
+
+## 编辑模式
+
+`i:`
+
+`I:`
+
+`a:`
+
+`A:`
+
+
+
+## 命令行模式
+
+输入`:`进入命令行模式，命令行模式一般是对`文件`进行操作，而不是`文件内容`。
+
+### 文件保存与退出
+
+命令行模式下
+
+```vim
+# 保存
+:w
+
+# 强制退出不保存
+:q!
+
+# 保存并退出
+:wq
+
+# 强制保存并退出
+:wq!
+```
+
+## 可视化模式
+ 
 
 # 用户管理
 

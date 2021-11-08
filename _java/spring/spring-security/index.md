@@ -15,6 +15,27 @@ Spring Security的版本并不需要亲自指定，[父工程](#父工程)继承
 
 [中文文档](http://docs.jcohy.com/docs/spring-security/5.3.0.RELEASE/html5/zh-cn)
 
+# 过滤器
+
+在Spring Security中，认证、授权等功能都是基于过滤器来完成的。
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202111081800610.png)
+
+过滤器并不是直接放在Web项目的原生过滤器链中，而是通过一个`FilterChainProxy`来统一管理。
+Spring Security中的过滤器链通过`FilterChainProxy`嵌入到Web项目的原生过滤器链中。
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202111081801770.png)
+
+在Spring Security中，这样的过滤器链可能有多个。当存在多个过滤器链时，多个过滤器链之间要指定优先级，
+当请求到达后，会从`FilterChainProxy`进行分发，先和哪个过滤器链匹配上，就用哪个过滤器链进行处理。
+当系统中存在多个不同的认证体系时，那么使用多个过滤器链就非常有效。
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202111081805124.png)
+
+`FilterChainProxy`通过Spring框架提供的`DelegatingFilterProxy`整合到原生过滤器链中。
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202111081806459.png)
+
 # 代码演示
 
 ## 父工程
@@ -191,8 +212,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 ### 方法三
 
 - 自定义编写实现类
-
-
 
 ## 用户自定义配置
 

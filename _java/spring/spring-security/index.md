@@ -19,6 +19,8 @@ Spring Security的版本并不需要亲自指定，[父工程](#父工程)继承
 
 视频教程：[尚硅谷SpringSecurity框架教程](https://www.bilibili.com/video/BV15a411A7kP?from=search&seid=17934619456497753665&spm_id_from=333.337.0.0)
 
+阅读本篇文章，建议结合源代码仔细分析。只看文章很容易乱掉。
+
 # 过滤器
 
 在Spring Security中，认证、授权等功能都是基于过滤器来完成的。
@@ -354,7 +356,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .formLogin() //开启表单登录配置
             .loginPage("/login.html") //用来配置登录页面地址
             .loginProcessingUrl("/doLogin") //用来配置登录接口地址
-            .defaultSuccessUrl("/index ") //登录成功后的跳转地址
+            .defaultSuccessUrl("/index") //登录成功后的跳转地址
             .failureUrl("/login.html") //登录失败后的跳转地址
             .usernameParameter("uname") //表示登录用户名的参数名称
             .passwordParameter("passwd") //表示登录密码的参数名称
@@ -365,6 +367,43 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 }
 ```
 
-示例工程
+示例工程：[spring-security-form-login](https://github.com/guosonglu/code-notes/tree/master/_java/spring/spring-security/spring-security-form-login)
+这里不展开说了，主要就是配置类
+
+## 表单登录成功处理
+
+配置类中除了`defaultSuccessUrl`方法可以实现登录成功后的跳转。`successForwardUrl`也可以实现登录后的跳转。
+
+区别：
+- defaultSuccessUrl
+  - 用户在未认证的情况下，访问了`/hello`页面，登录后访问`/hello`页面。
+  - 如果用户一开始访问的是登录页面，则登录后重定向到`successForwardUrl`所指的界面
+  - defaultSuccessUrl有一个重载方法，第二个参数传true。像这样`defaultSuccessUrl("/index",true)`。
+  会使效果与`successForwardUrl`相同。即不考虑用户之前的访问地址，只要登录成功，
+  就重定向到`defaultSuccessUrl`所指定的页面。
+  - 通过重定向实现的跳转（客户端跳转）
+- successForwardUrl
+  - 不管登录前访问的什么界面。只要用户登录成功，就会通过服务器端跳转到`successForwardUrl`所指定的页面。
+  - 通过服务器端跳转
+
+无论是`defaultSuccessUrl`还是`successForwardUrl`，最终配置的都是`AuthenticationSuccessHandler`。
+
+`AuthenticationSuccessHandler`接口专门用来处理登录成功的事项
+
+AuthenticationSuccessHandler接口共有三个实现类,如下图：
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202111091802189.png)
+
+- `SimpleUrlAuthenticationSuccessHandler`类继承自`AbstractAuthenticationTargetUrlRequestHandler`,
+通过其中的handle方法实现重定向
+- `SavedRequestAwareAuthenticationSuccessHandler`在`SimpleUrlAuthenticationSuccessHandler`的基础上
+增加了请求缓存的功能
+- `ForwardAuthenticationSuccessHandler`的实现则比较容易，就是一个服务端跳转。
+
+### SavedRequestAwareAuthenticationSuccessHandler
+
+### ForwardAuthenticationSuccessHandler
+
+## 表单登录失败处理
 
 # 授权

@@ -29,7 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //用来配置登录接口地址
                 .loginProcessingUrl("/doLogin")
                 //登录成功后的跳转地址
-                .defaultSuccessUrl("/index ")
+                .defaultSuccessUrl("/index")
                 //登录失败后的跳转地址
                 .failureUrl("/login.html")
                 //表示登录用户名的参数名称

@@ -20,6 +20,7 @@
         <module name="college_common_utils" />
         <module name="spring-security-hello" />
         <module name="college_service_edu" />
+        <module name="spring-security-form-login" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -65,6 +66,7 @@
       <module name="spring-security-custom-username-password1" options="-parameters" />
       <module name="spring-security-custom-username-password2" options="-parameters" />
       <module name="spring-security-custom-username-password3" options="-parameters" />
+      <module name="spring-security-form-login" options="-parameters" />
       <module name="spring-security-hello" options="-parameters" />
     </option>
   </component>

@@ -11,7 +11,7 @@ mermaid: true
 
 # 概述
 
-本文基本使用kali linux作为演示环境
+本文基本使用kali linux作为系统环境
 
 ## 发展史
 

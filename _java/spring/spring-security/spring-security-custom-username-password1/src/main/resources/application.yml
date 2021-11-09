@@ -1,5 +1,0 @@
-spring:
-  security:
-    user:
-      name: luguosong
-      password: 12345678

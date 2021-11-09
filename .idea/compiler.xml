@@ -9,9 +9,6 @@
         <outputRelativeToContentRoot value="true" />
         <module name="jvm" />
         <module name="junit5" />
-        <module name="spring-security-custom-username-password1" />
-        <module name="spring-security-custom-username-password2" />
-        <module name="spring-security-config" />
         <module name="mybatis-hello" />
         <module name="spring-framework" />
         <module name="jdbc" />
@@ -20,10 +17,9 @@
         <module name="college_service_base" />
         <module name="mybatis-configuration" />
         <module name="design-pattern" />
-        <module name="spring-security-hello" />
         <module name="college_common_utils" />
+        <module name="spring-security-hello" />
         <module name="college_service_edu" />
-        <module name="spring-security-custom-username-password3" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -46,6 +42,13 @@
       <module name="packages" target="8" />
       <module name="regular-expressions" target="8" />
       <module name="server" target="8" />
+      <module name="spring" target="1.8" />
+      <module name="spring-security" target="1.8" />
+      <module name="spring-security-config" target="1.8" />
+      <module name="spring-security-custom-username-password1" target="1.8" />
+      <module name="spring-security-custom-username-password2" target="1.8" />
+      <module name="spring-security-custom-username-password3" target="1.8" />
+      <module name="spring-security-microservice" target="1.8" />
       <module name="the-platform-environment" target="8" />
     </bytecodeTargetLevel>
   </component>

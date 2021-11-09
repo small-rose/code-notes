@@ -15,6 +15,10 @@ Spring Security的版本并不需要亲自指定，[父工程](#父工程)继承
 
 [中文文档](http://docs.jcohy.com/docs/spring-security/5.3.0.RELEASE/html5/zh-cn)
 
+参考书：[深入浅出Spring Security](https://book.douban.com/subject/35383505/)
+
+视频教程：[尚硅谷SpringSecurity框架教程](https://www.bilibili.com/video/BV15a411A7kP?from=search&seid=17934619456497753665&spm_id_from=333.337.0.0)
+
 # 过滤器
 
 在Spring Security中，认证、授权等功能都是基于过滤器来完成的。
@@ -36,79 +40,51 @@ Spring Security中的过滤器链通过`FilterChainProxy`嵌入到Web项目的�
 
 ![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202111081806459.png)
 
-# 代码演示
+# 认证
 
-## 父工程
+## 快速入门
 
-### 工程创建
+- 创建名为`spring-security-hello`的Spring Boot项目
 
-- 创建`spring-security`模块，继承自`spring-boot-starter-parent`,pom.xml如下：
+- pom文件如下
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <packaging>pom</packaging>
-    <modules>
-        <module>spring-security-hello</module>
-        <module>spring-security-custom-username-password1</module>
-    </modules>
-
     <parent>
+        <version>2.3.2.RELEASE</version>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.2.RELEASE</version>
-        <relativePath/>
     </parent>
+    <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.example</groupId>
-    <artifactId>spring-security</artifactId>
+    <artifactId>spring-security-hello</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+    </properties>
+
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
+        <!--spring security-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
     </dependencies>
 
 </project>
 ```
 
-## HelloWorld工程
-
-### 工程创建
-
-- 创建`spring-security-hello`模块，继承自[父工程](#父工程)
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
-        <artifactId>spring-security</artifactId>
-        <groupId>org.example</groupId>
-        <version>1.0-SNAPSHOT</version>
-    </parent>
-    <modelVersion>4.0.0</modelVersion>
-
-    <artifactId>spring-security-hello</artifactId>
-
-    <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-    </properties>
-</project>
-```
-
-- 创建入口类
+- Spring Boot启动类
 
 ```java
 package cn.com.lgs;
@@ -116,127 +92,71 @@ package cn.com.lgs;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/**
+ * @author luguosong
+ * @date 2021/11/9 9:30
+ */
 @SpringBootApplication
-public class SpringSecurityHelloApplication {
-  public static void main(String[] args) {
-    SpringApplication.run(SpringSecurityHelloApplication.class,args);
-  }
+public class SpringSecurityHello {
+    public static void main(String[] args) {
+        SpringApplication.run(SpringSecurityHello.class, args);
+    }
 }
 ```
 
-- 编写测试Controller
+- Controller
 
 ```java
 package cn.com.lgs.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequestMapping("/test")
-public class TestController {
-
-  @RequestMapping("/hello")
-  public String hello() {
-    return "hello security";
-  }
-}
-```
-
-### 运行测试
-
-- 启动`spring-security-hello`项目
-- 访问`http://localhost:8080/test/hello`,页面会转到`http://localhost:8080/login`
-
-![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202109230908900.png)
-
-- 默认用户名为：`user`,密码会在控制台显示
-
-![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202109230909889.png)
-
-- 通过默认提供的用户名和密码，可以成功访问到Controller
-
-## 自定义用户名密码
-
-上面Hello world程序中，默认密码为`user`,默认密码为控制台自动生成的。现在我们想要使用自己的密码
-
-### 方法一
-
-- `resources`目录下`application.yml`配置文件，自定义用户名密码
-
-```yaml
-spring:
-  security:
-    user:
-      name: luguosong
-      password: 12345678
-```
-
-### 方法二
-
-- 使用配置类配置用户名密码
-
-```java
-package cn.com.lgs.config;
-
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
 /**
- * 配置类中自定义用户名密码
- *
  * @author luguosong
- * @date 2021/9/24 17:54
+ * @date 2021/11/9 9:31
  */
-
-@Configuration
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        String password = bCryptPasswordEncoder.encode("12345678");
-        auth.inMemoryAuthentication().withUser("luguosong").password(password).roles("admin");
-    }
-
-    @Bean
-    PasswordEncoder password(){
-        return new BCryptPasswordEncoder();
+@RestController
+public class HelloController {
+    @GetMapping("/hello")
+    public String hello() {
+        return "hello spring security";
     }
 }
 ```
 
-### 方法三
+- 运行项目，访问`/hello`,系统会跳转到登录认证界面
 
-- 自定义编写实现类
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202111090936106.png)
 
-## 用户自定义配置
+- 默认用户名为`user`,密码在控制台打印
 
-除了上面的用户名密码，配置类还可以用来配置其它内容。
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202111090942678.png)
 
-## 权限访问控制
+- 使用用户名密码登录成功后可以访问'/hello'
 
-## 注解配置权限
+## 快速入门分析
 
-## 用户退出配置
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202111090944966.png)
 
-## 自动登录
+- 过程分析：
+  1. 客户端（浏览器）发起请求去访问`/hello`接口，这个接口默认是需要认证之后才能访问的
+  2. 请求经过Spring Security的过滤器链，在`FilterSecurityInterceptor`过滤器中被拦截下来，
+  因为系统发现用户未认证。接下来抛出`AccessDeniedException`异常。
+  3. `ExceptionTranslationFilter`过滤器捕获`AccessDeniedException`异常，
+  并调用`LoginUrlAuthenticationEntryPoint#commence`方法给客户端返回`302`，
+  要求客户端重定向到`/login`页面。
+  4. 客户端发送`/login`请求,`DefaultLoginPageGeneratingFilter`过滤器拦截请求，返回`登录界面`
 
-## CSRF
 
-## 微服务架构中的应用
+- 过程中Spring Security背后默默做了什么：
+  - 创建一个名为`springSecurityFilterChain`的过滤器，并注入到`Spring容器`中，这个过滤器将负责所有的安全管理，
+  包括用户的认证、授权、重定向到登录页面等（`springSecurityFilterChain`实际上代理了Spring Security中的过滤器链）。
+  - 创建UserDetailsService实例，负责提供用户数据。
+  - 给用户生成一个默认的登录页面
+  - 开启CSRF攻击防御
+  - 开启会话固定攻击防御
+  - 集成X-XSS-Protection
+  - 集成X-Frame-Options以防止单击劫持
 
-### 后台搭建
-
-后台模块结构：
-
-- spring-security-microservice 项目依赖版本管理
-  - spring-
-
-#### 父工程创建
-
-- 创建spring-security-microservice模块
-- 
+# 授权

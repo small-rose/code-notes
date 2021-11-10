@@ -394,16 +394,73 @@ AuthenticationSuccessHandler接口共有三个实现类,如下图：
 
 ![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202111091802189.png)
 
-- `SimpleUrlAuthenticationSuccessHandler`类继承自`AbstractAuthenticationTargetUrlRequestHandler`,
-通过其中的handle方法实现重定向
-- `SavedRequestAwareAuthenticationSuccessHandler`在`SimpleUrlAuthenticationSuccessHandler`的基础上
-增加了请求缓存的功能
+- `SimpleUrlAuthenticationSuccessHandler`类继承自`AbstractAuthenticationTargetUrlRequestHandler`, 通过其中的handle方法实现重定向
+- `SavedRequestAwareAuthenticationSuccessHandler`在`SimpleUrlAuthenticationSuccessHandler`的基础上 增加了请求缓存的功能
 - `ForwardAuthenticationSuccessHandler`的实现则比较容易，就是一个服务端跳转。
 
-### SavedRequestAwareAuthenticationSuccessHandler
-
-### ForwardAuthenticationSuccessHandler
-
 ## 表单登录失败处理
+
+无论是`failureUrl`还是`failureForwardUrl`，最终所配置的都是`AuthenticationFailureHandler`接口的实现。 Spring
+Security中提供了`AuthenticationFailureHandler`接口，用来规范登录失败的实现：
+
+```java
+public interface AuthenticationFailureHandler {
+  void onAuthenticationFailure(HttpServletRequest request,
+                               HttpServletResponse response,
+                               AuthenticationException exception)
+          throws IOException, ServletException;
+}
+```
+
+`AuthenticationFailureHandler`接口有以下五类实现：
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202111101020360.png)
+
+- `SimpleUrlAuthenticationFailureHandler`
+  默认的处理逻辑就是通过重定向跳转到登录页面，当然也可以通过配置forwardToDestination属性将重定向改为服务器端跳转，failureUrl方法的底层实现逻辑就是SimpleUrlAuthenticationFailureHandler。
+
+- `ExceptionMappingAuthenticationFailureHandler`可以实现根据不同的异常类型，映射到不同的路径。
+
+- `ForwardAuthenticationFailureHandler`
+  表示通过服务器端跳转来重新回到登录页面，failureForwardUrl方法的底层实现逻辑就是ForwardAuthenticationFailureHandler。
+
+- `AuthenticationEntryPointFailureHandler`是Spring Security 5.2新引进的处理类，可以通过AuthenticationEntryPoint来处理登录异常。
+
+- `DelegatingAuthenticationFailureHandler`可以实现为不同的异常类型配置不同的登录失败处理回调。
+
+## 定制注销页面
+
+```java
+
+@Configuration
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    http.authorizeRequests()
+            .anyRequest().authenticated()
+            .and()
+            .formLogin()
+            //省略其他配置
+            .and()
+            .logout()
+            .logoutUrl("/logout")
+            .invalidateHttpSession(true)
+            .clearAuthentication(true)
+            .logoutSuccessUrl("/mylogin.html")
+            .and()
+            .csrf().disable();
+  }
+}
+```
+
+- 通过.logout()方法开启注销登录配置。
+- logoutUrl指定了注销登录请求地址，默认是GET请求，路径为/logout。
+- invalidateHttpSession表示是否使session失效，默认为true。
+- clearAuthentication表示是否清除认证信息，默认为true。
+- logoutSuccessUrl表示注销登录后的跳转地址。
+
+## 登录用户数据获取
+
+
 
 # 授权

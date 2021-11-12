@@ -4,6 +4,14 @@ title: Spring Security
 nav_order: 400
 parent: Spring相关
 ---
+
+---
+layout: docs
+title: Spring Security
+nav_order: 400
+parent: Spring相关
+---
+
 # 概述
 
 基于Spring Boot：`2.3.2.RELEASE`
@@ -142,23 +150,23 @@ public class HelloController {
 ![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202111090944966.png)
 
 - 过程分析：
-  1. 客户端（浏览器）发起请求去访问`/hello`接口，这个接口默认是需要认证之后才能访问的
-  2. 请求经过Spring Security的过滤器链，在`FilterSecurityInterceptor`过滤器中被拦截下来，
-  因为系统发现用户未认证。接下来抛出`AccessDeniedException`异常。
-  3. `ExceptionTranslationFilter`过滤器捕获`AccessDeniedException`异常，
-  并调用`LoginUrlAuthenticationEntryPoint#commence`方法给客户端返回`302`，
-  要求客户端重定向到`/login`页面。
-  4. 客户端发送`/login`请求,`DefaultLoginPageGeneratingFilter`过滤器拦截请求，返回`登录界面`
+    1. 客户端（浏览器）发起请求去访问`/hello`接口，这个接口默认是需要认证之后才能访问的
+    2. 请求经过Spring Security的过滤器链，在`FilterSecurityInterceptor`过滤器中被拦截下来，
+       因为系统发现用户未认证。接下来抛出`AccessDeniedException`异常。
+    3. `ExceptionTranslationFilter`过滤器捕获`AccessDeniedException`异常，
+       并调用`LoginUrlAuthenticationEntryPoint#commence`方法给客户端返回`302`，
+       要求客户端重定向到`/login`页面。
+    4. 客户端发送`/login`请求,`DefaultLoginPageGeneratingFilter`过滤器拦截请求，返回`登录界面`
 
 - 过程中Spring Security背后默默做了什么：
-  - 创建一个名为`springSecurityFilterChain`的过滤器，并注入到`Spring容器`中，这个过滤器将负责所有的安全管理，
-    包括用户的认证、授权、重定向到登录页面等（`springSecurityFilterChain`实际上代理了Spring Security中的过滤器链）。
-  - 创建UserDetailsService实例，负责提供用户数据。
-  - 给用户生成一个默认的登录页面
-  - 开启CSRF攻击防御
-  - 开启会话固定攻击防御
-  - 集成X-XSS-Protection
-  - 集成X-Frame-Options以防止单击劫持
+    - 创建一个名为`springSecurityFilterChain`的过滤器，并注入到`Spring容器`中，这个过滤器将负责所有的安全管理，
+      包括用户的认证、授权、重定向到登录页面等（`springSecurityFilterChain`实际上代理了Spring Security中的过滤器链）。
+    - 创建UserDetailsService实例，负责提供用户数据。
+    - 给用户生成一个默认的登录页面
+    - 开启CSRF攻击防御
+    - 开启会话固定攻击防御
+    - 集成X-XSS-Protection
+    - 集成X-Frame-Options以防止单击劫持
 
 ## UserDetails接口
 
@@ -229,8 +237,8 @@ public interface UserDetailsService {
 当我们使用Spring Security时，如果仅仅只是引入一个Spring Security依赖， 则默认使用的用户就是由`InMemoryUserDetailsManager`提供的。
 
 - 满足以下条件，使用默认配置类配置`InMemoryUserDetailsManager`：
-  - 应用包含`AuthenticationManager`类
-  - Spring容器中没有注册`AuthenticationManager`，`AuthenticationProvider`，`UserDetailsService`
+    - 应用包含`AuthenticationManager`类
+    - Spring容器中没有注册`AuthenticationManager`，`AuthenticationProvider`，`UserDetailsService`
 
 `InMemoryUserDetailsManager`的自动化配置类如下：
 
@@ -376,15 +384,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 区别：
 - defaultSuccessUrl
-  - 用户在未认证的情况下，访问了`/hello`页面，登录后访问`/hello`页面。
-  - 如果用户一开始访问的是登录页面，则登录后重定向到`successForwardUrl`所指的界面
-  - defaultSuccessUrl有一个重载方法，第二个参数传true。像这样`defaultSuccessUrl("/index",true)`。
-  会使效果与`successForwardUrl`相同。即不考虑用户之前的访问地址，只要登录成功，
-  就重定向到`defaultSuccessUrl`所指定的页面。
-  - 通过重定向实现的跳转（客户端跳转）
+    - 用户在未认证的情况下，访问了`/hello`页面，登录后访问`/hello`页面。
+    - 如果用户一开始访问的是登录页面，则登录后重定向到`successForwardUrl`所指的界面
+    - defaultSuccessUrl有一个重载方法，第二个参数传true。像这样`defaultSuccessUrl("/index",true)`。
+      会使效果与`successForwardUrl`相同。即不考虑用户之前的访问地址，只要登录成功，
+      就重定向到`defaultSuccessUrl`所指定的页面。
+    - 通过重定向实现的跳转（客户端跳转）
 - successForwardUrl
-  - 不管登录前访问的什么界面。只要用户登录成功，就会通过服务器端跳转到`successForwardUrl`所指定的页面。
-  - 通过服务器端跳转
+    - 不管登录前访问的什么界面。只要用户登录成功，就会通过服务器端跳转到`successForwardUrl`所指定的页面。
+    - 通过服务器端跳转
 
 无论是`defaultSuccessUrl`还是`successForwardUrl`，最终配置的都是`AuthenticationSuccessHandler`。
 
@@ -462,5 +470,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 ## 登录用户数据获取
 
 
-
 # 授权
+
+
+
+
+

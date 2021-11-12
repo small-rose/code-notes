@@ -20,7 +20,6 @@
         <module name="college_common_utils" />
         <module name="spring-security-hello" />
         <module name="college_service_edu" />
-        <module name="spring-security-form-login" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -49,6 +48,7 @@
       <module name="spring-security-custom-username-password1" target="1.8" />
       <module name="spring-security-custom-username-password2" target="1.8" />
       <module name="spring-security-custom-username-password3" target="1.8" />
+      <module name="spring-security-form-login" target="1.8" />
       <module name="spring-security-microservice" target="1.8" />
       <module name="the-platform-environment" target="8" />
     </bytecodeTargetLevel>

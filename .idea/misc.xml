@@ -21,6 +21,11 @@
         <option value="$PROJECT_DIR$/_java/javase/learning-the-java-language/pom.xml" />
         <option value="$PROJECT_DIR$/_java/javase/server/pom.xml" />
         <option value="$PROJECT_DIR$/_java/spring/pom.xml" />
+        <option value="$PROJECT_DIR$/_java/spring/project/microservices/college_parent/college_common/college_common_utils/pom.xml" />
+        <option value="$PROJECT_DIR$/_java/spring/project/microservices/college_parent/college_common/college_service_base/pom.xml" />
+        <option value="$PROJECT_DIR$/_java/spring/project/microservices/college_parent/college_common/pom.xml" />
+        <option value="$PROJECT_DIR$/_java/spring/project/microservices/college_parent/college_service/college_service_edu/pom.xml" />
+        <option value="$PROJECT_DIR$/_java/spring/project/microservices/college_parent/college_service/pom.xml" />
         <option value="$PROJECT_DIR$/_java/spring/spring-security/spring-security-config/pom.xml" />
         <option value="$PROJECT_DIR$/_java/spring/spring-security/spring-security-custom-username-password1/pom.xml" />
         <option value="$PROJECT_DIR$/_java/spring/spring-security/spring-security-custom-username-password2/pom.xml" />

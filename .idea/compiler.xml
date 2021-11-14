@@ -9,17 +9,12 @@
         <outputRelativeToContentRoot value="true" />
         <module name="jvm" />
         <module name="junit5" />
-        <module name="mybatis-hello" />
+        <module name="design-pattern" />
+        <module name="spring-security-hello" />
         <module name="spring-framework" />
         <module name="jdbc" />
         <module name="new-to-java" />
         <module name="javaee" />
-        <module name="college_service_base" />
-        <module name="mybatis-configuration" />
-        <module name="design-pattern" />
-        <module name="college_common_utils" />
-        <module name="spring-security-hello" />
-        <module name="college_service_edu" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -28,6 +23,12 @@
       <module name="building-on-the-foundation" target="8" />
       <module name="classes-and-objects" target="8" />
       <module name="client" target="8" />
+      <module name="college_common" target="8" />
+      <module name="college_common_utils" target="8" />
+      <module name="college_parent" target="8" />
+      <module name="college_service" target="8" />
+      <module name="college_service_base" target="8" />
+      <module name="college_service_edu" target="8" />
       <module name="concurrency" target="8" />
       <module name="essential-java-classes" target="8" />
       <module name="exceptions" target="8" />
@@ -37,6 +38,9 @@
       <module name="io" target="8" />
       <module name="language-basics" target="8" />
       <module name="learning-the-java-language" target="8" />
+      <module name="mybatis" target="8" />
+      <module name="mybatis-configuration" target="8" />
+      <module name="mybatis-hello" target="8" />
       <module name="numbers-and-strings" target="8" />
       <module name="object-oriented-programming-concepts" target="8" />
       <module name="packages" target="8" />

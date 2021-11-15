@@ -23,12 +23,12 @@
       <module name="building-on-the-foundation" target="8" />
       <module name="classes-and-objects" target="8" />
       <module name="client" target="8" />
-      <module name="college_common" target="8" />
-      <module name="college_common_utils" target="8" />
-      <module name="college_parent" target="8" />
-      <module name="college_service" target="8" />
-      <module name="college_service_base" target="8" />
-      <module name="college_service_edu" target="8" />
+      <module name="college_common" target="1.8" />
+      <module name="college_common_utils" target="1.8" />
+      <module name="college_parent" target="1.8" />
+      <module name="college_service" target="1.8" />
+      <module name="college_service_base" target="1.8" />
+      <module name="college_service_edu" target="1.8" />
       <module name="concurrency" target="8" />
       <module name="essential-java-classes" target="8" />
       <module name="exceptions" target="8" />
@@ -38,7 +38,7 @@
       <module name="io" target="8" />
       <module name="language-basics" target="8" />
       <module name="learning-the-java-language" target="8" />
-      <module name="mybatis" target="8" />
+      <module name="mybatis" target="1.8" />
       <module name="mybatis-configuration" target="8" />
       <module name="mybatis-hello" target="8" />
       <module name="numbers-and-strings" target="8" />

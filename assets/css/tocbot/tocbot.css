@@ -22,8 +22,7 @@
 
 .toc-list {
     margin: 0;
-    padding-left: 3em;
-    list-style-type: decimal-leading-zero;
+    padding-left: 1em;
 }
 
 a.toc-link {

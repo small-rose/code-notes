@@ -132,10 +132,17 @@ nav_order: 15
 
 `聚合`是一种特殊的关联。一般表示`一个对象`拥有`一组其它对象`。
 
+聚合扮演的是容器的角色，组件可以独立于容器存在
+
 ![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202111171820628.png)
 
-上图表示院系包含教授
+上图表示院系包含教授,
 
 # 组合
 
+`组合`是一种特殊的聚合。表示一个对象由一个或多个其它对象组成。
+
+`组合`和`聚合`的区别体现在语义上，不体现在代码上。
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20211117230829.png)
 

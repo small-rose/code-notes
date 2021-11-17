@@ -4,7 +4,6 @@ title: Spring Security
 nav_order: 400
 parent: Spring相关
 ---
-
 # 版本说明
 
 Spring Boot：`2.3.2.RELEASE`
@@ -52,7 +51,6 @@ Spring Security 版本：`5.3.3.RELEASE`
 spring boot下使用spring security。只需要引入依赖，即可使用。
 
 - 创建`spring-security-hello`工程
-
 - pom文件引入依赖
 
 ```xml
@@ -218,7 +216,51 @@ public interface AuthenticationProvider {
 
 `AbstractUserDetailsAuthenticationProvider`抽象实现了`AuthenticationProvider`接口
 
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202111171349084.png)
 
+- `userCache字段`:用户缓存对象，默认情况下没有启用缓存对象
 
+```java
+private UserCache userCache=new NullUserCache();
+```
+
+- `hideUserNotFoundExceptions字段`:标识是否隐藏用户名查找失败异常。
+与密码错误一样，统一报`BadCredentialsException`异常
+
+```java
+protected boolean hideUserNotFoundExceptions = true;
+```
+
+- `forcePrincipalAsString字段`:表示是否将`Principal`对象当成字符串来处理。
+通过`Authentication`中的`principal`属性可以获取`UserDetails`对象。如果`forcePrincipalAsString`为true,
+则`principal`返回的是登录用户名，而不是用户对象
+
+```java
+private boolean forcePrincipalAsString = false;
+```
+
+- `preAuthenticationChecks字段`:用户状态检查。认证过程中检查账户是否被锁定，账户是否可用，账户是否过期等
+
+```java
+private UserDetailsChecker preAuthenticationChecks = new DefaultPreAuthenticationChecks();
+```
+
+- `postAuthenticationChecks字段`:负责在密码校验成功后，检查密码是否过期
+
+```java
+private UserDetailsChecker postAuthenticationChecks = new DefaultPostAuthenticationChecks();
+```
+
+- `additionalAuthenticationChecks抽象方法`：校验密码。具体实现在`DaoAuthenticationProvider`中
+
+```java
+protected abstract void additionalAuthenticationChecks(UserDetails userDetails,
+		UsernamePasswordAuthenticationToken authentication)
+		throws AuthenticationException;
+```
+
+- `authenticate方法`:核心校验方法。
+  - 首先从登录数据中获取`用户名`，根据用户名去`缓存`中查询用户对象
+  - 如果`缓存`中查不到对象
 
 

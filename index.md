@@ -48,7 +48,7 @@ title: 陆国松的编程笔记
 
 # 网站性能优化
 
-由于网站是使用github pages部署的，国内访问相对很慢，可以做如下优化提高访问速度：
+由于网站是使用github pages部署的，国内访问相对很慢，做如下优化提高访问速度：
 
 - 网站中的静态资源（图片、js、css）使用[jsdelivr](https://www.jsdelivr.com/github)加速
 - 网站使用[cloudflare](https://dash.cloudflare.com/)做CDN加速

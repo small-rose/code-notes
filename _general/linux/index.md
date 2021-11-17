@@ -1,7 +1,7 @@
 ---
 layout: docs
 title: linux
-nav_order: 5
+nav_order: 35
 mermaid: true
 ---
 

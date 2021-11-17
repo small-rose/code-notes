@@ -1,7 +1,7 @@
 ---
 layout: docs
 title: 数据结构
-nav_order: 2
+nav_order: 1
 parent: 数据结构与算法
 latex: true
 ---

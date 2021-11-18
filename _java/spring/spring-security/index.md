@@ -216,22 +216,21 @@ public interface AuthenticationProvider {
 
 `AbstractUserDetailsAuthenticationProvider`抽象实现了`AuthenticationProvider`接口
 
-![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202111171349084.png)
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202111181450209.png)
 
-- `userCache字段`:用户缓存对象，默认情况下没有启用缓存对象
+- `userCache属性`:用户缓存对象，默认情况下没有启用缓存对象
 
 ```java
 private UserCache userCache=new NullUserCache();
 ```
 
-- `hideUserNotFoundExceptions字段`:标识是否隐藏用户名查找失败异常。
-与密码错误一样，统一报`BadCredentialsException`异常
+- `hideUserNotFoundExceptions属性`:标识是否隐藏用户名查找失败异常。与密码错误一样，统一报`BadCredentialsException`异常
 
 ```java
 protected boolean hideUserNotFoundExceptions = true;
 ```
 
-- `forcePrincipalAsString字段`:表示是否将`Principal`对象当成字符串来处理。
+- `forcePrincipalAsString属性`:表示是否将`Principal`对象当成字符串来处理。
 通过`Authentication`中的`principal`属性可以获取`UserDetails`对象。如果`forcePrincipalAsString`为true,
 则`principal`返回的是登录用户名，而不是用户对象
 
@@ -239,13 +238,13 @@ protected boolean hideUserNotFoundExceptions = true;
 private boolean forcePrincipalAsString = false;
 ```
 
-- `preAuthenticationChecks字段`:用户状态检查。认证过程中检查账户是否被锁定，账户是否可用，账户是否过期等
+- `preAuthenticationChecks属性`:用户状态检查。认证过程中检查账户是否被锁定，账户是否可用，账户是否过期等
 
 ```java
 private UserDetailsChecker preAuthenticationChecks = new DefaultPreAuthenticationChecks();
 ```
 
-- `postAuthenticationChecks字段`:负责在密码校验成功后，检查密码是否过期
+- `postAuthenticationChecks属性`:负责在密码校验成功后，检查密码是否过期
 
 ```java
 private UserDetailsChecker postAuthenticationChecks = new DefaultPostAuthenticationChecks();
@@ -261,6 +260,33 @@ protected abstract void additionalAuthenticationChecks(UserDetails userDetails,
 
 - `authenticate方法`:核心校验方法。
   - 首先从登录数据中获取`用户名`，根据用户名去`缓存`中查询用户对象
-  - 如果`缓存`中查不到对象
+  - 如果`缓存`中查不到对象,则根据用户名调用`retrieveUser`方法从数据库加载用户，不存在则抛出异常
+  - 拿到用户对象后，调用`preAuthenticationChecks.check`方法进行用户状态检查。
+  - 然后调用`additionalAuthenticationChecks`方法进行密码校验操作。
+  - 然后调用`postAuthenticationChecks.check`方法检验密码是否过期
+  - 所有步骤都顺利完成后，调用createSuccessAuthentication方法创建一个
+  认证后的`UsernamePasswordAuthenticationToken`（Authentication接口的实现类）对象并返回，认证后的对象包含了认证主体、凭证和角色等信息
 
+#### DaoAuthenticationProvider类
 
+继承了`AbstractUserDetailsAuthenticationProvider`抽象类
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202111181458942.png)
+
+- `USER_NOT_FOUND_PASSWORD常量`:当用户查询失败时的默认密码，值为:`userNotFoundPassword`
+- `passwordEncoder属性`:密码加密对比工具
+- `userNotFoundEncodedPassword属性`:保存默认密码加密后的值
+- `userDetailsService属性`:用户查找工具
+- `userDetailsPasswordService属性`：提供密码修改服务
+- 构造方法中默认指定`passwordEncoder属性`为`PasswordEncoder`对象。开发者也可以使用set方法自定义`passwordEncoder属性`
+- `additionalAuthenticationChecks方法`:进行密码校验。
+  - 第一个参数userDetails是从数据库查询出来的用户对象
+  - 第二个参数authentication则是用户输入的参数
+  - 两个参数分别提取出用户名密码，然后调用`passwordEncoder.matches`进行比对
+- `retrieveUser方法`:获取用户对象。
+  - 方法一开始会先调用`prepareTimingAttackProtection();`
+    - 该方法使用`passwordEncoder`对常量`USER_NOT_FOUND_PASSWORD`进行加密，将加密结果保存在`userNotFoundEncodedPassword`
+    - 当查找不到用户时抛出异常，会调用`mitigateAgainstTimingAttack`方法进行密码比对。这个比对注定是失败的。
+    - `目的`:防止`旁道攻击`。如果用户不存在就直接抛出异常而不进行密码比对。黑客通过大量测定通过耗费时间获取系统信息。
+  - 调用`userDetailsService.loadUserByUsername`方法去数据库查询
+- 

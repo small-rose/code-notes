@@ -631,6 +631,8 @@
     <inspection_tool class="DocumentWriteJS" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="DollarSignInName" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="DontUsePairConstructor" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="DotEnvDuplicateKeyInspection" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="DotEnvSpaceInsideNonQuotedInspection" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="DoubleBraceInitialization" enabled="true" level="INFORMATION" enabled_by_default="true" />
     <inspection_tool class="DoubleCheckedLocking" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="ignoreOnVolatileVariables" value="false" />
@@ -1577,7 +1579,7 @@
     <inspection_tool class="LatexDuplicateLabel" enabled="false" level="ERROR" enabled_by_default="false" />
     <inspection_tool class="LatexEllipsis" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="LatexEnDash" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
-    <inspection_tool class="LatexEncloseWithLeftRight" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
+    <inspection_tool class="LatexEncloseWithLeftRight" enabled="false" level="WEAK WARNING" enabled_by_default="false" texify.inspection.latex.Latexnull.textArea="" />
     <inspection_tool class="LatexEquationReference" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
     <inspection_tool class="LatexEscapeAmpersand" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="LatexEscapeHashOutsideCommand" enabled="false" level="WEAK WARNING" enabled_by_default="false" />

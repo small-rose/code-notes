@@ -136,7 +136,7 @@ nav_order: 15
 
 ![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202111171820628.png)
 
-上图表示院系包含教授,
+上图表示院系包含教授,但教授可以独立于院系存在
 
 # 组合
 
@@ -145,4 +145,7 @@ nav_order: 15
 `组合`和`聚合`的区别体现在语义上，不体现在代码上。
 
 ![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20211117230829.png)
+
+大学由院系构成,院系不能脱离大学独立存在
+
 

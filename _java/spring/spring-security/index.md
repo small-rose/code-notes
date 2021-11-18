@@ -289,4 +289,15 @@ protected abstract void additionalAuthenticationChecks(UserDetails userDetails,
     - 当查找不到用户时抛出异常，会调用`mitigateAgainstTimingAttack`方法进行密码比对。这个比对注定是失败的。
     - `目的`:防止`旁道攻击`。如果用户不存在就直接抛出异常而不进行密码比对。黑客通过大量测定通过耗费时间获取系统信息。
   - 调用`userDetailsService.loadUserByUsername`方法去数据库查询
-- 
+- `createSuccessAuthentication方法`:登录成功后创建一个全新的`UsernamePasswordAuthenticationToken`。
+同时判断是否需要进行密码升级，如果需要进行密码升级，就会在该方法中进行加密方案升级
+
+## ProviderManager
+
+`ProviderManager`是`AuthenticationManager`的一个重要实现类。
+
+它和`AuthenticationProvider`之间是聚合关系
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20211118230927.png)
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20211118230212.png)

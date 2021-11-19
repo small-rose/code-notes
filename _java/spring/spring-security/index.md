@@ -193,6 +193,48 @@ public interface AuthenticationManager {
 }
 ```
 
+## ProviderManager
+
+`ProviderManager`是`AuthenticationManager`的一个重要实现类。
+
+它和`AuthenticationProvider`之间是聚合关系
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202111190929116.png)
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20211118230212.png)
+
+系统可能支持不同的认证方式，一个完整的认证流程可能由多个`AuthenticationProvider`提供。在`ProviderManager`
+中遍历每一个`AuthenticationProvider`去执行身份认证，最终得到认证结果
+
+`ProviderManager`本身也可以配置一个`AuthenticationManager`作为parent。这样当`ProviderManager`认证
+失败后。会进入parent中再次认证
+
+- `Authentication authenticate(Authentication authentication)`方法
+  - 获取authentication对象类型
+  - 定义当前认证过程抛出的异常
+  - 定义parent中认证时抛出的异常
+  - 定义当前认证结果以及parent中认证结果对应的变量。
+  - `getProviders()`方法获取并遍历所有`AuthenticationProvider`对象，进行身份验证
+    - 判断当前`AuthenticationProvider`是否支持`Authentication`对象,不支持则跳到下一个
+    - 调用`AuthenticationProvider`的`authenticate`方法进行身份验证
+      - 如果认证成功，调用`copyDetails`给`authentication`设置`details`
+      - 如果异常，则通过`lastException`记录异常
+  - 遍历结束处理
+    - result为空，认证失败，parent不为空
+      - 调用parent的authenticate进行验证
+      - 出现异常，将异常赋值给`lastException`
+    - result不为空
+      - 将result中的凭证擦除，防止泄露
+      - 同时将登录成功的事件发布出去（发布登录成功事件需要`parentResult`为null）
+      - 返回result，后面步骤不执行了
+    - result为空，如果`lastException`为空，说明`parent`为null
+      - 构造`ProviderNotFoundException`赋值给`lastException`
+    - 如果`parentException`为null
+      - 发布认证失败
+    - 最后抛出`lastException`异常
+
+
+
 ## AuthenticationProvider接口
 
 `AuthenticationManager`的实现类`ProviderManager`类中管理着一批`AuthenticationProvider`对象数组。 这样，`AuthenticationManager`
@@ -219,45 +261,13 @@ public interface AuthenticationProvider {
 ![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202111181450209.png)
 
 - `userCache属性`:用户缓存对象，默认情况下没有启用缓存对象
-
-```java
-private UserCache userCache=new NullUserCache();
-```
-
 - `hideUserNotFoundExceptions属性`:标识是否隐藏用户名查找失败异常。与密码错误一样，统一报`BadCredentialsException`异常
-
-```java
-protected boolean hideUserNotFoundExceptions = true;
-```
-
 - `forcePrincipalAsString属性`:表示是否将`Principal`对象当成字符串来处理。
 通过`Authentication`中的`principal`属性可以获取`UserDetails`对象。如果`forcePrincipalAsString`为true,
 则`principal`返回的是登录用户名，而不是用户对象
-
-```java
-private boolean forcePrincipalAsString = false;
-```
-
 - `preAuthenticationChecks属性`:用户状态检查。认证过程中检查账户是否被锁定，账户是否可用，账户是否过期等
-
-```java
-private UserDetailsChecker preAuthenticationChecks = new DefaultPreAuthenticationChecks();
-```
-
 - `postAuthenticationChecks属性`:负责在密码校验成功后，检查密码是否过期
-
-```java
-private UserDetailsChecker postAuthenticationChecks = new DefaultPostAuthenticationChecks();
-```
-
 - `additionalAuthenticationChecks抽象方法`：校验密码。具体实现在`DaoAuthenticationProvider`中
-
-```java
-protected abstract void additionalAuthenticationChecks(UserDetails userDetails,
-		UsernamePasswordAuthenticationToken authentication)
-		throws AuthenticationException;
-```
-
 - `authenticate方法`:核心校验方法。
   - 首先从登录数据中获取`用户名`，根据用户名去`缓存`中查询用户对象
   - 如果`缓存`中查不到对象,则根据用户名调用`retrieveUser`方法从数据库加载用户，不存在则抛出异常
@@ -292,12 +302,11 @@ protected abstract void additionalAuthenticationChecks(UserDetails userDetails,
 - `createSuccessAuthentication方法`:登录成功后创建一个全新的`UsernamePasswordAuthenticationToken`。
 同时判断是否需要进行密码升级，如果需要进行密码升级，就会在该方法中进行加密方案升级
 
-## ProviderManager
+## AbstractAuthenticationProcessingFilter过滤器
 
-`ProviderManager`是`AuthenticationManager`的一个重要实现类。
+将认证组件与登录关联起来，处理任何提交给它的身份认证。
 
-它和`AuthenticationProvider`之间是聚合关系
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202111191114635.png)
 
-![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20211118230927.png)
-
-![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20211118230212.png)
+- 用户提交登录请求时，从`HttpServletRequest`中提取登录用户名和密码,然后创建一个
+- 

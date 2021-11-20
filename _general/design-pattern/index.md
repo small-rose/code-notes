@@ -88,8 +88,6 @@ nav_order: 30
 
 ### 示例
 
-![](img/bbb.drawio)
-
 # 结构型模式
 
 # 行为型模式

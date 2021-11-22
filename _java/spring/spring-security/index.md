@@ -148,6 +148,10 @@ public class HelloController {
 
 # 认证流程分析
 
+整体架构如下：
+
+![](img/authentication-process.svg)
+
 ## Authentication接口
 
 用户的认证信息主要由`Authentication`的实现类来保存
@@ -270,7 +274,7 @@ public interface AuthenticationProvider {
 - `additionalAuthenticationChecks抽象方法`：校验密码。具体实现在`DaoAuthenticationProvider`中
 - `authenticate方法`:核心校验方法。
   - 首先从登录数据中获取`用户名`，根据用户名去`缓存`中查询用户对象
-  - 如果`缓存`中查不到对象,则根据用户名调用`retrieveUser`方法从数据库加载用户，不存在则抛出异常
+  - 如果`缓存`中查不到对象,则根据用户名调用`retrieveUser`方法从`UserDetailsService`加载用户，不存在则抛出异常
   - 拿到用户对象后，调用`preAuthenticationChecks.check`方法进行用户状态检查。
   - 然后调用`additionalAuthenticationChecks`方法进行密码校验操作。
   - 然后调用`postAuthenticationChecks.check`方法检验密码是否过期
@@ -344,13 +348,119 @@ UsernamePasswordAuthenticationFilter代码：
   - 构建`UsernamePasswordAuthenticationToken`对象
   - 调用`getAuthenticationManager().authenticate`执行认证操作
 
-## 自定义认证示例
+## 认证自定义配置示例
 
 ### 配置多个数据源
 
 配置多个`AuthenticationProvider`,并为不同的`AuthenticationProvider`提供不同的`UserDetailService`即可
 
 这里为了方便使用`InMemoryUserSetailsManager`提供`UserDetailsService`实例。
-实际开发中一般使用`自定义UserDetailsService`
+实际开发中一般使用`自定义UserDetailsService`查询数据库
+
+`ProviderManager`中创建两个`AuthenticationProvider`，两个`AuthenticationProvider`分别使用不同的数据源
+
+示例工程：[spring-security-multiuser](https://github.com/guosonglu/code-notes/tree/master/_java/spring/spring-security/spring-security-multiuser)
+
+主要配置类代码如下：
+
+```java
+package cn.com.lgs.config;
+
+@Configuration
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    @Bean
+    @Primary
+    UserDetailsService us1() {
+        return new InMemoryUserDetailsManager(
+                User.builder().username("zhangsan").password("{noop}123").roles("admin").build());
+    }
+
+    @Bean
+    UserDetailsService us2() {
+        return new InMemoryUserDetailsManager(
+                User.builder().username("lisi").password("{noop}1234").roles("user").build());
+    }
+
+    @Override
+    @Bean
+    public AuthenticationManager authenticationManagerBean() {
+        DaoAuthenticationProvider dao1 = new DaoAuthenticationProvider();
+        dao1.setUserDetailsService(us1());
+        DaoAuthenticationProvider dao2 = new DaoAuthenticationProvider();
+        dao2.setUserDetailsService(us2());
+        ProviderManager providerManager = new ProviderManager(dao1, dao2);
+        return providerManager;
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin()
+                .defaultSuccessUrl("/test")
+                .usernameParameter("uname")
+                .passwordParameter("passwd")
+                .permitAll()
+                .and()
+                .csrf().disable();
+    }
+}
+```
+
+### 添加登录验证码
+
+两种思路：
+- 自定义过滤器
+- 自定义认证逻辑
+
+这里介绍如何自定义认证逻辑实现登录验证码功能
+
+- 引入依赖
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <version>2.3.2.RELEASE</version>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+    </parent>
+
+    <groupId>org.example</groupId>
+    <artifactId>spring-security-kaptcha</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+    </properties>
+
+    <dependencies>
+        <!--spring security-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <!--验证码-->
+        <dependency>
+            <groupId>com.github.penggle</groupId>
+            <artifactId>kaptcha</artifactId>
+            <version>2.3.2</version>
+        </dependency>
+    </dependencies>
+
+</project>
+```
+
+- 编写验证码配置类
 
 

@@ -4,6 +4,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
+ * 配置多个数据源
+ *
  * @author luguosong
  * @date 2021/11/22 10:37
  */

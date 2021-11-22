@@ -14,6 +14,7 @@
         <module name="spring-framework" />
         <module name="jdbc" />
         <module name="new-to-java" />
+        <module name="spring-security-kaptcha" />
         <module name="javaee" />
         <module name="spring-security-multiuser" />
       </profile>
@@ -73,6 +74,7 @@
       <module name="spring-security-custom-username-password3" options="-parameters" />
       <module name="spring-security-form-login" options="-parameters" />
       <module name="spring-security-hello" options="-parameters" />
+      <module name="spring-security-kaptcha" options="-parameters" />
       <module name="spring-security-multiuser" options="-parameters" />
     </option>
   </component>

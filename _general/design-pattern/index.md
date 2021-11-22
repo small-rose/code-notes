@@ -102,12 +102,12 @@ nav_order: 30
 - 目前，物流管理应用的`planDelivery`方法只与卡车有关.如果添加海上业务，增加`轮船`类。则需要修改`planDelivery`方法代码。
 更糟糕的是。后面可能会出现更多的运输方式，每次增加，都得修改`planDelivery`方法。错误的示范如下：
 
-![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20211120225106.png)
+![](img/factory-method/wrong-approach.svg)
 
 - 上面的做法，每次增加交通设备都需要修改`planDelivery`方法。`工厂方法`解决了这个问题。
 将new对象的工作交给`工厂方法`。在`子类`中重写`工厂方法`，从而改变创建产品的类型。
 
-![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20211121220707.png)
+![](img/factory-method/factory-method.svg)
 
 
 

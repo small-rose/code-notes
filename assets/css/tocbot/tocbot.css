@@ -21,8 +21,11 @@
 }
 
 .toc-list {
-    margin: 0;
     padding-left: 1em;
+}
+
+.toc>.toc-list {
+    margin-left: 1em;
 }
 
 a.toc-link {
@@ -47,15 +50,23 @@ a.toc-link {
     color: #7bbfea
 }
 
-.toc-link::before {
-    background-color: #232425;
-    content: ' ';
-    display: inline-block;
-    height: 1px;
-    left: 0;
-    margin-top: -1px;
-    position: absolute;
-    width: 3px
+/*.toc-link::before {*/
+/*    background-color: #232425;*/
+/*    content: ' ';*/
+/*    display: inline-block;*/
+/*    height: 1px;*/
+/*    left: 0;*/
+/*    margin-top: -1px;*/
+/*    position: absolute;*/
+/*    width: 1px*/
+/*}*/
+
+.toc-link {
+    font-size: 0.9em;
+}
+
+.toc-list>li {
+    margin: 0;
 }
 
 .is-active-link::before {

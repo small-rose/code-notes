@@ -306,7 +306,51 @@ public interface AuthenticationProvider {
 
 将认证组件与登录关联起来，处理任何提交给它的身份认证。
 
-![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202111191114635.png)
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202111220846016.png)
 
-- 用户提交登录请求时，从`HttpServletRequest`中提取登录用户名和密码,然后创建一个
-- 
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202111220847691.png)
+
+`AbstractAuthenticationProcessingFilter`是一个抽象类。如果使用`用户名密码`方式登录，那么它对应的实现类是
+`UsernamePasswordAuthenticationFilter`，构造出来的`Authentication`对象则是
+`UsernamePasswordAuthenticationToken`
+
+AbstractAuthenticationProcessingFilter代码：
+- `requiresAuthentication方法`判断是不是登录认证请求
+  - 是认证请求：执行下面的认证代码
+  - 不是认证请求：继续走完剩余的过滤器
+- `attemptAuthentication方法`获取一个认证后的`Authentication对象`
+  - `attemptAuthentication方法`是一个抽象方法，具体实现在`UsernamePasswordAuthenticationFilter`中
+- 认证成功后，通过`sessionStrategy.onAuthentication`处理session并发问题
+- `continueChainBeforeSuccessfulAuthentication属性`表示认证成功后过滤器是否要继续往下执行，默认为false
+- `unsuccessfulAuthentication方法`处理认证失败
+  - 从`SecurityContextHolder`中清除数据
+  - 清楚Cookie等信息
+  - 调用认证失败回调方法
+- `successfulAuthentication方法`处理认证成功
+  - 向`SecurityContextHolder`中存入用户信息
+  - 处理Cookie
+  - 发布成功事件，事件类型是`InteractiveAuthenticationSuccessEvent`
+  - 调用认证成功回调方法
+
+
+UsernamePasswordAuthenticationFilter代码：
+- 声明用户名密码字段
+  - 用户名字段默认为：username
+  - 密码字段默认为：password
+- 默认只处理`/login`的登录请求
+- `attemptAuthentication方法`
+  - 首先确认是post请求
+  - 通过`obtainUsername方法`和`obtainPassword方法`提取用户名密码
+  - 构建`UsernamePasswordAuthenticationToken`对象
+  - 调用`getAuthenticationManager().authenticate`执行认证操作
+
+## 自定义认证示例
+
+### 配置多个数据源
+
+配置多个`AuthenticationProvider`,并为不同的`AuthenticationProvider`提供不同的`UserDetailService`即可
+
+这里为了方便使用`InMemoryUserSetailsManager`提供`UserDetailsService`实例。
+实际开发中一般使用`自定义UserDetailsService`
+
+

@@ -15,6 +15,7 @@
         <module name="jdbc" />
         <module name="new-to-java" />
         <module name="javaee" />
+        <module name="spring-security-multiuser" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -72,6 +73,7 @@
       <module name="spring-security-custom-username-password3" options="-parameters" />
       <module name="spring-security-form-login" options="-parameters" />
       <module name="spring-security-hello" options="-parameters" />
+      <module name="spring-security-multiuser" options="-parameters" />
     </option>
   </component>
 </project>

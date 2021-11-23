@@ -443,24 +443,335 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     <dependencies>
         <!--spring security-->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <!--验证码-->
-        <dependency>
-            <groupId>com.github.penggle</groupId>
-            <artifactId>kaptcha</artifactId>
-            <version>2.3.2</version>
-        </dependency>
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+      </dependency>
+      <!--验证码-->
+      <dependency>
+        <groupId>com.github.penggle</groupId>
+        <artifactId>kaptcha</artifactId>
+        <version>2.3.2</version>
+      </dependency>
     </dependencies>
 
 </project>
 ```
 
 - 编写验证码配置类
+
+```java
+package cn.com.lgs.config;
+
+/**
+ * @author luguosong
+ * @date 2021/11/22 18:09
+ */
+@Configuration
+public class KaptchaConfig {
+
+  @Bean
+  Producer kaptcha() {
+    Properties properties = new Properties();
+    properties.setProperty("kaptcha.image.width", "150");
+    properties.setProperty("kaptcha.image.height", "50");
+    properties.setProperty("kaptcha.textproducer.char.string", "0123456789");
+    properties.setProperty("kaptcha.textproducer.char.length", "4");
+    Config config = new Config(properties);
+    DefaultKaptcha defaultKaptcha = new DefaultKaptcha();
+    defaultKaptcha.setConfig(config);
+    return defaultKaptcha;
+  }
+}
+```
+
+- 编写controller
+
+- /vc.jpg
+  - 生成验证码文本，并存储到session中
+  - 根据验证码文本生成图片，并通过io流写出到前端
+- /index
+  - 登录成功页
+
+```java
+package cn.com.lgs.controller;
+
+/**
+ * @author luguosong
+ * @date 2021/11/23 9:56
+ */
+@RestController
+public class LoginController {
+  @Autowired
+  Producer producer;
+
+  @GetMapping("/vc.jpg")
+  public void getVerifyCode(HttpServletResponse resp, HttpSession session) throws IOException {
+    resp.setContentType("image/jpeg");
+    String text = producer.createText();
+    session.setAttribute("kaptcha", text);
+    BufferedImage image = producer.createImage(text);
+    try (ServletOutputStream out = resp.getOutputStream()) {
+      ImageIO.write(image, "jpg", out);
+    }
+  }
+
+  @RequestMapping("/index")
+  public String index() {
+    return "login success";
+  }
+}
+```
+
+- 自定义登录页
+
+```html
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>登录</title>
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<style>
+  #login .container #login-row #login-column #login-box {
+    border: 1px solid #9C9C9C;
+    background-color: #EAEAEA;
+  }
+</style>
+<body>
+<div id="login">
+  <div class="container">
+    <div id="login-row" class="row justify-content-center align-items-center">
+      <div id="login-column" class="col-md-6">
+        <div id="login-box" class="col-md-12">
+          <form id="login-form" class="form" action="/doLogin" method="post">
+            <h3 class="text-center text-info">登录</h3>
+            <div th:text="${SPRING_SECURITY_LAST_EXCEPTION}"></div>
+            <div class="form-group">
+              <label for="username" class="text-info">用户名:</label><br>
+              <input type="text" name="uname" id="username" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="password" class="text-info">密码:</label><br>
+              <input type="text" name="passwd" id="password" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="kaptcha" class="text-info">验证码:</label><br>
+              <input type="text" name="kaptcha" id="kaptcha" class="form-control">
+              <img src="/vc.jpg" alt="">
+            </div>
+            <div class="form-group">
+              <input type="submit" name="submit" class="btn btn-info btn-md" value="登录">
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+```
+
+- 编写`AuthenticationProvider`实现类继承`DaoAuthenticationProvider`类，重写`authenticate`认证方法。 自定义认证逻辑
+
+```java
+package cn.com.lgs.config;
+
+/**
+ * @author luguosong
+ */
+public class KaptchaAuthenticationProvider extends DaoAuthenticationProvider {
+
+  @Override
+  public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+    HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+    String kaptcha = req.getParameter("kaptcha");
+    String sessionKaptcha = (String) req.getSession().getAttribute("kaptcha");
+    if (kaptcha != null && sessionKaptcha != null && kaptcha.equalsIgnoreCase(sessionKaptcha)) {
+      return super.authenticate(authentication);
+    }
+    throw new AuthenticationServiceException("验证码输入错误");
+  }
+}
+```
+
+- 编写Spring Security配置类，配置`AuthenticationManager对象`和`AuthenticationProvider对象`。
+
+注意：在configure方法中给验证码接口配置放行
+
+```java
+package cn.com.lgs.config;
+
+/**
+ * @author luguosong
+ */
+@Configuration
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+  @Bean
+  AuthenticationProvider kaptchaAuthenticationProvider() {
+    InMemoryUserDetailsManager users = new InMemoryUserDetailsManager(User.builder()
+            .username("zhangsan").password("{noop}123").roles("admin").build());
+    KaptchaAuthenticationProvider provider = new KaptchaAuthenticationProvider();
+    provider.setUserDetailsService(users);
+    return provider;
+  }
+
+  @Override
+  @Bean
+  public AuthenticationManager authenticationManagerBean() throws Exception {
+    ProviderManager manager = new ProviderManager(kaptchaAuthenticationProvider());
+    return manager;
+  }
+
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    http.authorizeRequests()
+            .antMatchers("/vc.jpg").permitAll()
+            .anyRequest().authenticated()
+            .and()
+            .formLogin()
+            .loginPage("/mylogin.html")
+            .loginProcessingUrl("/doLogin")
+            .defaultSuccessUrl("/index.html")
+            .failureForwardUrl("/mylogin.html")
+            .successForwardUrl("/index")
+            .usernameParameter("uname")
+            .passwordParameter("passwd")
+            .permitAll()
+            .and()
+            .csrf().disable();
+  }
+}
+```
+
+- 编写Spring Boot启动类
+
+```java
+package cn.com.lgs;
+
+/**
+ * 自定义认证逻辑添加验证码功能
+ *
+ * @author luguosong
+ * @date 2021/11/23 10:23
+ */
+@SpringBootApplication
+public class SpringSecurityKaptchaApplication {
+  public static void main(String[] args) {
+    SpringApplication.run(SpringSecurityKaptchaApplication.class, args);
+  }
+}
+```
+
+# 过滤器链分析
+
+## ObjectPostProcessor接口
+
+对象后置处理器。
+
+如果一个对象创建成功后，如果还有一些额外的事情需要补充，那么可以通过`ObjectPostProcessor`进行补充
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202111231342664.png)
+
+ObjectPostProcessor有两个实现类：
+
+- AutowireBeanFactoryObjectPostProcessor实现类
+  - 一个对象new出来后，只要调用`AutowireBeanFactoryObjectPostProcessor#postProcess`方法。就可以注入到spring容器中。
+    原理是调用spring容器中的`AutowireCapableBeanFactory`对象将new出来的对象注入到Spring容器中
+- CompositeObjectPostProcessor实现类
+  - 维护一个List集合，存放一堆`ObjectPostProcessor`后置处理器对象
+
+在Spring Security中，开发者可以灵活的配置过滤器，一旦选定过滤器，每一个`过滤器`都会有一个对应的`配置器`， 叫做`xxxConfigurer`,过滤器是在配置器中new出来的,然后在后置处理器`postProcess`
+方法中处理一遍。
+
+## SecurityFilterChain接口
+
+过滤器链对象
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202111231427212.png)
+
+- matches
+  - 判断request请求是否应该被当前过滤器链处理
+- getFilters
+  - 如果上面matches返回ture，则getFilters返回过滤器集合
+
+`SecurityFilterChain`的默认实现类为`DefaultSecurityFilterChain`
+
+一个项目中，`SecurityFilterChain`的实例可能会有多个
+
+## SecurityBuilder接口
+
+作用：`构建对象`
+
+所有需要构建的对象都可以通过`SecurityBuilder`构建
+
+`默认的过滤器链`、`代理过滤器`、`AuthenticationManager`等都可以使用SecurityBuilder构建。
+
+```java
+public interface SecurityBuilder<O> {
+  O build() throws Exception;
+}
+```
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202111231515491.png)
+
+### HttpSecurityBuilder
+
+`HttpSecurityBuilder`继承自`SecurityBuilder`接口，指定了`SecurityBuilder`的泛型为`DefaultSecurityFilterChain`
+
+也就是说`HttpSecurityBuilder`最终要构建的对象是`DefaultSecurityFilterChain`
+
+- `getConfigurer方法`：获取一个配置器
+- `removeConfigurer方法`：移除一个配置器
+- `setSharedObject方法`：设置一个可以在多个配置器之间共享的对象
+- `getSharedObject方法`：获取一个可以在多个配置器之间共享的对象
+- `authenticationProvider方法`：配置一个认证器AuthenticationProvider
+- `userDetailsService方法`:配置一个数据源
+- `addFilterAfter方法`：某个过滤器之后添加一个自定义过滤器
+- `addFilterBefore方法`:某个过滤器之前添加一个自定义过滤器
+- `addFilter方法`:添加一个Spring Security自带的过滤器
+
+### AbstractSecurityBuilder
+
+实现build方法，`确保build方法只执行一次。`
+
+- `AtomicBoolean building变量`：确保即使在多线程环境下，配置也只构建一次
+- `build方法`
+  - 通过`building`变量控制配置类只构建一次，具体的构建工作交给`doBuild方法`完成（工厂方法设计模式）
+  - 设置为final,子类不能再次重写`build方法`
+- `getObject方法`：返回构建对象
+- `doBuild方法`：具体的构建方法，具体实现在其子类中（工厂方法设计模式）
+
+### AbstractConfiguredSecurityBuilder
+
+继承自`AbstractSecurityBuilder`
+
+- `BuildState枚举类`：描述构建过程中的不同状态
+  - UNBUILT：配置类构建前
+  - INITIALIZING：初始化中
+  - CONFIGURING：配置中
+  - BUILDING：构建中
+  - BUILT：构建完成
+  - `isInitializing方法`：是否正在初始化中
+  - `isConfigured方法`：是否配置完成
+- `configurers变量`：保存所有配置类
+- `allowConfigurersOfSameType字段`：是否允许相同类型的配置类
+- `apply方法`：添加配置类，具体添加过程调用`add方法`
+- `add方法`：添加配置类
+- `getConfigurers(Class<C> clazz)方法`:从`configurers变量`中返回某个配置类对应的所有实例
+- `getConfigurer方法`:从`configurers变量`中返回某个配置类对应的第一个实例
+- `removeConfigurers方法`:移除某一个配置类对应的所有实例，并返回被移除的配置类实例集合
+- `removeConfigurer方法`:移除某一个配置类对应的第一个实例，并返回被移除的配置类实例
+- `getConfigurers()私有方法`:把所有配置类实例放到一个集合中返回。在配置类`初始化`和`配置`的时候，会调用该方法
+- `doBuild方法`：核心构建方法（工厂方法设计模式）
+
+
 
 

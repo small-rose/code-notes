@@ -771,6 +771,10 @@ public interface SecurityBuilder<O> {
 - `removeConfigurer方法`:移除某一个配置类对应的第一个实例，并返回被移除的配置类实例
 - `getConfigurers()私有方法`:把所有配置类实例放到一个集合中返回。在配置类`初始化`和`配置`的时候，会调用该方法
 - `doBuild方法`：核心构建方法（工厂方法设计模式）
+  - `beforeInit方法`：空方法，如果想要在初始化前做一些准备工作，可以通过重写该方法实现。
+  - `init方法`：初始化方法，遍历所有配置类，并调用其init方法完成初始化操作
+  - `beforeConfigure方法`：空方法，如果想在configure方法之前做一些准备工作，可以通过重写该方法实现
+  - `configure方法`：完成所有配置类的配置
 
 
 

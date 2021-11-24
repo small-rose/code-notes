@@ -46,7 +46,7 @@ plugins:
 collections:
   general:
     output: true
-  c:
+  candcpp:
     output: true
   java:
     output: true
@@ -64,8 +64,8 @@ just_the_docs:
   collections:
     general:
       name: 编程基础
-    c:
-      name: C语言
+    candcpp:
+      name: C和C++
     java:
       name: Java
     front:

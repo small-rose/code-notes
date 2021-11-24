@@ -1,6 +1,6 @@
 ---
 layout: docs
-title: 语言基础
+title: c语言
 has_children: true
 nav_order: 1
 ---

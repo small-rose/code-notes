@@ -774,8 +774,64 @@ public interface SecurityBuilder<O> {
   - `beforeInit方法`：空方法，如果想要在初始化前做一些准备工作，可以通过重写该方法实现。
   - `init方法`：初始化方法，遍历所有配置类，并调用其init方法完成初始化操作
   - `beforeConfigure方法`：空方法，如果想在configure方法之前做一些准备工作，可以通过重写该方法实现
-  - `configure方法`：完成所有配置类的配置
+  - `configure方法`：遍历所有配置类，调用其`configure方法`完成所有配置类的配置
+  - `performBuild方法`：最终的构建操作。抽象方法，具体实现在不同配置类中
 
+### ProviderManagerBuilder接口
+
+继承自SecurityBuilder
+
+指定构建对象为`AuthenticationManager`
+
+### AuthenticationManagerBuilder
+
+用来构建`AuthenticationManager`对象
+
+继承自`AbstractConfiguredSecurityBuilder`，实现了`ProviderManagerBuilder`接口
+
+- `构造方法`：调用父类构造，第二个参数为true，表示相同类型的配置类同时存在
+- `parentAuthenticationManager方法`：设置一个`parentAuthenticationManager`字段
+- `inMemoryAuthentication方法`：配置基于内存的数据源，自动创建`InMemoryUserDetailsManagerConfigurer`配置类。
+最终该配置类添加到父类的`configurers`变量中,因为允许相同类型配置类存在，该方法可以调用多次
+- `jdbcAuthentication方法`：创建`JdbcUserDetailsManagerConfigurer`配置类
+- `userDetailsService方法`：创建`DaoAuthenticationConfigurer`配置类
+- `authenticationProvider方法`：向`authenticationProviders字段`添加`AuthenticationProvider`对象
+- `performBuild方法`：执行具体的构建工作。创建ProviderManager对象，创建成功后再去后置处理器中处理一遍再返回
+
+### HttpSecurity
+
+用来构建一条过滤器链。也就是构建一个`DefaultSecurityFilterChain`对象
+
+一个`DefaultSecurityFilterChain`包含一个`路径匹配器`和多个`过滤器`
+
+将过滤器对应的`配置类`收集起来，并保存到父类`AbstractConfiguredSecurityBuilder`的`configures`变量中，
+在后续的构建过程中，再将这些`配置类`构建为具体的过滤器，同时添加到`HttpSecurity`的`filters`对象中。
+
+以form表单登录配置为例：
+- `无参formLogin方法`:返回`FormLoginConfigurer`对象，开发者可以在此基础上继续完善表单配置。内部调用了`getOrApply方法`
+- `有参formLogin方法`:传入事先配置好的`FormLoginConfigurer`对象，返回`HttpSecurity`对象。内部调用了`getOrApply方法`
+- `getOrApply方法`：调用父类的`getConfigurer`方法查看是否已有对应的配置类了，如果有直接返回，
+如果没有则调用`apply方法`添加到父类的`configures属性`中。
+- `authenticationProvider方法`:配置执行认证的`AuthenticationProvider对象`
+- `userDetailsService方法`：配置`UserDetailsService对象`
+- `beforeConfigure方法`：触发`AuthenticationManager对象`的构建
+- `performBuild方法`:进行`DefaultSecurityFilterChain`对象的构建，传入请求匹配器和过滤器集合filters
+- `addFilter方法`：向过滤器链添加一个过滤器。必须是spring security框架提供的过滤器的一个实例或者其拓展。
+在每个配置类的configure方法中，都会调用`addFilter方法`将构建好的过滤器添加到HttpSecurity中的filters集合中
+- `addFilterAt方法`:可以指定位置添加过滤器。需要注意的是，在同一个位置添加多个过滤器并不会覆盖现有的过滤器
+
+
+### WebSecurity
+
+负责将HttpSecurity所构建的`DefaultSecurityFilterChain`对象（可能多个），以及其它一些需要忽略的请求，
+再次重新构建为一个FilterChainProxy对象，同时添加上HTTP防火墙。
+
+- `ignoredRequests字段`：保存所有被忽略的请求
+- `securityFilterChainBuilders字段`：保存所有HttpSecurity对象
+- `httpFirewall字段`：配置请求防火墙
+- `performBuild方法`：具体的构建方法
+  - 首先统计过滤器链的总个数（被忽略的请求个数+HttpSecurity创建出来的过滤器链个数）
+  - 
 
 
 

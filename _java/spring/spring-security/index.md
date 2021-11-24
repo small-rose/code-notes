@@ -831,7 +831,9 @@ public interface SecurityBuilder<O> {
 - `httpFirewall字段`：配置请求防火墙
 - `performBuild方法`：具体的构建方法
   - 首先统计过滤器链的总个数（被忽略的请求个数+HttpSecurity创建出来的过滤器链个数）
-  - 
+  - 然后创建一个集合`SecurityFilterChain`
+    - 遍历所有被忽略的`请求`并分别构建成`DefaultSecurityFilterChain`对象并保存到`SecurityFilterChain`集合中（只传入请求匹配）
+    - 
 
 
 

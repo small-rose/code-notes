@@ -237,8 +237,6 @@ public interface AuthenticationManager {
       - 发布认证失败
     - 最后抛出`lastException`异常
 
-
-
 ## AuthenticationProvider接口
 
 `AuthenticationManager`的实现类`ProviderManager`类中管理着一批`AuthenticationProvider`对象数组。 这样，`AuthenticationManager`
@@ -267,8 +265,8 @@ public interface AuthenticationProvider {
 - `userCache属性`:用户缓存对象，默认情况下没有启用缓存对象
 - `hideUserNotFoundExceptions属性`:标识是否隐藏用户名查找失败异常。与密码错误一样，统一报`BadCredentialsException`异常
 - `forcePrincipalAsString属性`:表示是否将`Principal`对象当成字符串来处理。
-通过`Authentication`中的`principal`属性可以获取`UserDetails`对象。如果`forcePrincipalAsString`为true,
-则`principal`返回的是登录用户名，而不是用户对象
+  通过`Authentication`中的`principal`属性可以获取`UserDetails`对象。如果`forcePrincipalAsString`为true,
+  则`principal`返回的是登录用户名，而不是用户对象
 - `preAuthenticationChecks属性`:用户状态检查。认证过程中检查账户是否被锁定，账户是否可用，账户是否过期等
 - `postAuthenticationChecks属性`:负责在密码校验成功后，检查密码是否过期
 - `additionalAuthenticationChecks抽象方法`：校验密码。具体实现在`DaoAuthenticationProvider`中
@@ -279,7 +277,7 @@ public interface AuthenticationProvider {
   - 然后调用`additionalAuthenticationChecks`方法进行密码校验操作。
   - 然后调用`postAuthenticationChecks.check`方法检验密码是否过期
   - 所有步骤都顺利完成后，调用createSuccessAuthentication方法创建一个
-  认证后的`UsernamePasswordAuthenticationToken`（Authentication接口的实现类）对象并返回，认证后的对象包含了认证主体、凭证和角色等信息
+    认证后的`UsernamePasswordAuthenticationToken`（Authentication接口的实现类）对象并返回，认证后的对象包含了认证主体、凭证和角色等信息
 
 #### DaoAuthenticationProvider类
 
@@ -304,7 +302,7 @@ public interface AuthenticationProvider {
     - `目的`:防止`旁道攻击`。如果用户不存在就直接抛出异常而不进行密码比对。黑客通过大量测定通过耗费时间获取系统信息。
   - 调用`userDetailsService.loadUserByUsername`方法去数据库查询
 - `createSuccessAuthentication方法`:登录成功后创建一个全新的`UsernamePasswordAuthenticationToken`。
-同时判断是否需要进行密码升级，如果需要进行密码升级，就会在该方法中进行加密方案升级
+  同时判断是否需要进行密码升级，如果需要进行密码升级，就会在该方法中进行加密方案升级
 
 ## AbstractAuthenticationProcessingFilter过滤器
 
@@ -319,6 +317,7 @@ public interface AuthenticationProvider {
 `UsernamePasswordAuthenticationToken`
 
 AbstractAuthenticationProcessingFilter代码：
+
 - `requiresAuthentication方法`判断是不是登录认证请求
   - 是认证请求：执行下面的认证代码
   - 不是认证请求：继续走完剩余的过滤器
@@ -336,8 +335,8 @@ AbstractAuthenticationProcessingFilter代码：
   - 发布成功事件，事件类型是`InteractiveAuthenticationSuccessEvent`
   - 调用认证成功回调方法
 
-
 UsernamePasswordAuthenticationFilter代码：
+
 - 声明用户名密码字段
   - 用户名字段默认为：username
   - 密码字段默认为：password
@@ -411,6 +410,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 ### 添加登录验证码
 
 两种思路：
+
 - 自定义过滤器
 - 自定义认证逻辑
 
@@ -489,11 +489,12 @@ public class KaptchaConfig {
 ```
 
 - 编写controller
-
 - /vc.jpg
+
   - 生成验证码文本，并存储到session中
   - 根据验证码文本生成图片，并通过io流写出到前端
 - /index
+
   - 登录成功页
 
 ```java
@@ -792,7 +793,7 @@ public interface SecurityBuilder<O> {
 - `构造方法`：调用父类构造，第二个参数为true，表示相同类型的配置类同时存在
 - `parentAuthenticationManager方法`：设置一个`parentAuthenticationManager`字段
 - `inMemoryAuthentication方法`：配置基于内存的数据源，自动创建`InMemoryUserDetailsManagerConfigurer`配置类。
-最终该配置类添加到父类的`configurers`变量中,因为允许相同类型配置类存在，该方法可以调用多次
+  最终该配置类添加到父类的`configurers`变量中,因为允许相同类型配置类存在，该方法可以调用多次
 - `jdbcAuthentication方法`：创建`JdbcUserDetailsManagerConfigurer`配置类
 - `userDetailsService方法`：创建`DaoAuthenticationConfigurer`配置类
 - `authenticationProvider方法`：向`authenticationProviders字段`添加`AuthenticationProvider`对象
@@ -808,23 +809,22 @@ public interface SecurityBuilder<O> {
 在后续的构建过程中，再将这些`配置类`构建为具体的过滤器，同时添加到`HttpSecurity`的`filters`对象中。
 
 以form表单登录配置为例：
+
 - `无参formLogin方法`:返回`FormLoginConfigurer`对象，开发者可以在此基础上继续完善表单配置。内部调用了`getOrApply方法`
 - `有参formLogin方法`:传入事先配置好的`FormLoginConfigurer`对象，返回`HttpSecurity`对象。内部调用了`getOrApply方法`
 - `getOrApply方法`：调用父类的`getConfigurer`方法查看是否已有对应的配置类了，如果有直接返回，
-如果没有则调用`apply方法`添加到父类的`configures属性`中。
+  如果没有则调用`apply方法`添加到父类的`configures属性`中。
 - `authenticationProvider方法`:配置执行认证的`AuthenticationProvider对象`
 - `userDetailsService方法`：配置`UserDetailsService对象`
 - `beforeConfigure方法`：触发`AuthenticationManager对象`的构建
 - `performBuild方法`:进行`DefaultSecurityFilterChain`对象的构建，传入请求匹配器和过滤器集合filters
 - `addFilter方法`：向过滤器链添加一个过滤器。必须是spring security框架提供的过滤器的一个实例或者其拓展。
-在每个配置类的configure方法中，都会调用`addFilter方法`将构建好的过滤器添加到HttpSecurity中的filters集合中
+  在每个配置类的configure方法中，都会调用`addFilter方法`将构建好的过滤器添加到HttpSecurity中的filters集合中
 - `addFilterAt方法`:可以指定位置添加过滤器。需要注意的是，在同一个位置添加多个过滤器并不会覆盖现有的过滤器
-
 
 ### WebSecurity
 
-负责将HttpSecurity所构建的`DefaultSecurityFilterChain`对象（可能多个），以及其它一些需要忽略的请求，
-再次重新构建为一个FilterChainProxy对象，同时添加上HTTP防火墙。
+负责将HttpSecurity所构建的`DefaultSecurityFilterChain`对象（可能多个），以及其它一些需要忽略的请求， 再次重新构建为一个FilterChainProxy对象，同时添加上HTTP防火墙。
 
 - `ignoredRequests字段`：保存所有被忽略的请求
 - `securityFilterChainBuilders字段`：保存所有HttpSecurity对象
@@ -833,7 +833,42 @@ public interface SecurityBuilder<O> {
   - 首先统计过滤器链的总个数（被忽略的请求个数+HttpSecurity创建出来的过滤器链个数）
   - 然后创建一个集合`SecurityFilterChain`
     - 遍历所有被忽略的`请求`并分别构建成`DefaultSecurityFilterChain`对象并保存到`SecurityFilterChain`集合中（只传入请求匹配）
-    - 
+    - 遍历`securityFilterChainBuilders`。调用每个对象的build方法构建`DefaultSecurityFilterChain`对象， 并存入`SecurityFilterChain`集合
+  - 通过`SecurityFilterChain`集合构建`FilterChainProxy`,并设置HTTP防火墙。
+  - 返回`FilterChainProxy`对象
 
+## FilterChainProxy
 
+通过Spring提供的`DelegatingFilterProxy`将`FilterChainProxy`嵌入到web Filter原生过滤器中。
 
+- `filterChains属性`：保存过滤器链集合
+- `filterChainValidator属性`：过滤器配置完成后的验证器，默认为`NullFilterChainValidator`
+- `firewall属性`：防火墙对象
+- `doFilter方法`：整个Spring Security过滤器的入口
+  - `clearContext变量`：如果是第一次执行doFilter方法，执行完成后，在finally代码中需要从`SecurityContextHolder`
+    里清除用户信息。防止用户没有正确配置SecurityContextPersistenceFilter,从而导致登录用户信息没有被正确清除， 进而发生内存泄露
+  - 过滤器具体执行交给了`doFilterInternal方法`
+- `doFilterInternal方法`
+  - 将`request`对象转换为`FirewalledRequest`对象,转换过程会进行Http防火墙处理
+  - 将`response`对象转换为`HttpServletResponse`对象
+  - 调用`getFilters`方法获取当前请求对应的过滤器链
+    - 如果为null，或者filters中没有元素，说明请求不需要经过过滤器链，此时执行`fwRequest.reset()`方法对Http防火墙中的属性 进行重置，再执行`chain.doFilter`回到Web Filter中
+    - 如果filters集合中有元素，那么构建一个`VirtualFilterChain`虚拟的过滤器链对象，并执行`doFilter方法`
+- `VirtualFilterChain内部类`
+  - `originalChain字段`：表示原生的过滤器链，执行它的`doFilter方法`回到Web Filter中
+  - `additionalFilters字段`:本次请求的Filter
+  - `firewalledRequest字段`:当前请求对象
+  - `size字段`:过滤器链大小
+  - `currentPosition字段`:过滤器链执行的下标
+  - `doFilter方法`
+    - 判断当前执行下标是否等于过滤器链的大小
+      - 相等，说明过滤器已经挨个走了一遍
+        - 对`Http防火墙`中的属性进行重置
+        - 调用`originalChain.doFilter`方法跳出Spring Security过滤器，回到Web Filter
+      - 不相等
+        - `currentPosition`自增
+        - 然后从过滤器链中取出一个过滤器去执行
+
+## SecurityConfigurer接口
+
+- `init方法`:

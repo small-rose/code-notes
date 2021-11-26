@@ -84,12 +84,54 @@ nav_order: 4
 
 ### 意图
 
-定义一个用于`创建对象的接口（或抽象方法）`，让子类决定实例化哪一个类。是实例化某个类的操作延续到子类。
+定义一个用于`创建对象的接口（或抽象方法）`，让子类决定实例化哪一个类。使实例化某个类的操作延续到子类。
 
 ### 别名
 
 - 虚构造器
-- 虚拟构造函数
+- Virtual Constructor
+
+### 实现方式
+
+- 让所有产品都`遵循同一接口`。该接口必须声明对所有产品都有意义的方法。
+- 在创建类中添加一个空的工厂方法。该方法的返回类型必须遵循通用的产品接口。
+- 在创建者代码中找到对于产品构造函数的所有引用。将它们依次替换为对于工厂方法的调用，同时将创建产品的代码移入工厂方法。
+你可能需要在工厂方法中`添加临时参数来控制返回的产品类型`。
+- 为工厂方法中的每种产品`编写一个创建者子类`，然后在子类中重写工厂方法，并将基本方法中的相关创建代码移动到工厂方法中。
+- 如果应用中的产品类型太多，那么为每个产品创建子类并无太大必要，这时你也`可以在子类中复用基类中的控制参数`。
+- 如果代码经过上述移动后，基础工厂方法中已经没有任何代码，你可以将其转变为抽象方法。如果基础工厂方法中还有其他语句，
+你可以将其设置为该方法的默认行为。
+
+### 适用场景
+
+- 当你在编写代码的过程中，如果无法预知对象确切类别及其依赖关系时，可使用工厂方法。
+- 如果你希望用户能扩展你软件库或框架的内部组件，可使用工厂方法。
+  - 假设你使用开源UI框架编写自己的应用。你希望在应用中使用圆形按钮，但是原框架仅支持矩形按钮。
+  你可以使用圆形按钮`RoundButton子类`来继承标准的按钮`Button类`。但是，
+  你需要告诉UI框架`UIFramework类`使用新的子类按钮代替默认按钮。
+  - 为了实现这个功能，你可以根据`基础框架类`开发子类`圆形按钮UI`-`UIWithRoundButtons`，并且重写其`createButton`创建按钮方法。
+  基类中的该方法返回`按钮对象`，而你开发的子类返回`圆形按钮对象`。现在，你就可以使用`圆形按钮UI类`代替`UI框架类`。
+- 如果你希望复用现有对象来节省系统资源，而不是每次都重新创建对象，可使用工厂方法。
+  - 有一个既能够创建新对象，又可以重用现有对象的方法。
+
+### 优缺点
+
+- 优点
+  - 你可以避免创建者和具体产品之间的紧密耦合。
+  - `单一职责原则`。你可以将产品创建代码放在程序的单一位置，从而使得代码更容易维护。
+  - `开闭原则`。无需更改现有客户端代码，你就可以在程序中引入新的产品类型。
+- 缺点
+  - 应用工厂方法模式需要引入许多新的子类，代码可能会因此变得更复杂。最好的情况是将该模式引入创建者类的现有层次结构中。
+
+### 与其它模式的关系
+
+- 在许多设计工作的初期都会使用`工厂方法`（较为简单，而且可以更方便地通过子类进行定制），
+随后演化为使用`抽象工厂`、`原型`或`生成器`（更灵活但更加复杂）。
+- `抽象工厂`模式通常基于一组`工厂方法`，但你也可以使用`原型模式`来生成这些类的方法。
+- 你可以同时使用`工厂方法`和`迭代器`来让子类集合返回不同类型的迭代器，并使得迭代器与集合相匹配。
+- `原型`并不基于继承，因此没有继承的缺点。另一方面，原型需要对被复制对象进行复杂的初始化。`工厂方法`基于继承，
+但是它不需要初始化步骤。
+- `工厂方法`是`模板方法`的一种特殊形式。同时，`工厂方法`可以作为一个大型`模板方法`中的一个步骤。
 
 ### 示例说明
 
@@ -111,6 +153,110 @@ nav_order: 4
 
 ![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202111241424290.png)
 
+- 创建交通工具接口和实现类
+
+```java
+public interface Transport {
+    /**
+     * 运送接口
+     */
+    public void deliver();
+}
+```
+
+```java
+public class Truck implements Transport{
+
+    /**
+     * 运送接口
+     */
+    @Override
+    public void deliver() {
+        System.out.println("卡车运送货物");
+    }
+}
+```
+
+```java
+public class Ship implements Transport{
+    /**
+     * 运送接口
+     */
+    @Override
+    public void deliver() {
+        System.out.println("轮船运送货物");
+    }
+}
+```
+
+- 创建物流类
+
+```java
+public abstract class Logistics {
+
+    /**
+     * 进行货物运送
+     */
+    public void planDeliver() {
+        createTransport().deliver();
+    }
+
+
+    /**
+     * 工厂方法
+     *
+     * 抽象方法，由子类实现，返回具体的交通工具
+     *
+     * @return 交通工具
+     */
+    public abstract Transport createTransport();
+}
+```
+
+- 创建物流类子类实现工厂方法
+
+```java
+public class RoadLogistics extends Logistics{
+    /**
+     * @return 交通工具
+     */
+    @Override
+    public Transport createTransport() {
+        return new Truck();
+    }
+}
+```
+
+```java
+public class SealLogistics extends Logistics{
+    /**
+     * @return 交通工具
+     */
+    @Override
+    public Transport createTransport() {
+        return new Ship();
+    }
+}
+```
+
+- 测试
+
+```java
+public class Demo {
+    public static void main(String[] args) {
+        //陆地物流
+        Logistics roadLogistics = new RoadLogistics();
+        roadLogistics.planDeliver();
+
+        //海上物流
+        Logistics sealLogistics = new SealLogistics();
+        sealLogistics.planDeliver();
+    }
+}
+```
+
+
+
 # 结构型模式
 
 # 行为型模式
@@ -118,3 +264,9 @@ nav_order: 4
 ## 模板方法模式
 
 ### 意图
+
+在超类中定义了一个算法的框架，而将一些步骤延迟到子类中。使得子类可以不改变一个算法的结构既可以重新定义该算法的某些特定步骤
+
+### 举例说明
+
+

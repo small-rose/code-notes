@@ -74,3 +74,11 @@ be动词置于句前
 
 - Is this your name?
   - 这是你的名字吗
+
+## 否定句
+
+She is not  = She isn't
+
+I am not = I'm not 
+
+You are not = you aren't

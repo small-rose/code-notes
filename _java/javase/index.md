@@ -381,7 +381,58 @@ class Demo {
 
 ### 臭名昭著的goto
 
-尽管goto是Java中的一个保留字，但Java中并没有使用它——Java没有goto。
+尽管goto是Java中的一个保留字，但Java中并没有使用它——Java没有goto。但是`continue`和`break`都有相似的功能
+
+- 这里的`continue label1`会同时中断内部迭代以及外部迭代，直接跳到label1处，然后它实际上会重新进入外部迭代开始继续执行。
+- 这里的`break label1`也会中断所有迭代，跳回到label1处，不过它并不会重新进入外部迭代。它实际是完全跳出了两个迭代。
+
+```java
+package cn.com.lgs.control_flow;
+
+/**
+ * @author 10545
+ * @date 2021/11/26 20:49
+ */
+public class GotoDemo {
+    public static void main(String[] args) {
+        int i = 0;
+        outer:
+        // 此处不能有语句
+        for (; true; ) { // 无限循环
+            inner:
+            // 此处不能有语句
+            for (; i < 10; i++) {
+                System.out.println("i = " + i);
+                if (i == 2) {
+                    System.out.println("continue");
+                    continue;
+                }
+                if (i == 3) {
+                    System.out.println("break");
+                    i++; // 否则i不会递增
+                    break;
+                }
+                if (i == 7) {
+                    System.out.println("continue outer");
+                    i++; // 否则i不会递增
+                    continue outer;
+                }
+                if (i == 8) {
+                    System.out.println("break outer");
+                    break outer;
+                }
+                for (int k = 0; k < 5; k++) {
+                    if (k == 3) {
+                        System.out.println("continue inner");
+                        continue inner;
+                    }
+                }
+            }
+        }
+        // 此处不能有标签
+    }
+}
+```
 
 ## 数组
 

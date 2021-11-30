@@ -489,13 +489,11 @@ public class KaptchaConfig {
 ```
 
 - 编写controller
-- /vc.jpg
-
-  - 生成验证码文本，并存储到session中
-  - 根据验证码文本生成图片，并通过io流写出到前端
-- /index
-
-  - 登录成功页
+  - /vc.jpg
+    - 生成验证码文本，并存储到session中
+    - 根据验证码文本生成图片，并通过io流写出到前端
+  - /index
+    - 登录成功页
 
 ```java
 package cn.com.lgs.controller;
@@ -937,8 +935,8 @@ AbstractHttpConfigurer的实现类比较多，基本上都用来配置各种各�
 
 ### WebSecurityConfigurerAdapter
 
-WebSecurityConfigurerAdapter是一个可以方便创建WebSecurityConfigurer实例的基类，
-可以通过覆盖WebSecurityConfigurerAdapter中的方法完成对HttpSecurity和WebSecurity的定制。
+`WebSecurityConfigurerAdapter`是一个可以方便创建`WebSecurityConfigurer`实例的基类，
+可以通过覆盖`WebSecurityConfigurerAdapter`中的方法完成对`HttpSecurity`和`WebSecurity`的定制。
 
 - `authenticationBuilder字段`：构建局部的`AuthenticationManager`。
 - `localConfigureAuthenticationBldr字段`：构建全局的`AuthenticationManager`，

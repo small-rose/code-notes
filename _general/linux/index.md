@@ -224,7 +224,7 @@ rm -r dir
 
 ```shell
 # touch [选项]... 文件...
-touche hello
+touch hello
 
 # 根据序号创建多个文件
 touch hello{1..5}

@@ -340,13 +340,39 @@ Vim(Vi improved)是Linux中的文件编辑器。
 
 前身：vi（visual editor）
 
-![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20211108233825.png)
-
 ## 一般模式
 
 vim打开文件后的默认模式
 
+### 移动光标
+
+- 首行：`gg`
+- 行尾：`G`
+- 光标到指定行： `行号+G`
+- 向上翻屏：`ctrl + b`(before)或`PgUP键`
+- 向上翻半屏：`ctrl + u`(up)
+- 向下翻屏：`ctrl + f`(after)或`PgDn键`
+- 向下翻半屏：`ctrl + d`(down)
+
+### 复制
+
+- 复制当前行：`yy`
+
+### 剪切
+
+### 粘贴
+
+- 粘贴：`p`
+
+### 删除
+
+### 撤销与恢复
+
 ## 编辑模式
+
+### 一般模式进入编辑模式
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20211108233825.png)
 
 `i:`
 

@@ -2,80 +2,29 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
-      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="jvm" />
-        <module name="junit5" />
         <module name="design-pattern" />
-        <module name="spring-security-hello" />
-        <module name="spring-framework" />
+        <module name="junit5" />
         <module name="jdbc" />
         <module name="new-to-java" />
-        <module name="spring-security-kaptcha" />
         <module name="javaee" />
-        <module name="spring-security-multiuser" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="annotations" target="8" />
-      <module name="base" target="8" />
-      <module name="building-on-the-foundation" target="8" />
-      <module name="classes-and-objects" target="8" />
-      <module name="client" target="8" />
-      <module name="college_common" target="1.8" />
-      <module name="college_common_utils" target="1.8" />
-      <module name="college_parent" target="1.8" />
-      <module name="college_service" target="1.8" />
-      <module name="college_service_base" target="1.8" />
-      <module name="college_service_edu" target="1.8" />
-      <module name="concurrency" target="8" />
-      <module name="essential-java-classes" target="8" />
-      <module name="exceptions" target="8" />
-      <module name="generics" target="8" />
-      <module name="getting-started" target="8" />
-      <module name="interfaces-and-inheritance" target="8" />
-      <module name="io" target="8" />
-      <module name="language-basics" target="8" />
-      <module name="learning-the-java-language" target="8" />
-      <module name="mybatis" target="1.8" />
-      <module name="mybatis-configuration" target="8" />
-      <module name="mybatis-hello" target="8" />
-      <module name="numbers-and-strings" target="8" />
-      <module name="object-oriented-programming-concepts" target="8" />
-      <module name="packages" target="8" />
-      <module name="regular-expressions" target="8" />
-      <module name="server" target="8" />
-      <module name="spring" target="1.8" />
-      <module name="spring-security" target="1.8" />
-      <module name="spring-security-config" target="1.8" />
-      <module name="spring-security-custom-username-password1" target="1.8" />
-      <module name="spring-security-custom-username-password2" target="1.8" />
-      <module name="spring-security-custom-username-password3" target="1.8" />
-      <module name="spring-security-form-login" target="1.8" />
-      <module name="spring-security-microservice" target="1.8" />
-      <module name="the-platform-environment" target="8" />
+      <module name="code-notes" target="1.8" />
+      <module name="data-structure" target="1.8" />
+      <module name="design-pattern" target="1.8" />
+      <module name="fervor-over-server" target="1.8" />
+      <module name="javaee" target="1.8" />
+      <module name="javase" target="1.8" />
+      <module name="jdbc" target="1.8" />
+      <module name="junit5" target="1.8" />
+      <module name="jvm" target="1.8" />
+      <module name="new-to-java" target="1.8" />
     </bytecodeTargetLevel>
-  </component>
-  <component name="JavacSettings">
-    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="college_common" options="-parameters" />
-      <module name="college_common_utils" options="-parameters" />
-      <module name="college_parent" options="-parameters" />
-      <module name="college_service" options="-parameters" />
-      <module name="college_service_base" options="-parameters" />
-      <module name="college_service_edu" options="-parameters" />
-      <module name="spring-security" options="-parameters" />
-      <module name="spring-security-config" options="-parameters" />
-      <module name="spring-security-custom-username-password1" options="-parameters" />
-      <module name="spring-security-custom-username-password2" options="-parameters" />
-      <module name="spring-security-custom-username-password3" options="-parameters" />
-      <module name="spring-security-form-login" options="-parameters" />
-      <module name="spring-security-hello" options="-parameters" />
-      <module name="spring-security-kaptcha" options="-parameters" />
-      <module name="spring-security-multiuser" options="-parameters" />
-    </option>
   </component>
 </project>

@@ -15,16 +15,16 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="code-notes" target="1.8" />
-      <module name="data-structure" target="1.8" />
-      <module name="design-pattern" target="1.8" />
-      <module name="fervor-over-server" target="1.8" />
-      <module name="javaee" target="1.8" />
-      <module name="javase" target="1.8" />
-      <module name="jdbc" target="1.8" />
-      <module name="junit5" target="1.8" />
-      <module name="jvm" target="1.8" />
-      <module name="new-to-java" target="1.8" />
+      <module name="code-notes" target="8" />
+      <module name="data-structure" target="8" />
+      <module name="design-pattern" target="8" />
+      <module name="fervor-over-server" target="8" />
+      <module name="javaee" target="8" />
+      <module name="javase" target="8" />
+      <module name="jdbc" target="8" />
+      <module name="junit5" target="8" />
+      <module name="jvm" target="8" />
+      <module name="new-to-java" target="8" />
     </bytecodeTargetLevel>
   </component>
 </project>

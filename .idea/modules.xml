@@ -11,6 +11,7 @@
       <module fileurl="file://$PROJECT_DIR$/_java/javase/fervor-over-server/jdbc/jdbc.iml" filepath="$PROJECT_DIR$/_java/javase/fervor-over-server/jdbc/jdbc.iml" />
       <module fileurl="file://$PROJECT_DIR$/_environment/ide/junit5/junit5.iml" filepath="$PROJECT_DIR$/_environment/ide/junit5/junit5.iml" />
       <module fileurl="file://$PROJECT_DIR$/_java/jvm/jvm.iml" filepath="$PROJECT_DIR$/_java/jvm/jvm.iml" />
+      <module fileurl="file://$PROJECT_DIR$/_java/spring/mybatis/mybatis-plus-hello/mybatis-plus-hello.iml" filepath="$PROJECT_DIR$/_java/spring/mybatis/mybatis-plus-hello/mybatis-plus-hello.iml" />
       <module fileurl="file://$PROJECT_DIR$/_java/javase/new-to-java/new-to-java.iml" filepath="$PROJECT_DIR$/_java/javase/new-to-java/new-to-java.iml" />
     </modules>
   </component>

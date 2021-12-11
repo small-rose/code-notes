@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/code-notes.iml" filepath="$PROJECT_DIR$/code-notes.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/code-notes.iml" filepath="$PROJECT_DIR$/.idea/code-notes.iml" />
       <module fileurl="file://$PROJECT_DIR$/_java/data-structure/data-structure.iml" filepath="$PROJECT_DIR$/_java/data-structure/data-structure.iml" />
       <module fileurl="file://$PROJECT_DIR$/_java/design-pattern/design-pattern.iml" filepath="$PROJECT_DIR$/_java/design-pattern/design-pattern.iml" />
       <module fileurl="file://$PROJECT_DIR$/_java/javase/fervor-over-server/fervor-over-server.iml" filepath="$PROJECT_DIR$/_java/javase/fervor-over-server/fervor-over-server.iml" />

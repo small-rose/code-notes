@@ -37,7 +37,7 @@ gitment_oauth:
   client_secret: 43cec67aeda473d51e3975f5f9ea4b2d60fb1cb3
 
 # Build settings
-theme: "just-the-docs"
+# theme: "just-the-docs"
 color_scheme: dark
 plugins:
   - jekyll-feed

@@ -1,5 +1,5 @@
 ---
-layout: docs
+layout: default
 title: 设计模式（Java语言描述）
 nav_order: 4
 ---

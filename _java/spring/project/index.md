@@ -1,5 +1,5 @@
 ---
-layout: docs
+layout: default
 title: 项目实战
 nav_order: 2000
 has_children: true

@@ -1,5 +1,5 @@
 ---
-layout: docs 
+layout: default 
 title: 服务端开发 
 nav_order: 4 
 parent: JavaSE

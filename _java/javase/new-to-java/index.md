@@ -1,5 +1,5 @@
 ---
-layout: docs 
+layout: default 
 title: Java基础 
 nav_order: 1 
 parent: JavaSE 

@@ -1,5 +1,5 @@
 ---
-layout: docs
+layout: default
 title: Spring Framework
 nav_order: 100
 parent: Spring相关

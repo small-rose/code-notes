@@ -1,5 +1,5 @@
 ---
-layout: docs
+layout: default
 title: Spring Security
 nav_order: 400
 parent: Spring相关

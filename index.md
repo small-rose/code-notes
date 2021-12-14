@@ -1,5 +1,5 @@
 ---
-layout: docs
+layout: default
 title: 陆国松的编程笔记
 ---
 # 网站构建技术选型

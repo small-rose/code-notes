@@ -1,5 +1,5 @@
 ---
-layout: docs
+layout: default
 title: docker
 nav_order: 20
 ---

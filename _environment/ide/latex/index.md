@@ -1,5 +1,5 @@
 ---
-layout: docs
+layout: default
 title: LaTeX编写数学公式
 nav_order: 200
 parent: ide和环境配置

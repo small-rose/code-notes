@@ -1,5 +1,5 @@
 ---
-layout: docs
+layout: default
 title: mybatis
 nav_order: 200
 parent: Spring相关

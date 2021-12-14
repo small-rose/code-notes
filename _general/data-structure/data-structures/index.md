@@ -1,5 +1,5 @@
 ---
-layout: docs
+layout: default
 title: 数据结构
 nav_order: 1
 parent: 数据结构与算法

@@ -1,5 +1,5 @@
 ---
-layout: docs
+layout: default
 title: 代数
 has_children: true
 nav_order: 20

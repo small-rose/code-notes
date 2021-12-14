@@ -1,5 +1,5 @@
 ---
-layout: docs
+layout: default
 title: JavaSE
 nav_order: 1
 latex: true

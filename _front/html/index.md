@@ -1,5 +1,5 @@
 ---
-layout: docs 
+layout: default 
 title: Html 
 nav_order: 10
 ---

@@ -1,5 +1,5 @@
 ---
-layout: docs
+layout: default
 title: Mermaid绘图工具
 nav_order: 300
 parent: ide和环境配置

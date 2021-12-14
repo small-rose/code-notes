@@ -1,5 +1,5 @@
 ---
-layout: docs
+layout: default
 title: JUnit5 
 nav_order: 100 
 parent: ide和环境配置

@@ -1,5 +1,5 @@
 ---
-layout: docs
+layout: default
 title: 面向对象
 nav_order: 15
 ---

@@ -1,5 +1,5 @@
 ---
-layout: docs
+layout: default
 title: 英语
 nav_order: 1
 phonics: true

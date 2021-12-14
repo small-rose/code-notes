@@ -1,5 +1,5 @@
 ---
-layout: docs
+layout: default
 title: linux
 nav_order: 35
 mermaid: true

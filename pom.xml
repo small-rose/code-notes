@@ -10,9 +10,7 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>_java/javase</module>
-        <module>_java/data-structure</module>
         <module>_java/jvm</module>
-        <module>_java/design-pattern</module>
         <module>_java/javaee</module>
         <module>_environment/ide/junit5</module>
     </modules>

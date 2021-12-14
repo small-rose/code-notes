@@ -80,32 +80,32 @@
         position: absolute;
         margin-left: -1.4em;
         color: $grey-dk-000;
-        content: "🚀";
+        content: "📘";
       }
 
       > ul > li {
         &::before {
-          content: "🛰️";
+          content: "📙";
         }
 
         > ul > li {
           &::before {
-            content: "✈️";
+            content: "📕";
           }
 
           > ul > li {
             &::before {
-              content: "🚘";
+              content: "📗";
             }
 
             > ul > li {
               &::before {
-                content: "🚐";
+                content: "📒";
               }
 
               > ul > li {
                 &::before {
-                  content: "🚅";
+                  content: "📚";
                 }
               }
             }

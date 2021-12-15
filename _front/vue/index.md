@@ -11,8 +11,6 @@ Vue (读音 /vjuː/，类似于 view) 是一套用于构建用户界面的`渐�
 
 # 案例说明
 
-本博客一般情况下`博客文档`和`相关源代码`是在同一目录下的。
-
 Vue项目实际开发环境以`npm`或`CLI`创建项目，并使用`单文档组件`
 。这将到在jekyll本地编译速度严重降低，因此，跟单文档组件相关的案例单独新建工程，[案例地址](https://github.com/guosonglu/vue-demo)
 
@@ -143,7 +141,7 @@ vue3.0得下[beta版](https://chrome.google.com/webstore/detail/vuejs-devtools/l
 
 实际开发场景中，这种方式不常用。一般采用`单文件组件`作为根组件
 
-[示例演示](helloworld.html)
+[示例演示](vue3/helloworld.html)
 
 ```html
 <!DOCTYPE html>
@@ -235,7 +233,7 @@ Vue.js 使用了基于 HTML 的模板语法，允许开发者声明式地将 DOM
 
 文本插值支持JavaScript表达式
 
-[示例：](interpolations-text.html)
+[示例：](vue3/interpolations-text.html)
 
 ```html
 <!DOCTYPE html>
@@ -305,7 +303,7 @@ class属性和style属性指令增强：
 - 对象语法
 - 数组语法
 
-[示例：](v-bind.html)
+[示例：](vue3/v-bind.html)
 
 ```html
 <!DOCTYPE html>
@@ -474,7 +472,7 @@ class属性和style属性指令增强：
 - checkbox 和 radio 使用 `checked` property 和 `change` 事件；
 - select 字段将 value 作为 `prop` 并将 `change` 作为事件。
 
-[示例：](v-model.html)
+[示例：](vue3/v-model.html)
 
 ```html
 <!DOCTYPE html>
@@ -1060,5 +1058,98 @@ app.component('custom-layout', {
 子组件通过`slot`接受父组件传来的内容
 
 ## 动态组件
+
+# Vue Router
+
+VueRouter是Vue.js的`官方路由`。它与Vue.js核心深度集成，让用Vue.js构建单页应用变得轻而易举。
+
+## 安装
+
+- 直接下载/CDN
+
+[CDN链接最新版本](https://unpkg.com/vue-router@4)
+
+- npm
+
+```shell
+npm install vue-router@4
+```
+
+## 入门
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue Router</title>
+</head>
+<body>
+<div id="app">
+    <h1>Hello App!</h1>
+    <p>
+        <!--使用 router-link 组件进行导航 -->
+        <!--通过传递 `to` 来指定链接 -->
+        <!--`<router-link>` 将呈现一个带有正确 `href` 属性的 `<a>` 标签-->
+        <router-link to="/">Go to Home</router-link>
+        <router-link to="/about">Go to About</router-link>
+    </p>
+    <!-- 路由出口 -->
+    <!-- 路由匹配到的组件将渲染在这里 -->
+    <router-view></router-view>
+</div>
+<script src="../js/vue.global.js"></script>
+<script src="../js/vue-router.global.js"></script>
+
+<script>
+    // 1. 定义路由组件.
+    // 也可以从其他文件导入
+    const Home = { template: '<div>Home</div>' }
+    const About = { template: '<div>About</div>' }
+
+    // 2. 定义一些路由
+    // 每个路由都需要映射到一个组件。
+    // 我们后面再讨论嵌套路由。
+    const routes = [
+        { path: '/', component: Home },
+        { path: '/about', component: About },
+    ]
+
+    // 3. 创建路由实例并传递 `routes` 配置
+    // 你可以在这里输入更多的配置，但我们在这里
+    // 暂时保持简单
+    const router = VueRouter.createRouter({
+        // 4. 内部提供了 history 模式的实现。为了简单起见，我们在这里使用 hash 模式。
+        history: VueRouter.createWebHashHistory(),
+        routes, // `routes: routes` 的缩写
+    })
+
+    // 5. 创建并挂载根实例
+    const app = Vue.createApp({})
+    //确保 _use_ 路由实例使
+    //整个应用支持路由。
+    app.use(router)
+    //
+    app.mount('#app')
+
+    // 现在，应用已经启动了！
+</script>
+</body>
+</html>
+```
+
+- html部分
+  - `router-link`:可以在不重新加载页面的情况下更改URL
+  - `router-view`:显示与url对应的组件,相当于是一个占位符
+- js部分
+  - 定义路由组件
+  - 定义一些路由
+  - 创建路由实例并传递`routes`配置
+  - 
+
+# Vuex
+
+Vuex是一个专为Vue.js应用程序开发的`状态管理模式`+`库`。它采用集中式存储管理应用的所有组件的状态，
+并以相应的规则保证状态以一种可预测的方式发生变化。
 
 

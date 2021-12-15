@@ -11,8 +11,6 @@
 .main-content {
   line-height: $content-line-height;
 
-  ol,
-  ul,
   dl,
   pre,
   address,
@@ -76,6 +74,7 @@
     list-style-type: none;
 
     > li {
+      color: #b1bdc9;
       &::before {
         position: absolute;
         margin-left: -1.4em;
@@ -85,27 +84,27 @@
 
       > ul > li {
         &::before {
-          content: "📙";
+          content: "🏷️";
         }
 
         > ul > li {
           &::before {
-            content: "📕";
+            content: "🔖";
           }
 
           > ul > li {
             &::before {
-              content: "📗";
+              content: "📌";
             }
 
             > ul > li {
               &::before {
-                content: "📒";
+                content: "📍";
               }
 
               > ul > li {
                 &::before {
-                  content: "📚";
+                  content: "📎";
                 }
               }
             }
@@ -249,7 +248,12 @@
     position: relative;
     margin-top: 0.5em;
     margin-bottom: 0.25em;
-    font-family: 'Indie Flower','Long Cang';
+    font-family: 'Indie Flower', 'Long Cang';
+
+    background-clip:padding-box,border-box;
+    background-origin:padding-box,border-box;
+    background-image:linear-gradient(135deg,#232425,#232425),linear-gradient(135deg, #0682ce,#232425);
+    border-bottom:1px transparent solid;
 
     &:first-child {
       margin-top: $sp-2;

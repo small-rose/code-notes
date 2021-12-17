@@ -1,8 +1,5 @@
 package cn.com.lgs.introduction;
 
-import sun.security.util.ArrayUtil;
-
-import java.util.Arrays;
 import java.util.Scanner;
 
 /**

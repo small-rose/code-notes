@@ -2,17 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/code-notes.iml" filepath="$PROJECT_DIR$/code-notes.iml" />
-      <module fileurl="file://$PROJECT_DIR$/_java/data-structure/data-structure.iml" filepath="$PROJECT_DIR$/_java/data-structure/data-structure.iml" />
-      <module fileurl="file://$PROJECT_DIR$/_java/design-pattern/design-pattern.iml" filepath="$PROJECT_DIR$/_java/design-pattern/design-pattern.iml" />
-      <module fileurl="file://$PROJECT_DIR$/_java/javase/fervor-over-server/fervor-over-server.iml" filepath="$PROJECT_DIR$/_java/javase/fervor-over-server/fervor-over-server.iml" />
-      <module fileurl="file://$PROJECT_DIR$/_java/javaee/javaee.iml" filepath="$PROJECT_DIR$/_java/javaee/javaee.iml" />
-      <module fileurl="file://$PROJECT_DIR$/_java/javase/javase.iml" filepath="$PROJECT_DIR$/_java/javase/javase.iml" />
-      <module fileurl="file://$PROJECT_DIR$/_java/javase/fervor-over-server/jdbc/jdbc.iml" filepath="$PROJECT_DIR$/_java/javase/fervor-over-server/jdbc/jdbc.iml" />
-      <module fileurl="file://$PROJECT_DIR$/_environment/ide/junit5/junit5.iml" filepath="$PROJECT_DIR$/_environment/ide/junit5/junit5.iml" />
-      <module fileurl="file://$PROJECT_DIR$/_java/jvm/jvm.iml" filepath="$PROJECT_DIR$/_java/jvm/jvm.iml" />
-      <module fileurl="file://$PROJECT_DIR$/_java/spring/mybatis/mybatis-plus-hello/mybatis-plus-hello.iml" filepath="$PROJECT_DIR$/_java/spring/mybatis/mybatis-plus-hello/mybatis-plus-hello.iml" />
-      <module fileurl="file://$PROJECT_DIR$/_java/javase/new-to-java/new-to-java.iml" filepath="$PROJECT_DIR$/_java/javase/new-to-java/new-to-java.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/code-notes.iml" filepath="$PROJECT_DIR$/.idea/code-notes.iml" />
     </modules>
   </component>
 </project>

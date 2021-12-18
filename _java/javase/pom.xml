@@ -12,10 +12,6 @@
 
     <artifactId>javase</artifactId>
     <packaging>pom</packaging>
-    <modules>
-        <module>new-to-java</module>
-        <module>fervor-over-server</module>
-    </modules>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

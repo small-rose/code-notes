@@ -1,6 +1,11 @@
 package cn.com.lgs.control_flow;
 
+import com.sun.org.apache.xpath.internal.operations.String;
+
 /**
+ * Java中没有goto
+ * continue和break都有类似goto的功能
+ *
  * @author 10545
  * @date 2021/11/26 20:49
  */

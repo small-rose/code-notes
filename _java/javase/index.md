@@ -563,10 +563,36 @@ class Demo {
     - 首字母小写，后面的单词首字母大写
     - 首字母是一个动词
   - `圆括号内的参数列表`：参数间用分号隔开
+    - 参数类型后加`...`表示可变参数
   - `异常列表`
   - `花括号内的方法体`
 
 `方法签名`：方法名+参数
+
+## 构造器
+
+调用构造器可以从类创建对象
+
+构造器与方很相似，但有一下区别：
+
+- 构造器没有返回值
+- 构造器名称与类名一样
+
+```java
+public class Bicycle {
+  private int cadence;
+
+  public Bicycle(int startCadence) {
+    cadence = startCadence;
+  }
+}
+```
+
+使用`new`关键字调用构造器：
+
+```java
+Bicycle mybBike = new Bicycle(30);
+```
 
 # 对象
 

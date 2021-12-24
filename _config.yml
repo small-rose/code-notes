@@ -59,6 +59,8 @@ collections:
     output: true
   foreignlanguage:
     output: true
+  other:
+    output: true
 
 
 just_the_docs:
@@ -77,6 +79,8 @@ just_the_docs:
       name: 环境与配置
     foreignlanguage:
       name: 外语
+    other:
+      name: 其它
 
 
 aux_links:

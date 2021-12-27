@@ -21,6 +21,14 @@ nav_order: 10
   - [信息安全技术 密码应用标识规范](http://c.gb688.cn/bzgk/gb/showGb?type=online&hcno=252CF0F72A7BE339A56DEA7D774E8994)
   - [信息安全技术 公钥基础设施 时间戳规范](http://c.gb688.cn/bzgk/gb/showGb?type=online&hcno=D7A78565FC031B07389DCC44343A1727)
   - [信息安全技术 SM2密码算法使用规范](http://c.gb688.cn/bzgk/gb/showGb?type=online&hcno=2127A9F19CB5D7F20D17D334ECA63EE5)
+  - [信息安全技术 SM3密码杂凑算法](http://c.gb688.cn/bzgk/gb/showGb?type=online&hcno=45B1A67F20F3BF339211C391E9278F5E)
+  - [党政机关电子公文格式规范 第3部分：实施指南](http://c.gb688.cn/bzgk/gb/showGb?type=online&hcno=3904ECBBC695B9FA60FE3FB2B0CB9BF0)
+  - [信息安全技术 安全电子签章密码技术规范](http://c.gb688.cn/bzgk/gb/showGb?type=online&hcno=EBF1360C272E40E7A8B9B32ED0724AB1)
 - [国家政务服务平台标准 统一电子印章 印章技术要求](https://kdocs.cn/l/smZkhtPiS9ih)
+  - [信息安全技术 公钥基础设施 数字证书格式](http://c.gb688.cn/bzgk/gb/showGb?type=online&hcno=F7B410A1B0C06206E5FFB0FBFEE82C75)
+  - [党政机关电子印章应用规范](http://c.gb688.cn/bzgk/gb/showGb?type=online&hcno=375141AED78EB88C73461AFAAE4F746E)
+  - [信息安全技术 SM2密码算法加密签名消息语法规范](http://c.gb688.cn/bzgk/gb/showGb?type=online&hcno=A7B91213CC4862B31BE2C84665CB8F7E)
 - [国家政务服务平台标准 统一电子印章 接入测试方法](https://kdocs.cn/l/stX4qIeJiwh0)
 - [国家政务服务平台标准 统一电子印章 系统接口要求](https://kdocs.cn/l/sa6mztgpiz8U)
+
+

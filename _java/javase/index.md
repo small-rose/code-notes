@@ -709,6 +709,159 @@ Java在确定不再使用某些对象时就会删除它们，这个过程叫做 
   - 可以直接访问外部类的方法和字段
   - 内部类不能定义任何静态成员
 
+这里我们主要重点讨论非静态的内部类。一方面静态内部类相当于外部类，另一方面两者一起讨论任意混淆。
+
+## 内部类创建
+
+```java
+package cn.com.lgs.inner_classes;
+
+/**
+ * 外部类的创建
+ *
+ * @author luguosong
+ * @date 2021/12/29 9:59
+ */
+public class Parcel {
+
+    class Destination {
+        private String label;
+
+        Destination(String whereTo) {
+            label = whereTo;
+        }
+    }
+
+    public Destination to(String s) {
+        return new Destination(s);
+    }
+
+    public static void main(String[] args) {
+        //创建内部类对象方式一：先创建外部类对象，再创建内部类对象
+        Destination hello = new Parcel().new Destination("hello");
+        //创建内部类对象方式二：将创建内部类的行为包装到外部类的方法中
+        Destination hello1 = new Parcel().to("hello");
+    }
+}
+```
+
+## 内部类访问外部类成员
+
+`内部类`中可以直接访问`外部类`的成员
+
+```java
+package cn.com.lgs.inner_classes;
+
+/**
+ * 内部类访问外部类字段
+ *
+ * @author luguosong
+ * @date 2021/12/29 10:17
+ */
+
+interface Selector {
+    boolean end();
+
+    Object current();
+
+    void next();
+}
+
+public class Sequence {
+    private Object[] items;
+    private int next = 0;
+
+    public Sequence(int size) {
+        items = new Object[size];
+    }
+
+    public void add(Object x) {
+        if (next < items.length)
+            items[next++] = x;
+    }
+
+    //内部类
+    private class SequenceSelector implements Selector {
+        private int i = 0;
+
+        @Override
+        public boolean end() {
+            //内部类访问外部items数组
+            return i == items.length;
+        }
+
+        @Override
+        public Object current() {
+            //内部类访问外部items数组
+            return items[i];
+        }
+
+        @Override
+        public void next() {
+            //内部类访问外部items数组
+            if (i < items.length) i++;
+        }
+    }
+
+    //外部类通过方法创建内部类对象
+    public Selector selector() {
+        return new SequenceSelector();
+    }
+
+    public static void main(String[] args) {
+        //创建外部类添加数组
+        Sequence sequence = new Sequence(10);
+        for (int i = 0; i < 10; i++)
+            sequence.add(Integer.toString(i));
+        //创建内部类
+        Selector selector = sequence.selector();
+        //内部内访问外部类数组进行遍历
+        while (!selector.end()) {
+            System.out.print(selector.current() + " ");
+            selector.next();
+        }
+    }
+}
+```
+
+## 内部类this访问外部类引用
+
+内部类中通过`外部类类名.this`访问外部类对象引用
+
+```java
+package cn.com.lgs.inner_classes;
+
+/**
+ * 内部类访问外部类对象引用
+ *
+ * @author luguosong
+ * @date 2021/12/29 11:28
+ */
+public class DotThis {
+    void f() {
+        System.out.println("DotThis.f()");
+    }
+
+    public class Inner {
+        public DotThis outer() {
+            //返回外部类对象引用
+            return DotThis.this;
+            // 如果直接写“this”，引用的会是Inner的“this”
+        }
+    }
+
+    public Inner inner() {
+        return new Inner();
+    }
+
+    public static void main(String[] args) {
+        DotThis dt = new DotThis();
+        DotThis.Inner dti = dt.inner();
+        dti.outer().f();
+    }
+}
+```
+
 ## 局部类
 
 - 特殊的内部类，在方法体内声明

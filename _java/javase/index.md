@@ -898,8 +898,6 @@ public class DotThis {
 
 # 正则表达式
 
-# 泛型
-
 # 反射
 
 # 集合

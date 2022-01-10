@@ -856,8 +856,8 @@ public class DotThis {
 
     public static void main(String[] args) {
         DotThis dt = new DotThis();
-        DotThis.Inner dti = dt.inner();
-        dti.outer().f();
+      DotThis.Inner dti = dt.inner();
+      dti.outer().f();
     }
 }
 ```
@@ -866,18 +866,162 @@ public class DotThis {
 
 特殊的内部类。局部类可以在任意`块`中定义,一般定义在方法体中。
 
-局部类可以访问所属类的成员。
+局部类都是非静态的，因为它们要访问所属块的实例成员。块中不能声明接口，因为接口是内在静态的。
 
-局部类也可以访问`所属块`的`局部变量`。JDK8之前，访问的这些局部变量必须使用final修饰。
+局部类中`不可以有静态成员`。但可以有`常量`。
+
+局部类可以访问所属类的成员。静态方法中的局部类只能引用所属类的静态成员。
+
+局部类也可以访问`所属块`的`局部变量`。JDK8之前，访问的这些局部变量必须使用final修饰。JDK8后，访问所属块的局部变量可以是`final`或者`effectively final`。
+
+- 为什么局部类访问所属块的变量得是`final`或者`effectively final`
+  - 是因为块中的局部变量的`生命周期`导致的
+  - 局部类中引用所在块的局部变量。所在块走完，局部变量销毁。这个时候如果在局部类中对该变量进行操作，该变量已经不在了，将产生矛盾。
+  - 局部类`复制一份局部变量`，作为局部类的成员变量。即使局部变量死亡后，局部类仍然可以访问它。
+
+```java
+package cn.com.lgs.inner_classes;
+
+/**
+ * 局部类示例：验证两个号码的合法性
+ *
+ * @author 10545
+ * @date 2022/1/3 20:37
+ */
+public class LocalClassExample {
+    static String regularExpression = "[^0-9]";
+
+    public static void validatePhoneNumber(String phoneNumber1, String phoneNumber2) {
+        //JDK8之前，局部类引用的外部变量需要使用final修饰
+        //final int numberLength = 10;
+        //JDK8以及之后版本不需要final修饰
+        int numberLength = 10;
+
+        /////////////////////////////////////////////////////////////////////////////////
+
+        /**
+         * 局部类
+         */
+        class PhoneNumber {
+
+            //局部类中不可以有静态成员
+            //static String phone;
+            //但允许常量
+            final static String PHONE = "123-456-7890";
+
+            String formattedPhoneNumber = null;
+
+            PhoneNumber(String phoneNumber) {
+                String currentNumber = phoneNumber.replaceAll(regularExpression, "");
+                //局部类可以访问所属块的局部变量numberLength，该变量必须是effectively final的
+                if (currentNumber.length() == numberLength) {
+                    formattedPhoneNumber = currentNumber;
+                } else {
+                    formattedPhoneNumber = null;
+                }
+            }
+
+            public String getNumber() {
+                return formattedPhoneNumber;
+            }
+
+            //JDK8之后可以访问所在方法的参数，但同样是effectively final的
+            public void printOriginalNumbers() {
+                System.out.println("原始数字是：" + phoneNumber1 + "和" + phoneNumber2);
+            }
+        }
+
+        /////////////////////////////////////////////////////////////////////////////////
+
+        PhoneNumber myNumber1 = new PhoneNumber(phoneNumber1);
+        PhoneNumber myNumber2 = new PhoneNumber(phoneNumber2);
+
+        //JDK8之后可以访问局部类外部非final修饰的
+        myNumber1.printOriginalNumbers();
+
+        if (myNumber1.getNumber() == null) System.out.println("第一个数字无效");
+        else System.out.println("第一个数字是：" + myNumber1.getNumber());
+
+        if (myNumber2.getNumber() == null) System.out.println("第二个数无效");
+        else System.out.println("第二个数字是：" + myNumber2.getNumber());
+    }
+
+    public static void main(String[] args) {
+        validatePhoneNumber("123-456-7890", "456-7890");
+    }
+}
+```
+
+## 匿名类
+
+局部类是`类声明`，而匿名类是`表达式`。
+
+如果局部类只使用一次，则推荐使用匿名类。
+
+匿名类可以访问所属类的成员
+
+与局部类相同，可以访问所在块`final`或者`effectively final`的局部变量
 
 
 
+- 匿名类表达式包含如下内容
+  - `new`运算符
+  - 实现的接口或继承的类名
+  - 将参数包含入构造器的括号。和通常的类实例表达式类似
+  - 类声明体
 
+```java
+package cn.com.lgs.inner_classes;
 
+/**
+ * 匿名类和局部类比较
+ *
+ * @author luguosong
+ * @date 2022/1/10 9:57
+ */
+public class HelloWorldAnonymousClasses {
+    interface HelloWorld {
+        public void greet();
+    }
 
-# Lambda表达式
+    public void sayHello() {
+        //局部类，是一个类的声明
+        class LocalClassesGreeting implements HelloWorld {
+            @Override
+            public void greet() {
+                System.out.println("Hello,局部类");
+            }
+        }
+        //使用局部类
+        LocalClassesGreeting localClassesGreeting = new LocalClassesGreeting();
+
+        //匿名类不需要声明，而是作为表达式直接使用
+        HelloWorld helloWorld = new HelloWorld() {
+            @Override
+            public void greet() {
+                System.out.println("Hello,匿名类");
+            }
+        };
+
+        //使用对象
+        localClassesGreeting.greet();
+        helloWorld.greet();
+    }
+
+    public static void main(String[] args) {
+        HelloWorldAnonymousClasses worldAnonymousClasses = new HelloWorldAnonymousClasses();
+        worldAnonymousClasses.sayHello();
+    }
+}
+```
+
+## Lambda表达式
+
+使匿名类更加简洁
 
 # 枚举类型
+
+允许变量为`一组预定义常量`的特殊数据类型.
 
 # 注解
 

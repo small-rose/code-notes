@@ -15,14 +15,23 @@ public class LocalClassExample {
         //JDK8以及之后版本不需要final修饰
         int numberLength = 10;
 
+        /////////////////////////////////////////////////////////////////////////////////
+
         /**
-         * 内部类
+         * 局部类
          */
         class PhoneNumber {
+
+            //局部类中不可以有静态成员
+            //static String phone;
+            //但允许常量
+            final static String PHONE = "123-456-7890";
+
             String formattedPhoneNumber = null;
 
             PhoneNumber(String phoneNumber) {
                 String currentNumber = phoneNumber.replaceAll(regularExpression, "");
+                //局部类可以访问所属块的局部变量numberLength，该变量必须是effectively final的
                 if (currentNumber.length() == numberLength) {
                     formattedPhoneNumber = currentNumber;
                 } else {
@@ -34,11 +43,13 @@ public class LocalClassExample {
                 return formattedPhoneNumber;
             }
 
-            //JDK8之后可以访问局部类外部非final修饰的
+            //JDK8之后可以访问所在方法的参数，但同样是effectively final的
             public void printOriginalNumbers() {
                 System.out.println("原始数字是：" + phoneNumber1 + "和" + phoneNumber2);
             }
         }
+
+        /////////////////////////////////////////////////////////////////////////////////
 
         PhoneNumber myNumber1 = new PhoneNumber(phoneNumber1);
         PhoneNumber myNumber2 = new PhoneNumber(phoneNumber2);

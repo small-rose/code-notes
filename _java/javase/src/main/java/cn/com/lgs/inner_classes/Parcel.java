@@ -22,7 +22,7 @@ public class Parcel {
 
     public static void main(String[] args) {
         //创建内部类对象方式一：先创建外部类对象，再创建内部类对象
-        Destination hello = new Parcel().new Destination("hello");
+        Parcel.Destination hello = new Parcel().new Destination("hello");
         //创建内部类对象方式二：将创建内部类的行为包装到外部类的方法中
         Destination hello1 = new Parcel().to("hello");
     }

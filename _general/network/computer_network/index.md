@@ -7,7 +7,7 @@ parent: 网络
 
 # 概述
 
-参考书籍：(计算机网络（原书第7版）)[https://book.douban.com/subject/30280001/]
+参考书籍：[计算机网络（原书第7版）](https://book.douban.com/subject/30280001/)
 
 ## 因特网
 

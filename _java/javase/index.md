@@ -871,7 +871,9 @@ public class DotThis {
 }
 ```
 
+### 内部类向上转型
 
+使用private修饰内部类，并实现公共的接口。达到隐藏实现的目的。
 
 ## 局部类
 
@@ -972,8 +974,6 @@ public class LocalClassExample {
 匿名类可以访问所属类的成员
 
 与局部类相同，可以访问所在块`final`或者`effectively final`的局部变量
-
-
 
 - 匿名类表达式包含如下内容
   - `new`运算符

@@ -1,11 +1,7 @@
 package cn.com.lgs.asn1;
 
 import org.bouncycastle.asn1.*;
-import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPublicKey;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
 
@@ -84,6 +80,6 @@ public class Types {
         //VisibleString类型
         ASN1VisibleString asn1VisibleString = new DERVisibleString("hello world 你好");
         System.out.println("VisibleString类型:"+asn1VisibleString);
-        
+
     }
 }

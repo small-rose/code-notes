@@ -702,6 +702,7 @@ Java在确定不再使用某些对象时就会删除它们，这个过程叫做 
 - 内部类完善了多重继承问题的解决方案，每个内部类都可以独立地继承自一个实现。因此，外部类是否已经继承了某个实现，
 对内部类并没有限制。
 - `闭包`：内部类包含所在作用域信息。可以访问到外围类的变量、方法或者其它内部类等所有成员。
+- 在`控制框架`中的应用。
 
 
 ## 分类
@@ -882,6 +883,39 @@ public class DotThis {
 ### 内部类向上转型
 
 使用private修饰内部类，并实现公共的接口。达到隐藏实现的目的。
+
+
+### 继承内部类
+
+构造器要传递一个指向其包围类对象的引用，并且执行`super()`方法
+
+```java
+package cn.com.lgs.inner_classes;
+
+/**
+ * 继承一个内部类
+ *
+ * @author luguosong
+ * @date 2022/1/25 10:25
+ */
+class WithInner {
+    class Inner {
+    }
+}
+
+public class InheritInner extends WithInner.Inner {
+    //- InheritInner() {} // 不能编译
+
+    InheritInner(WithInner wi) {
+        wi.super();
+    }
+
+    public static void main(String[] args) {
+        WithInner wi = new WithInner();
+        InheritInner ii = new InheritInner(wi);
+    }
+}
+```
 
 ## 局部类
 

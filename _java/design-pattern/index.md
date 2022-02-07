@@ -121,3 +121,207 @@ nav_order: 4
 - 里氏代换原则是基础
 - 依赖导致原则是手段
 
+# 简单工厂模式
+
+## 模式分类
+
+创建型模式
+
+对象模式
+
+## 模式概述
+
+定义一个工厂类，它可以根据参数的不同返回不同类的实例，被创建的实例通常具有共同的父类。
+
+## 模式结构与实现
+
+![](img/simple-factory-pattern/structure.svg)
+
+- Factory(工厂角色)
+- Product(抽象产品角色)
+- ConcreteProduct(具体产品角色)
+
+## 实例代码
+
+> 某公司需要开发一套图表库，该表标可以为应用系统提供多种不同外观的图表。
+> 如柱状图（HistogramChart）、饼状图（PieChart）、折线图（LineChart）等。
+> 通过设置不同的参数即可得到不同类型的图表，而且可以较为方便地对图表库进行拓展，以便增加新的图表库。
+
+- 抽象图表接口，充当抽象产品类：
+
+```java
+package cn.com.lgs.simple_factory_pattern;
+
+/**
+ * 抽象图表接口，充当抽象产品类
+ *
+ * @author luguosong
+ * @date 2022/2/2 9:56
+ */
+public interface Chart {
+  public void display();
+}
+```
+
+- 柱状图类，充当具体产品类：
+
+```java
+package cn.com.lgs.simple_factory_pattern;
+
+/**
+ * 柱状图类
+ *
+ * @author luguosong
+ * @date 2022/2/2 9:58
+ */
+public class HistogramChart implements Chart {
+
+  public HistogramChart() {
+    System.out.println("创建柱状图！");
+  }
+
+  @Override
+  public void display() {
+    System.out.println("显示柱状图！");
+  }
+}
+```
+
+- 饼状图类，充当具体产品类：
+
+```java
+package cn.com.lgs.simple_factory_pattern;
+
+/**
+ * 饼状图类
+ *
+ * @author luguosong
+ * @date 2022/2/2 10:00
+ */
+public class PieChart implements Chart {
+
+  public PieChart() {
+    System.out.println("创建饼状图！");
+  }
+
+  @Override
+  public void display() {
+    System.out.println("显示饼状图！");
+  }
+}
+```
+
+- 折线图类，充当具体产品类：
+
+```java
+package cn.com.lgs.simple_factory_pattern;
+
+/**
+ * 折线图类
+ *
+ * @author luguosong
+ * @date 2022/2/2 10:02
+ */
+public class LineChart implements Chart {
+
+  public LineChart() {
+    System.out.println("创建折线图！");
+  }
+
+  @Override
+  public void display() {
+    System.out.println("显示折线图！");
+  }
+}
+```
+
+- 图表工厂类，充当工厂类。
+
+```java
+package cn.com.lgs.simple_factory_pattern;
+
+/**
+ * @author luguosong
+ * @date 2022/2/2 10:04
+ */
+public class ChartFactory {
+  public static Chart getChart(String type) {
+    Chart chart = null;
+    if (type.equalsIgnoreCase("histogram")) {
+      chart = new HistogramChart();
+      System.out.println("初始化设置柱状图！");
+    } else if (type.equalsIgnoreCase("pie")) {
+      chart = new PieChart();
+      System.out.println("初始化设置饼状图！");
+    } else if (type.equalsIgnoreCase("line")) {
+      chart = new LineChart();
+      System.out.println("初始化设置折线图！");
+    }
+    return chart;
+  }
+}
+```
+
+- 测试类：
+
+```java
+package cn.com.lgs.simple_factory_pattern;
+
+/**
+ * @author luguosong
+ * @date 2022/2/2 10:10
+ */
+public class Demo {
+  public static void main(String[] args) {
+    Chart chart;
+    chart = ChartFactory.getChart("histogram"); //通过静态工厂方法创建产品
+    chart.display();
+  }
+}
+```
+
+- 运行结果
+
+```shell
+创建柱状图！
+初始化设置柱状图！
+显示柱状图！
+```
+
+## 模式拓展
+
+- 客户端调用简单工厂类，可以将参数放到配置文件中，满足开闭原则。
+- 为了简化`简单工厂`,可以将`静态工厂方法`移至`抽象产品类`中，不提供具体的工厂类。 客户端可以通过调用产品父类的静态工厂方法，根据参数不同创建不同类型的产品子类对象。
+
+## 效果
+
+- 注意点
+  - 如果一个类很简单，不存在太多变化，其构造过程也很简单， 此时就无需为其提供工厂类。直接在使用之前实例化就行，避免工厂泛滥。
+
+
+- 优点
+  - 将`创建对象`和`使用对象`职责分离，降低了耦合性。
+  - 将创建对象的代码集中到一处，而不是散播的到处都是。防止出现代码重复、创建蔓延的问题。
+  - 客户端无须知道所创建的具体产品类的`复杂`类名，只需要知道产品所对应的参数即可，减少记忆量。
+
+- 缺点
+  - 工厂类集中了所有产品的创建逻辑，职责过重，一旦不能正常工作，整个系统都要受到影响。
+  - 新增了`工厂类`,增加了系统的复杂度和理解难度
+  - 拓展困难，一旦增加新产品就不得不修改工厂逻辑。产品类型较多时工厂类逻辑会过于复杂。
+  - 使用静态工厂方法，无法形成基于继承的等级结构
+
+## 模式的适用性
+
+- 工厂类负责创建对象较少，不会造成工厂类业务逻辑过于复杂
+- 客户端只知道传入工厂类的参数，对如何创建对象并不关心
+
+# 工厂方法模式
+
+## 模式分类
+
+创建型模式
+
+
+
+
+

@@ -121,7 +121,7 @@ nav_order: 4
 - 里氏代换原则是基础
 - 依赖导致原则是手段
 
-# 简单工厂模式
+# 简单工厂模式（Simple Factory）
 
 ## 模式分类
 
@@ -146,6 +146,8 @@ nav_order: 4
 > 某公司需要开发一套图表库，该表标可以为应用系统提供多种不同外观的图表。
 > 如柱状图（HistogramChart）、饼状图（PieChart）、折线图（LineChart）等。
 > 通过设置不同的参数即可得到不同类型的图表，而且可以较为方便地对图表库进行拓展，以便增加新的图表库。
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202202101737486.png)
 
 - 抽象图表接口，充当抽象产品类：
 
@@ -293,6 +295,8 @@ public class Demo {
 - 客户端调用简单工厂类，可以将参数放到配置文件中，满足开闭原则。
 - 为了简化`简单工厂`,可以将`静态工厂方法`移至`抽象产品类`中，不提供具体的工厂类。 客户端可以通过调用产品父类的静态工厂方法，根据参数不同创建不同类型的产品子类对象。
 
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202202100925118.png)
+
 ## 效果
 
 - 注意点
@@ -315,11 +319,167 @@ public class Demo {
 - 工厂类负责创建对象较少，不会造成工厂类业务逻辑过于复杂
 - 客户端只知道传入工厂类的参数，对如何创建对象并不关心
 
-# 工厂方法模式
+# 工厂方法模式（Factory Method）
+
+## 别名
+
+虚构造器（Virtual Constructor）
+
+工厂模式(Factory Pattern)
+
+多态工厂模式(Polymorphic Factory Pattern)
 
 ## 模式分类
 
 创建型模式
+
+类模式
+
+## 模式概述
+
+定义一个用于创建对象的接口，让子类决定将哪一个类实例化。工厂方法模式让一个类的实例化延迟到其子类
+
+## 模式结构与实现
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202202101035560.png)
+
+- Product（抽象产品）：它是定义产品的接口，是工厂方法模式所创建对象的超类型，也就是产品对象的公共父类。
+- ConcreteProduct（具体产品）：它实现了抽象产品接口，某种类型的具体产品由专门的具体工厂创建，具体工厂和具体产品之间一一对应。
+- Factory（抽象工厂）：在抽象工厂类中，声明了工厂方法(Factory Method)，用于返回一个产品。抽象工厂是工厂方法模式的核心，所有创建对象的工厂类都必须实现该接口。
+- ConcreteFactory（具体工厂）：它是抽象工厂类的子类，实现了抽象工厂中定义的工厂方法，并可由客户端调用，返回一个具体产品类的实例。
+ 
+## 实例代码
+
+> 某软件公司欲开发一个系统运行日志记录器(Logger)，该记录器可以通过多种途径保存系统的运行日志，
+> 如通过文件记录或数据库记录，用户可以通过修改配置文件灵活地更换日志记录方式。
+> 在设计各类日志记录器时，Sunny公司的开发人员发现需要对日志记录器进行一些初始化工作，
+> 初始化参数的设置过程较为复杂，而且某些参数的设置有严格的先后次序，否则可能会发生记录失败。
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202202101701637.png)
+
+```java
+/**
+ * 日志记录接口，充当抽象产品
+ *
+ * @author luguosong
+ * @date 2022/2/10 17:04
+ */
+public interface Logger {
+  public void writeLog();
+}
+
+/**
+ * 数据库记录日志器，充当具体产品
+ *
+ * @author luguosong
+ * @date 2022/2/10 17:08
+ */
+public class DatabaseLogger implements Logger{
+  @Override
+  public void writeLog() {
+    System.out.println("数据库日志记录。");
+  }
+}
+
+/**
+ * 文件日志记录器，充当具体产品角色
+ *
+ * @author luguosong
+ * @date 2022/2/10 17:11
+ */
+public class FileLogger implements Logger{
+  @Override
+  public void writeLog() {
+    System.out.println("文件记录日志");
+  }
+}
+
+/**
+ * 日志记录器工厂接口，充当抽象工厂角色
+ *
+ * @author luguosong
+ * @date 2022/2/10 17:17
+ */
+public interface LoggerFactory {
+  public Logger createLogger();  //抽象工厂方法
+}
+
+/**
+ * 数据库日志记录器工厂类，充当具体工厂
+ *
+ * @author luguosong
+ * @date 2022/2/10 17:20
+ */
+public class DatabaseLoggerFactory implements LoggerFactory {
+  @Override
+  public Logger createLogger() {
+    //连接数据库
+    //...
+
+    //创建数据库日志记录器对象
+    Logger logger = new DatabaseLogger();
+
+    //初始化数据库日志记录器
+    //...
+
+    return logger;
+  }
+}
+
+/**
+ * 文件日志记录器工厂类，充当具体工厂
+ *
+ * @author luguosong
+ * @date 2022/2/10 17:27
+ */
+public class FileLoggerFactory implements LoggerFactory {
+  @Override
+  public Logger createLogger() {
+    //创建文件日志记录器对象
+    Logger logger = new FileLogger();
+
+    //创建文件
+    //...
+
+    return logger;
+  }
+}
+
+/**
+ * @author luguosong
+ * @date 2022/2/10 17:35
+ */
+public class Demo {
+  public static void main(String[] args) {
+    LoggerFactory factory;
+    Logger logger;
+    factory = new FileLoggerFactory();
+    logger = factory.createLogger();
+    logger.writeLog();
+  }
+}
+```
+
+- 测试结果
+
+```shell
+文件记录日志
+```
+
+## 模式拓展
+
+
+
+## 效果
+
+- 优点
+  - 改进了`简单工厂`新增具体产品需要修改工厂违背`开闭原则`的弊端。
+
+## 模式的适用性
+
+## 模式应用
+
+
 
 
 

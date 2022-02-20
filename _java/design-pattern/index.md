@@ -17,7 +17,6 @@ nav_order: 4
 [史上最全设计模式导学](https://blog.csdn.net/lovelion/article/details/17517213)
 
 
-
 ## 设计模式基本要素
 
 - 模式名称
@@ -474,6 +473,9 @@ public class Demo {
 
 - 优点
   - 改进了`简单工厂`新增具体产品需要修改工厂违背`开闭原则`的弊端。
+  - 
+
+
 
 ## 模式的适用性
 

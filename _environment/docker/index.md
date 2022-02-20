@@ -6,14 +6,13 @@ nav_order: 20
 
 # 概述
 
-## 版本
-
-- `CE`:社区版
-- `EE`:企业版
-
-# 架构
+[官网](https://www.docker.com/)
 
 ## 镜像和容器
+
+通过Docker`镜像`文件生成Docker`容器`
+
+`镜像`就相当于Java中的`类`，而`容器`相当于Java中的`对象`。
 
 - 镜像
   - 将应用程序及所需要的依赖、函数库、环境、配置文件打包在一起
@@ -23,44 +22,15 @@ nav_order: 20
 
 ![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202111291653776.png)
 
-## Docker Registry
+## 仓库
 
-- 服务端
-  - Docker守护进程，负责处理Docker指令，管理镜像，容器等
-- 服务端
-  - 通过命令或RestAPI向Docker服务端发送指令。可以在本地或远程向服务器发送指令
+放`镜像`的地方
+
+[docker hub](https://hub.docker.com/)
+
+# 安装
 
 
-# 基本操作
 
-## 安装
 
-```shell
-apt-get install docker.io
-```
-
-## 启动
-
-```shell
-# 启动
-systemctl start docker
-
-# 查看启动状态
-systemctl status docker
-```
-
-## 配置docker镜像源
-
-[阿里云教程](https://cr.console.aliyun.com/cn-shanghai/instances/mirrors)
-
-```shell
-sudo mkdir -p /etc/docker
-sudo tee /etc/docker/daemon.json <<-'EOF'
-{
-  "registry-mirrors": ["https://oagsu5t7.mirror.aliyuncs.com"]
-}
-EOF
-sudo systemctl daemon-reload
-sudo systemctl restart docker
-```
 

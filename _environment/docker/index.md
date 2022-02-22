@@ -30,6 +30,12 @@ nav_order: 20
 
 # 安装
 
+## centos上安装
+
+[安装步骤](https://docs.docker.com/engine/install/centos/)
+
+## 
+
 
 
 

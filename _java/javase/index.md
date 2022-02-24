@@ -1070,7 +1070,68 @@ public class HelloWorldAnonymousClasses {
 
 ## Lambda表达式
 
-使匿名类更加简洁
+用于创建只有`一个抽象方法`的`接口`。相当于是简化的匿名内部类。
+
+Lambda由以下三部分组成：
+- 形参列表
+- 箭头
+- 代码块
+
+```java
+/**
+ * Lambda HelloWorld
+ *
+ * @author 10545
+ * @date 2022/2/24 21:40
+ */
+
+interface Command {
+  void process(int element);
+}
+
+class ProcessArray {
+  public void process(int[] target, Command cmd) {
+    for (int t : target) {
+      cmd.process(t);
+    }
+  }
+}
+
+/**
+ * 使用匿名内部类创建Command对象
+ */
+class CommandTest1 {
+  public static void main(String[] args) {
+    ProcessArray processArray = new ProcessArray();
+    int[] target = {3, -4, 6, 4};
+    processArray.process(target, new Command() {
+      @Override
+      public void process(int element) {
+        System.out.println("数组元素的平方是：" + element * element);
+      }
+    });
+  }
+}
+
+/**
+ * 使用Lambda创建Command对象
+ */
+class CommandTest2 {
+  public static void main(String[] args) {
+    ProcessArray processArray = new ProcessArray();
+    int[] target = {3, -4, 6, 4};
+    processArray.process(target, (int element) -> {
+      System.out.println("数组元素的平方是：" + element * element);
+    });
+  }
+}
+```
+
+Lambda表达式的简化写法
+- 当只有一个形参时，可以省略圆括号
+- 当Lambda表达式只有一行代码，可以省略代码块的花括号
+- 如果接口有返回值且Lambda表达式只有一行代码，则该语句将作为该代码块的返回值，可以省略`return`关键字
+
 
 # 枚举类型
 

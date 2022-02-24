@@ -1,6 +1,8 @@
 package cn.com.lgs.abstract_factory_pattern;
 
 /**
+ * Summer组合框类，充当具体产品
+ *
  * @author 10545
  * @date 2022/2/22 23:14
  */

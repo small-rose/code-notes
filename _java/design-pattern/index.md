@@ -520,7 +520,178 @@ Kit
 
 ![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220222215500.png)
 
+```java
+/**
+ * 按钮接口，充当抽象产品
+ *
+ * @author 10545
+ * @date 2022/2/22 22:10
+ */
+public interface Button {
+    public void display();
+}
 
+/**
+ * Spring按钮类，充当具体产品
+ *
+ * @author 10545
+ * @date 2022/2/22 22:29
+ */
+public class SpringButton implements Button{
+  @Override
+  public void display() {
+    System.out.println("显示浅绿色按钮");
+  }
+}
+
+/**
+ * Summer按钮类，充当具体产品
+ * 
+ * @author 10545
+ * @date 2022/2/22 22:32
+ */
+public class SummerButton implements Button{
+  @Override
+  public void display() {
+    System.out.println("显示浅蓝色按钮");
+  }
+}
+
+/**
+ * 文本框接口，充当抽象产品
+ *
+ * @author 10545
+ * @date 2022/2/22 22:41
+ */
+public interface TextField {
+  public void display();
+}
+
+/**
+ * Spring文本框类，充当具体产品
+ *
+ * @author 10545
+ * @date 2022/2/22 22:46
+ */
+public class SpringTextField implements TextField{
+  @Override
+  public void display() {
+    System.out.println("显示绿色边框文本框！");
+  }
+}
+
+/**
+ * Summer文本框类，充当具体产品
+ *
+ * @author 10545
+ * @date 2022/2/22 22:48
+ */
+public class SummerTextField implements TextField{
+  @Override
+  public void display() {
+    System.out.println("显示蓝色边框文本框");
+  }
+}
+
+/**
+ * 组合框接口，充当抽象产品
+ *
+ * @author 10545
+ * @date 2022/2/22 22:54
+ */
+public interface ComboBox {
+  public void display();
+}
+
+/**
+ * Spring组合框类，充当具体产品
+ *
+ * @author 10545
+ * @date 2022/2/22 22:55
+ */
+public class SpringComboBox implements ComboBox{
+  @Override
+  public void display() {
+    System.out.println("显示绿色边框组合框");
+  }
+}
+
+/**
+ * Summer组合框类，充当具体产品
+ *
+ * @author 10545
+ * @date 2022/2/22 23:14
+ */
+public class SummerComboBox implements ComboBox{
+  @Override
+  public void display() {
+    System.out.println("显示蓝色边框组合框");
+  }
+}
+
+/**
+ * 界面皮肤工厂接口，充当抽象工厂接口
+ *
+ * @author 10545
+ * @date 2022/2/23 21:27
+ */
+public interface SkinFactory {
+  public Button createButton();
+  public TextField createTextField();
+  public ComboBox createComboBox();
+}
+
+/**
+ * Spring皮肤工厂，充当具体工厂
+ *
+ * @author 10545
+ * @date 2022/2/23 21:35
+ */
+public class SpringSkinFactory implements SkinFactory{
+  @Override
+  public Button createButton() {
+    return new SpringButton();
+  }
+
+  @Override
+  public TextField createTextField() {
+    return new SpringTextField();
+  }
+
+  @Override
+  public ComboBox createComboBox() {
+    return new SpringComboBox();
+  }
+}
+
+/**
+ * Summer皮肤工厂，充当具体工厂
+ *
+ * @author 10545
+ * @date 2022/2/23 21:53
+ */
+public class SummerSkinFactory implements SkinFactory{
+  @Override
+  public Button createButton() {
+    return new SummerButton();
+  }
+
+  @Override
+  public TextField createTextField() {
+    return new SummerTextField();
+  }
+
+  @Override
+  public ComboBox createComboBox() {
+    return new SummerComboBox();
+  }
+}
+
+
+
+
+
+```
 
 ## 模式拓展
 

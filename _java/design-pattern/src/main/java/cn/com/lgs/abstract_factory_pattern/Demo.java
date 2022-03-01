@@ -1,6 +1,8 @@
 package cn.com.lgs.abstract_factory_pattern;
 
 /**
+ * 客户端调用
+ *
  * @author 10545
  * @date 2022/2/28 22:22
  */

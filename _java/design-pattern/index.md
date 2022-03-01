@@ -490,6 +490,12 @@ public class Demo {
 
 # 抽象工厂模式（Abstract Factory）
 
+## 名词解释
+
+`产品等级结构`：产品的继承结构
+
+`产品族`：同一个工厂生产的不同产品
+
 ## 别名
 
 Kit
@@ -687,20 +693,123 @@ public class SummerSkinFactory implements SkinFactory{
   }
 }
 
+/**
+ * 从xml配置文件中提取具体工厂类的类名，并返回一个实例对象
+ *
+ * @author 10545
+ * @date 2022/2/28 21:47
+ */
+public class XMLUtil {
+  public static Object getBean() {
+    try {
+      //创建DOM对象
+      DocumentBuilderFactory dFactory = DocumentBuilderFactory.newInstance();
+      DocumentBuilder builder = dFactory.newDocumentBuilder();
+      Document doc = builder.parse("_java/design-pattern/src/main/java/cn/com/lgs/abstract_factory_pattern/config.xml");
 
+      //获取包含类名的文本节点
+      NodeList nl = doc.getElementsByTagName("className");
+      Node classNode = nl.item(0).getFirstChild();
+      String cName = classNode.getNodeValue();
 
+      //通过类名生成实例对象并将其返回
+      Class<?> c = Class.forName(cName);
+      Object obj = c.newInstance();
+      return obj;
+    } catch (Exception e) {
+      e.printStackTrace();
+      return null;
+    }
+  }
+}
 
+/**
+ * 客户端调用
+ *
+ * @author 10545
+ * @date 2022/2/28 22:22
+ */
+public class Demo {
+  public static void main(String[] args) {
+    //使用抽象层定义
+    SkinFactory factory;
+    Button bt;
+    TextField tf;
+    ComboBox cb;
+    //使用工具类创建工厂
+    factory=(SkinFactory)XMLUtil.getBean();
+    //工厂创建对象
+    bt=factory.createButton();
+    tf=factory.createTextField();
+    cb=factory.createComboBox();
 
+    //运行具体产品
+    bt.display();
+    tf.display();
+    cb.display();
+  }
+}
 ```
 
-## 模式拓展
+客户端配置文件：
+
+```xml
+<?xml version="1.0" ?>
+<config>
+    <className>cn.com.lgs.abstract_factory_pattern.SpringSkinFactory</className>
+</config>
+```
+
+运行结果：
+
+```shell
+显示浅绿色按钮
+显示绿色边框文本框！
+显示绿色边框组合框
+```
 
 ## 效果
 
 - 优点
   - 抽象工厂相比工厂方法同时生产多个产品（创建`产品族`）
+  - 隔离了具体产品的生成，只需要改变具体工厂实例就可以改变整个软件系统的行为
+  - 当一个产品族中多个对象被设计在一起工作，能保证客户端使用同一个产品族的对象。
+  - 增加新的产品族很方便
+- 缺点
+  - 如果工厂中需要新增产品，需要先修改抽象工厂接口，再逐一修改具体工厂类，不满足开闭原则。
+    换句话说，`增加产品族`很方便，但是`增加产品等级`结构很麻烦。
 
 ## 模式适用性
+
+- 用户无需关心对象的创建过程，将对象的创建和使用解耦
+- 系统中有多于一个的产品族，而每次只使用其中某一个产品族。通过配置文件来改变产品族
+- 属于同一个产品族的产品在一起使用
+- 产品等级结构稳定，在设计完后不会向系统中增加新的产品等级结构说删除已有的产品等级结构
+
+## 模式应用
+
+Java语言的AWT(抽象窗口工具包)中使用了抽象工厂模式
+
+# 生成器模式（Builder）
+
+## 别名
+
+建造者模式
+
+## 模式分类
+
+创建型模式
+
+对象模式
+
+## 模式概述
+
+将一个复杂对象的构建与它的表示分离,使得同样的构建过程可以创建不同的表示。
+
+## 模式结构与实现
+
+
+
 
 
 

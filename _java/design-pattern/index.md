@@ -808,6 +808,14 @@ Java语言的AWT(抽象窗口工具包)中使用了抽象工厂模式
 
 ## 模式结构与实现
 
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220302214849.png)
+
+- `Builder(抽象建造者)`：为创建一个产品对象的各个部件指定抽象接口和返回复杂对象的方法。既可以是抽象类，也可以是接口。
+- `ConcreteBuilder(具体建造者)`：实现`Builder`接口
+- `Product(产品)`：被构建的复杂对象
+- `Director(指挥者)`：负责安排复杂对象的建造次序
+
+
 
 
 

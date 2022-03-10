@@ -1068,7 +1068,9 @@ public class HelloWorldAnonymousClasses {
 }
 ```
 
-## Lambda表达式
+# Lambda表达式
+
+## 概述
 
 用于创建只有`一个抽象方法`的`接口`。相当于是简化的匿名内部类。
 
@@ -1076,6 +1078,8 @@ Lambda由以下三部分组成：
 - 形参列表
 - 箭头
 - 代码块
+
+## 示例
 
 ```java
 /**
@@ -1127,11 +1131,52 @@ class CommandTest2 {
 }
 ```
 
+## 简化写法
+
 Lambda表达式的简化写法
 - 当只有一个形参时，可以省略圆括号
 - 当Lambda表达式只有一行代码，可以省略代码块的花括号
 - 如果接口有返回值且Lambda表达式只有一行代码，则该语句将作为该代码块的返回值，可以省略`return`关键字
 
+## 递归
+
+`注意`：这个lambda表达式必须被赋值给一个静态变量或一个实例变量，否则会出现编译错误
+
+```java
+package cn.com.lgs.lambda;
+
+/**
+ * 使用Lambda的递归计算斐波拉契数
+ *
+ * @author luguosong
+ * @date 2022/3/3 11:13
+ */
+
+interface IntCall {
+    int call(int arg);
+}
+
+public class RecursiveFibonacci {
+    IntCall fib;
+
+    //在构造中使用Lambda实例化fib变量
+    RecursiveFibonacci() {
+        fib = n ->
+                n == 0 ? 0 : n == 1 ? 1 : fib.call(n - 1) + fib.call(n - 2);
+    }
+
+    int fibonacci(int n){
+        return fib.call(n);
+    }
+
+    public static void main(String[] args) {
+        RecursiveFibonacci rf = new RecursiveFibonacci();
+        System.out.println(rf.fibonacci(20));
+    }
+}
+```
+
+上面示例算法复杂度是2的n次方，仅为说明Lambda的递归。一般情况尽量是线性递归
 
 # 枚举类型
 

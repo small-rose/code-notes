@@ -4,7 +4,9 @@ title: Java虚拟机
 nav_order: 3
 ---
 
-# HotSpot VM整体结构概述
+# 概述
+
+## HotSpot VM整体结构概述
 
 ![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220310214603.png)
 
@@ -27,7 +29,7 @@ nav_order: 3
   - 垃圾回收器
 
 
-# Java代码执行流程
+## Java代码执行流程
 
 1. Java源代码
 2. 编译器
@@ -44,7 +46,37 @@ nav_order: 3
    2. 即时编译执行
 6. 机器语言
 
-# 执行引擎
+## 指令架构模型
 
-## 架构模型
+指令集架构一般分为基于`栈`和`寄存器`的指令集架构。
+
+JVM的`执行引擎`是基于`栈`的指令集架构。
+
+`栈`和`寄存器`指令的区别：
+
+- `栈`指令是`零地址指令`方式分配。
+  `寄存器`指令往往是一地址指令，二地址指令和三地址指令为主，完全
+  依赖硬件，可移植性差。
+- `栈`指令不需要硬件的支持，移植性更好，更好的跨平台。
+- `栈`的指令集更小，指令更多。`寄存器`花费更少的指令去完成一项操作
+
+## Jvm生命周期
+
+- 启动
+    - 通过`引导类加载器`（bootstrap class loader）创建一个`初始类`（initial class）完成的
+- 执行
+    - 执行Java程序，实际执行的是一个叫Java虚拟机的进程。
+- 结束
+    - 程序正常执行结束
+    - 遇到异常或错误而异常终止
+    - 操作系统错误导致Java虚拟机终止
+    - 调用Runtime类或者System类的exit方法，或者Runtime类的halt方法，并且Java安全管理器也允许这次exit或halt操作。
+    - JNI Invocation API来加载或卸载
+
+## 发展史
+
+- 1996年，Java1.0使用`Sun Classic`虚拟机。执行引擎只提供了解释器。效率比较低。JDK1.4被淘汰。
+- JDK1.2提供了`Exact VM`
+- `Longview Technologies`设计了`HotSpot虚拟机`，1997年该公司被sun收购。JDK1.3时HotSpot成为默认的虚拟机
+- 
 

@@ -1,0 +1,4 @@
+<?xml version="1.0" ?>
+<config>
+    <className>cn.com.lgs.builder_pattern.AngelBuilder</className>
+</config>

@@ -1,6 +1,8 @@
 package cn.com.lgs.builder_pattern;
 
 /**
+ * 天使角色生成器，充当具体生成器
+ *
  * @author 10545
  * @date 2022/3/9 23:01
  */

@@ -1,7 +1,7 @@
 package cn.com.lgs.builder_pattern;
 
 /**
- * 游戏角色建造者，充当抽象建造者
+ * 游戏角色生成器，充当抽象生成器
  *
  * @author 10545
  * @date 2022/3/9 22:22

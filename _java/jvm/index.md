@@ -73,10 +73,13 @@ JVM的`执行引擎`是基于`栈`的指令集架构。
     - 调用Runtime类或者System类的exit方法，或者Runtime类的halt方法，并且Java安全管理器也允许这次exit或halt操作。
     - JNI Invocation API来加载或卸载
 
-## 发展史
+## 各种虚拟机
 
 - 1996年，Java1.0使用`Sun Classic`虚拟机。执行引擎只提供了解释器。效率比较低。JDK1.4被淘汰。
 - JDK1.2提供了`Exact VM`
 - `Longview Technologies`设计了`HotSpot虚拟机`，1997年该公司被sun收购。JDK1.3时HotSpot成为默认的虚拟机
-- 
+- BEA的`JRockit虚拟机`专注于服务端应用，不包含解释器，全部代码都靠即时编译器编译后执行。最快的虚拟机
+- IBM的`J9虚拟机`
+- Oracle在Java ME产品线上两款虚拟机：`CDC/CLDC HotSpot Implementation VM`
+- KVM是CLDC-HI早期产品，由于其简单，轻便，高度可移植。面向低端设备还有市场
 

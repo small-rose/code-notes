@@ -1,6 +1,6 @@
 ---
-layout: default
-title: Java虚拟机
+layout: default 
+title: HotSpot虚拟机 
 nav_order: 3
 ---
 
@@ -40,6 +40,9 @@ nav_order: 3
    5. 注解抽象语法树
    6. 字节码生成器
 3. 类的装载
+   1. 加载
+   2. 链接
+   3. 初始化
 4. 字节码校验器
 5. 执行引擎
    1. 解析执行
@@ -73,13 +76,34 @@ JVM的`执行引擎`是基于`栈`的指令集架构。
     - 调用Runtime类或者System类的exit方法，或者Runtime类的halt方法，并且Java安全管理器也允许这次exit或halt操作。
     - JNI Invocation API来加载或卸载
 
-## 各种虚拟机
+## 各个版本的虚拟机
 
 - 1996年，Java1.0使用`Sun Classic`虚拟机。执行引擎只提供了解释器。效率比较低。JDK1.4被淘汰。
 - JDK1.2提供了`Exact VM`
 - `Longview Technologies`设计了`HotSpot虚拟机`，1997年该公司被sun收购。JDK1.3时HotSpot成为默认的虚拟机
 - BEA的`JRockit虚拟机`专注于服务端应用，不包含解释器，全部代码都靠即时编译器编译后执行。最快的虚拟机
+- BEA开发运行在自家Hypervisor系统上的`Liquid VM`
 - IBM的`J9虚拟机`
-- Oracle在Java ME产品线上两款虚拟机：`CDC/CLDC HotSpot Implementation VM`
-- KVM是CLDC-HI早期产品，由于其简单，轻便，高度可移植。面向低端设备还有市场
+- Oracle在Java ME产品线上两款虚拟机：`CDC/CLDC HotSpot Implementation VM`，`KVM虚拟机`是`CLDC-HI`早期产品，由于其简单，轻便，高度可移植。面向低端设备还有市场
+- `Azul VM`是Azul Systems公司在HotSpot基础上进行大量改进。运行在Azul Systems公司专有硬件Vega系统上
+- IBM和Intel联合开发的`Apache Harmony`
+- 为了在IE3浏览器支持Java Applets,开发了`Microsoft JVM`。
+- 阿里巴巴基于OpenJDK HotSpot VM开发了自己的定制版AlibabaJDK
+- 2018年，Oracle Labs公开了`Graal VM`,可以作为`任何语言`的运行平台使用
+
+其它相关虚拟机：
+
+- 谷歌开发的`Dalvik VM`应用于Android系统。Android5.0后ART VM替换`Dalvik VM`
+
+# 类加载子系统
+
+## 加载
+
+1. 通过一个class文件的全类名
+
+## 链接
+
+## 初始化
+
+
 

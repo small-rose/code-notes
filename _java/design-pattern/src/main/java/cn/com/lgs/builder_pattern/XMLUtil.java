@@ -10,7 +10,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 
 /**
- * 工具类
+ * 工具类，通过配置文件创建具体构造器
  *
  * @author luguosong
  * @date 2022/3/15 13:54

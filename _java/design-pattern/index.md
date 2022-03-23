@@ -125,7 +125,7 @@ nav_order: 4
 - `简单工厂模式`：将对象的创建与使用分离
 - `工厂方法模式`：将对象的创建与使用分离，并将该对象的创建过程抽象出来
 - `抽象工厂模式`：将一系列对象的创建与使用分离，并将这一系列对象的创建过程抽象出来
-- `生成器模式`：将复杂对象的创建与使用分离，并将该对象各个部分的生成过程抽象出来
+- `生成器模式`：将该对象各个部分的生成过程抽象出来。指挥官指导具体生成器如何生成产品
 
 # 简单工厂模式（Simple Factory）
 
@@ -830,12 +830,418 @@ Java语言的AWT(抽象窗口工具包)中使用了抽象工厂模式
 > Sunny公司决定开发一个小工具来创建游戏角色，可以创建不同类型的角色并可以灵活增加新的角色。
 
 ```java
+/**
+ * 游戏角色类，充当复杂产品对象
+ *
+ * @author 10545
+ * @date 2022/3/9 22:17
+ */
+public class Actor {
+  private String type;  //角色类型
+  private String sex;  //性别
+  private String face;  //脸型
+  private String costume;  //服饰
+  private String hairstyle;  //发型
 
+  public String getType() {
+    return type;
+  }
+
+  public void setType(String type) {
+    this.type = type;
+  }
+
+  public String getSex() {
+    return sex;
+  }
+
+  public void setSex(String sex) {
+    this.sex = sex;
+  }
+
+  public String getFace() {
+    return face;
+  }
+
+  public void setFace(String face) {
+    this.face = face;
+  }
+
+  public String getCostume() {
+    return costume;
+  }
+
+  public void setCostume(String costume) {
+    this.costume = costume;
+  }
+
+  public String getHairstyle() {
+    return hairstyle;
+  }
+
+  public void setHairstyle(String hairstyle) {
+    this.hairstyle = hairstyle;
+  }
+
+  @Override
+  public String toString() {
+    return "Actor{" +
+            "type='" + type + '\'' +
+            ", sex='" + sex + '\'' +
+            ", face='" + face + '\'' +
+            ", costume='" + costume + '\'' +
+            ", hairstyle='" + hairstyle + '\'' +
+            '}';
+  }
+}
+
+/**
+ * 游戏角色生成器，充当抽象生成器
+ *
+ * @author 10545
+ * @date 2022/3/9 22:22
+ */
+public abstract class ActorBuilder {
+  protected Actor actor = new Actor();
+
+  public abstract void buildType();
+
+  public abstract void buildSex();
+
+  public abstract void buildFace();
+
+  public abstract void buildCostume();
+
+  public abstract void buildHairstyle();
+
+  public Actor createActor() {
+    return actor;
+  }
+}
+
+/**
+ * 英雄角色生成器，充当具体生成器
+ *
+ * @author 10545
+ * @date 2022/3/9 22:50
+ */
+public class HeroBuilder extends ActorBuilder {
+
+  @Override
+  public void buildType() {
+    actor.setType("英雄");
+  }
+
+  @Override
+  public void buildSex() {
+    actor.setSex("男");
+  }
+
+  @Override
+  public void buildFace() {
+    actor.setFace("英俊");
+  }
+
+  @Override
+  public void buildCostume() {
+    actor.setCostume("盔甲");
+  }
+
+  @Override
+  public void buildHairstyle() {
+    actor.setHairstyle("飘逸");
+  }
+}
+
+/**
+ * 英雄角色生成器，充当具体生成器
+ *
+ * @author 10545
+ * @date 2022/3/9 22:50
+ */
+public class HeroBuilder extends ActorBuilder {
+
+  @Override
+  public void buildType() {
+    actor.setType("英雄");
+  }
+
+  @Override
+  public void buildSex() {
+    actor.setSex("男");
+  }
+
+  @Override
+  public void buildFace() {
+    actor.setFace("英俊");
+  }
+
+  @Override
+  public void buildCostume() {
+    actor.setCostume("盔甲");
+  }
+
+  @Override
+  public void buildHairstyle() {
+    actor.setHairstyle("飘逸");
+  }
+}
+
+/**
+ * 天使角色生成器，充当具体生成器
+ *
+ * @author 10545
+ * @date 2022/3/9 23:01
+ */
+public class AngelBuilder extends ActorBuilder {
+  @Override
+  public void buildType() {
+    actor.setType("天使");
+  }
+
+  @Override
+  public void buildSex() {
+    actor.setSex("女");
+  }
+
+  @Override
+  public void buildFace() {
+    actor.setFace("漂亮");
+  }
+
+  @Override
+  public void buildCostume() {
+    actor.setCostume("白裙");
+  }
+
+  @Override
+  public void buildHairstyle() {
+    actor.setHairstyle("披肩长发");
+  }
+}
+
+/**
+ * 恶魔角色生成器，充当具体生成器
+ *
+ * @author luguosong
+ * @date 2022/3/15 10:43
+ */
+public class DevilBuilder extends ActorBuilder {
+  @Override
+  public void buildType() {
+    actor.setType("恶魔");
+  }
+
+  @Override
+  public void buildSex() {
+    actor.setSex("妖");
+  }
+
+  @Override
+  public void buildFace() {
+    actor.setFace("丑陋");
+  }
+
+  @Override
+  public void buildCostume() {
+    actor.setCostume("黑衣");
+  }
+
+  @Override
+  public void buildHairstyle() {
+    actor.setHairstyle("光头");
+  }
+}
+
+/**
+ * 角色控制器，充当指挥官
+ *
+ * @author luguosong
+ * @date 2022/3/15 11:02
+ */
+public class ActorController {
+  public Actor construct(ActorBuilder ab) {
+    Actor actor;
+    ab.buildType();
+    ab.buildSex();
+    ab.buildFace();
+    ab.buildCostume();
+    ab.buildHairstyle();
+    actor = ab.createActor();
+    return actor;
+  }
+}
+
+/**
+ * 工具类，通过配置文件创建具体构造器
+ *
+ * @author luguosong
+ * @date 2022/3/15 13:54
+ */
+public class XMLUtil {
+  public static Object getBean() {
+    try {
+      //创建DOM文件对象
+      DocumentBuilderFactory dFactory = DocumentBuilderFactory.newInstance();
+      DocumentBuilder builder = dFactory.newDocumentBuilder();
+      Document doc;
+      doc = builder.parse(new File("_java/design-pattern/src/main/java/cn/com/lgs/builder_pattern/config.xml"));
+
+      //获取包含类名的文本节点
+      NodeList n1 = doc.getElementsByTagName("className");
+      Node classNode = n1.item(0).getFirstChild();
+      String cName = classNode.getNodeValue();
+
+
+      Class<?> c = Class.forName(cName);
+      Object obj = c.newInstance();
+      return obj;
+
+    } catch (Exception e) {
+      e.printStackTrace();
+      return null;
+    }
+  }
+}
+
+/**
+ * 客户端
+ *
+ * @author luguosong
+ * @date 2022/3/15 16:39
+ */
+public class Demo {
+  public static void main(String[] args) {
+    //通过xml创建具体生成器对象
+    ActorBuilder ab;
+    ab = (ActorBuilder) XMLUtil.getBean();
+
+    //创建指挥官，并通过指挥官创建对象的各个部件，最后返回对象
+    ActorController ac = new ActorController();
+    Actor actor;
+    actor = ac.construct(ab);
+
+    //打印对象
+    System.out.println(actor);
+  }
+}
 ```
 
+配置文件：
 
+```xml
+<?xml version="1.0" ?>
+<config>
+  <className>cn.com.lgs.builder_pattern.AngelBuilder</className>
+</config>
+```
 
+运行结果：
 
+```shell
+Actor{type='天使', sex='女', face='漂亮', costume='白裙', hairstyle='披肩长发'}
+```
+
+## 模式拓展
+
+- 可以将`指挥官`类与`抽象生成器`类合并，直接由`指挥官方法`返回最终的对象。
+- 可以在抽象生成器中设置钩子函数，在指挥官类中通过调用钩子函数，对复杂产品的构建进行精细化控制，具体如下：
+
+```java
+/**
+ * 游戏角色生成器，充当抽象生成器
+ *
+ * @author 10545
+ * @date 2022/3/9 22:22
+ */
+public abstract class ActorBuilder {
+  protected Actor actor = new Actor();
+
+  public abstract void buildType();
+
+  public abstract void buildSex();
+
+  public abstract void buildFace();
+
+  public abstract void buildCostume();
+
+  public abstract void buildHairstyle();
+
+  //钩子方法，判断是否为光头，默认返回false，不是光头
+  public boolean isBareheaded() {
+    return false;
+  }
+
+  public Actor createActor() {
+    return actor;
+  }
+}
+
+/**
+ * 恶魔角色生成器，充当具体生成器
+ *
+ * @author luguosong
+ * @date 2022/3/15 10:43
+ */
+public class DevilBuilder extends ActorBuilder {
+  @Override
+  public void buildType() {
+    actor.setType("恶魔");
+  }
+
+  @Override
+  public void buildSex() {
+    actor.setSex("妖");
+  }
+
+  @Override
+  public void buildFace() {
+    actor.setFace("丑陋");
+  }
+
+  @Override
+  public void buildCostume() {
+    actor.setCostume("黑衣");
+  }
+
+  @Override
+  public void buildHairstyle() {
+    actor.setHairstyle("光头");
+  }
+
+  //在发型为光头的具体生成器中覆写isBareheaded，使之返回true
+  @Override
+  public boolean isBareheaded() {
+    return true;
+  }
+}
+
+/**
+ * 角色控制器，充当指挥官
+ *
+ * @author luguosong
+ * @date 2022/3/15 11:02
+ */
+public class ActorController {
+  public Actor construct(ActorBuilder ab) {
+    Actor actor;
+    ab.buildType();
+    ab.buildSex();
+    ab.buildFace();
+    ab.buildCostume();
+    //在指挥官类中通过调用钩子函数，判断是否需要构建头发。达到精细化控制的目的
+    if (!ab.isBareheaded()) {
+      ab.buildHairstyle();
+    }
+    actor = ab.createActor();
+    return actor;
+  }
+}
+```
+
+## 效果
+
+## 模式适用性
 
 
 

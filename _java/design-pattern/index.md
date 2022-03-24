@@ -822,7 +822,7 @@ Java语言的AWT(抽象窗口工具包)中使用了抽象工厂模式
 - `Product(产品)`：被构建的复杂对象
 - `Director(指挥者)`：负责安排复杂对象的建造次序
 
-## 实现代码
+## 实例代码
 
 > 开发一款网络游戏，需要对游戏角色进行设计，而且随着该游戏的升级将不断增加新的角色。
 > 不同类型的游戏角色，其性别、脸型、服装、发型等外部特性都有所差异，例如“天使”拥有美丽的面容和披肩的长发，
@@ -1275,10 +1275,129 @@ public class ActorController {
 
 - `Prototype（抽象原型类）`：它是声明克隆方法的接口，是所有具体原型类的公共父类，可以是抽象类也可以是接口，甚至还可以是具体实现类。
 - `ConcretePrototype（具体原型类）`：它实现在抽象原型类中声明的克隆方法，在克隆方法中返回自己的一个克隆对象。
-- `Client（客户类）`：让一个原型对象克隆自身从而创建一个新的对象，在客户类中只需要直接实例化或通过工厂方法等方式创建一个原型对象，再通过调用该对象的克隆方法即可得到多个相同的对象。由于客户类针对抽象原型类Prototype编程，因此用户可以根据需要选择具体原型类，系统具有较好的可扩展性，增加或更换具体原型类都很方便。
+- `Client（客户类）`
+  ：让一个原型对象克隆自身从而创建一个新的对象，在客户类中只需要直接实例化或通过工厂方法等方式创建一个原型对象，再通过调用该对象的克隆方法即可得到多个相同的对象。由于客户类针对抽象原型类Prototype编程，因此用户可以根据需要选择具体原型类，系统具有较好的可扩展性，增加或更换具体原型类都很方便。
 
-克隆分类： 
+克隆分类：
 
 - `浅克隆`：`原型对象`和`克隆对象`中的`引用类型`成员变量不进行复制
 - `深克隆`：`原型对象`和`克隆对象`中的`引用类型`成员变量进行复制
+
+## 实例代码
+
+> 某OA系统，可以快速创建相同或相似的周报，包括周报的附件
+
+### 浅克隆实现
+
+原型类通过覆写Object类的clone方法，同时实现Cloneable接口，实现浅克隆
+
+```java
+/**
+ * 附件类
+ *
+ * @author 10545
+ * @date 2022/3/24 21:50
+ */
+public class Attachment {
+  private String name; //附件名
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public void download() {
+    System.out.println("下载附件，文件名为：" + name);
+  }
+}
+
+/**
+ * 工作周报类，充当原型角色
+ * <p>
+ * 实现Cloneable接口表示这个类可以克隆
+ *
+ * @author 10545
+ * @date 2022/3/24 21:59
+ */
+public class WeeklyLog implements Cloneable {
+  private Attachment attachment;
+  private String name;
+  private String date;
+  private String content;
+
+  public Attachment getAttachment() {
+    return attachment;
+  }
+
+  public void setAttachment(Attachment attachment) {
+    this.attachment = attachment;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public String getDate() {
+    return date;
+  }
+
+  public void setDate(String date) {
+    this.date = date;
+  }
+
+  public String getContent() {
+    return content;
+  }
+
+  public void setContent(String content) {
+    this.content = content;
+  }
+
+  /**
+   * @return
+   * @throws CloneNotSupportedException
+   */
+  @Override
+  protected WeeklyLog clone() {
+    try {
+      return (WeeklyLog) super.clone();
+    } catch (CloneNotSupportedException e) {
+      System.out.println("不支持复制");
+      return null;
+    }
+  }
+}
+
+/**
+ * 客户端
+ *
+ * @author 10545
+ * @date 2022/3/24 22:08
+ */
+public class Demo {
+  public static void main(String[] args) {
+    WeeklyLog log_previous, log_new;
+    //这里主要讨论原型模式，不考虑开闭原则，因此直接使用new
+    log_previous = new WeeklyLog();
+    Attachment attachment = new Attachment();
+    log_previous.setAttachment(attachment);
+    log_new = log_previous.clone();
+    //==比较的是地址，因此不相同
+    System.out.println("周报是否相同：" + (log_previous == log_new));
+    //因为是软克隆，因此附件相同
+    System.out.println("附件是否相同：" + (log_previous.getAttachment() == log_new.getAttachment()));
+  }
+}
+```
+
+### 深克隆实现
+
+通过序列化，将对象写到一个流中，再从流中将其读出来，实现深度克隆
 

@@ -1401,3 +1401,154 @@ public class Demo {
 
 通过序列化，将对象写到一个流中，再从流中将其读出来，实现深度克隆
 
+```java
+/**
+ * 附件类
+ *
+ * @author 10545
+ * @date 2022/3/24 23:08
+ */
+public class Attachment implements Serializable {
+  private String name; //附件名
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public void download() {
+    System.out.println("下载附件，文件名为：" + name);
+  }
+}
+
+/**
+ * 工作周报类，充当原型角色
+ * <p>
+ * 通过流进行深度克隆
+ *
+ * @author 10545
+ * @date 2022/3/24 21:59
+ */
+public class WeeklyLog implements Serializable {
+  private Attachment attachment;
+  private String name;
+  private String date;
+  private String content;
+
+  public Attachment getAttachment() {
+    return attachment;
+  }
+
+  public void setAttachment(Attachment attachment) {
+    this.attachment = attachment;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public String getDate() {
+    return date;
+  }
+
+  public void setDate(String date) {
+    this.date = date;
+  }
+
+  public String getContent() {
+    return content;
+  }
+
+  public void setContent(String content) {
+    this.content = content;
+  }
+
+  public WeeklyLog deepClone() throws IOException, ClassNotFoundException {
+    //将对象写入流中
+    ByteArrayOutputStream bao = new ByteArrayOutputStream();
+    ObjectOutputStream oos = new ObjectOutputStream(bao);
+    oos.writeObject(this);
+    //将对象从流中取出
+    ByteArrayInputStream bis = new ByteArrayInputStream(bao.toByteArray());
+    ObjectInputStream ois = new ObjectInputStream(bis);
+    return (WeeklyLog) ois.readObject();
+  }
+}
+
+/**
+ * 客户端
+ *
+ * @author 10545
+ * @date 2022/3/24 23:33
+ */
+public class Demo {
+  public static void main(String[] args) {
+    WeeklyLog log_previous, log_new = null;
+    log_previous = new WeeklyLog();
+    Attachment attachment = new Attachment();
+    log_previous.setAttachment(attachment);
+    try {
+      log_new = log_previous.deepClone();
+    } catch (Exception e) {
+      System.out.println("克隆失败");
+    }
+    //比较周报
+    System.out.println("周报是否相同：" + (log_previous == log_new));
+    //比较附件
+    System.out.println("附件是否相同：" + (log_previous.getAttachment() == log_new.getAttachment()));
+  }
+}
+```
+
+## 模式拓展
+
+可以提供一个专门克隆对象的工厂。对多个`抽象原型类`的`多个子类`进行克隆。
+
+这很像`简单工厂模式`，只不过简单工厂模式是new对象，而这是克隆对象
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220325224717.png)
+
+`原型管理器`实现代码如下：
+
+```java
+import java.util.*;
+
+public class PrototypeManager {
+  //使用Hashtable存储原型对象
+  private Hashtable prototypeTable = new Hashtable();
+
+  //构造添加两个默认具体原型类
+  public PrototypeManager() {
+    prototypeTable.put("A", new ConcretePrototypeA());
+    prototypeTable.put("B", new ConcretePrototypeB());
+  }
+  
+  //提供注入原型类的方法
+  public void add(String key,Prototype prototype){
+    prototypeTable.put(key,prototype);
+  }
+  
+  //通过克隆方法创建新对象
+  public Prototype get(String key){
+      return (Prototype) prototypeTable.get(key).clone();
+  }
+}
+```
+
+我们可以将PrototypeManager设计为单例类，使用饿汉式单例实现，
+确保系统中有且仅有一个PrototypeManager对象，有利于节省系统资源，
+并可以更好地对原型管理器对象进行控制。
+
+## 效果
+
+- 优点
+  - 当创建新对象比较复杂，通过原型模式可以简化创建过程，提高创建效率
+  - 客户端可以针对抽象原型类进行编程，而将具体原型类写在配置文件中。拓展性好
+  - 

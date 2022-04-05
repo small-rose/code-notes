@@ -1587,8 +1587,184 @@ public class PrototypeManager {
 > 只能有一个负载均衡器来负责服务器的管理和请求的分发，否则将会带来服务器状态的不一致以及请求分配冲突等问题。
 > 如何确保负载均衡器的唯一性是该软件成功的关键。
 
+```java
+/**
+ * 负载均衡器类，充当单例角色
+ *
+ * @author 10545
+ * @date 2022/3/28 23:28
+ */
+public class LoadBalancer {
+  //私有静态成员变量，存储唯一实例
+  private static LoadBalancer instance = null;
 
+  //服务器集合
+  private List serverList = null;
 
+  //私有构造
+  private LoadBalancer() {
+    serverList = new ArrayList();
+  }
+
+  //公有静态成员方法，返回唯一实例
+  public static LoadBalancer getLoadBalancer() {
+    if (instance == null) {
+      instance = new LoadBalancer();
+    }
+    return instance;
+  }
+
+  /**
+   * 添加服务
+   *
+   * @param server
+   */
+  public void addServer(String server) {
+    serverList.add(server);
+  }
+
+  /**
+   * 删除服务
+   *
+   * @param server
+   */
+  public void removeServer(String server) {
+    serverList.remove(server);
+  }
+
+  /**
+   * 随机获取服务器
+   *
+   * @return
+   */
+  public String getServer() {
+    Random random = new Random();
+    int i = random.nextInt(serverList.size());
+    return (String) serverList.get(i);
+  }
+}
+
+/**
+ * 单例测试类
+ *
+ * @author 10545
+ * @date 2022/3/28 23:45
+ */
+public class Demo {
+  public static void main(String[] args) {
+    //创建4个LoadBalancer对象
+    LoadBalancer loadBalancer1 = LoadBalancer.getLoadBalancer();
+    LoadBalancer loadBalancer2 = LoadBalancer.getLoadBalancer();
+    LoadBalancer loadBalancer3 = LoadBalancer.getLoadBalancer();
+    LoadBalancer loadBalancer4 = LoadBalancer.getLoadBalancer();
+
+    //判断4个对象是否相同
+    if (loadBalancer1 == loadBalancer2 && loadBalancer2 == loadBalancer3 && loadBalancer3 == loadBalancer4) {
+      System.out.println("服务器负载均衡器具有唯一性");
+    }
+
+    //增加服务器
+    loadBalancer1.addServer("Server 1");
+    loadBalancer2.addServer("Server 2");
+    loadBalancer3.addServer("Server 3");
+    loadBalancer4.addServer("Server 4");
+
+    //模拟客户端请求的分发
+    for (int i = 0; i < 10; i++) {
+      String server = loadBalancer1.getServer();
+      System.out.println("分发请求至服务器：" + server);
+    }
+
+  }
+}
+```
+
+## 模式拓展
+
+### 饿汉式单例
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220402235617.png)
+
+在定义静态变量的时候实例化单例类
+
+### 懒汉式单例
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220403001149.png)
+
+在单例类被第一次引用时将自己实例化（延迟加载）
+
+为了避免多个线程同时调用getInstance()方法， 可以使用synchronized进行双重检查锁定
+
+```java
+class LazySingleton {
+  private volatile static LazySingleton instance = null;
+
+  private LazySingleton() {
+  }
+
+  public static LazySingleton getInstance() {
+    //第一重判断
+    if (instance == null) {
+      //锁定代码块
+      synchronized (LazySingleton.class) {
+        //第二重判断
+        if (instance == null) {
+          instance = new LazySingleton(); //创建单例实例
+        }
+      }
+    }
+    return instance;
+  }
+}
+```
+
+### 使用静态内部类实现单例
+
+Java语言中可以通过`Initialization on Demand Holder`(IoDH)技术来实现单例模式
+
+```java
+//Initialization on Demand Holder
+class Singleton {
+  private Singleton() {
+  }
+
+  private static class HolderClass {
+    private final static Singleton instance = new Singleton();
+  }
+
+  public static Singleton getInstance() {
+    return HolderClass.instance;
+  }
+
+  public static void main(String args[]) {
+    Singleton s1, s2;
+    s1 = Singleton.getInstance();
+    s2 = Singleton.getInstance();
+    System.out.println(s1 == s2);
+  }
+}
+```
+
+- 由于静态单例对象没有作为Singleton的成员直接实例化，因此类加载时不会实例化Singleton
+- 第一次调用getInstance()时将加载内部类HolderClass， 该内部类中定义了一个static类型的变量instance，由Java虚拟机保证其线程安全，确保其只能初始化一次
+- 由于getInstance()方法没有任何线程锁定，不会影响性能
+
+### 多例
+
+可以对单例模式进行拓展，获取多个数目的实例对象
+
+既节省系统资源，又解决了对象共享对象过多影响性能问题
+
+## 效果
+
+- 优点
+  - 可以严格控制客户端这样怎样以及何时访问单例对象
+  - 在系统内存中只存在一个对象，可以节约系统资源，提高系统性能
+- 缺点
+  - 单例模式没有抽象层，拓展性差
+  - 
+
+## 模式适用性
 
 
 

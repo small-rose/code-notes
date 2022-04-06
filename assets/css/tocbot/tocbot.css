@@ -6,6 +6,16 @@
     overflow: auto;
     position: relative;
     height: calc(100% - 100px);
+    margin-left: 1em;
+}
+
+.toc .toc-list{
+    padding-left: 1em;
+}
+
+.toc .toc-list li {
+    list-style-type: none;
+    list-style-position: inside;
 }
 
 .toc > .toc-list::-webkit-scrollbar-track {
@@ -17,16 +27,10 @@
 }
 
 .toc > .toc-list li {
-    white-space:nowrap;
+    white-space: nowrap;
 }
 
-.toc-list {
-    padding-left: 1em;
-}
 
-.toc>.toc-list {
-    margin-left: 1em;
-}
 
 a.toc-link {
     height: 100%

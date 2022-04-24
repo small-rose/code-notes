@@ -1,8 +1,7 @@
 ---
 layout: default
 title: OAuth2
-nav_order: 30
-parent: 网络
+nav_order: 50
 ---
 
 # 概述

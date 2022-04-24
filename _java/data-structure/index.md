@@ -1,8 +1,9 @@
 ---
-layout: default
-title: 数据结构和算法
-nav_order: 2
-latex: true
+layout: default 
+title: 数据结构和算法 
+nav_order: 2 
+latex: true 
+mermaid: true
 ---
 [邓俊辉老师课程](https://dsa.cs.tsinghua.edu.cn/~deng/ds/index.htm)，虽然是C++版本的，
 问题不大。
@@ -156,19 +157,71 @@ Data Structure，`基于特定的语言，实现ADT的一整套完整的算法`
 - 如果根据统一的接口规范，来定制并实现一个数据结构。
 - 如何通过更加有效的算法，使得对外的接口能够更加高效的工作。
 
-# 集合
+# 集合（Collection）
 
-Java对一些普通的数据结构做了实现，称为Collection API。
+存储一组相同类型的对象
 
-# 表（list）
+对应Java的`java.util.Collection`接口
 
-大小为N的表形如$A_0,A_1,A_2,...,A_(N-1)$。
+# 表（List）
 
-## 相关操作
+`表`是依次排列的多个对象,是一组对象之间的后继与前驱关系
 
-| 操作接口    | 功能                     | 适用对象 |
-| ----------- | ------------------------ | -------- |
-| printList() | 打印表                   | 表       |
-| makeEmpty() | 清空表                   | 表       |
-| find(e)     | 返回某一项首次出现的位置 | 表       |
-| insert()    |                          |          |
+`表`（List）也可以称之为`序列`（Sequence）或`线性表`
+
+对应Java的`java.util.List`接口
+
+# 数组（Array）
+
+若集合`S`由`n`个元素组成，且各元素之间具有一个线性次序， 则可将它们存放于起始于地址`A`、`物理位置连续`的一段存储空间，并统称作`数组`（array）。
+
+`A`作为该数组的标识
+
+`A`中的每一元素都唯一对应于某一下标编号
+
+对于任何$0 \leq i < j < n$，A[i]都是A[j]的`前驱`（predecessor），A[j]都是A[i]
+的`后继`（successor）。
+
+对于任何$i \geq 1$，A[i - 1]称作A[i]的`直接前驱`（immediate predecessor）;对于任何$i \leq n - 2$，A[i + 1]称作A[i]的`直接后继`
+（immediate successor）。
+
+任一元素的所有前驱构成其`前缀`（prefix），所有后继构成其`后缀`（suffix）。
+
+数组中元素的`内存地址是连续的`
+
+和Java等程序设计语言，都将数组作为一种`内置的数据类型`
+
+```java
+//数组相关操作：
+class ArrayDemo {
+  public static void main(String[] args) {
+    //创建数组
+    Integer[] integers = new Integer[10];
+
+    //增
+    //数组一旦创建，元素个数就已经确定，无法再增加元素
+
+    //删
+    //数组一旦创建，元素个数就已经确定，无法删除元素
+
+    //改:通过下表修改
+    integers[5] = 10;
+
+    //查：通过下表查询
+    System.out.println(integers[5]);
+  }
+}
+```
+
+# 动态数组（ArrayList）
+
+- 向量与数组的区别
+  - 对应的操作不同。增删改查操作方式不同。
+  - `数组`一旦创建无法动态修改容量,`动态数组`可以动态扩容
+  - `动态数组`中可以存放不同类型的元素(内部通过Object数组实现)
+
+对应Java的`java.util.ArrayList`类。
+
+
+
+# 链表

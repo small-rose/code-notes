@@ -1,6 +1,7 @@
 package cn.com.lgs.data_structure;
 
-import java.util.*;
+import java.util.AbstractList;
+import java.util.Arrays;
 
 /**
  * 动态数组
@@ -8,17 +9,13 @@ import java.util.*;
  * @author 10545
  * @date 2022/4/17 22:43
  */
-public class MyArrayList<AnyType> implements List<AnyType> {
-
+public class MyArrayList<AnyType> extends MyAbstractList<AnyType> {
     //默认数组容量
     private static final int DEFAULT_CAPACITY = 10;
 
-    //元素个数
-    //注意：这里theSize并不是数组theItems的容量，而是其中实际存放元素的个数
-    private int theSize;
+
     //数组，用于存放元素
     private Object[] theItems;
-
 
     /**
      * 有参构造
@@ -36,11 +33,90 @@ public class MyArrayList<AnyType> implements List<AnyType> {
     }
 
     /**
-     * 无参构造
+     * 无参构造，内部调用有参构造
      */
     public MyArrayList() {
         this(DEFAULT_CAPACITY);
     }
+
+
+
+    /**
+     * 向指定位置添加元素
+     *
+     * @param index
+     * @param element
+     */
+    @Override
+    public void add(int index, AnyType element) {
+        //检查index是否合规
+        rangeCheckForAdd(index);
+
+        //如果元素个数和数组容量相同（此时无法再向其中插入元素），对数组进行扩容。
+        ensureCapacity(size() + 1);
+
+        //将index位置之后的所以元素向后移一位
+        for (int i = theSize; i > index; i--) {
+            theItems[i] = theItems[i - 1];
+        }
+
+        //将index位置元素设置为插入值
+        theItems[index] = element;
+
+        //元素个数加一
+        theSize++;
+    }
+
+    /**
+     * 删除指定位置元素
+     *
+     * @param index
+     * @return
+     */
+    @Override
+    public AnyType remove(int index) {
+        //检查index是否合规
+        rangeCheck(index);
+
+        //获取index位置的元素
+        AnyType old = (AnyType) theItems[index];
+
+        //将index之后所以元素向前移一位
+        for (int i = index; i < theSize; i++) {
+            theItems[i] = theItems[i + 1];
+        }
+
+        //处理最后一个元素
+        theItems[--theSize] = null;
+
+        //返回删除的元素
+        return old;
+    }
+
+    /**
+     * 删除第一次出现的指定元素
+     *
+     * @param o
+     * @return
+     */
+    @Override
+    public boolean remove(Object o) {
+        if (o == null) {
+            for (int index = 0; index < theSize; index++)
+                if (theItems[index] == null) {
+                    remove(index);
+                    return true;
+                }
+        } else {
+            for (int index = 0; index < theSize; index++)
+                if (o.equals(theItems[index])) {
+                    remove(index);
+                    return true;
+                }
+        }
+        return false;
+    }
+
 
     /**
      * 清除所有元素
@@ -51,97 +127,6 @@ public class MyArrayList<AnyType> implements List<AnyType> {
             theItems[i] = null;
         }
         theSize = 0;
-    }
-
-    /**
-     * 动态数组中元素个数
-     *
-     * @return
-     */
-    @Override
-    public int size() {
-        return theSize;
-    }
-
-    /**
-     * 判断动态数组中元素是否为空
-     *
-     * @return
-     */
-    @Override
-    public boolean isEmpty() {
-        return theSize == 0;
-    }
-
-    /**
-     * 判断是否包含元素o
-     *
-     * @param o
-     * @return
-     */
-    @Override
-    public boolean contains(Object o) {
-        return indexOf(o) != -1;
-    }
-
-    @Override
-    public Iterator<AnyType> iterator() {
-        return null;
-    }
-
-    @Override
-    public Object[] toArray() {
-        return new Object[0];
-    }
-
-    @Override
-    public <T> T[] toArray(T[] a) {
-        return null;
-    }
-
-
-    @Override
-    public boolean remove(Object o) {
-        return false;
-    }
-
-    @Override
-    public boolean containsAll(Collection<?> c) {
-        return false;
-    }
-
-    @Override
-    public boolean addAll(Collection<? extends AnyType> c) {
-        return false;
-    }
-
-    @Override
-    public boolean addAll(int index, Collection<? extends AnyType> c) {
-        return false;
-    }
-
-    @Override
-    public boolean removeAll(Collection<?> c) {
-        return false;
-    }
-
-    @Override
-    public boolean retainAll(Collection<?> c) {
-        return false;
-    }
-
-    /**
-     * 根据index获取元素
-     *
-     * @param index
-     * @return
-     */
-    @Override
-    public AnyType get(int index) {
-        //检查index是否超出范围
-        rangeCheck(index);
-
-        return (AnyType) theItems[index];
     }
 
     /**
@@ -162,44 +147,17 @@ public class MyArrayList<AnyType> implements List<AnyType> {
     }
 
     /**
-     * 向末尾添加元素
+     * 根据index获取元素
      *
-     * @param anyType
+     * @param index
      * @return
      */
     @Override
-    public boolean add(AnyType anyType) {
-        //调用重载方法
-        add(size(), anyType);
-        return false;
-    }
+    public AnyType get(int index) {
+        //检查index是否超出范围
+        rangeCheck(index);
 
-    /**
-     * 向指定位置添加元素
-     *
-     * @param index
-     * @param element
-     */
-    @Override
-    public void add(int index, AnyType element) {
-        if (theSize == theItems.length)
-            ensureCapacity(size() * 2 + 1);
-
-        //将index位置之后的所以元素向后移一位
-        for (int i = theSize; i > index; i--) {
-            theItems[i] = theItems[i - 1];
-        }
-
-        //将index位置元素设置为插入值
-        theItems[index] = element;
-
-        //元素个数加一
-        theSize++;
-    }
-
-    @Override
-    public AnyType remove(int index) {
-        return null;
+        return (AnyType) theItems[index];
     }
 
     /**
@@ -224,49 +182,44 @@ public class MyArrayList<AnyType> implements List<AnyType> {
         return -1;
     }
 
+    /**
+     * 查看元素最后一次出现的位置
+     *
+     * @param o
+     * @return
+     */
     @Override
     public int lastIndexOf(Object o) {
-        return 0;
-    }
-
-    @Override
-    public ListIterator<AnyType> listIterator() {
-        return null;
-    }
-
-    @Override
-    public ListIterator<AnyType> listIterator(int index) {
-        return null;
-    }
-
-    @Override
-    public List<AnyType> subList(int fromIndex, int toIndex) {
-        return null;
+        if (o == null) {
+            for (int i = theSize - 1; i >= 0; i--) {
+                if (theItems[i] == null)
+                    return i;
+            }
+        } else {
+            for (int i = theSize - 1; i >= 0; i--) {
+                if (o.equals(theItems[i]))
+                    return i;
+            }
+        }
+        return -1;
     }
 
     /**
-     * 扩容
+     * 数组扩容
      *
      * @param newCapacity
      */
     public void ensureCapacity(int newCapacity) {
-        if (3 < theSize)
+        //如果新容量小于等于数组容量，则不做处理
+        if (newCapacity <= theItems.length)
             return;
         Object[] old = theItems;
-        theItems = (AnyType[]) new Object[newCapacity];
+        //容量扩容1.5倍
+        theItems = (AnyType[]) new Object[newCapacity + (newCapacity >> 1)];
+        //将元素拷贝到新的数组中去
         for (int i = 0; i < size(); i++) {
             theItems[i] = old[i];
         }
-    }
-
-    /**
-     * index范围检查
-     *
-     * @param index
-     */
-    private void rangeCheck(int index) {
-        if (index >= theSize || index < 0)
-            throw new IndexOutOfBoundsException("index超出范围");
     }
 
     /**
@@ -274,11 +227,7 @@ public class MyArrayList<AnyType> implements List<AnyType> {
      *
      * @return
      */
-    @Override
     public String toString() {
-        return "MyArrayList{" +
-                "theSize=" + theSize +
-                ", theItems=" + Arrays.toString(theItems) +
-                '}';
+        return Arrays.toString(theItems) + ",size:" + theSize;
     }
 }

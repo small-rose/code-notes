@@ -1561,7 +1561,7 @@ public class PrototypeManager {
 - 系统需要保存对象的状态，而对象的状态变化很小
 - 需要避免使用分层次的工厂类来创建分层次的对象
 
-# 单例（Singleton）
+# 单例模式（Singleton）
 
 ## 模式分类
 
@@ -1799,11 +1799,229 @@ class Singleton {
 
 - Target(目标抽象类)：定义客户端所需要的接口。如果是`类适配器`模式，由于Java中不能多继承，因此`目标抽象类`只能是接口
 - Adapter(适配器类)：将`Adaptee(适配者类)`与`Target(目标抽象类)`进行关联与适配
-- Adaptee(适配者类)：被适配的对象
+- Adaptee(适配者类)：被适配的对象。这个类中的方法实现具体功能，但可能`目标抽象类`的接口不匹配,因此需要适配器类进行匹配
 
 ## 实例代码
 
+> 某公司开发一款儿童汽车，在移动过程中伴随着灯光闪烁和声音提示。该公司在以往产品中已经实现了警灯闪烁和警笛声的程序。
+> 为了重用先前的代码并且使汽车控制软件具有更好的灵活性和拓展性，使用适配器模式设计该玩具汽车控制软件。
 
 
+```java
+/**
+ * 汽车控制类，充当目标抽象类
+ *
+ * @author 10545
+ * @date 2022/5/2 17:07
+ */
+public abstract class CarController {
+    public void move() {
+        System.out.println("玩具汽车移动！");
+    }
+
+    public abstract void phonate();
+
+    public abstract void twinkle();
+}
+
+/**
+ * 警笛声，充当适配者
+ *
+ * @author 10545
+ * @date 2022/5/2 17:43
+ */
+public class PoliceSound {
+  public void alarmSound(){
+    System.out.println("发出警笛声");
+  }
+}
+
+/**
+ * 警灯类，充当适配者
+ *
+ * @author 10545
+ * @date 2022/5/2 17:53
+ */
+public class PoliceLamp {
+  public void alarmLamp(){
+    System.out.println("呈现警灯闪烁");
+  }
+}
+
+/**
+ * 警车适配器，充当适配器
+ *
+ * @author 10545
+ * @date 2022/5/2 20:49
+ */
+public class PoliceCarAdapter extends CarController {
+  private PoliceSound sound;
+  private PoliceLamp lamp;
+
+  /**
+   * 适配器构造
+   */
+  public PoliceCarAdapter() {
+    sound = new PoliceSound();
+    lamp = new PoliceLamp();
+  }
+
+
+  @Override
+  public void phonate() {
+    //调用适配者类PoliceSound的方法
+    sound.alarmSound();
+  }
+
+  @Override
+  public void twinkle() {
+    //调用适配者类PoliceLamp的方法
+    lamp.alarmLamp();
+  }
+}
+```
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<config>
+    <className>cn.com.lgs.adapter_pattern.PoliceCarAdapter</className>
+</config>
+```
+
+```java
+/**
+ * 工具类
+ * 
+ * @author 10545
+ * @date 2022/5/2 21:03
+ */
+public class XMLUtil {
+    /**
+     * 从xml配置文件中提取具体类的类名，并返回一个实例对象
+     *
+     * @return
+     */
+    public static Object getBean() {
+        try {
+            //创建DOM文档对象
+            DocumentBuilderFactory dFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = dFactory.newDocumentBuilder();
+            Document doc;
+            doc = builder.parse(new File("_java/design-pattern/src/main/java/cn/com/lgs/adapter_pattern/config.xml"));
+
+            //获取包含类名的文件节点
+            NodeList n1 = doc.getElementsByTagName("className");
+            Node classNode = n1.item(0).getFirstChild();
+            String cName = classNode.getNodeValue();
+
+            //通过类名创建实例对象并返回
+            Class c = Class.forName(cName);
+            Object obj = c.newInstance();
+            return obj;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+}
+```
+
+```java
+/**
+ * 客户端测试类
+ *
+ * @author 10545
+ * @date 2022/5/2 21:12
+ */
+public class Demo {
+    public static void main(String[] args) {
+        CarController car;
+        car = (CarController) XMLUtil.getBean();
+        car.move();
+        car.phonate();
+        car.twinkle();
+    }
+}
+```
+
+```shell
+玩具汽车移动！
+发出警笛声
+呈现警灯闪烁
+```
+
+## 模式拓展
+
+### 缺省适配器模式
+
+当不需要实现一个接口所提供的所有方法时，可先设计一个抽象类实现该接口，并为接口中每个方法提供一个默认实现（空方法），
+那么该抽象类的子类可以选择性地覆盖父类的某些方法来实现需求，它适用于不想使用一个接口中的所有方法的情况，
+又称为单接口适配器模式。
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220502223530.png)
+
+### 双向适配器
+
+如果在适配器中同时包含对`目标类`和`适配者类`的`引用`，适配者可以通过它调用目标类中的方法，
+目标类也可以通过它调用适配者类中的方法，那么该适配器就是一个双向适配器。
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220502224133.png)
+
+## 效果
+
+- 优点
+  - 将`目标类`和`适配者类`解耦，通过引入一个适配器类来重用现有适配者类，无需修改原有结构
+  - 将业务的具体实现封装在`适配者类`中,对于客户端而言是透明的，提高了复用性。同一个`适配者类`可以在多个不同的系统中复用。
+  - 可以通过配置文件修改`适配器类`，满足开闭原则，拓展性好。
+  - `类适配器`是`适配者类`的子类,因此可以在`适配器类`中置换一些适配者的方法，使得适配器的灵活性更强。
+  - `对象适配器`可以把多个不同的适配者适配到同一目标
+  - `对象适配器`可以适配`适配者类`的子类。
+- 缺点
+  - `类适配器`对于不支持多继承的语言，一次只能适配一个适配者类。
+  - `类适配器`模式下，`适配者类`不能为最终类，例如Java中不能为final。
+  - `类适配器`模式下,`目标抽象类`只能为接口，不能为类，有一定的局限性。
+  - 在`对象适配器`模式下,想要对`适配者类`中的方法进行修改，需要做一个`适配者类的子类`，在子类中进行方法的置换。然后再把`适配者类的子类`当成真正的适配者进行适配。实现过程较为复杂
+
+## 模式适用性
+
+- 系统需要使用一些现有的类，而这些类的接口（例如方法名）不符合系统的需要，甚至没有这些类的源代码。
+- 想创建一个可以重复使用的类，用于和一些彼此之间没有太大关联的类一起工作。
+
+# 桥接模式（Bridge）
+
+## 模式分类
+
+结构型模式
+
+对象模式
+
+## 模式概述
+
+将抽象部分与它的实现部分解耦，使得两者都能够独立变化
+
+## 模式结构与实现
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220504175917.png)
+
+- `Abstraction(抽象类)`:用于定义抽象类的接口，它一般是抽象类而不是接口，其中定义了一个`Implementor（实现类接口）类型的对象`并可以维护该对象，
+它与Implementor之间具有关联关系，它既可以包含抽象业务方法，也可以包含具体业务方法。
+- `RefinedAbstraction(扩充抽象类)`：扩充由Abstraction定义的接口，通常情况下它不再是抽象类而是具体类，它实现了在Abstraction中声明的抽象业务方法，
+在RefinedAbstraction中可以调用在Implementor中定义的业务方法。
+- `Implementor(实现类接口)`:定义实现类的接口，这个接口不一定要与Abstraction的接口完全一致，事实上这两个接口可以完全不同，一般而言，Implementor接口仅提供基本操作，
+而Abstraction定义的接口可能会做更多更复杂的操作。Implementor接口对这些基本操作进行了声明，而具体实现交给其子类。通过关联关系，在Abstraction中不仅拥有自己的方法，
+还可以调用到Implementor中定义的方法，使用关联关系来替代继承关系。
+- `ConcreteImplementor(具体实现类)`:具体实现Implementor接口，在不同的ConcreteImplementor中提供基本操作的不同实现，在程序运行时，
+ConcreteImplementor对象将替换其父类对象，提供给抽象类具体的业务操作方法。
+
+
+## 实例代码
+
+>  Sunny软件公司欲开发一个跨平台图像浏览系统，要求该系统能够显示BMP、JPG、GIF、PNG等多种格式的文件，并且能够在Windows、Linux、Unix等多个操作系统上运行。
+> 系统首先将各种格式的文件解析为像素矩阵(Matrix)，然后将像素矩阵显示在屏幕上，
+> 在不同的操作系统中可以调用不同的绘制函数来绘制像素矩阵。系统需具有较好的扩展性以支持新的文件格式和操作系统。
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220504230832.png)
 
 

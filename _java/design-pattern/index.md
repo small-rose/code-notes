@@ -3,6 +3,9 @@ layout: default
 title: 设计模式（Java语言描述）
 nav_order: 4
 ---
+
+本文通过学习刘伟老师的书[《Java设计模式》](https://book.douban.com/subject/30173863/)和[博客](https://blog.csdn.net/lovelion/article/details/17517213)，以及[设计模式学习网站](https://refactoringguru.cn/design-patterns)整理。
+
 # 概述
 
 `模式`是在特定环境下人们解决某类重复出现问题的一套成功或有效的解决方案
@@ -2024,4 +2027,236 @@ ConcreteImplementor对象将替换其父类对象，提供给抽象类具体的�
 
 ![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220504230832.png)
 
+```java
+/**
+ * 像素矩阵类，这是一个辅助类。各种格式的图像文件最终都被转化为像素矩阵，不同的操作系统提供不同的方法显示像素矩阵
+ *
+ * @author 10545
+ * @date 2022/5/4 23:06
+ */
+public class Matrix {
+    //代码省略
+}
 
+/**
+ * 抽象操作系统实现类，充当实现类接口
+ *
+ * @author 10545
+ * @date 2022/5/4 23:11
+ */
+public interface ImageImp {
+  //显示图像矩阵m
+  public void doPaint(Matrix m);
+}
+
+/**
+ * Windows操作系统实现类，充当具体实现类
+ *
+ * @author 10545
+ * @date 2022/5/4 23:13
+ */
+public class WindowsImp implements ImageImp{
+  @Override
+  public void doPaint(Matrix m) {
+    //调用windows系统的绘制函数绘制像素矩阵
+    System.out.print("在windows系统中显示图像:");
+  }
+}
+
+/**
+ * Linux操作系统实现类，充当具体实现类
+ *
+ * @author 10545
+ * @date 2022/5/4 23:22
+ */
+public class LinuxImp implements ImageImp {
+  @Override
+  public void doPaint(Matrix m) {
+    //调用Linux系统的绘制函数绘制像素矩阵
+    System.out.print("在Linux操作系统中显示图像:");
+  }
+}
+
+/**
+ * UNIX操作系统实现类，充当具体实现类
+ *
+ * @author 10545
+ * @date 2022/5/4 23:26
+ */
+public class UnixImp implements ImageImp {
+  @Override
+  public void doPaint(Matrix m) {
+    //调用UNIX系统的绘制函数绘制像素矩阵
+    System.out.print("在UNIX系统中显示图像:");
+  }
+}
+
+/**
+ * 抽象图像类，充当抽象类
+ *
+ * @author 10545
+ * @date 2022/5/4 23:33
+ */
+public abstract class Image {
+  protected ImageImp imp;
+
+  //注入实现类接口对象
+  public void setImageImp(ImageImp imp) {
+    this.imp = imp;
+  }
+
+  public abstract void parseFile(String fileName);
+}
+
+/**
+ * JPG格式图像类，充当扩充抽象类
+ *
+ * @author 10545
+ * @date 2022/5/4 23:50
+ */
+public class JPGImage extends Image{
+  @Override
+  public void parseFile(String fileName) {
+    //模拟解析JPG文件并获得一个像素矩阵对象m
+    Matrix m = new Matrix();
+    imp.doPaint(m);
+    System.out.println(fileName+",格式为JPG");
+  }
+}
+
+/**
+ * PNG格式图像类，充当扩充抽象类
+ *
+ * @author 10545
+ * @date 2022/5/7 21:20
+ */
+public class PNGImage extends Image {
+
+  @Override
+  public void parseFile(String fileName) {
+    //模拟解析PNG文件并获得一个像素矩阵对象m
+    Matrix m = new Matrix();
+    imp.doPaint(m);
+    System.out.println(fileName + ",格式为PNG");
+  }
+}
+
+/**
+ * BMP格式图像类，充当扩充抽象类
+ *
+ * @author 10545
+ * @date 2022/5/7 21:25
+ */
+public class BMPImage extends Image {
+  @Override
+  public void parseFile(String fileName) {
+    //模拟解析BMP文件并获得一个像素矩阵对象m
+    Matrix m = new Matrix();
+    imp.doPaint(m);
+    System.out.println(fileName+",格式为BMP");
+  }
+}
+
+/**
+ * GIF格式图像类，充当扩充抽象类
+ *
+ * @author 10545
+ * @date 2022/5/7 21:32
+ */
+public class GIFImage extends Image {
+  @Override
+  public void parseFile(String fileName) {
+    //模拟解析GIF文件并获得一个像素矩阵对象m
+    Matrix m = new Matrix();
+    imp.doPaint(m);
+    System.out.println(fileName + ",格式为GIF");
+  }
+}
+```
+
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<config>
+    <!--RefinedAbstraction-->
+    <className>cn.com.lgs.bridge_pattern.JPGImage</className>
+    <!--ConcreteImplementor-->
+    <className>cn.com.lgs.bridge_pattern.WindowsImp</className>
+</config>
+```
+
+```java
+/**
+ * 工具类
+ *
+ * @author 10545
+ * @date 2022/5/8 20:53
+ */
+public class XMLUtil {
+    /**
+     * 该方法用于从XML配置文件中提取具体类的类名，并返回一个实例对象
+     *
+     * @param args
+     * @return
+     */
+    public static Object getBean(String args) {
+        try {
+            DocumentBuilderFactory dFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = dFactory.newDocumentBuilder();
+            Document doc;
+            doc = builder.parse(new File("_java/design-pattern/src/main/java/cn/com/lgs/bridge_pattern/config.xml"));
+            NodeList n1 = null;
+            Node classNode = null;
+            String cName = null;
+            n1 = doc.getElementsByTagName("className");
+
+            //获取第一个包含类名的结点，即扩充抽象类
+            if (args.equals("image")) {
+                classNode = n1.item(0).getFirstChild();
+            }
+
+            //获取第二个包含类名的结点，即具体实现类
+            if (args.equals("os")) {
+                classNode = n1.item(1).getFirstChild();
+            }
+
+            cName = classNode.getNodeValue();
+            Class c = Class.forName(cName);
+            Object obj = c.newInstance();
+            return obj;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+}
+```
+
+
+```java
+/**
+ * 测试类
+ * 
+ * @author 10545
+ * @date 2022/5/8 23:03
+ */
+public class Demo {
+    public static void main(String[] args) {
+        Image image;
+        ImageImp imp;
+        image = (Image) XMLUtil.getBean("image");
+        imp = (ImageImp) XMLUtil.getBean("os");
+        //依赖注入
+        image.setImageImp(imp);
+
+        image.parseFile("小龙女");
+    }
+}
+```
+
+运行结果：
+
+```shell
+在windows系统中显示图像:小龙女,格式为JPG
+```

@@ -3,7 +3,9 @@ layout: default
 title: 设计模式（Java语言描述）
 nav_order: 4
 ---
-本文通过学习刘伟老师的书[《Java设计模式》](https://book.douban.com/subject/30173863/)和[博客](https://blog.csdn.net/lovelion/article/details/17517213)，以及[设计模式学习网站](https://refactoringguru.cn/design-patterns)整理。
+本文通过学习刘伟老师的书[《Java设计模式》](https://book.douban.com/subject/30173863/)
+和[博客](https://blog.csdn.net/lovelion/article/details/17517213)，以及[设计模式学习网站](https://refactoringguru.cn/design-patterns)
+整理。
 
 # 定义
 
@@ -17,41 +19,51 @@ nav_order: 4
 - 模式名称
 - 别名
 - 模式的分类
-  - 模式所属类别
+    - 模式所属类别
 - 模式概述
-  - 模式的动机与意图，模式的定义
+    - 模式的动机与意图，模式的定义
 - 模式结构与实现
-  - 描述设计模式的组成成分，以及这些组成成分之间的相互关系、各自的职责和协作方式
+    - 描述设计模式的组成成分，以及这些组成成分之间的相互关系、各自的职责和协作方式
 - 实例代码
 - 模式拓展
-  - 该模式的一些改进，与其它模式联用
+    - 该模式的一些改进，与其它模式联用
 - 效果
-  - 模式优缺点分析
-  - 结合设计原则进行分析
+    - 模式优缺点分析
+    - 结合设计原则进行分析
 - 模式的适用性
-  - 什么情况下可以使用该设计模式
+    - 什么情况下可以使用该设计模式
 - 模式应用
-  - 在已有系统中该模式的使用
+    - 在已有系统中该模式的使用
 
 # 分类
 
 | 范围/目的          | 创建型模式                                               | 结构型模式                                                                                             | 行为型模式                                                                                                                         |
 | ------------------ | -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------- |
-| **类模式**   | 工厂方法模式                                             | （类）适配器模式                                                                                       | 解释器模式<br />模板方法模式                                                                                                       |
-| **对象模式** | 抽象工厂模式<br />建造者模式<br />原型模式<br />单例模式 | （对象）适配器模式<br />桥接模式<br />组合模式<br />装饰模式<br />外观模式<br />享元模式<br />代理模式 | 职责链模式<br />命令模式<br />迭代器模式<br />中介模式<br />备忘录模式<br />观察者模式<br />状态模式<br />策略模式<br />访问者模式 |
+| **
+类模式**   | 工厂方法模式                                             | （类）适配器模式                                                                                       | 解释器模式<br />模板方法模式                                                                                                       |
+| **
+对象模式** | 抽象工厂模式<br />建造者模式<br />原型模式<br />单例模式 | （对象）适配器模式<br />桥接模式<br />组合模式<br />装饰模式<br />外观模式<br />享元模式<br />代理模式 | 职责链模式<br />命令模式<br />迭代器模式<br />中介模式<br />备忘录模式<br />观察者模式<br />状态模式<br />策略模式<br />访问者模式 |
 
 # 24种模式概要
 
 | 模式名称                           | 概述                                                                                                                                                     |  分类  | 组成成分                                               |
 | :--------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------- | :----: | :----------------------------------------------------- |
-| 简单工厂模式<br />Simple Factory   | **集中式工厂**<br />将对象的创建与使用分离                                                                                                         | 创建型 | 工厂<br />抽象产品<br />具体产品                       |
-| 工厂方法模式<br />Factory Method   | **多态工厂**<br />将对象的创建与使用分离<br />并将该对象的创建过程抽象出来                                                                         | 创建型 | 抽象工厂<br />具体工厂<br />抽象产品<br />具体产品     |
-| 抽象工厂模式<br />Abstract Factory | **产品族的创建**<br />将一系列对象的创建与使用分离<br />并将这一系列对象的创建过程抽象出来                                                         | 创建型 | 抽象工厂<br />具体工厂<br />抽象产品<br />具体产品     |
-| 生成器模式<br />Builder            | **复杂对象的组装与创建**<br />通过指挥官创建对象，对象创建与使用分离<br />将该对象各个部分的生成过程抽象出来<br />指挥官指导具体生成器如何生成产品 | 创建型 | 抽象建造者<br />具体建造者<br />指挥官<br />产品       |
-| 原型模式<br />Prototype            | **对象的克隆**<br />创建对象比较复杂时<br />通过通过复制这个原型来创建新的对象                                                                     | 创建型 | 抽象原型<br />具体原型                                 |
-| 单例模式<br />Singleton            | **确保对象的唯一性**<br />并提供一个全局访问点来访问这个唯一的实例                                                                                 | 创建型 | 单例类                                                 |
-| 适配器模式<br />Adapter            | **不兼容结构的协调**<br />将一个类的接口转换成客户希望的另一个接口<br />适配器模式让那些接口不兼容的类可以一起工作                                 | 结构型 | 目标抽象类<br />适配器类<br />适配者类                 |
-| 桥接模式<br />Bridge               | **处理多维度变化**<br />一个类存在两个（或多个）独立变化的维度<br />将各个维度独立进行拓展<br />将抽象部分与它的实现部分解耦，使得两者都能够独立变化    | 结构型 | 抽象类<br />扩充抽象类<br />实现类接口<br />具体实现类 |
+| 简单工厂模式<br />Simple Factory   | **
+集中式工厂**<br />将对象的创建与使用分离                                                                                                         | 创建型 | 工厂<br />抽象产品<br />具体产品                       |
+| 工厂方法模式<br />Factory Method   | **
+多态工厂**<br />将对象的创建与使用分离<br />并将该对象的创建过程抽象出来                                                                         | 创建型 | 抽象工厂<br />具体工厂<br />抽象产品<br />具体产品     |
+| 抽象工厂模式<br />Abstract Factory | **
+产品族的创建**<br />将一系列对象的创建与使用分离<br />并将这一系列对象的创建过程抽象出来                                                         | 创建型 | 抽象工厂<br />具体工厂<br />抽象产品<br />具体产品     |
+| 生成器模式<br />Builder            | **
+复杂对象的组装与创建**<br />通过指挥官创建对象，对象创建与使用分离<br />将该对象各个部分的生成过程抽象出来<br />指挥官指导具体生成器如何生成产品 | 创建型 | 抽象建造者<br />具体建造者<br />指挥官<br />产品       |
+| 原型模式<br />Prototype            | **
+对象的克隆**<br />创建对象比较复杂时<br />通过通过复制这个原型来创建新的对象                                                                     | 创建型 | 抽象原型<br />具体原型                                 |
+| 单例模式<br />Singleton            | **
+确保对象的唯一性**<br />并提供一个全局访问点来访问这个唯一的实例                                                                                 | 创建型 | 单例类                                                 |
+| 适配器模式<br />Adapter            | **
+不兼容结构的协调**<br />将一个类的接口转换成客户希望的另一个接口<br />适配器模式让那些接口不兼容的类可以一起工作                                 | 结构型 | 目标抽象类<br />适配器类<br />适配者类                 |
+| 桥接模式<br />Bridge               | **
+处理多维度变化**<br />一个类存在两个（或多个）独立变化的维度<br />将各个维度独立进行拓展<br />将抽象部分与它的实现部分解耦，使得两者都能够独立变化    | 结构型 | 抽象类<br />扩充抽象类<br />实现类接口<br />具体实现类 |
 | 7                                  |                                                                                                                                                          |        |                                                        |
 | 8                                  |                                                                                                                                                          |        |                                                        |
 | 9                                  |                                                                                                                                                          |        |                                                        |
@@ -72,8 +84,8 @@ nav_order: 4
 # 面向对象设计原则
 
 - 衡量软件质量
-  - 可维护性（Maintainability）
-  - 可复用性（Reusability）
+    - 可维护性（Maintainability）
+    - 可复用性（Reusability）
 
 ## 单一职责原则
 
@@ -183,7 +195,7 @@ package cn.com.lgs.simple_factory_pattern;
  * @date 2022/2/2 9:56
  */
 public interface Chart {
-  public void display();
+    public void display();
 }
 ```
 
@@ -200,14 +212,14 @@ package cn.com.lgs.simple_factory_pattern;
  */
 public class HistogramChart implements Chart {
 
-  public HistogramChart() {
-    System.out.println("创建柱状图！");
-  }
+    public HistogramChart() {
+        System.out.println("创建柱状图！");
+    }
 
-  @Override
-  public void display() {
-    System.out.println("显示柱状图！");
-  }
+    @Override
+    public void display() {
+        System.out.println("显示柱状图！");
+    }
 }
 ```
 
@@ -224,14 +236,14 @@ package cn.com.lgs.simple_factory_pattern;
  */
 public class PieChart implements Chart {
 
-  public PieChart() {
-    System.out.println("创建饼状图！");
-  }
+    public PieChart() {
+        System.out.println("创建饼状图！");
+    }
 
-  @Override
-  public void display() {
-    System.out.println("显示饼状图！");
-  }
+    @Override
+    public void display() {
+        System.out.println("显示饼状图！");
+    }
 }
 ```
 
@@ -248,14 +260,14 @@ package cn.com.lgs.simple_factory_pattern;
  */
 public class LineChart implements Chart {
 
-  public LineChart() {
-    System.out.println("创建折线图！");
-  }
+    public LineChart() {
+        System.out.println("创建折线图！");
+    }
 
-  @Override
-  public void display() {
-    System.out.println("显示折线图！");
-  }
+    @Override
+    public void display() {
+        System.out.println("显示折线图！");
+    }
 }
 ```
 
@@ -269,20 +281,20 @@ package cn.com.lgs.simple_factory_pattern;
  * @date 2022/2/2 10:04
  */
 public class ChartFactory {
-  public static Chart getChart(String type) {
-    Chart chart = null;
-    if (type.equalsIgnoreCase("histogram")) {
-      chart = new HistogramChart();
-      System.out.println("初始化设置柱状图！");
-    } else if (type.equalsIgnoreCase("pie")) {
-      chart = new PieChart();
-      System.out.println("初始化设置饼状图！");
-    } else if (type.equalsIgnoreCase("line")) {
-      chart = new LineChart();
-      System.out.println("初始化设置折线图！");
+    public static Chart getChart(String type) {
+        Chart chart = null;
+        if (type.equalsIgnoreCase("histogram")) {
+            chart = new HistogramChart();
+            System.out.println("初始化设置柱状图！");
+        } else if (type.equalsIgnoreCase("pie")) {
+            chart = new PieChart();
+            System.out.println("初始化设置饼状图！");
+        } else if (type.equalsIgnoreCase("line")) {
+            chart = new LineChart();
+            System.out.println("初始化设置折线图！");
+        }
+        return chart;
     }
-    return chart;
-  }
 }
 ```
 
@@ -296,11 +308,11 @@ package cn.com.lgs.simple_factory_pattern;
  * @date 2022/2/2 10:10
  */
 public class Demo {
-  public static void main(String[] args) {
-    Chart chart;
-    chart = ChartFactory.getChart("histogram"); //通过静态工厂方法创建产品
-    chart.display();
-  }
+    public static void main(String[] args) {
+        Chart chart;
+        chart = ChartFactory.getChart("histogram"); //通过静态工厂方法创建产品
+        chart.display();
+    }
 }
 ```
 
@@ -323,18 +335,18 @@ public class Demo {
 
 - 注意点
 
-  - 如果一个类很简单，不存在太多变化，其构造过程也很简单， 此时就无需为其提供工厂类。直接在使用之前实例化就行，避免工厂泛滥。
+    - 如果一个类很简单，不存在太多变化，其构造过程也很简单， 此时就无需为其提供工厂类。直接在使用之前实例化就行，避免工厂泛滥。
 - 优点
 
-  - 将 `创建对象`和 `使用对象`职责分离，降低了耦合性。
-  - 将创建对象的代码集中到一处，而不是散播的到处都是。防止出现代码重复、创建蔓延的问题。
-  - 客户端无须知道所创建的具体产品类的 `复杂`类名，只需要知道产品所对应的参数即可，减少记忆量。
+    - 将 `创建对象`和 `使用对象`职责分离，降低了耦合性。
+    - 将创建对象的代码集中到一处，而不是散播的到处都是。防止出现代码重复、创建蔓延的问题。
+    - 客户端无须知道所创建的具体产品类的 `复杂`类名，只需要知道产品所对应的参数即可，减少记忆量。
 - 缺点
 
-  - 工厂类集中了所有产品的创建逻辑，职责过重，一旦不能正常工作，整个系统都要受到影响。
-  - 新增了 `工厂类`,增加了系统的复杂度和理解难度
-  - 拓展困难，一旦增加新产品就不得不修改工厂逻辑。产品类型较多时工厂类逻辑会过于复杂。
-  - 使用静态工厂方法，无法形成基于继承的等级结构
+    - 工厂类集中了所有产品的创建逻辑，职责过重，一旦不能正常工作，整个系统都要受到影响。
+    - 新增了 `工厂类`,增加了系统的复杂度和理解难度
+    - 拓展困难，一旦增加新产品就不得不修改工厂逻辑。产品类型较多时工厂类逻辑会过于复杂。
+    - 使用静态工厂方法，无法形成基于继承的等级结构
 
 ## 模式的适用性
 
@@ -387,7 +399,7 @@ public class Demo {
  * @date 2022/2/10 17:04
  */
 public interface Logger {
-  public void writeLog();
+    public void writeLog();
 }
 
 /**
@@ -396,11 +408,11 @@ public interface Logger {
  * @author luguosong
  * @date 2022/2/10 17:08
  */
-public class DatabaseLogger implements Logger{
-  @Override
-  public void writeLog() {
-    System.out.println("数据库日志记录。");
-  }
+public class DatabaseLogger implements Logger {
+    @Override
+    public void writeLog() {
+        System.out.println("数据库日志记录。");
+    }
 }
 
 /**
@@ -409,11 +421,11 @@ public class DatabaseLogger implements Logger{
  * @author luguosong
  * @date 2022/2/10 17:11
  */
-public class FileLogger implements Logger{
-  @Override
-  public void writeLog() {
-    System.out.println("文件记录日志");
-  }
+public class FileLogger implements Logger {
+    @Override
+    public void writeLog() {
+        System.out.println("文件记录日志");
+    }
 }
 
 /**
@@ -423,7 +435,7 @@ public class FileLogger implements Logger{
  * @date 2022/2/10 17:17
  */
 public interface LoggerFactory {
-  public Logger createLogger();  //抽象工厂方法
+    public Logger createLogger();  //抽象工厂方法
 }
 
 /**
@@ -433,19 +445,19 @@ public interface LoggerFactory {
  * @date 2022/2/10 17:20
  */
 public class DatabaseLoggerFactory implements LoggerFactory {
-  @Override
-  public Logger createLogger() {
-    //连接数据库
-    //...
+    @Override
+    public Logger createLogger() {
+        //连接数据库
+        //...
 
-    //创建数据库日志记录器对象
-    Logger logger = new DatabaseLogger();
+        //创建数据库日志记录器对象
+        Logger logger = new DatabaseLogger();
 
-    //初始化数据库日志记录器
-    //...
+        //初始化数据库日志记录器
+        //...
 
-    return logger;
-  }
+        return logger;
+    }
 }
 
 /**
@@ -455,16 +467,16 @@ public class DatabaseLoggerFactory implements LoggerFactory {
  * @date 2022/2/10 17:27
  */
 public class FileLoggerFactory implements LoggerFactory {
-  @Override
-  public Logger createLogger() {
-    //创建文件日志记录器对象
-    Logger logger = new FileLogger();
+    @Override
+    public Logger createLogger() {
+        //创建文件日志记录器对象
+        Logger logger = new FileLogger();
 
-    //创建文件
-    //...
+        //创建文件
+        //...
 
-    return logger;
-  }
+        return logger;
+    }
 }
 
 /**
@@ -472,13 +484,13 @@ public class FileLoggerFactory implements LoggerFactory {
  * @date 2022/2/10 17:35
  */
 public class Demo {
-  public static void main(String[] args) {
-    LoggerFactory factory;
-    Logger logger;
-    factory = new FileLoggerFactory();
-    logger = factory.createLogger();
-    logger.writeLog();
-  }
+    public static void main(String[] args) {
+        LoggerFactory factory;
+        Logger logger;
+        factory = new FileLoggerFactory();
+        logger = factory.createLogger();
+        logger.writeLog();
+    }
 }
 ```
 
@@ -501,11 +513,11 @@ public class Demo {
 
 - 优点
 
-  - 改进了 `简单工厂`新增具体产品需要修改工厂违背 `开闭原则`的弊端。
+    - 改进了 `简单工厂`新增具体产品需要修改工厂违背 `开闭原则`的弊端。
 - 缺点
 
-  - 增加新产品时，既要新增产品类，又要新增具体工厂类，增加了系统的复杂度。
-  - 客户端都使用抽象层进行定义，增加了系统的抽象性和理解难度。
+    - 增加新产品时，既要新增产品类，又要新增具体工厂类，增加了系统的复杂度。
+    - 客户端都使用抽象层进行定义，增加了系统的抽象性和理解难度。
 
 ## 模式的适用性
 
@@ -543,7 +555,7 @@ Kit
 - `AbstractProduct(抽象产品)`：每种产品声明接口
 - `ConcreteProduct(具体产品)`：实现抽象产品接口中声明的业务方法
 
-## 实现代码
+## 实例代码
 
 > 某软件公司要开发一套界面皮肤库。在使用时可以通过菜单来选择皮肤。不同的皮肤库提供不同
 > 视觉效果的按钮、文本框、组合框等界面元素
@@ -567,24 +579,24 @@ public interface Button {
  * @author 10545
  * @date 2022/2/22 22:29
  */
-public class SpringButton implements Button{
-  @Override
-  public void display() {
-    System.out.println("显示浅绿色按钮");
-  }
+public class SpringButton implements Button {
+    @Override
+    public void display() {
+        System.out.println("显示浅绿色按钮");
+    }
 }
 
 /**
  * Summer按钮类，充当具体产品
- * 
+ *
  * @author 10545
  * @date 2022/2/22 22:32
  */
-public class SummerButton implements Button{
-  @Override
-  public void display() {
-    System.out.println("显示浅蓝色按钮");
-  }
+public class SummerButton implements Button {
+    @Override
+    public void display() {
+        System.out.println("显示浅蓝色按钮");
+    }
 }
 
 /**
@@ -594,7 +606,7 @@ public class SummerButton implements Button{
  * @date 2022/2/22 22:41
  */
 public interface TextField {
-  public void display();
+    public void display();
 }
 
 /**
@@ -603,11 +615,11 @@ public interface TextField {
  * @author 10545
  * @date 2022/2/22 22:46
  */
-public class SpringTextField implements TextField{
-  @Override
-  public void display() {
-    System.out.println("显示绿色边框文本框！");
-  }
+public class SpringTextField implements TextField {
+    @Override
+    public void display() {
+        System.out.println("显示绿色边框文本框！");
+    }
 }
 
 /**
@@ -616,11 +628,11 @@ public class SpringTextField implements TextField{
  * @author 10545
  * @date 2022/2/22 22:48
  */
-public class SummerTextField implements TextField{
-  @Override
-  public void display() {
-    System.out.println("显示蓝色边框文本框");
-  }
+public class SummerTextField implements TextField {
+    @Override
+    public void display() {
+        System.out.println("显示蓝色边框文本框");
+    }
 }
 
 /**
@@ -630,7 +642,7 @@ public class SummerTextField implements TextField{
  * @date 2022/2/22 22:54
  */
 public interface ComboBox {
-  public void display();
+    public void display();
 }
 
 /**
@@ -639,11 +651,11 @@ public interface ComboBox {
  * @author 10545
  * @date 2022/2/22 22:55
  */
-public class SpringComboBox implements ComboBox{
-  @Override
-  public void display() {
-    System.out.println("显示绿色边框组合框");
-  }
+public class SpringComboBox implements ComboBox {
+    @Override
+    public void display() {
+        System.out.println("显示绿色边框组合框");
+    }
 }
 
 /**
@@ -652,11 +664,11 @@ public class SpringComboBox implements ComboBox{
  * @author 10545
  * @date 2022/2/22 23:14
  */
-public class SummerComboBox implements ComboBox{
-  @Override
-  public void display() {
-    System.out.println("显示蓝色边框组合框");
-  }
+public class SummerComboBox implements ComboBox {
+    @Override
+    public void display() {
+        System.out.println("显示蓝色边框组合框");
+    }
 }
 
 /**
@@ -666,9 +678,11 @@ public class SummerComboBox implements ComboBox{
  * @date 2022/2/23 21:27
  */
 public interface SkinFactory {
-  public Button createButton();
-  public TextField createTextField();
-  public ComboBox createComboBox();
+    public Button createButton();
+
+    public TextField createTextField();
+
+    public ComboBox createComboBox();
 }
 
 /**
@@ -677,21 +691,21 @@ public interface SkinFactory {
  * @author 10545
  * @date 2022/2/23 21:35
  */
-public class SpringSkinFactory implements SkinFactory{
-  @Override
-  public Button createButton() {
-    return new SpringButton();
-  }
+public class SpringSkinFactory implements SkinFactory {
+    @Override
+    public Button createButton() {
+        return new SpringButton();
+    }
 
-  @Override
-  public TextField createTextField() {
-    return new SpringTextField();
-  }
+    @Override
+    public TextField createTextField() {
+        return new SpringTextField();
+    }
 
-  @Override
-  public ComboBox createComboBox() {
-    return new SpringComboBox();
-  }
+    @Override
+    public ComboBox createComboBox() {
+        return new SpringComboBox();
+    }
 }
 
 /**
@@ -700,21 +714,21 @@ public class SpringSkinFactory implements SkinFactory{
  * @author 10545
  * @date 2022/2/23 21:53
  */
-public class SummerSkinFactory implements SkinFactory{
-  @Override
-  public Button createButton() {
-    return new SummerButton();
-  }
+public class SummerSkinFactory implements SkinFactory {
+    @Override
+    public Button createButton() {
+        return new SummerButton();
+    }
 
-  @Override
-  public TextField createTextField() {
-    return new SummerTextField();
-  }
+    @Override
+    public TextField createTextField() {
+        return new SummerTextField();
+    }
 
-  @Override
-  public ComboBox createComboBox() {
-    return new SummerComboBox();
-  }
+    @Override
+    public ComboBox createComboBox() {
+        return new SummerComboBox();
+    }
 }
 
 /**
@@ -724,27 +738,27 @@ public class SummerSkinFactory implements SkinFactory{
  * @date 2022/2/28 21:47
  */
 public class XMLUtil {
-  public static Object getBean() {
-    try {
-      //创建DOM对象
-      DocumentBuilderFactory dFactory = DocumentBuilderFactory.newInstance();
-      DocumentBuilder builder = dFactory.newDocumentBuilder();
-      Document doc = builder.parse("_java/design-pattern/src/main/java/cn/com/lgs/abstract_factory_pattern/config.xml");
+    public static Object getBean() {
+        try {
+            //创建DOM对象
+            DocumentBuilderFactory dFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = dFactory.newDocumentBuilder();
+            Document doc = builder.parse("_java/design-pattern/src/main/java/cn/com/lgs/abstract_factory_pattern/config.xml");
 
-      //获取包含类名的文本节点
-      NodeList nl = doc.getElementsByTagName("className");
-      Node classNode = nl.item(0).getFirstChild();
-      String cName = classNode.getNodeValue();
+            //获取包含类名的文本节点
+            NodeList nl = doc.getElementsByTagName("className");
+            Node classNode = nl.item(0).getFirstChild();
+            String cName = classNode.getNodeValue();
 
-      //通过类名生成实例对象并将其返回
-      Class<?> c = Class.forName(cName);
-      Object obj = c.newInstance();
-      return obj;
-    } catch (Exception e) {
-      e.printStackTrace();
-      return null;
+            //通过类名生成实例对象并将其返回
+            Class<?> c = Class.forName(cName);
+            Object obj = c.newInstance();
+            return obj;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
-  }
 }
 
 /**
@@ -754,24 +768,24 @@ public class XMLUtil {
  * @date 2022/2/28 22:22
  */
 public class Demo {
-  public static void main(String[] args) {
-    //使用抽象层定义
-    SkinFactory factory;
-    Button bt;
-    TextField tf;
-    ComboBox cb;
-    //使用工具类创建工厂
-    factory=(SkinFactory)XMLUtil.getBean();
-    //工厂创建对象
-    bt=factory.createButton();
-    tf=factory.createTextField();
-    cb=factory.createComboBox();
+    public static void main(String[] args) {
+        //使用抽象层定义
+        SkinFactory factory;
+        Button bt;
+        TextField tf;
+        ComboBox cb;
+        //使用工具类创建工厂
+        factory = (SkinFactory) XMLUtil.getBean();
+        //工厂创建对象
+        bt = factory.createButton();
+        tf = factory.createTextField();
+        cb = factory.createComboBox();
 
-    //运行具体产品
-    bt.display();
-    tf.display();
-    cb.display();
-  }
+        //运行具体产品
+        bt.display();
+        tf.display();
+        cb.display();
+    }
 }
 ```
 
@@ -795,13 +809,13 @@ public class Demo {
 ## 效果
 
 - 优点
-  - 抽象工厂相比工厂方法同时生产多个产品（创建 `产品族`）
-  - 隔离了具体产品的生成，只需要改变具体工厂实例就可以改变整个软件系统的行为
-  - 当一个产品族中多个对象被设计在一起工作，能保证客户端使用同一个产品族的对象。
-  - 增加新的产品族很方便
+    - 抽象工厂相比工厂方法同时生产多个产品（创建 `产品族`）
+    - 隔离了具体产品的生成，只需要改变具体工厂实例就可以改变整个软件系统的行为
+    - 当一个产品族中多个对象被设计在一起工作，能保证客户端使用同一个产品族的对象。
+    - 增加新的产品族很方便
 - 缺点
-  - 如果工厂中需要新增产品，需要先修改抽象工厂接口，再逐一修改具体工厂类，不满足开闭原则。
-    换句话说，`增加产品族`很方便，但是 `增加产品等级`结构很麻烦。
+    - 如果工厂中需要新增产品，需要先修改抽象工厂接口，再逐一修改具体工厂类，不满足开闭原则。
+      换句话说，`增加产品族`很方便，但是 `增加产品等级`结构很麻烦。
 
 ## 模式适用性
 
@@ -854,62 +868,62 @@ Java语言的AWT(抽象窗口工具包)中使用了抽象工厂模式
  * @date 2022/3/9 22:17
  */
 public class Actor {
-  private String type;  //角色类型
-  private String sex;  //性别
-  private String face;  //脸型
-  private String costume;  //服饰
-  private String hairstyle;  //发型
+    private String type;  //角色类型
+    private String sex;  //性别
+    private String face;  //脸型
+    private String costume;  //服饰
+    private String hairstyle;  //发型
 
-  public String getType() {
-    return type;
-  }
+    public String getType() {
+        return type;
+    }
 
-  public void setType(String type) {
-    this.type = type;
-  }
+    public void setType(String type) {
+        this.type = type;
+    }
 
-  public String getSex() {
-    return sex;
-  }
+    public String getSex() {
+        return sex;
+    }
 
-  public void setSex(String sex) {
-    this.sex = sex;
-  }
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
 
-  public String getFace() {
-    return face;
-  }
+    public String getFace() {
+        return face;
+    }
 
-  public void setFace(String face) {
-    this.face = face;
-  }
+    public void setFace(String face) {
+        this.face = face;
+    }
 
-  public String getCostume() {
-    return costume;
-  }
+    public String getCostume() {
+        return costume;
+    }
 
-  public void setCostume(String costume) {
-    this.costume = costume;
-  }
+    public void setCostume(String costume) {
+        this.costume = costume;
+    }
 
-  public String getHairstyle() {
-    return hairstyle;
-  }
+    public String getHairstyle() {
+        return hairstyle;
+    }
 
-  public void setHairstyle(String hairstyle) {
-    this.hairstyle = hairstyle;
-  }
+    public void setHairstyle(String hairstyle) {
+        this.hairstyle = hairstyle;
+    }
 
-  @Override
-  public String toString() {
-    return "Actor{" +
-            "type='" + type + '\'' +
-            ", sex='" + sex + '\'' +
-            ", face='" + face + '\'' +
-            ", costume='" + costume + '\'' +
-            ", hairstyle='" + hairstyle + '\'' +
-            '}';
-  }
+    @Override
+    public String toString() {
+        return "Actor{" +
+                "type='" + type + '\'' +
+                ", sex='" + sex + '\'' +
+                ", face='" + face + '\'' +
+                ", costume='" + costume + '\'' +
+                ", hairstyle='" + hairstyle + '\'' +
+                '}';
+    }
 }
 
 /**
@@ -919,21 +933,21 @@ public class Actor {
  * @date 2022/3/9 22:22
  */
 public abstract class ActorBuilder {
-  protected Actor actor = new Actor();
+    protected Actor actor = new Actor();
 
-  public abstract void buildType();
+    public abstract void buildType();
 
-  public abstract void buildSex();
+    public abstract void buildSex();
 
-  public abstract void buildFace();
+    public abstract void buildFace();
 
-  public abstract void buildCostume();
+    public abstract void buildCostume();
 
-  public abstract void buildHairstyle();
+    public abstract void buildHairstyle();
 
-  public Actor createActor() {
-    return actor;
-  }
+    public Actor createActor() {
+        return actor;
+    }
 }
 
 /**
@@ -944,30 +958,30 @@ public abstract class ActorBuilder {
  */
 public class HeroBuilder extends ActorBuilder {
 
-  @Override
-  public void buildType() {
-    actor.setType("英雄");
-  }
+    @Override
+    public void buildType() {
+        actor.setType("英雄");
+    }
 
-  @Override
-  public void buildSex() {
-    actor.setSex("男");
-  }
+    @Override
+    public void buildSex() {
+        actor.setSex("男");
+    }
 
-  @Override
-  public void buildFace() {
-    actor.setFace("英俊");
-  }
+    @Override
+    public void buildFace() {
+        actor.setFace("英俊");
+    }
 
-  @Override
-  public void buildCostume() {
-    actor.setCostume("盔甲");
-  }
+    @Override
+    public void buildCostume() {
+        actor.setCostume("盔甲");
+    }
 
-  @Override
-  public void buildHairstyle() {
-    actor.setHairstyle("飘逸");
-  }
+    @Override
+    public void buildHairstyle() {
+        actor.setHairstyle("飘逸");
+    }
 }
 
 /**
@@ -978,30 +992,30 @@ public class HeroBuilder extends ActorBuilder {
  */
 public class HeroBuilder extends ActorBuilder {
 
-  @Override
-  public void buildType() {
-    actor.setType("英雄");
-  }
+    @Override
+    public void buildType() {
+        actor.setType("英雄");
+    }
 
-  @Override
-  public void buildSex() {
-    actor.setSex("男");
-  }
+    @Override
+    public void buildSex() {
+        actor.setSex("男");
+    }
 
-  @Override
-  public void buildFace() {
-    actor.setFace("英俊");
-  }
+    @Override
+    public void buildFace() {
+        actor.setFace("英俊");
+    }
 
-  @Override
-  public void buildCostume() {
-    actor.setCostume("盔甲");
-  }
+    @Override
+    public void buildCostume() {
+        actor.setCostume("盔甲");
+    }
 
-  @Override
-  public void buildHairstyle() {
-    actor.setHairstyle("飘逸");
-  }
+    @Override
+    public void buildHairstyle() {
+        actor.setHairstyle("飘逸");
+    }
 }
 
 /**
@@ -1011,30 +1025,30 @@ public class HeroBuilder extends ActorBuilder {
  * @date 2022/3/9 23:01
  */
 public class AngelBuilder extends ActorBuilder {
-  @Override
-  public void buildType() {
-    actor.setType("天使");
-  }
+    @Override
+    public void buildType() {
+        actor.setType("天使");
+    }
 
-  @Override
-  public void buildSex() {
-    actor.setSex("女");
-  }
+    @Override
+    public void buildSex() {
+        actor.setSex("女");
+    }
 
-  @Override
-  public void buildFace() {
-    actor.setFace("漂亮");
-  }
+    @Override
+    public void buildFace() {
+        actor.setFace("漂亮");
+    }
 
-  @Override
-  public void buildCostume() {
-    actor.setCostume("白裙");
-  }
+    @Override
+    public void buildCostume() {
+        actor.setCostume("白裙");
+    }
 
-  @Override
-  public void buildHairstyle() {
-    actor.setHairstyle("披肩长发");
-  }
+    @Override
+    public void buildHairstyle() {
+        actor.setHairstyle("披肩长发");
+    }
 }
 
 /**
@@ -1044,30 +1058,30 @@ public class AngelBuilder extends ActorBuilder {
  * @date 2022/3/15 10:43
  */
 public class DevilBuilder extends ActorBuilder {
-  @Override
-  public void buildType() {
-    actor.setType("恶魔");
-  }
+    @Override
+    public void buildType() {
+        actor.setType("恶魔");
+    }
 
-  @Override
-  public void buildSex() {
-    actor.setSex("妖");
-  }
+    @Override
+    public void buildSex() {
+        actor.setSex("妖");
+    }
 
-  @Override
-  public void buildFace() {
-    actor.setFace("丑陋");
-  }
+    @Override
+    public void buildFace() {
+        actor.setFace("丑陋");
+    }
 
-  @Override
-  public void buildCostume() {
-    actor.setCostume("黑衣");
-  }
+    @Override
+    public void buildCostume() {
+        actor.setCostume("黑衣");
+    }
 
-  @Override
-  public void buildHairstyle() {
-    actor.setHairstyle("光头");
-  }
+    @Override
+    public void buildHairstyle() {
+        actor.setHairstyle("光头");
+    }
 }
 
 /**
@@ -1077,16 +1091,16 @@ public class DevilBuilder extends ActorBuilder {
  * @date 2022/3/15 11:02
  */
 public class ActorController {
-  public Actor construct(ActorBuilder ab) {
-    Actor actor;
-    ab.buildType();
-    ab.buildSex();
-    ab.buildFace();
-    ab.buildCostume();
-    ab.buildHairstyle();
-    actor = ab.createActor();
-    return actor;
-  }
+    public Actor construct(ActorBuilder ab) {
+        Actor actor;
+        ab.buildType();
+        ab.buildSex();
+        ab.buildFace();
+        ab.buildCostume();
+        ab.buildHairstyle();
+        actor = ab.createActor();
+        return actor;
+    }
 }
 
 /**
@@ -1096,29 +1110,29 @@ public class ActorController {
  * @date 2022/3/15 13:54
  */
 public class XMLUtil {
-  public static Object getBean() {
-    try {
-      //创建DOM文件对象
-      DocumentBuilderFactory dFactory = DocumentBuilderFactory.newInstance();
-      DocumentBuilder builder = dFactory.newDocumentBuilder();
-      Document doc;
-      doc = builder.parse(new File("_java/design-pattern/src/main/java/cn/com/lgs/builder_pattern/config.xml"));
+    public static Object getBean() {
+        try {
+            //创建DOM文件对象
+            DocumentBuilderFactory dFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = dFactory.newDocumentBuilder();
+            Document doc;
+            doc = builder.parse(new File("_java/design-pattern/src/main/java/cn/com/lgs/builder_pattern/config.xml"));
 
-      //获取包含类名的文本节点
-      NodeList n1 = doc.getElementsByTagName("className");
-      Node classNode = n1.item(0).getFirstChild();
-      String cName = classNode.getNodeValue();
+            //获取包含类名的文本节点
+            NodeList n1 = doc.getElementsByTagName("className");
+            Node classNode = n1.item(0).getFirstChild();
+            String cName = classNode.getNodeValue();
 
 
-      Class<?> c = Class.forName(cName);
-      Object obj = c.newInstance();
-      return obj;
+            Class<?> c = Class.forName(cName);
+            Object obj = c.newInstance();
+            return obj;
 
-    } catch (Exception e) {
-      e.printStackTrace();
-      return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
-  }
 }
 
 /**
@@ -1128,19 +1142,19 @@ public class XMLUtil {
  * @date 2022/3/15 16:39
  */
 public class Demo {
-  public static void main(String[] args) {
-    //通过xml创建具体生成器对象
-    ActorBuilder ab;
-    ab = (ActorBuilder) XMLUtil.getBean();
+    public static void main(String[] args) {
+        //通过xml创建具体生成器对象
+        ActorBuilder ab;
+        ab = (ActorBuilder) XMLUtil.getBean();
 
-    //创建指挥官，并通过指挥官创建对象的各个部件，最后返回对象
-    ActorController ac = new ActorController();
-    Actor actor;
-    actor = ac.construct(ab);
+        //创建指挥官，并通过指挥官创建对象的各个部件，最后返回对象
+        ActorController ac = new ActorController();
+        Actor actor;
+        actor = ac.construct(ab);
 
-    //打印对象
-    System.out.println(actor);
-  }
+        //打印对象
+        System.out.println(actor);
+    }
 }
 ```
 
@@ -1149,7 +1163,7 @@ public class Demo {
 ```xml
 <?xml version="1.0" ?>
 <config>
-  <className>cn.com.lgs.builder_pattern.AngelBuilder</className>
+    <className>cn.com.lgs.builder_pattern.AngelBuilder</className>
 </config>
 ```
 
@@ -1172,26 +1186,26 @@ Actor{type='天使', sex='女', face='漂亮', costume='白裙', hairstyle='披�
  * @date 2022/3/9 22:22
  */
 public abstract class ActorBuilder {
-  protected Actor actor = new Actor();
+    protected Actor actor = new Actor();
 
-  public abstract void buildType();
+    public abstract void buildType();
 
-  public abstract void buildSex();
+    public abstract void buildSex();
 
-  public abstract void buildFace();
+    public abstract void buildFace();
 
-  public abstract void buildCostume();
+    public abstract void buildCostume();
 
-  public abstract void buildHairstyle();
+    public abstract void buildHairstyle();
 
-  //钩子方法，判断是否为光头，默认返回false，不是光头
-  public boolean isBareheaded() {
-    return false;
-  }
+    //钩子方法，判断是否为光头，默认返回false，不是光头
+    public boolean isBareheaded() {
+        return false;
+    }
 
-  public Actor createActor() {
-    return actor;
-  }
+    public Actor createActor() {
+        return actor;
+    }
 }
 
 /**
@@ -1201,36 +1215,36 @@ public abstract class ActorBuilder {
  * @date 2022/3/15 10:43
  */
 public class DevilBuilder extends ActorBuilder {
-  @Override
-  public void buildType() {
-    actor.setType("恶魔");
-  }
+    @Override
+    public void buildType() {
+        actor.setType("恶魔");
+    }
 
-  @Override
-  public void buildSex() {
-    actor.setSex("妖");
-  }
+    @Override
+    public void buildSex() {
+        actor.setSex("妖");
+    }
 
-  @Override
-  public void buildFace() {
-    actor.setFace("丑陋");
-  }
+    @Override
+    public void buildFace() {
+        actor.setFace("丑陋");
+    }
 
-  @Override
-  public void buildCostume() {
-    actor.setCostume("黑衣");
-  }
+    @Override
+    public void buildCostume() {
+        actor.setCostume("黑衣");
+    }
 
-  @Override
-  public void buildHairstyle() {
-    actor.setHairstyle("光头");
-  }
+    @Override
+    public void buildHairstyle() {
+        actor.setHairstyle("光头");
+    }
 
-  //在发型为光头的具体生成器中覆写isBareheaded，使之返回true
-  @Override
-  public boolean isBareheaded() {
-    return true;
-  }
+    //在发型为光头的具体生成器中覆写isBareheaded，使之返回true
+    @Override
+    public boolean isBareheaded() {
+        return true;
+    }
 }
 
 /**
@@ -1240,31 +1254,31 @@ public class DevilBuilder extends ActorBuilder {
  * @date 2022/3/15 11:02
  */
 public class ActorController {
-  public Actor construct(ActorBuilder ab) {
-    Actor actor;
-    ab.buildType();
-    ab.buildSex();
-    ab.buildFace();
-    ab.buildCostume();
-    //在指挥官类中通过调用钩子函数，判断是否需要构建头发。达到精细化控制的目的
-    if (!ab.isBareheaded()) {
-      ab.buildHairstyle();
+    public Actor construct(ActorBuilder ab) {
+        Actor actor;
+        ab.buildType();
+        ab.buildSex();
+        ab.buildFace();
+        ab.buildCostume();
+        //在指挥官类中通过调用钩子函数，判断是否需要构建头发。达到精细化控制的目的
+        if (!ab.isBareheaded()) {
+            ab.buildHairstyle();
+        }
+        actor = ab.createActor();
+        return actor;
     }
-    actor = ab.createActor();
-    return actor;
-  }
 }
 ```
 
 ## 效果
 
 - 优点
-  - 客户端不需要知道产品的内部组成细节，将产品本身与产品的创建过程解耦。使得相同的创建过程可以创建不同的产品对象
-  - 增加或修改 `具体生成器`,不需要修改指挥官代码，满足开闭原则
-  - 可以更加精细地控制产品地创建过程
+    - 客户端不需要知道产品的内部组成细节，将产品本身与产品的创建过程解耦。使得相同的创建过程可以创建不同的产品对象
+    - 增加或修改 `具体生成器`,不需要修改指挥官代码，满足开闭原则
+    - 可以更加精细地控制产品地创建过程
 - 缺点
-  - 组成部分不同地产品，不适合使用生成器模式
-  - 如果产品内部变化复杂，可能需要定义很多 `具体生成器`类来实现这种变化
+    - 组成部分不同地产品，不适合使用生成器模式
+    - 如果产品内部变化复杂，可能需要定义很多 `具体生成器`类来实现这种变化
 
 ## 模式适用性
 
@@ -1315,19 +1329,19 @@ public class ActorController {
  * @date 2022/3/24 21:50
  */
 public class Attachment {
-  private String name; //附件名
+    private String name; //附件名
 
-  public String getName() {
-    return name;
-  }
+    public String getName() {
+        return name;
+    }
 
-  public void setName(String name) {
-    this.name = name;
-  }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-  public void download() {
-    System.out.println("下载附件，文件名为：" + name);
-  }
+    public void download() {
+        System.out.println("下载附件，文件名为：" + name);
+    }
 }
 
 /**
@@ -1339,56 +1353,56 @@ public class Attachment {
  * @date 2022/3/24 21:59
  */
 public class WeeklyLog implements Cloneable {
-  private Attachment attachment;
-  private String name;
-  private String date;
-  private String content;
+    private Attachment attachment;
+    private String name;
+    private String date;
+    private String content;
 
-  public Attachment getAttachment() {
-    return attachment;
-  }
-
-  public void setAttachment(Attachment attachment) {
-    this.attachment = attachment;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public String getDate() {
-    return date;
-  }
-
-  public void setDate(String date) {
-    this.date = date;
-  }
-
-  public String getContent() {
-    return content;
-  }
-
-  public void setContent(String content) {
-    this.content = content;
-  }
-
-  /**
-   * @return
-   * @throws CloneNotSupportedException
-   */
-  @Override
-  protected WeeklyLog clone() {
-    try {
-      return (WeeklyLog) super.clone();
-    } catch (CloneNotSupportedException e) {
-      System.out.println("不支持复制");
-      return null;
+    public Attachment getAttachment() {
+        return attachment;
     }
-  }
+
+    public void setAttachment(Attachment attachment) {
+        this.attachment = attachment;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    /**
+     * @return
+     * @throws CloneNotSupportedException
+     */
+    @Override
+    protected WeeklyLog clone() {
+        try {
+            return (WeeklyLog) super.clone();
+        } catch (CloneNotSupportedException e) {
+            System.out.println("不支持复制");
+            return null;
+        }
+    }
 }
 
 /**
@@ -1398,18 +1412,18 @@ public class WeeklyLog implements Cloneable {
  * @date 2022/3/24 22:08
  */
 public class Demo {
-  public static void main(String[] args) {
-    WeeklyLog log_previous, log_new;
-    //这里主要讨论原型模式，不考虑开闭原则，因此直接使用new
-    log_previous = new WeeklyLog();
-    Attachment attachment = new Attachment();
-    log_previous.setAttachment(attachment);
-    log_new = log_previous.clone();
-    //==比较的是地址，因此不相同
-    System.out.println("周报是否相同：" + (log_previous == log_new));
-    //因为是软克隆，因此附件相同
-    System.out.println("附件是否相同：" + (log_previous.getAttachment() == log_new.getAttachment()));
-  }
+    public static void main(String[] args) {
+        WeeklyLog log_previous, log_new;
+        //这里主要讨论原型模式，不考虑开闭原则，因此直接使用new
+        log_previous = new WeeklyLog();
+        Attachment attachment = new Attachment();
+        log_previous.setAttachment(attachment);
+        log_new = log_previous.clone();
+        //==比较的是地址，因此不相同
+        System.out.println("周报是否相同：" + (log_previous == log_new));
+        //因为是软克隆，因此附件相同
+        System.out.println("附件是否相同：" + (log_previous.getAttachment() == log_new.getAttachment()));
+    }
 }
 ```
 
@@ -1425,19 +1439,19 @@ public class Demo {
  * @date 2022/3/24 23:08
  */
 public class Attachment implements Serializable {
-  private String name; //附件名
+    private String name; //附件名
 
-  public String getName() {
-    return name;
-  }
+    public String getName() {
+        return name;
+    }
 
-  public void setName(String name) {
-    this.name = name;
-  }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-  public void download() {
-    System.out.println("下载附件，文件名为：" + name);
-  }
+    public void download() {
+        System.out.println("下载附件，文件名为：" + name);
+    }
 }
 
 /**
@@ -1449,53 +1463,53 @@ public class Attachment implements Serializable {
  * @date 2022/3/24 21:59
  */
 public class WeeklyLog implements Serializable {
-  private Attachment attachment;
-  private String name;
-  private String date;
-  private String content;
+    private Attachment attachment;
+    private String name;
+    private String date;
+    private String content;
 
-  public Attachment getAttachment() {
-    return attachment;
-  }
+    public Attachment getAttachment() {
+        return attachment;
+    }
 
-  public void setAttachment(Attachment attachment) {
-    this.attachment = attachment;
-  }
+    public void setAttachment(Attachment attachment) {
+        this.attachment = attachment;
+    }
 
-  public String getName() {
-    return name;
-  }
+    public String getName() {
+        return name;
+    }
 
-  public void setName(String name) {
-    this.name = name;
-  }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-  public String getDate() {
-    return date;
-  }
+    public String getDate() {
+        return date;
+    }
 
-  public void setDate(String date) {
-    this.date = date;
-  }
+    public void setDate(String date) {
+        this.date = date;
+    }
 
-  public String getContent() {
-    return content;
-  }
+    public String getContent() {
+        return content;
+    }
 
-  public void setContent(String content) {
-    this.content = content;
-  }
+    public void setContent(String content) {
+        this.content = content;
+    }
 
-  public WeeklyLog deepClone() throws IOException, ClassNotFoundException {
-    //将对象写入流中
-    ByteArrayOutputStream bao = new ByteArrayOutputStream();
-    ObjectOutputStream oos = new ObjectOutputStream(bao);
-    oos.writeObject(this);
-    //将对象从流中取出
-    ByteArrayInputStream bis = new ByteArrayInputStream(bao.toByteArray());
-    ObjectInputStream ois = new ObjectInputStream(bis);
-    return (WeeklyLog) ois.readObject();
-  }
+    public WeeklyLog deepClone() throws IOException, ClassNotFoundException {
+        //将对象写入流中
+        ByteArrayOutputStream bao = new ByteArrayOutputStream();
+        ObjectOutputStream oos = new ObjectOutputStream(bao);
+        oos.writeObject(this);
+        //将对象从流中取出
+        ByteArrayInputStream bis = new ByteArrayInputStream(bao.toByteArray());
+        ObjectInputStream ois = new ObjectInputStream(bis);
+        return (WeeklyLog) ois.readObject();
+    }
 }
 
 /**
@@ -1505,21 +1519,21 @@ public class WeeklyLog implements Serializable {
  * @date 2022/3/24 23:33
  */
 public class Demo {
-  public static void main(String[] args) {
-    WeeklyLog log_previous, log_new = null;
-    log_previous = new WeeklyLog();
-    Attachment attachment = new Attachment();
-    log_previous.setAttachment(attachment);
-    try {
-      log_new = log_previous.deepClone();
-    } catch (Exception e) {
-      System.out.println("克隆失败");
+    public static void main(String[] args) {
+        WeeklyLog log_previous, log_new = null;
+        log_previous = new WeeklyLog();
+        Attachment attachment = new Attachment();
+        log_previous.setAttachment(attachment);
+        try {
+            log_new = log_previous.deepClone();
+        } catch (Exception e) {
+            System.out.println("克隆失败");
+        }
+        //比较周报
+        System.out.println("周报是否相同：" + (log_previous == log_new));
+        //比较附件
+        System.out.println("附件是否相同：" + (log_previous.getAttachment() == log_new.getAttachment()));
     }
-    //比较周报
-    System.out.println("周报是否相同：" + (log_previous == log_new));
-    //比较附件
-    System.out.println("附件是否相同：" + (log_previous.getAttachment() == log_new.getAttachment()));
-  }
 }
 ```
 
@@ -1537,24 +1551,24 @@ public class Demo {
 import java.util.*;
 
 public class PrototypeManager {
-  //使用Hashtable存储原型对象
-  private Hashtable prototypeTable = new Hashtable();
+    //使用Hashtable存储原型对象
+    private Hashtable prototypeTable = new Hashtable();
 
-  //构造添加两个默认具体原型类
-  public PrototypeManager() {
-    prototypeTable.put("A", new ConcretePrototypeA());
-    prototypeTable.put("B", new ConcretePrototypeB());
-  }
-  
-  //提供注入原型类的方法
-  public void add(String key,Prototype prototype){
-    prototypeTable.put(key,prototype);
-  }
-  
-  //通过克隆方法创建新对象
-  public Prototype get(String key){
-      return (Prototype) prototypeTable.get(key).clone();
-  }
+    //构造添加两个默认具体原型类
+    public PrototypeManager() {
+        prototypeTable.put("A", new ConcretePrototypeA());
+        prototypeTable.put("B", new ConcretePrototypeB());
+    }
+
+    //提供注入原型类的方法
+    public void add(String key, Prototype prototype) {
+        prototypeTable.put(key, prototype);
+    }
+
+    //通过克隆方法创建新对象
+    public Prototype get(String key) {
+        return (Prototype) prototypeTable.get(key).clone();
+    }
 }
 ```
 
@@ -1563,13 +1577,13 @@ public class PrototypeManager {
 ## 效果
 
 - 优点
-  - 当创建新对象比较复杂，通过原型模式可以简化创建过程，提高创建效率
-  - 客户端可以针对抽象原型类进行编程，而将具体原型类写在配置文件中。拓展性好
-  - 相比于 `工厂方法`,结构更加简单。不需要专门创建相关工厂方法或类
-  - 可以用深克隆的方式保存对象的状态，以便在需要的时候使用，可以辅助实现撤销操作
+    - 当创建新对象比较复杂，通过原型模式可以简化创建过程，提高创建效率
+    - 客户端可以针对抽象原型类进行编程，而将具体原型类写在配置文件中。拓展性好
+    - 相比于 `工厂方法`,结构更加简单。不需要专门创建相关工厂方法或类
+    - 可以用深克隆的方式保存对象的状态，以便在需要的时候使用，可以辅助实现撤销操作
 - 缺点
-  - 需要对每个类配置一个克隆方法，当类发生变化时，需要修改克隆方法，不满足开闭原则
-  - 当对象之间存在多重嵌套时，为了实现 `深克隆`,每一层对象对应的类都必须支持深克隆（实现 `Serializable接口`）。实现起来比较麻烦。
+    - 需要对每个类配置一个克隆方法，当类发生变化时，需要修改克隆方法，不满足开闭原则
+    - 当对象之间存在多重嵌套时，为了实现 `深克隆`,每一层对象对应的类都必须支持深克隆（实现 `Serializable接口`）。实现起来比较麻烦。
 
 ## 模式适用性
 
@@ -1611,53 +1625,53 @@ public class PrototypeManager {
  * @date 2022/3/28 23:28
  */
 public class LoadBalancer {
-  //私有静态成员变量，存储唯一实例
-  private static LoadBalancer instance = null;
+    //私有静态成员变量，存储唯一实例
+    private static LoadBalancer instance = null;
 
-  //服务器集合
-  private List serverList = null;
+    //服务器集合
+    private List serverList = null;
 
-  //私有构造
-  private LoadBalancer() {
-    serverList = new ArrayList();
-  }
-
-  //公有静态成员方法，返回唯一实例
-  public static LoadBalancer getLoadBalancer() {
-    if (instance == null) {
-      instance = new LoadBalancer();
+    //私有构造
+    private LoadBalancer() {
+        serverList = new ArrayList();
     }
-    return instance;
-  }
 
-  /**
-   * 添加服务
-   *
-   * @param server
-   */
-  public void addServer(String server) {
-    serverList.add(server);
-  }
+    //公有静态成员方法，返回唯一实例
+    public static LoadBalancer getLoadBalancer() {
+        if (instance == null) {
+            instance = new LoadBalancer();
+        }
+        return instance;
+    }
 
-  /**
-   * 删除服务
-   *
-   * @param server
-   */
-  public void removeServer(String server) {
-    serverList.remove(server);
-  }
+    /**
+     * 添加服务
+     *
+     * @param server
+     */
+    public void addServer(String server) {
+        serverList.add(server);
+    }
 
-  /**
-   * 随机获取服务器
-   *
-   * @return
-   */
-  public String getServer() {
-    Random random = new Random();
-    int i = random.nextInt(serverList.size());
-    return (String) serverList.get(i);
-  }
+    /**
+     * 删除服务
+     *
+     * @param server
+     */
+    public void removeServer(String server) {
+        serverList.remove(server);
+    }
+
+    /**
+     * 随机获取服务器
+     *
+     * @return
+     */
+    public String getServer() {
+        Random random = new Random();
+        int i = random.nextInt(serverList.size());
+        return (String) serverList.get(i);
+    }
 }
 
 /**
@@ -1667,31 +1681,31 @@ public class LoadBalancer {
  * @date 2022/3/28 23:45
  */
 public class Demo {
-  public static void main(String[] args) {
-    //创建4个LoadBalancer对象
-    LoadBalancer loadBalancer1 = LoadBalancer.getLoadBalancer();
-    LoadBalancer loadBalancer2 = LoadBalancer.getLoadBalancer();
-    LoadBalancer loadBalancer3 = LoadBalancer.getLoadBalancer();
-    LoadBalancer loadBalancer4 = LoadBalancer.getLoadBalancer();
+    public static void main(String[] args) {
+        //创建4个LoadBalancer对象
+        LoadBalancer loadBalancer1 = LoadBalancer.getLoadBalancer();
+        LoadBalancer loadBalancer2 = LoadBalancer.getLoadBalancer();
+        LoadBalancer loadBalancer3 = LoadBalancer.getLoadBalancer();
+        LoadBalancer loadBalancer4 = LoadBalancer.getLoadBalancer();
 
-    //判断4个对象是否相同
-    if (loadBalancer1 == loadBalancer2 && loadBalancer2 == loadBalancer3 && loadBalancer3 == loadBalancer4) {
-      System.out.println("服务器负载均衡器具有唯一性");
+        //判断4个对象是否相同
+        if (loadBalancer1 == loadBalancer2 && loadBalancer2 == loadBalancer3 && loadBalancer3 == loadBalancer4) {
+            System.out.println("服务器负载均衡器具有唯一性");
+        }
+
+        //增加服务器
+        loadBalancer1.addServer("Server 1");
+        loadBalancer2.addServer("Server 2");
+        loadBalancer3.addServer("Server 3");
+        loadBalancer4.addServer("Server 4");
+
+        //模拟客户端请求的分发
+        for (int i = 0; i < 10; i++) {
+            String server = loadBalancer1.getServer();
+            System.out.println("分发请求至服务器：" + server);
+        }
+
     }
-
-    //增加服务器
-    loadBalancer1.addServer("Server 1");
-    loadBalancer2.addServer("Server 2");
-    loadBalancer3.addServer("Server 3");
-    loadBalancer4.addServer("Server 4");
-
-    //模拟客户端请求的分发
-    for (int i = 0; i < 10; i++) {
-      String server = loadBalancer1.getServer();
-      System.out.println("分发请求至服务器：" + server);
-    }
-
-  }
 }
 ```
 
@@ -1713,24 +1727,24 @@ public class Demo {
 
 ```java
 class LazySingleton {
-  private volatile static LazySingleton instance = null;
+    private volatile static LazySingleton instance = null;
 
-  private LazySingleton() {
-  }
-
-  public static LazySingleton getInstance() {
-    //第一重判断
-    if (instance == null) {
-      //锁定代码块
-      synchronized (LazySingleton.class) {
-        //第二重判断
-        if (instance == null) {
-          instance = new LazySingleton(); //创建单例实例
-        }
-      }
+    private LazySingleton() {
     }
-    return instance;
-  }
+
+    public static LazySingleton getInstance() {
+        //第一重判断
+        if (instance == null) {
+            //锁定代码块
+            synchronized (LazySingleton.class) {
+                //第二重判断
+                if (instance == null) {
+                    instance = new LazySingleton(); //创建单例实例
+                }
+            }
+        }
+        return instance;
+    }
 }
 ```
 
@@ -1741,23 +1755,23 @@ Java语言中可以通过 `Initialization on Demand Holder`(IoDH)技术来实现
 ```java
 //Initialization on Demand Holder
 class Singleton {
-  private Singleton() {
-  }
+    private Singleton() {
+    }
 
-  private static class HolderClass {
-    private final static Singleton instance = new Singleton();
-  }
+    private static class HolderClass {
+        private final static Singleton instance = new Singleton();
+    }
 
-  public static Singleton getInstance() {
-    return HolderClass.instance;
-  }
+    public static Singleton getInstance() {
+        return HolderClass.instance;
+    }
 
-  public static void main(String args[]) {
-    Singleton s1, s2;
-    s1 = Singleton.getInstance();
-    s2 = Singleton.getInstance();
-    System.out.println(s1 == s2);
-  }
+    public static void main(String args[]) {
+        Singleton s1, s2;
+        s1 = Singleton.getInstance();
+        s2 = Singleton.getInstance();
+        System.out.println(s1 == s2);
+    }
 }
 ```
 
@@ -1774,13 +1788,13 @@ class Singleton {
 ## 效果
 
 - 优点
-  - 可以严格控制客户端这样怎样以及何时访问单例对象
-  - 在系统内存中只存在一个对象，可以节约系统资源，提高系统性能
+    - 可以严格控制客户端这样怎样以及何时访问单例对象
+    - 在系统内存中只存在一个对象，可以节约系统资源，提高系统性能
 - 缺点
-  - 单例模式没有抽象层，拓展性差
-  - 单例类既负责业务方法，又负责创建对象的方法。不符合单一职责原则
-  - 许多语言提高了垃圾回收，实例化单例对象长期不被利用会被回收，会导致单例对象
-    状态丢失。
+    - 单例模式没有抽象层，拓展性差
+    - 单例类既负责业务方法，又负责创建对象的方法。不符合单一职责原则
+    - 许多语言提高了垃圾回收，实例化单例对象长期不被利用会被回收，会导致单例对象
+      状态丢失。
 
 ## 模式适用性
 
@@ -1848,9 +1862,9 @@ public abstract class CarController {
  * @date 2022/5/2 17:43
  */
 public class PoliceSound {
-  public void alarmSound(){
-    System.out.println("发出警笛声");
-  }
+    public void alarmSound() {
+        System.out.println("发出警笛声");
+    }
 }
 
 /**
@@ -1860,9 +1874,9 @@ public class PoliceSound {
  * @date 2022/5/2 17:53
  */
 public class PoliceLamp {
-  public void alarmLamp(){
-    System.out.println("呈现警灯闪烁");
-  }
+    public void alarmLamp() {
+        System.out.println("呈现警灯闪烁");
+    }
 }
 
 /**
@@ -1872,29 +1886,29 @@ public class PoliceLamp {
  * @date 2022/5/2 20:49
  */
 public class PoliceCarAdapter extends CarController {
-  private PoliceSound sound;
-  private PoliceLamp lamp;
+    private PoliceSound sound;
+    private PoliceLamp lamp;
 
-  /**
-   * 适配器构造
-   */
-  public PoliceCarAdapter() {
-    sound = new PoliceSound();
-    lamp = new PoliceLamp();
-  }
+    /**
+     * 适配器构造
+     */
+    public PoliceCarAdapter() {
+        sound = new PoliceSound();
+        lamp = new PoliceLamp();
+    }
 
 
-  @Override
-  public void phonate() {
-    //调用适配者类PoliceSound的方法
-    sound.alarmSound();
-  }
+    @Override
+    public void phonate() {
+        //调用适配者类PoliceSound的方法
+        sound.alarmSound();
+    }
 
-  @Override
-  public void twinkle() {
-    //调用适配者类PoliceLamp的方法
-    lamp.alarmLamp();
-  }
+    @Override
+    public void twinkle() {
+        //调用适配者类PoliceLamp的方法
+        lamp.alarmLamp();
+    }
 }
 ```
 
@@ -1908,7 +1922,7 @@ public class PoliceCarAdapter extends CarController {
 ```java
 /**
  * 工具类
- * 
+ *
  * @author 10545
  * @date 2022/5/2 21:03
  */
@@ -1989,17 +2003,17 @@ public class Demo {
 ## 效果
 
 - 优点
-  - 将 `目标类`和 `适配者类`解耦，通过引入一个适配器类来重用现有适配者类，无需修改原有结构
-  - 将业务的具体实现封装在 `适配者类`中,对于客户端而言是透明的，提高了复用性。同一个 `适配者类`可以在多个不同的系统中复用。
-  - 可以通过配置文件修改 `适配器类`，满足开闭原则，拓展性好。
-  - `类适配器`是 `适配者类`的子类,因此可以在 `适配器类`中置换一些适配者的方法，使得适配器的灵活性更强。
-  - `对象适配器`可以把多个不同的适配者适配到同一目标
-  - `对象适配器`可以适配 `适配者类`的子类。
+    - 将 `目标类`和 `适配者类`解耦，通过引入一个适配器类来重用现有适配者类，无需修改原有结构
+    - 将业务的具体实现封装在 `适配者类`中,对于客户端而言是透明的，提高了复用性。同一个 `适配者类`可以在多个不同的系统中复用。
+    - 可以通过配置文件修改 `适配器类`，满足开闭原则，拓展性好。
+    - `类适配器`是 `适配者类`的子类,因此可以在 `适配器类`中置换一些适配者的方法，使得适配器的灵活性更强。
+    - `对象适配器`可以把多个不同的适配者适配到同一目标
+    - `对象适配器`可以适配 `适配者类`的子类。
 - 缺点
-  - `类适配器`对于不支持多继承的语言，一次只能适配一个适配者类。
-  - `类适配器`模式下，`适配者类`不能为最终类，例如Java中不能为final。
-  - `类适配器`模式下,`目标抽象类`只能为接口，不能为类，有一定的局限性。
-  - 在 `对象适配器`模式下,想要对 `适配者类`中的方法进行修改，需要做一个 `适配者类的子类`，在子类中进行方法的置换。然后再把 `适配者类的子类`当成真正的适配者进行适配。实现过程较为复杂
+    - `类适配器`对于不支持多继承的语言，一次只能适配一个适配者类。
+    - `类适配器`模式下，`适配者类`不能为最终类，例如Java中不能为final。
+    - `类适配器`模式下,`目标抽象类`只能为接口，不能为类，有一定的局限性。
+    - 在 `对象适配器`模式下,想要对 `适配者类`中的方法进行修改，需要做一个 `适配者类的子类`，在子类中进行方法的置换。然后再把 `适配者类的子类`当成真正的适配者进行适配。实现过程较为复杂
 
 ## 模式适用性
 
@@ -2058,8 +2072,8 @@ public class Matrix {
  * @date 2022/5/4 23:11
  */
 public interface ImageImp {
-  //显示图像矩阵m
-  public void doPaint(Matrix m);
+    //显示图像矩阵m
+    public void doPaint(Matrix m);
 }
 
 /**
@@ -2068,12 +2082,12 @@ public interface ImageImp {
  * @author 10545
  * @date 2022/5/4 23:13
  */
-public class WindowsImp implements ImageImp{
-  @Override
-  public void doPaint(Matrix m) {
-    //调用windows系统的绘制函数绘制像素矩阵
-    System.out.print("在windows系统中显示图像:");
-  }
+public class WindowsImp implements ImageImp {
+    @Override
+    public void doPaint(Matrix m) {
+        //调用windows系统的绘制函数绘制像素矩阵
+        System.out.print("在windows系统中显示图像:");
+    }
 }
 
 /**
@@ -2083,11 +2097,11 @@ public class WindowsImp implements ImageImp{
  * @date 2022/5/4 23:22
  */
 public class LinuxImp implements ImageImp {
-  @Override
-  public void doPaint(Matrix m) {
-    //调用Linux系统的绘制函数绘制像素矩阵
-    System.out.print("在Linux操作系统中显示图像:");
-  }
+    @Override
+    public void doPaint(Matrix m) {
+        //调用Linux系统的绘制函数绘制像素矩阵
+        System.out.print("在Linux操作系统中显示图像:");
+    }
 }
 
 /**
@@ -2097,11 +2111,11 @@ public class LinuxImp implements ImageImp {
  * @date 2022/5/4 23:26
  */
 public class UnixImp implements ImageImp {
-  @Override
-  public void doPaint(Matrix m) {
-    //调用UNIX系统的绘制函数绘制像素矩阵
-    System.out.print("在UNIX系统中显示图像:");
-  }
+    @Override
+    public void doPaint(Matrix m) {
+        //调用UNIX系统的绘制函数绘制像素矩阵
+        System.out.print("在UNIX系统中显示图像:");
+    }
 }
 
 /**
@@ -2111,14 +2125,14 @@ public class UnixImp implements ImageImp {
  * @date 2022/5/4 23:33
  */
 public abstract class Image {
-  protected ImageImp imp;
+    protected ImageImp imp;
 
-  //注入实现类接口对象
-  public void setImageImp(ImageImp imp) {
-    this.imp = imp;
-  }
+    //注入实现类接口对象
+    public void setImageImp(ImageImp imp) {
+        this.imp = imp;
+    }
 
-  public abstract void parseFile(String fileName);
+    public abstract void parseFile(String fileName);
 }
 
 /**
@@ -2127,14 +2141,14 @@ public abstract class Image {
  * @author 10545
  * @date 2022/5/4 23:50
  */
-public class JPGImage extends Image{
-  @Override
-  public void parseFile(String fileName) {
-    //模拟解析JPG文件并获得一个像素矩阵对象m
-    Matrix m = new Matrix();
-    imp.doPaint(m);
-    System.out.println(fileName+",格式为JPG");
-  }
+public class JPGImage extends Image {
+    @Override
+    public void parseFile(String fileName) {
+        //模拟解析JPG文件并获得一个像素矩阵对象m
+        Matrix m = new Matrix();
+        imp.doPaint(m);
+        System.out.println(fileName + ",格式为JPG");
+    }
 }
 
 /**
@@ -2145,13 +2159,13 @@ public class JPGImage extends Image{
  */
 public class PNGImage extends Image {
 
-  @Override
-  public void parseFile(String fileName) {
-    //模拟解析PNG文件并获得一个像素矩阵对象m
-    Matrix m = new Matrix();
-    imp.doPaint(m);
-    System.out.println(fileName + ",格式为PNG");
-  }
+    @Override
+    public void parseFile(String fileName) {
+        //模拟解析PNG文件并获得一个像素矩阵对象m
+        Matrix m = new Matrix();
+        imp.doPaint(m);
+        System.out.println(fileName + ",格式为PNG");
+    }
 }
 
 /**
@@ -2161,13 +2175,13 @@ public class PNGImage extends Image {
  * @date 2022/5/7 21:25
  */
 public class BMPImage extends Image {
-  @Override
-  public void parseFile(String fileName) {
-    //模拟解析BMP文件并获得一个像素矩阵对象m
-    Matrix m = new Matrix();
-    imp.doPaint(m);
-    System.out.println(fileName+",格式为BMP");
-  }
+    @Override
+    public void parseFile(String fileName) {
+        //模拟解析BMP文件并获得一个像素矩阵对象m
+        Matrix m = new Matrix();
+        imp.doPaint(m);
+        System.out.println(fileName + ",格式为BMP");
+    }
 }
 
 /**
@@ -2177,13 +2191,13 @@ public class BMPImage extends Image {
  * @date 2022/5/7 21:32
  */
 public class GIFImage extends Image {
-  @Override
-  public void parseFile(String fileName) {
-    //模拟解析GIF文件并获得一个像素矩阵对象m
-    Matrix m = new Matrix();
-    imp.doPaint(m);
-    System.out.println(fileName + ",格式为GIF");
-  }
+    @Override
+    public void parseFile(String fileName) {
+        //模拟解析GIF文件并获得一个像素矩阵对象m
+        Matrix m = new Matrix();
+        imp.doPaint(m);
+        System.out.println(fileName + ",格式为GIF");
+    }
 }
 ```
 
@@ -2248,7 +2262,7 @@ public class XMLUtil {
 ```java
 /**
  * 测试类
- * 
+ *
  * @author 10545
  * @date 2022/5/8 23:03
  */
@@ -2291,16 +2305,16 @@ public class Demo {
 
 - 优点
 
-  - 使用 `对象间的关联关系`解耦了 `抽象`和 `实现`之间固有的绑定关系。使得抽象和实现可以沿着各自的维度来变化。
-    所谓抽象和实现沿着各自维度的变化，也就是说抽象和实现不再在同一个继承层次结构中，而是 `子类化`它们，
-    使它们各自都具有自己的子类，以便任何组合子类，从而获得多维度组合对象。
-  - 在很多情况下，桥接模式可以取代多层继承方案，多层继承方案违背了 `单一职责原则`，复用性较差，且类的个数非常多，
-    桥接模式是比多层继承方案更好的解决方法，它极大减少了子类的个数。
-  - 桥接模式提高了系统的可扩展性，在两个变化维度中任意扩展一个维度，都不需要修改原有系统，符合 `开闭原则`。
+    - 使用 `对象间的关联关系`解耦了 `抽象`和 `实现`之间固有的绑定关系。使得抽象和实现可以沿着各自的维度来变化。
+      所谓抽象和实现沿着各自维度的变化，也就是说抽象和实现不再在同一个继承层次结构中，而是 `子类化`它们，
+      使它们各自都具有自己的子类，以便任何组合子类，从而获得多维度组合对象。
+    - 在很多情况下，桥接模式可以取代多层继承方案，多层继承方案违背了 `单一职责原则`，复用性较差，且类的个数非常多，
+      桥接模式是比多层继承方案更好的解决方法，它极大减少了子类的个数。
+    - 桥接模式提高了系统的可扩展性，在两个变化维度中任意扩展一个维度，都不需要修改原有系统，符合 `开闭原则`。
 - 缺点
 
-  - 桥接模式的使用会增加系统的理解与设计难度，由于关联关系建立在抽象层，要求开发者一开始就针对抽象层进行设计与编程。
-  - 桥接模式要求正确识别出系统中两个独立变化的维度，因此其使用范围具有一定的局限性，如何正确识别两个独立维度也需要一定的经验积累。
+    - 桥接模式的使用会增加系统的理解与设计难度，由于关联关系建立在抽象层，要求开发者一开始就针对抽象层进行设计与编程。
+    - 桥接模式要求正确识别出系统中两个独立变化的维度，因此其使用范围具有一定的局限性，如何正确识别两个独立维度也需要一定的经验积累。
 
 ## 模式适用性
 
@@ -2318,3 +2332,170 @@ public class Demo {
 对象模式
 
 ## 模式概述
+
+组合多个对象形成树形结构以表示具有`部分—整体`关系的层次结构。
+组合模式对单个对象（即叶子对象）和组合对象（即容器对象）的使用具有一致性，
+又可以称为`部分—整体`（Part-Whole）模式，它是一种对象结构型模式。
+
+## 模式结构与实现
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220509235030.png)
+
+- `Component（抽象构件）`：它可以是`接口`或`抽象类`，为叶子构件和容器构件对象声明接口，
+在该角色中可以包含所有子类共有行为的声明和实现。在抽象构件中定义了访问及管理它的子构件的方法，
+例如增加子构件、删除子构件、获取子构件等。
+- `Leaf（叶子构件）`：它在组合模式结构中表示叶子节点对象。叶子节点没有子节点，它实现了在抽象构件中定义的行为。
+对于那些访问及管理子构件的方法，可以通过捕获异常等方式进行处理。
+- `Composite（容器构件）`：它在组合模式结构中表示容器节点对象。容器节点包含子节点，其子节点可以是叶子节点，
+也可以是容器节点。它提供一个集合用于存储子节点，实现了在抽象构件中定义的行为，包括那些访问及管理子构件的方法，
+在其业务方法中可以递归调用其子节点的业务方法。
+
+## 实例代码
+
+> Sunny软件公司欲开发一个杀毒（AntiVirus）软件，该软件既可以对某个文件夹（Folder）杀毒，
+> 也可以对某个指定的文件（File）进行杀毒。该杀毒软件还可以根据各类文件的特点，为不同类型的文件提供不同的杀毒方式，
+> 例如图像文件（ImageFile）和文本文件（TextFile）的杀毒方式就有所差异。现需要提供该杀毒软件的整体框架设计方案。
+
+### 初始设计
+
+```java
+//为了突出核心框架代码，我们对杀毒过程的实现进行了大量简化
+
+import java.util.*;
+
+//图像文件类
+class ImageFile {
+    private String name;
+
+    public ImageFile(String name) {
+        this.name = name;
+    }
+
+    public void killVirus() {
+        //简化代码，模拟杀毒
+        System.out.println("----对图像文件'" + name + "'进行杀毒");
+    }
+}
+
+//文本文件类
+class TextFile {
+    private String name;
+
+    public TextFile(String name) {
+        this.name = name;
+    }
+
+    public void killVirus() {
+        //简化代码，模拟杀毒
+        System.out.println("----对文本文件'" + name + "'进行杀毒");
+    }
+}
+
+//文件夹类
+class Folder {
+    private String name;
+    //定义集合folderList，用于存储Folder类型的成员
+    private ArrayList<Folder> folderList = new ArrayList<Folder>();
+    //定义集合imageList，用于存储ImageFile类型的成员
+    private ArrayList<ImageFile> imageList = new ArrayList<ImageFile>();
+    //定义集合textList，用于存储TextFile类型的成员
+    private ArrayList<TextFile> textList = new ArrayList<TextFile>();
+
+    public Folder(String name) {
+        this.name = name;
+    }
+
+    //增加新的Folder类型的成员
+    public void addFolder(Folder f) {
+        folderList.add(f);
+    }
+
+    //增加新的ImageFile类型的成员
+    public void addImageFile(ImageFile image) {
+        imageList.add(image);
+    }
+
+    //增加新的TextFile类型的成员
+    public void addTextFile(TextFile text) {
+        textList.add(text);
+    }
+
+    //需提供三个不同的方法removeFolder()、removeImageFile()和removeTextFile()来删除成员，代码省略
+
+    //需提供三个不同的方法getChildFolder(int i)、getChildImageFile(int i)和getChildTextFile(int i)来获取成员，代码省略
+
+    public void killVirus() {
+        System.out.println("****对文件夹'" + name + "'进行杀毒");  //模拟杀毒
+
+        //如果是Folder类型的成员，递归调用Folder的killVirus()方法
+        for (Object obj : folderList) {
+            ((Folder) obj).killVirus();
+        }
+
+        //如果是ImageFile类型的成员，调用ImageFile的killVirus()方法
+        for (Object obj : imageList) {
+            ((ImageFile) obj).killVirus();
+        }
+
+        //如果是TextFile类型的成员，调用TextFile的killVirus()方法
+        for (Object obj : textList) {
+            ((TextFile) obj).killVirus();
+        }
+    }
+}
+```
+
+```java
+//客户端测试代码进行测试
+class Client {
+    public static void main(String args[]) {
+        Folder folder1, folder2, folder3;
+        folder1 = new Folder("Sunny的资料");
+        folder2 = new Folder("图像文件");
+        folder3 = new Folder("文本文件");
+
+        ImageFile image1, image2;
+        image1 = new ImageFile("小龙女.jpg");
+        image2 = new ImageFile("张无忌.gif");
+
+        TextFile text1, text2;
+        text1 = new TextFile("九阴真经.txt");
+        text2 = new TextFile("葵花宝典.doc");
+
+        folder2.addImageFile(image1);
+        folder2.addImageFile(image2);
+        folder3.addTextFile(text1);
+        folder3.addTextFile(text2);
+        folder1.addFolder(folder2);
+        folder1.addFolder(folder3);
+
+        folder1.killVirus();
+    }
+}
+```
+
+运行结果如下：
+
+```shell
+****对文件夹'Sunny的资料'进行杀毒
+****对文件夹'图像文件'进行杀毒
+----对图像文件'小龙女.jpg'进行杀毒
+----对图像文件'张无忌.gif'进行杀毒
+****对文件夹'文本文件'进行杀毒
+----对文本文件'九阴真经.txt'进行杀毒
+----对文本文件'葵花宝典.doc'进行杀毒
+```
+
+### 存在的问题
+
+- 文件夹类Folder的设计和实现都非常复杂，需要定义多个集合存储不同类型的成员，而且需要针对不同的成员提供增加、删除和获取等管理和访问成员的方法，存在大量的冗余代码，系统维护较为困难。
+- 由于系统没有提供抽象层，客户端代码必须有区别地对待充当容器的文件夹Folder和充当叶子的ImageFile和TextFile，无法统一对它们进行处理。
+- 系统的灵活性和可扩展性差，如果需要增加新的类型的叶子或容器都需要对原有代码进行修改。例如，如果需要在系统中增加一种新类型的视频文件VideoFile，则必须修改Folder类的源代码，否则无法在文件夹中添加视频文件。
+
+### 使用组合模式实现
+
+
+
+## 效果
+
+## 模式适用性

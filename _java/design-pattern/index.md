@@ -35,51 +35,9 @@ nav_order: 4
 - 模式应用
     - 在已有系统中该模式的使用
 
-# 分类
-
-| 范围/目的          | 创建型模式                                               | 结构型模式                                                                                             | 行为型模式                                                                                                                         |
-| ------------------ | -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------- |
-| **
-类模式**   | 工厂方法模式                                             | （类）适配器模式                                                                                       | 解释器模式<br />模板方法模式                                                                                                       |
-| **
-对象模式** | 抽象工厂模式<br />建造者模式<br />原型模式<br />单例模式 | （对象）适配器模式<br />桥接模式<br />组合模式<br />装饰模式<br />外观模式<br />享元模式<br />代理模式 | 职责链模式<br />命令模式<br />迭代器模式<br />中介模式<br />备忘录模式<br />观察者模式<br />状态模式<br />策略模式<br />访问者模式 |
-
 # 24种模式概要
 
-| 模式名称                           | 概述                                                                                                                                                     |  分类  | 组成成分                                               |
-| :--------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------- | :----: | :----------------------------------------------------- |
-| 简单工厂模式<br />Simple Factory   | **
-集中式工厂**<br />将对象的创建与使用分离                                                                                                         | 创建型 | 工厂<br />抽象产品<br />具体产品                       |
-| 工厂方法模式<br />Factory Method   | **
-多态工厂**<br />将对象的创建与使用分离<br />并将该对象的创建过程抽象出来                                                                         | 创建型 | 抽象工厂<br />具体工厂<br />抽象产品<br />具体产品     |
-| 抽象工厂模式<br />Abstract Factory | **
-产品族的创建**<br />将一系列对象的创建与使用分离<br />并将这一系列对象的创建过程抽象出来                                                         | 创建型 | 抽象工厂<br />具体工厂<br />抽象产品<br />具体产品     |
-| 生成器模式<br />Builder            | **
-复杂对象的组装与创建**<br />通过指挥官创建对象，对象创建与使用分离<br />将该对象各个部分的生成过程抽象出来<br />指挥官指导具体生成器如何生成产品 | 创建型 | 抽象建造者<br />具体建造者<br />指挥官<br />产品       |
-| 原型模式<br />Prototype            | **
-对象的克隆**<br />创建对象比较复杂时<br />通过通过复制这个原型来创建新的对象                                                                     | 创建型 | 抽象原型<br />具体原型                                 |
-| 单例模式<br />Singleton            | **
-确保对象的唯一性**<br />并提供一个全局访问点来访问这个唯一的实例                                                                                 | 创建型 | 单例类                                                 |
-| 适配器模式<br />Adapter            | **
-不兼容结构的协调**<br />将一个类的接口转换成客户希望的另一个接口<br />适配器模式让那些接口不兼容的类可以一起工作                                 | 结构型 | 目标抽象类<br />适配器类<br />适配者类                 |
-| 桥接模式<br />Bridge               | **
-处理多维度变化**<br />一个类存在两个（或多个）独立变化的维度<br />将各个维度独立进行拓展<br />将抽象部分与它的实现部分解耦，使得两者都能够独立变化    | 结构型 | 抽象类<br />扩充抽象类<br />实现类接口<br />具体实现类 |
-| 7                                  |                                                                                                                                                          |        |                                                        |
-| 8                                  |                                                                                                                                                          |        |                                                        |
-| 9                                  |                                                                                                                                                          |        |                                                        |
-| 10                                 |                                                                                                                                                          |        |                                                        |
-| 11                                 |                                                                                                                                                          |        |                                                        |
-| 12                                 |                                                                                                                                                          |        |                                                        |
-| 13                                 |                                                                                                                                                          |        |                                                        |
-| 14                                 |                                                                                                                                                          |        |                                                        |
-| 15                                 |                                                                                                                                                          |        |                                                        |
-| 16                                 |                                                                                                                                                          |        |                                                        |
-| 17                                 |                                                                                                                                                          |        |                                                        |
-| 18                                 |                                                                                                                                                          |        |                                                        |
-| 19                                 |                                                                                                                                                          |        |                                                        |
-| 20                                 |                                                                                                                                                          |        |                                                        |
-| 21                                 |                                                                                                                                                          |        |                                                        |
-| 22                                 |                                                                                                                                                          |        |                                                        |
+![](http://edrawcloudpubliccn.oss-cn-shenzhen.aliyuncs.com/viewer/self/1059758/share/2022-5-10/1652153096/main.svg)
 
 # 面向对象设计原则
 
@@ -2333,22 +2291,22 @@ public class Demo {
 
 ## 模式概述
 
-组合多个对象形成树形结构以表示具有`部分—整体`关系的层次结构。
-组合模式对单个对象（即叶子对象）和组合对象（即容器对象）的使用具有一致性，
-又可以称为`部分—整体`（Part-Whole）模式，它是一种对象结构型模式。
+组合多个对象形成树形结构以表示具有 `部分—整体`关系的层次结构。
+组合模式对 `单个对象`（即叶子对象）和 `组合对象`（即容器对象）的使用具有 `一致性`，
+又可以称为 `部分—整体`（Part-Whole）模式，它是一种对象结构型模式。
 
 ## 模式结构与实现
 
 ![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220509235030.png)
 
-- `Component（抽象构件）`：它可以是`接口`或`抽象类`，为叶子构件和容器构件对象声明接口，
-在该角色中可以包含所有子类共有行为的声明和实现。在抽象构件中定义了访问及管理它的子构件的方法，
-例如增加子构件、删除子构件、获取子构件等。
+- `Component（抽象构件）`：它可以是 `接口`或 `抽象类`，为 `叶子构件`和 `容器构件`对象声明接口，
+  在该角色中可以包含所有子类共有行为的声明和实现。在抽象构件中定义了 `访问及管理它的子构件的方法`，
+  例如增加子构件、删除子构件、获取子构件等。
 - `Leaf（叶子构件）`：它在组合模式结构中表示叶子节点对象。叶子节点没有子节点，它实现了在抽象构件中定义的行为。
-对于那些访问及管理子构件的方法，可以通过捕获异常等方式进行处理。
+  对于那些访问及管理子构件的方法，可以通过捕获异常等方式进行处理。
 - `Composite（容器构件）`：它在组合模式结构中表示容器节点对象。容器节点包含子节点，其子节点可以是叶子节点，
-也可以是容器节点。它提供一个集合用于存储子节点，实现了在抽象构件中定义的行为，包括那些访问及管理子构件的方法，
-在其业务方法中可以递归调用其子节点的业务方法。
+  也可以是容器节点。它提供一个集合用于存储子节点，实现了在抽象构件中定义的行为，包括那些访问及管理子构件的方法，
+  在其业务方法中可以递归调用其子节点的业务方法。
 
 ## 实例代码
 
@@ -2494,8 +2452,244 @@ class Client {
 
 ### 使用组合模式实现
 
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202205100943698.png)
 
+```java
+/**
+ * 抽象文件类，充当抽象构件类
+ *
+ * @author luguosong
+ * @date 2022/5/10 16:53
+ */
+public abstract class AbstractFile {
+    public abstract void add(AbstractFile file);
+
+    public abstract void remove(AbstractFile file);
+
+    public abstract AbstractFile getChild(int i);
+
+    public abstract void killVirus();
+}
+
+/**
+ * 图像文件类，充当叶子构建类
+ *
+ * @author luguosong
+ * @date 2022/5/10 16:59
+ */
+public class ImageFile extends AbstractFile {
+
+    private String name;
+
+    public ImageFile(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void add(AbstractFile file) {
+        System.out.println("对不起，不支持该方法！");
+    }
+
+    @Override
+    public void remove(AbstractFile file) {
+        System.out.println("对不起，不支持该方法！");
+    }
+
+    @Override
+    public AbstractFile getChild(int i) {
+        System.out.println("对不起，不支持该方法！");
+        return null;
+    }
+
+    @Override
+    public void killVirus() {
+        //模拟杀毒
+        System.out.println("---对图像文件'" + name + "'进行杀毒");
+    }
+}
+
+/**
+ * 文本文件类，充当叶子构件类
+ *
+ * @author luguosong
+ * @date 2022/5/10 17:02
+ */
+public class TextFile extends AbstractFile {
+
+    private String name;
+
+    public TextFile(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void add(AbstractFile file) {
+        System.out.println("对不起，不支持该方法！");
+    }
+
+    @Override
+    public void remove(AbstractFile file) {
+        System.out.println("对不起，不支持该方法！");
+    }
+
+    @Override
+    public AbstractFile getChild(int i) {
+        System.out.println("对不起，不支持该方法！");
+        return null;
+    }
+
+    @Override
+    public void killVirus() {
+        //模拟杀毒
+        System.out.println("---对文本文件'" + name + "'进行杀毒");
+    }
+}
+
+/**
+ * 视频文件类，充当叶子构件类
+ *
+ * @author luguosong
+ * @date 2022/5/10 17:23
+ */
+public class VideoFile extends AbstractFile {
+
+    private String name;
+
+    public VideoFile(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void add(AbstractFile file) {
+        System.out.println("对不起，不支持该方法！");
+    }
+
+    @Override
+    public void remove(AbstractFile file) {
+        System.out.println("对不起，不支持该方法！");
+    }
+
+    @Override
+    public AbstractFile getChild(int i) {
+        System.out.println("对不起，不支持该方法！");
+        return null;
+    }
+
+    @Override
+    public void killVirus() {
+        //模拟杀毒
+        System.out.println("---对视频文件'" + name + "'进行杀毒");
+    }
+}
+
+/**
+ * 文件夹类，充当容器构件类
+ *
+ * @author luguosong
+ * @date 2022/5/10 17:29
+ */
+public class Folder extends AbstractFile {
+
+    //定于集合fileList,用于存储AbstractFile类型的成员
+    private List<AbstractFile> fileList = new ArrayList<AbstractFile>();
+
+    private String name;
+
+    public Folder(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void add(AbstractFile file) {
+        fileList.add(file);
+    }
+
+    @Override
+    public void remove(AbstractFile file) {
+        fileList.remove(file);
+    }
+
+    @Override
+    public AbstractFile getChild(int i) {
+        return fileList.get(i);
+    }
+
+    @Override
+    public void killVirus() {
+        //模拟杀毒
+        System.out.println("***对文件夹'" + name + "'进行杀毒");
+
+        //递归调用成员构件的killVirus()方法
+        for (AbstractFile abstractFile : fileList) {
+            abstractFile.killVirus();
+        }
+    }
+}
+```
+
+```java
+/**
+ * 客户端测试类
+ *
+ * @author luguosong
+ * @date 2022/5/10 17:42
+ */
+public class Demo {
+    public static void main(String[] args) {
+        //针对抽象构件编程
+        AbstractFile file1, file2, file3, file4, file5, folder1, folder2, folder3, folder4;
+
+        folder1 = new Folder("Sunny的资料");
+        folder2 = new Folder("图像文件");
+        folder3 = new Folder("文本文件");
+        folder4 = new Folder("视频文件");
+
+        file1 = new ImageFile("小龙女.jpg");
+        file2 = new ImageFile("张无忌.gif");
+        file3 = new TextFile("九阴真经.txt");
+        file4 = new TextFile("葵花宝典.doc");
+        file5 = new VideoFile("笑傲江湖.rmvb");
+
+        folder2.add(file1);
+        folder2.add(file2);
+        folder3.add(file3);
+        folder3.add(file4);
+        folder4.add(file5);
+        folder1.add(folder2);
+        folder1.add(folder3);
+        folder1.add(folder4);
+
+        //从“Sunny的资料”节点开始进行杀毒操作
+        folder1.killVirus();
+    }
+}
+```
+
+运行结果：
+
+```shell
+***对文件夹'Sunny的资料'进行杀毒
+***对文件夹'图像文件'进行杀毒
+---对图像文件'小龙女.jpg'进行杀毒
+---对图像文件'张无忌.gif'进行杀毒
+***对文件夹'文本文件'进行杀毒
+---对文本文件'九阴真经.txt'进行杀毒
+---对文本文件'葵花宝典.doc'进行杀毒
+***对文件夹'视频文件'进行杀毒
+---对视频文件'笑傲江湖.rmvb'进行杀毒
+```
+
+## 模式拓展
+
+### 透明组合模式
+
+### 安全组合模式
 
 ## 效果
+
+- 优点
+    - 组合模式的关键是定义了一个 `抽象构件类`，它既可以代表叶子，又可以代表容器。客户端针对该抽象构件类进行编程，
+      无须知道它到底表示的是叶子还是容器，可以对其进行统一处理。
+    - 同时 `容器对象`与 `抽象构件类`之间还建立一个 `聚合关联关系`，在容器对象中既可以包含叶子，也可以包含容器，以此实现递归组合，形成一个树形结构。
 
 ## 模式适用性

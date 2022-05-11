@@ -16,10 +16,6 @@ latex: true
 - [On Java 8](https://book.douban.com/subject/30217317/)
 - [Java核心技术（第十版）](https://book.douban.com/subject/26880667/)
 
-# 思维导图
-
-![](https://edrawcloudpubliccn.oss-cn-shenzhen.aliyuncs.com/viewer/self/1059758/share/2021-11-15/1636970334/main.svg)
-
 # 概述
 
 ## 特性
@@ -703,6 +699,7 @@ Java在确定不再使用某些对象时就会删除它们，这个过程叫做 
 对内部类并没有限制。
 - `闭包`：内部类包含所在作用域信息。可以访问到外围类的变量、方法或者其它内部类等所有成员。
 - 在`控制框架`中的应用。
+- 内部类是`延时加载`的，因此可以使用静态内部类解决懒汉式单例模式的线程安全问题
 
 
 ## 分类
@@ -1183,7 +1180,38 @@ public class RecursiveFibonacci {
 
 允许变量为`一组预定义常量`的特殊数据类型.
 
+```java
+/**
+ * 枚举
+ *
+ * @author luguosong
+ * @date 2022/5/11 11:18
+ */
+public enum Season {
+    SPRING,
+    SUMMER,
+    AUTUMN,
+    WINTER;
+}
+```
+
+枚举类编译成class文件后，进行反编译得出一下结果：
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202205111106318.png)
+
+由上图可知：
+- 枚举类本质上是继承了java.lang.Enum的类
+- 枚举类是最终类，不可以被继承
+- 枚举类的构造器是私有的，枚举对象不能创建对象
+- 枚举类可以看成饿汉式单例模式的一种变种（提供多个实例），也可以称其为多例模式。
+
+作用：做信息`标志`和`分类`，相比于`常量`做信息标注，入参约束性更严谨（常量作为参数，可用可不用，枚举作为参数必须用指定枚举类型），可读性更好。
+
 # 注解
+
+一种注释机制。
+
+
 
 # 接口
 

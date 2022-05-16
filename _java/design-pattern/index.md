@@ -2757,7 +2757,8 @@ public class Demo {
 - `Decorator（抽象装饰类）`：它也是抽象构件类的子类，用于给具体构件`增加职责`，但是具体职责在其子类中实现。
 它维护一个指向抽象构件对象的引用，通过该引用可以`调用装饰之前构件对象的方法`，并通过其子类扩展该方法，以达到装饰的目的。
 - `ConcreteDecorator（具体装饰类）`：它是抽象装饰类的子类，负责`向构件添加新的职责`。
-每一个具体装饰类都定义了一些新的行为，可以调用在抽象装饰类中定义的方法，并可以增加新的方法用以扩充对象的行为。
+每一个具体装饰类都定义了一些新的行为，可以调用在抽象装饰类中定义的方法，
+并可以增加新的方法用以扩充对象的行为。
 
 
 ## 实例代码
@@ -2782,23 +2783,258 @@ public class Demo {
 
 - 不应该使用继承进行复用，而是应该多用关联少用继承
 
+### 使用装饰模式实现
+
+```java
+/**
+ * 抽象界面构件类，充当抽象构件类
+ *
+ * @author luguosong
+ * @date 2022/5/15 16:17
+ */
+public abstract class Component {
+    public abstract void display();
+}
+
+/**
+ * 窗体类，充当具体构件类
+ *
+ * @author luguosong
+ * @date 2022/5/15 16:19
+ */
+public class Windows extends Component{
+  @Override
+  public void display() {
+    System.out.println("显示窗体");
+  }
+}
+
+/**
+ * 文本框类，充当具体构件类
+ *
+ * @author luguosong
+ * @date 2022/5/15 16:20
+ */
+public class TextBox extends Component{
+  @Override
+  public void display() {
+    System.out.println("显示文本框");
+  }
+}
+
+/**
+ * 列表框类，充当具体构件类
+ *
+ * @author luguosong
+ * @date 2022/5/15 16:22
+ */
+public class ListBox extends Component{
+  @Override
+  public void display() {
+    System.out.println("显示列表框");
+  }
+}
+
+/**
+ * 构件装饰类，充当抽象装饰类
+ *
+ * @author luguosong
+ * @date 2022/5/15 16:24
+ */
+public class ComponentDecorator extends Component {
+
+  /**
+   * 维持对抽象构件类型对象的引用
+   */
+  private Component component;
+
+  //注入抽象构件类型的对象
+  public ComponentDecorator(Component component) {
+    this.component = component;
+  }
+
+  @Override
+  public void display() {
+    component.display();
+  }
+}
+
+/**
+ * 滚动条装饰类，充当具体装饰类
+ *
+ * @author luguosong
+ * @date 2022/5/15 16:28
+ */
+public class ScrollBarDecorator extends ComponentDecorator{
+
+  public ScrollBarDecorator(Component component) {
+    super(component);
+  }
+
+  /**
+   * 重写抽象装饰类方法
+   */
+  @Override
+  public void display() {
+    this.setScrollBar();
+    super.display();
+  }
+
+  /**
+   * 装饰方法
+   */
+  public void setScrollBar(){
+    System.out.println("为构件增加滚动条");
+  }
+}
+
+/**
+ * 黑色边框装饰类，充当具体装饰类
+ *
+ * @author luguosong
+ * @date 2022/5/15 16:38
+ */
+public class BlackBorderDecorator extends ComponentDecorator{
+  public BlackBorderDecorator(Component component) {
+    super(component);
+  }
+
+  /**
+   * 重写抽象装饰类方法
+   */
+  @Override
+  public void display() {
+    setBlackBorder();
+    super.display();
+  }
+
+  /**
+   * 装饰方法
+   */
+  public void setBlackBorder(){
+    System.out.println("为构件增加黑色边框");
+  }
+}
+```
+
+```java
+/**
+ * 测试
+ * 
+ * @author luguosong
+ * @date 2022/5/15 16:41
+ */
+public class Demo {
+    public static void main(String[] args) {
+        Component component,componentSB;
+        component=new Windows();
+        componentSB=new ScrollBarDecorator(component);
+        componentSB.display();
+    }
+}
+```
+
+```shell
+为构件增加滚动条
+显示窗体
+```
+
 ## 模式拓展
+
+### 透明装饰模式
+
+在透明装饰模式中，要求客户端完全针对抽象编程。
+装饰模式的透明性要求客户端程序不应该将对象声明为具体构件类型或具体装饰类型，
+而应该全部声明为抽象构件类型。对于客户端而言，具体构件对象和具体装饰对象没有任何区别。
+
+### 半透明装饰模式
+
+用具体装饰类型来定义装饰之后的对象，而具体构件类型还是可以使用抽象构件类型来定义，
+这种装饰模式即为半透明装饰模式。
 
 ## 效果
 
+- 优点
+  - 对于扩展一个对象的功能，装饰模式比继承更加灵活性，不会导致类的个数急剧增加。
+  - 可以通过一种动态的方式来扩展一个对象的功能。通过配置文件可以在运行时选择不同的具体装饰类，
+  从而实现不同的行为。
+  - 可以对一个对象进行多次装饰。通过使用不同的具体装饰类以及这些装饰类的排列组合，
+  可以创造出很多不同行为的组合，得到功能更为强大的对象。
+  - 具体构件类与具体装饰类可以独立变化，用户可以根据需要增加新的具体构件类和具体装饰类，
+  原有类库代码无须改变，符合开闭原则。
+- 缺点
+  - 使用装饰模式进行系统设计时将产生很多小对象。这些对象的区别在于它们之间相互连接的方式有所不同，
+  而不是它们的类或者属性值有所不同。大量小对象的产生势必会占用更多的系统资源，在一定程度上影响程序的性能。
+  - 装饰模式提供了一种比继承更加灵活机动的解决方案，但同时也意味着比继承更加易于出错，排错也很困难。
+  对于多次装饰的对象，调试时寻找错误可能需要逐级排查，较为烦琐。
+
 ## 模式适用性
+
+- 在不影响其他对象的情况下，以动态、透明的方式给单个对象添加职责。
+- 当不能采用继承的方式对系统进行扩展或者采用继承不利于系统扩展和维护时可以使用装饰模式。
+不能采用继承的情况主要有两类：第1类是系统中存在大量独立的扩展，
+为支持每一种扩展或者扩展之间的组合将产生大量的子类，使得子类数目呈爆炸性增长；
+第2类是因为类已定义为不能被继承（如Java语言中的final类）。
 
 # 外观模式（Facade）
 
 ## 别名
 
+门面模式
+
 ## 模式分类
+
+结构模式
+
+对象模式
 
 ## 模式概述
 
+外部与一个子系统的通信通过一个统一的外观角色进行，
+为子系统中的一组接口提供一个一致的入口。外观模式定义了一个高层接口，
+这个接口使得子系统更加容易使用。
+
 ## 模式结构与实现
 
+外观模式没有一个一般化的类图描述，通常使用示意图来表示外观模式
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202205151814148.png)
+
+- `Facade（外观角色）`：在客户端可以调用这个角色的方法，
+在外观角色中可以知道相关的（一个或者多个）子系统的功能和责任。在正常情况下，
+它将所有从客户端发来的请求委派到相应的子系统中去，传递给相应的子系统对象处理。
+- `SubSystem（子系统角色）`：在软件系统中可以有一个或者多个子系统角色。
+每个子系统可以不是一个单独的类，而是一个类的集合，它实现子系统的功能。
+每个子系统都可以被客户端直接调用，或者被外观角色调用，
+它处理由外观类传过来的请求。子系统并不知道外观的存在，对于子系统而言，
+外观角色仅仅是另外一个客户端而已。
+
+
 ## 实例代码
+
+> Sunny软件公司欲开发一个可应用于多个软件的文件加密模块，
+> 该模块可以对文件中的数据进行加密并将加密之后的数据存储在一个新文件中。
+> 具体的流程包括3个部分，分别是读取源文件、加密、保存加密之后的文件。其中，
+> 读取文件和保存文件使用流来实现，加密操作通过求模运算实现。这3个操作相对独立，
+> 为了实现代码的独立重用，让设计更符合单一职责原则，这3个操作的业务代码封装在3个不同的类中。
+
+### 初始设计
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202205151731356.png)
+
+### 存在问题
+
+- FileReader类、CipherMachine类和FileWriter类经常会作为一个整体同时出现，
+但是如果按照上述方案进行设计和实现，在每次使用这3个类时，
+客户端代码需要与它们逐个进行交互，导致客户端代码较为复杂，
+且在每次使用它们时很多代码都将重复出现。
+- 如果需要更换一个加密类，例如将CipherMachine类改为NewCipherMachine类，
+则所有使用该文件加密模块的代码都需要进行修改，系统维护难度增大，
+灵活性和可扩展性较差。
+
+### 使用外观模式实现
+
+
 
 ## 模式拓展
 

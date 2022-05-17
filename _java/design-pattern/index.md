@@ -277,7 +277,7 @@ public class Demo {
 
 - 运行结果
 
-```shell
+```text
 创建柱状图！
 初始化设置柱状图！
 显示柱状图！
@@ -455,7 +455,7 @@ public class Demo {
 
 - 测试结果
 
-```shell
+```text
 文件记录日志
 ```
 
@@ -759,7 +759,7 @@ public class Demo {
 
 运行结果：
 
-```shell
+```text
 显示浅绿色按钮
 显示绿色边框文本框！
 显示绿色边框组合框
@@ -1128,7 +1128,7 @@ public class Demo {
 
 运行结果：
 
-```shell
+```text
 Actor{type='天使', sex='女', face='漂亮', costume='白裙', hairstyle='披肩长发'}
 ```
 
@@ -1936,7 +1936,7 @@ public class Demo {
 }
 ```
 
-```shell
+```text
 玩具汽车移动！
 发出警笛声
 呈现警灯闪烁
@@ -2241,7 +2241,7 @@ public class Demo {
 
 运行结果：
 
-```shell
+```text
 在windows系统中显示图像:小龙女,格式为JPG
 ```
 
@@ -2435,7 +2435,7 @@ class Client {
 
 运行结果如下：
 
-```shell
+```text
 ****对文件夹'Sunny的资料'进行杀毒
 ****对文件夹'图像文件'进行杀毒
 ----对图像文件'小龙女.jpg'进行杀毒
@@ -2668,7 +2668,7 @@ public class Demo {
 
 运行结果：
 
-```shell
+```text
 ***对文件夹'Sunny的资料'进行杀毒
 ***对文件夹'图像文件'进行杀毒
 ---对图像文件'小龙女.jpg'进行杀毒
@@ -2934,7 +2934,7 @@ public class Demo {
 }
 ```
 
-```shell
+```text
 为构件增加滚动条
 显示窗体
 ```
@@ -3035,24 +3035,185 @@ public class Demo {
 ### 使用外观模式实现
 
 ```java
+/**
+ * 文件读取类，充当子系统
+ *
+ * @author luguosong
+ * @date 2022/5/15 19:32
+ */
+public class FileReader {
+    public String read(String fileNameSrc){
+        System.out.print("读取文件，获取明文：");
+        StringBuffer sb = new StringBuffer();
+        try {
+            FileInputStream inFs = new FileInputStream(fileNameSrc);
+            int data;
+            while((data=inFs.read())!=-1){
+                sb=sb.append((char)data);
+            }
+            inFs.close();
+            System.out.println(sb.toString());
+        } catch (FileNotFoundException e) {
+            System.out.println("文件不存在");
+        } catch (IOException e) {
+            System.out.println("文件操作错误");
+        }
+        return sb.toString();
+    }
+}
 
+/**
+ * 数据加密类，充当子系统类
+ *
+ * @author 10545
+ * @date 2022/5/16 21:33
+ */
+public class CipherMachine {
+  public String encrypt(String plainText) {
+    System.out.print("数据加密，将明文转换为密文：");
+    String es = "";
+    for (int i = 0; i < plainText.length(); i++) {
+      String c = String.valueOf(plainText.charAt(i) % 7);
+      es += c;
+    }
+    System.out.println(es);
+    return es;
+  }
+}
+
+/**
+ * 文件保存类，充当子系统类
+ *
+ * @author 10545
+ * @date 2022/5/16 22:11
+ */
+public class FileWriter {
+  public void write(String encryptStr,String fileNameDes){
+    System.out.print("保存密文，写入文件。");
+    try {
+      FileOutputStream outFs = new FileOutputStream(fileNameDes);
+      outFs.write(encryptStr.getBytes());
+      outFs.close();
+    } catch (FileNotFoundException e) {
+      System.out.println("文件不存在！");
+    } catch (IOException e) {
+      System.out.println("文件操作错误！");
+    }
+  }
+}
+
+/**
+ * 加密外观类，充当外观类
+ *
+ * @author 10545
+ * @date 2022/5/16 22:19
+ */
+public class EncryptFacade {
+  //维持对子系统对象的引用
+  private FileReader reader;
+  private CipherMachine cipher;
+  private FileWriter writer;
+
+  public EncryptFacade() {
+    reader = new FileReader();
+    cipher = new CipherMachine();
+    writer = new FileWriter();
+  }
+
+  //调用子系统对象的业务方法
+  public void fileEncrypt(String fileNameSrc, String fileNameDes) {
+    String plainStr = reader.read(fileNameSrc);
+    String encryptStr = cipher.encrypt(plainStr);
+    writer.write(encryptStr, fileNameDes);
+  }
+}
+```
+
+```text
+hello world!
+```
+
+```java
+/**
+ * 客户端测试类
+ *
+ * @author 10545
+ * @date 2022/5/16 22:34
+ */
+public class Demo {
+    public static void main(String[] args) {
+        EncryptFacade ef = new EncryptFacade();
+        ef.fileEncrypt("_java/design-pattern/src/main/java/cn/com/lgs/facade_pattern/src.txt","_java/design-pattern/src/main/java/cn/com/lgs/facade_pattern/des.txt");
+    }
+}
+```
+
+```text
+读取文件，获取明文：hello world!
+数据加密，将明文转换为密文：63336406232563
+保存密文，写入文件。
 ```
 
 ## 模式拓展
 
+### 抽象外观类
+
+在标准的外观模式结构图中，如果需要增加、删除或更换与外观类交互的子系统类，必须修改外观类或客户端的源代码，
+这将违背开闭原则。
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202205171111086.png)
+
+### 外观角色设计补充说明
+
+- 可以使用单例设计外观类，从而确保系统中只有唯一一个访问子系统的入口，并降低对系统资源的消耗
+- 在一个系统中可以设计多个外观类，每个外观类都负责和一些特定的子系统交互，向客户端提供相应的业务功能。
+
 ## 效果
 
+- 优点
+  - 对客户端屏蔽了子系统组件，减少了客户端所需处理的对象数目并使得子系统使用起来更加容易。通过引入外观模式，
+  客户端代码将变得很简单，与之关联的对象也很少。
+  - 实现了子系统与客户端之间的松耦合关系，这使得子系统的变化不会影响到调用它的客户端，只需要调整外观类即可。
+  - 一个子系统的修改对其他子系统没有任何影响，而且子系统内部变化也不会影响到外观对象。
+  - 只是提供了一个访问子系统的统一入口，并不影响客户端直接使用子系统类。
+- 缺点
+  - 不能很好地限制客户端直接使用子系统类，如果对客户端访问子系统类做太多的限制则减少了可变性和灵活性。
+  - 如果设计不当，增加新的子系统可能需要修改外观类的源代码，这违背了开闭原则。
+
 ## 模式适用性
+
+- 当要为访问一系列复杂的子系统提供一个简单入口时可以使用外观模式。
+- 客户端程序与多个子系统之间存在很大的依赖性。引入外观类可以将子系统与客户端解耦，从而提高子系统的独立性和可移植性。
+- 在层次化结构中，可以使用外观模式定义系统中每一层的入口，层与层之间不直接产生联系，而通过外观类建立联系，降低层之间的耦合度。
+- 试图通过外观类为子系统增加新行为的做法是错误的。外观模式的用意是为子系统提供一个集中化和简化的沟通渠道，
+而不是向子系统加入新行为。新行为的增加应该通过修改原有子系统类或增加新的子系统类来实现，不能通过外观类来实现。
+
 
 # 享元模式（Flyweight）
 
 ## 别名
 
+轻量级模式
+
 ## 模式分类
+
+结构型模式
+
+对象模式
 
 ## 模式概述
 
+运用共享技术有效地支持大量细粒度对象的复用。系统只使用少量的对象，而这些对象都很相似，状态变化很小，
+可以实现对象的多次复用。
+
 ## 模式结构与实现
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202205171442597.png)
+
+- `Flyweight（抽象享元类）`：通常是一个接口或抽象类，在抽象享元类中声明了具体享元类公共的方法，
+这些方法可以向外界提供享元对象的内部数据（内部状态），同时也可以通过这些方法来设置外部数据（外部状态）。
+- `ConcreteFlyweight（具体享元类）`：它实现了抽象享元类，其实例称为享元对象。在具体享元类中为内部状态提供了存储空间。
+通常，可以结合单例模式来设计具体享元类，为每个具体享元类提供唯一的享元对象。
 
 ## 实例代码
 

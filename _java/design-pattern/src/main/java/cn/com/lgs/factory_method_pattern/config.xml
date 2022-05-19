@@ -1,4 +1,0 @@
-<?xml version="1.0"?>
-<config>
-<className>cn.com.lgs.factory_method_pattern.FileLoggerFactory</className>
-</config>

@@ -5,12 +5,11 @@
 //
 // stylelint-disable selector-no-type, max-nesting-depth, selector-max-compound-selectors, selector-max-type
 
-@import url('https://fonts.googleapis.com/css2?family=Long+Cang&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&family=Long+Cang&display=swap');
-
 .main-content {
   line-height: $content-line-height;
 
+  ol,
+  ul,
   dl,
   pre,
   address,
@@ -71,51 +70,16 @@
   }
 
   ul {
-    list-style-type: none;
+    list-style: none;
 
     > li {
-      color: #b1bdc9;
       &::before {
         position: absolute;
         margin-left: -1.4em;
         color: $grey-dk-000;
-        content: "📘";
-      }
-
-      > ul > li {
-        &::before {
-          content: "🏷️";
-        }
-
-        > ul > li {
-          &::before {
-            content: "🔖";
-          }
-
-          > ul > li {
-            &::before {
-              content: "📌";
-            }
-
-            > ul > li {
-              &::before {
-                content: "📍";
-              }
-
-              > ul > li {
-                &::before {
-                  content: "📎";
-                }
-              }
-            }
-          }
-        }
+        content: "•";
       }
     }
-  }
-
-  > ul {
-    margin-left: 2.5em;
   }
 
   .task-list {
@@ -200,10 +164,6 @@
     }
   }
 
-  blockquote {
-    background-color: #444444;
-  }
-
   .anchor-heading {
     position: absolute;
     right: -$sp-4;
@@ -243,30 +203,6 @@
     cursor: pointer;
   }
 
-  h1:before {
-    content: "/";
-  }
-
-  h2:before {
-    content: "//";
-  }
-
-  h3:before {
-    content: "///";
-  }
-
-  h4:before {
-    content: "////";
-  }
-
-  h5:before {
-    content: "/////";
-  }
-
-  h6:before {
-    content: "//////";
-  }
-
   h1,
   h2,
   h3,
@@ -274,14 +210,8 @@
   h5,
   h6 {
     position: relative;
-    margin-top: 0.5em;
+    margin-top: 1.5em;
     margin-bottom: 0.25em;
-    font-family: 'Indie Flower', 'Long Cang';
-
-    background-clip:padding-box,border-box;
-    background-origin:padding-box,border-box;
-    background-image:linear-gradient(135deg,#232425,#232425),linear-gradient(135deg, #0682ce,#232425);
-    border-bottom:1px transparent solid;
 
     &:first-child {
       margin-top: $sp-2;

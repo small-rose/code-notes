@@ -86,11 +86,6 @@ layout: table_wrappers
     </nav>
     <footer class="site-footer">
         <div>
-            <span id="busuanzi_container_site_uv" style='display:none'>访客数<span id="busuanzi_value_site_uv"></span>人次 |</span>
-            <img src="https://img.shields.io/github/repo-size/guosonglu/code-notes?color=555555&label=%E4%BB%93%E5%BA%93&style=flat-square"
-                 style="vertical-align: bottom" class="shake">
-        </div>
-        <div>
             &copy;{{ "now" | date: "%Y" }} <a href="#" id="weixing">陆国松</a>.
             <div class="shake" style="display: inline-block">
                 <a href="#" id="apply">打赏支持</a>
@@ -267,27 +262,6 @@ layout: table_wrappers
 <div class="toc side-bar-right js-toc">
 
 </div>
-
-<!--英标发音-->
-{% if page.phonics == true %}
-<script>
-    const td = document.getElementsByTagName('td');
-    for (let i = 0; i < td.length; i++) {
-        if (td[i].innerHTML.indexOf('.mp3') !== -1) {
-            const str = td[i].innerHTML;
-            td[i].innerHTML = '<audio controls="controls" height="100" width="100"><source src="https://cdn.jsdelivr.net/gh/guosonglu/images@master/phonics/' + str + '" type="audio/mp3" /><embed height="100" width="100" src="https://cdn.jsdelivr.net/gh/guosonglu/images@master/phonics/' + str + '" /></audio>'
-        }
-    }
-</script>
-{% endif %}
-
-<!--语音朗读-->
-<!--{% if page.speech == true %}-->
-<!--<script>-->
-<!--    let utterance = new SpeechSynthesisUtterance("Hello world!");-->
-<!--    speechSynthesis.speak(utterance);-->
-<!--</script>-->
-<!--{% endif %}-->
 
 
 <script>

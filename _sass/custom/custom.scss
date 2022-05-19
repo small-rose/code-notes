@@ -1,0 +1,345 @@
+@import url('https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital@1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Zhi+Mang+Xing&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Shadows+Into+Light&family=Zhi+Mang+Xing&display=swap');
+
+
+::-webkit-scrollbar {
+  width: 14px;
+  height: 14px;
+}
+
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  border: 5px solid transparent;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: 1px 1px 5px rgba(255, 255, 255, 0.2) inset;
+}
+
+::-webkit-scrollbar-thumb {
+  min-height: 20px;
+  background-clip: content-box;
+  box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.2) inset;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+
+.main-content {
+  ul {
+    list-style-type: none;
+
+    > li {
+      color: #b1bdc9;
+
+      &::before {
+        position: absolute;
+        margin-left: -1.4em;
+        color: $grey-dk-000;
+        content: "📘";
+      }
+
+      > ul > li {
+        &::before {
+          content: "🏷️";
+        }
+
+        > ul > li {
+          &::before {
+            content: "🔖";
+          }
+
+          > ul > li {
+            &::before {
+              content: "📌";
+            }
+
+            > ul > li {
+              &::before {
+                content: "📍";
+              }
+
+              > ul > li {
+                &::before {
+                  content: "📎";
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  blockquote {
+    background-color: #444444;
+  }
+
+
+  h1:before {
+    content: "/";
+  }
+
+  h2:before {
+    content: "//";
+  }
+
+  h3:before {
+    content: "///";
+  }
+
+  h4:before {
+    content: "////";
+  }
+
+  h5:before {
+    content: "/////";
+  }
+
+  h6:before {
+    content: "//////";
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    position: relative;
+    margin-top: 0.5em;
+    margin-bottom: 0.25em;
+    font-family: 'Indie Flower', 'Long Cang', 'Source Code Pro', 'ZCOOL KuaiLe';
+    color: #2c84fa;
+
+    background-clip: padding-box, border-box;
+    background-origin: padding-box, border-box;
+    background-image: linear-gradient(135deg, #232425, #232425), linear-gradient(135deg, #0682ce, #232425);
+    border-bottom: 1px transparent solid;
+
+    &:first-child {
+      margin-top: $sp-2;
+    }
+
+    + table,
+    + .table-wrapper,
+    + .code-example,
+    + .highlighter-rouge {
+      margin-top: 1em;
+    }
+
+    + p {
+      margin-top: 0;
+    }
+  }
+}
+
+.side-bar {
+  z-index: 0;
+  display: flex;
+  flex-wrap: wrap;
+  background-color: $sidebar-color;
+  overflow: auto;
+
+  @include mq(lg) {
+    flex-wrap: nowrap;
+    position: fixed;
+    width: 20%;
+    height: 100%;
+    flex-direction: column;
+    border-right: $border $border-color;
+    align-items: flex-end;
+    min-width: $nav-width;
+  }
+}
+
+.side-bar-right {
+  z-index: 0;
+  display: flex;
+  flex-wrap: wrap;
+  background-color: $sidebar-color;
+  margin-top: 60px;
+  font-size: 0.9em;
+  width: 20%;
+  height: calc(100% - 60px);
+  overflow: visible;
+  box-sizing: content-box;
+
+  @include mq(md) {
+    left: 80%;
+    top: 0;
+    flex-wrap: nowrap;
+    position: fixed;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.toc-link:hover {
+  color: #7bbfea;
+}
+
+.main {
+  overflow: auto;
+  @include mq(md) {
+    position: relative;
+    margin-left: 10px;
+    max-width: 2000px;
+    width: 80%;
+  }
+
+  @include mq(lg) {
+    width: 60%;
+    margin-left: 20%;
+  }
+}
+
+.page-title {
+  text-align: center;
+  margin: 0;
+  color: #dcdbda;
+  font-family: 'Shadows Into Light', 'Zhi Mang Xing';
+}
+
+.page-count {
+  display: inline-block;
+  font-size: 0.5em;
+  color: #616569;
+}
+
+.main-header {
+  @include mq(md) {
+    width: 100%;
+  }
+
+  &.nav-open {
+    display: block;
+
+    @include mq(lg) {
+      display: flex;
+    }
+  }
+}
+
+.site-nav,
+.site-header,
+.site-footer {
+  width: 100%;
+
+  @include mq(lg) {
+    min-width: $nav-width;
+  }
+}
+
+.site-nav {
+  display: none;
+
+  &.nav-open {
+    display: block;
+  }
+
+  @include mq(lg) {
+    display: block;
+    padding-top: $sp-4;
+    padding-bottom: $gutter-spacing-sm;
+    overflow: auto;
+    overflow-anchor: auto;
+    flex: 1 1 auto;
+  }
+}
+
+.site-header {
+  @include mq(md) {
+    width: 80%;
+  }
+
+  @include mq(lg) {
+    width: 100%;
+  }
+}
+
+body {
+  font-family: 'Source Code Pro', 'ZCOOL KuaiLe';
+}
+
+.site-footer {
+  text-align: center;
+}
+
+//代码样式
+code {
+  color: #2b7df3;
+  background: none;
+  border: none;
+  font-weight: 300;
+  font-family: 'Source Code Pro', 'ZCOOL KuaiLe';
+  font-size: 1em;
+}
+
+.highlight code {
+  color: #b1bdc9;
+}
+
+.highlight .cm {
+  color: #629755;
+}
+
+.highlight .kd {
+  color: #cc7832;
+}
+
+.highlight .nc {
+  color: #cfd2d5;
+}
+
+.highlight .kt {
+  color: #cc7832;
+}
+
+.highlight .nf {
+  color: #ffc66d;
+}
+
+.highlight .na {
+  color: #cfd2d5;
+}
+
+.highlight .n {
+  color: #cfd2d5;
+}
+
+.highlight .k {
+  color: #cc7832;
+}
+
+.highlight .c1 {
+  color: #787f7f;
+}
+
+.highlight .nt {
+  color: #ffc66d;
+}
+
+.highlight .cp {
+  color: #bababa;
+}
+
+.highlight .nd {
+  color: #baac27;
+}
+
+.highlight .s {
+  color: #629755;
+}
+
+.highlight .kc {
+  color: #cc7832;
+}
+
+
+

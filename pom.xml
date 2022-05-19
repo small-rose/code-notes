@@ -8,41 +8,4 @@
     <artifactId>code-notes</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
-    <modules>
-        <module>_java/javase</module>
-        <module>_java/jvm</module>
-        <module>_java/javaee</module>
-        <module>_environment/ide/junit5</module>
-    </modules>
-
-
-
-    <properties>
-        <junit-jupiter.version>5.8.0</junit-jupiter.version>
-        <lombok.version>1.18.22</lombok.version>
-        <mysql-connector-java.version>5.1.6</mysql-connector-java.version>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-    </properties>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.junit.jupiter</groupId>
-                <artifactId>junit-jupiter</artifactId>
-                <version>${junit-jupiter.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <version>${lombok.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>mysql</groupId>
-                <artifactId>mysql-connector-java</artifactId>
-                <version>${mysql-connector-java.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
 </project>

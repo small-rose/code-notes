@@ -26,7 +26,6 @@ gh_edit_link: true # show or hide edit this page link
 gh_edit_link_text: "在Github中编辑此页面."
 gh_edit_repository: "https://github.com/guosonglu/code-notes" # the github URL for your repo
 gh_edit_branch: "master" # the branch that your docs is served from
-# gh_edit_source: docs # the source that your files originate from
 gh_edit_view_mode: "tree" # "tree" or "edit" if you want the user to jump into the editor immediately
 
 # 这个使用的是小号，大号可能有安全隐患
@@ -36,8 +35,6 @@ gitment_oauth:
   client_id: 0d8aaec11145d797cdfa
   client_secret: 43cec67aeda473d51e3975f5f9ea4b2d60fb1cb3
 
-# Build settings
-# theme: "just-the-docs"
 color_scheme: dark
 plugins:
   - jekyll-feed
@@ -47,16 +44,50 @@ plugins:
 collections:
   java:
     output: true
-
-
+  environment:
+    output: true
+  other:
+    output: true
 
 just_the_docs:
   collections:
     java:
       name: Java
-
-
+    environment:
+      name: 工具和环境
+    other:
+      name: 其它
 
 aux_links:
   "code-notes on GitHub":
     - "//github.com/guosonglu/code-notes"
+
+aux_links_new_tab: true
+
+# Enable or disable the site search
+# Supports true (default) or false
+search_enabled: true
+
+search:
+  # 将页面拆分为可单独搜索的部分
+  # Supports 1 - 6, default: 2
+  heading_level: 2
+  # 每个搜索结果的最大预览量
+  # Default: 3
+  previews: 3
+  # Maximum amount of words to display before a matched word in the preview
+  # Default: 5
+  preview_words_before: 5
+  # Maximum amount of words to display after a matched word in the preview
+  # Default: 10
+  preview_words_after: 10
+  # Set the search token separator
+  # Default: /[\s\-/]+/
+  # Example: enable support for hyphenated search words
+  tokenizer_separator: /[\s/]+/
+  # Display the relative url in search results
+  # Supports true (default) or false
+  rel_url: true
+  # Enable or disable the search button that appears in the bottom right corner of every page
+  # Supports true or false (default)
+  button: true

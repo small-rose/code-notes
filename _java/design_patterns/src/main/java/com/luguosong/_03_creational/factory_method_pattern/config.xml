@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<config>
+<className>com.luguosong._03_creational.factory_method_pattern.FileLoggerFactory</className>
+</config>

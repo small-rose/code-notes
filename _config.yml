@@ -11,6 +11,7 @@ markdown: kramdown
 exclude:
   - .idea/
   - .git/
+  - _front_end/vue/vue_demo/node_modules/
 
 # Footer content
 # appears at the bottom of every page's main content

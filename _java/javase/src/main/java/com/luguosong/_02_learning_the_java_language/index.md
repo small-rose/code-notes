@@ -248,7 +248,19 @@ class MyClass {
 - `声明时直接初始化`：适用于没有复杂逻辑的初始化
 - `构造器初始化`
 - `初始化块`：Java编译器会将初始化块复制到每个构造器，因此，多个构造器可以共享初始化块
-- 
+- `使用final方法初始化`：子类可以重用final方法
+
+```java
+//使用final方法初始化
+class Whatever {
+    private varType myVar = initializeInstanceVariable();
+        
+    protected final varType initializeInstanceVariable() {
+
+        // initialization code goes here
+    }
+}
+```
 
 ### 定义方法
 
@@ -339,6 +351,12 @@ final修饰符表示字段的值`不能更改`
 static保证在创建多个对象时，常量在内存中只有一份
 
 常量名都使用大写字母
+
+## 嵌套类
+
+### 为什么使用嵌套类
+
+### 
 
 ## 继承（Inheritance）
 

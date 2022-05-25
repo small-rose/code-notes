@@ -44,6 +44,8 @@ plugins:
 collections:
   java:
     output: true
+  front_end:
+    output: true
   environment:
     output: true
   other:
@@ -53,6 +55,8 @@ just_the_docs:
   collections:
     java:
       name: Java
+    front_end:
+      name: 前端开发
     environment:
       name: 工具和环境
     other:

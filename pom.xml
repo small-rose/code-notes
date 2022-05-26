@@ -11,5 +11,6 @@
     <modules>
         <module>_java/design_patterns</module>
         <module>_java/javase</module>
+        <module>_java/spring</module>
     </modules>
 </project>

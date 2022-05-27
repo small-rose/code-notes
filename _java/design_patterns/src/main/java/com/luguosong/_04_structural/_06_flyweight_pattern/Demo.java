@@ -26,11 +26,11 @@ public class Demo {
         System.out.println("判断两颗白子是否相同：" + (white1==white2));
 
         //显示棋子
-        black1.display();
-        black2.display();
-        black3.display();
-        white1.display();
-        white2.display();
+        black1.display(new Coordinates(1,2));
+        black2.display(new Coordinates(3,4));
+        black3.display(new Coordinates(1,3));
+        white1.display(new Coordinates(2,5));
+        white2.display(new Coordinates(2,4));
 
     }
 }

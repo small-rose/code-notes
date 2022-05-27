@@ -1470,28 +1470,254 @@ public class Demo {
 > 如果将每个棋子都作为一个独立的对象存储在内存中，将导致该围棋软件在运行时所需内存空间较大。如何降低运行代价、提高系统性能是Sunny公司开发人员需要解决的一个问题。
 > 为了解决这个问题，Sunny公司开发人员决定使用享元模式来设计该围棋软件的棋子对象。
 
+```java
+/**
+ * 围棋棋子类，充当抽象享元类
+ *
+ * @author 10545
+ * @date 2022/5/17 21:30
+ */
+public abstract class IgoChessman {
+    public abstract String getColor();
 
+    public void display(Coordinates coord){
+        System.out.println("棋子的颜色："+this.getColor()+",棋子的位置："+coord.getX()+","+coord.getY());
+    }
+}
 
+/**
+ * 黑色棋子类，充当具体享元类
+ *
+ * @author 10545
+ * @date 2022/5/17 21:43
+ */
+public class BlackIgoChessman extends IgoChessman{
+  @Override
+  public String getColor() {
+    return "黑色";
+  }
+}
+
+/**
+ * 白色棋子类，充当具体享元类
+ *
+ * @author 10545
+ * @date 2022/5/17 21:49
+ */
+public class WhiteIgoChessman extends IgoChessman{
+  @Override
+  public String getColor() {
+    return "白色";
+  }
+}
+
+/**
+ * 围棋棋子工厂类，充当享元工厂类。使用单例模式对其进行设计
+ *
+ * @author 10545
+ * @date 2022/5/17 21:58
+ */
+public class IgoChessmanFactory {
+  private static IgoChessmanFactory instance = new IgoChessmanFactory();
+  private static Hashtable ht; //使用Hashtable来存储享元对象，充当享元池
+
+  private IgoChessmanFactory() {
+    ht = new Hashtable();
+    IgoChessman black, white;
+    black = new BlackIgoChessman();
+    ht.put("b", black);
+    white = new WhiteIgoChessman();
+    ht.put("w", white);
+  }
+
+  //返回享元工厂唯一实例
+  public static IgoChessmanFactory getInstance() {
+    return instance;
+  }
+
+  //通过key获取存放在Hashtable中的享元对象
+  public static IgoChessman getIgoChessman(String color) {
+    return (IgoChessman) ht.get(color);
+  }
+}
+
+/**
+ * 坐标类
+ *
+ * @author luguosong
+ * @date 2022/5/27 11:11
+ */
+public class Coordinates {
+  private int x;
+  private int y;
+
+  public Coordinates(int x, int y) {
+    this.x = x;
+    this.y = y;
+  }
+
+  public int getX() {
+    return x;
+  }
+
+  public void setX(int x) {
+    this.x = x;
+  }
+
+  public int getY() {
+    return y;
+  }
+
+  public void setY(int y) {
+    this.y = y;
+  }
+}
+```
+
+```java
+/**
+ * 客户端测试类
+ *
+ * @author 10545
+ * @date 2022/5/17 23:36
+ */
+public class Demo {
+    public static void main(String[] args) {
+        IgoChessman black1,black2,black3,white1,white2;
+        IgoChessmanFactory factory;
+
+        //获取享元工厂对象
+        factory = IgoChessmanFactory.getInstance();
+
+        //通过享元工厂获取三颗黑子
+        black1 = factory.getIgoChessman("b");
+        black2 = factory.getIgoChessman("b");
+        black3 = factory.getIgoChessman("b");
+        System.out.println("判断两颗黑子是否相同：" + (black1==black2));
+
+        //通过享元工厂获取两颗白子
+        white1 = factory.getIgoChessman("w");
+        white2 = factory.getIgoChessman("w");
+        System.out.println("判断两颗白子是否相同：" + (white1==white2));
+
+        //显示棋子
+        black1.display(new Coordinates(1,2));
+        black2.display(new Coordinates(3,4));
+        black3.display(new Coordinates(1,3));
+        white1.display(new Coordinates(2,5));
+        white2.display(new Coordinates(2,4));
+
+    }
+}
+```
+
+```text
+判断两颗黑子是否相同：true
+判断两颗白子是否相同：true
+棋子的颜色：黑色,棋子的位置：1,2
+棋子的颜色：黑色,棋子的位置：3,4
+棋子的颜色：黑色,棋子的位置：1,3
+棋子的颜色：白色,棋子的位置：2,5
+棋子的颜色：白色,棋子的位置：2,4
+```
 
 ## 模式拓展
+
+### 单纯享元模式和复合享元模式
+
+单纯享元模式中所有具体享元类都是可以共享的：
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202205271416536.png)
+
+将一些单纯享元对象用`组合模式`加以组合可以形成复合享元对象。复合享元对象本身不能共享，但可以分解成单纯享元对象，然后可以分享。复合享元类的作用是使得其中的单纯享元类都有相同的外部状态（比如上面棋子的位置都一致）：
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202205271445794.png)
+
+### 享元模式与String类
+
+JDK类库中的String类使用了享元模式
+
+```java
+class Demo {
+   public  static void main(String args[]) {
+      String  str1 = "abcd";
+      String  str2 = "abcd";
+      String  str3 = "ab" + "cd";
+      String  str4 = "ab";
+      str4  += "cd";
+      
+      System.out.println(str1  == str2);
+      System.out.println(str1  == str3);
+      System.out.println(str1  == str4);
+      str2  += "e";
+      System.out.println(str1  == str2);
+   }
+}
+```
+
+```text
+true
+true
+false
+false
+```
 
 ## 效果
 
+- 优点
+  - 减少内存中对象的数量，使得相同或相似对象在内存中只保存一份，从而可以节约系统资源，提高系统性能
+  - 享元模式的外部状态相对独立，而不会影响其内部状态，从而使享元对象可以在不同的环境中被共享
+- 缺点
+  - 享元模式使得系统变得复杂，需要分离出内部状态和外部状态，使得程序的逻辑复杂化
+  - 为了使对象可以共享，享元模式需要将享元对象的部分状态外部化，而读取外部状态将使得运行时间变长。
+
 ## 模式适用性
+
+- 一个系统有大量相同或者相似的对象，造成内存的大量耗费。
+- 对象的大部分状态都可以外部化，可以将这些外部状态传入对象中。
+- 在使用享元模式时需要维护一个存储享元对象的享元池，而这需要耗费一定的系统资源。因此，在需要多次重复使用同一享元对象时才值得使用享元模式。
 
 # 代理模式（Proxy）
 
-## 别名
-
 ## 模式分类
+
+结构型
+
+对象型
 
 ## 模式概述
 
+给某一个对象提供一个代理，并由代理对象控制对原对象的引用。
+
 ## 模式结构与实现
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202205271523938.png)
+
+- `Subject（抽象主题角色）`：它声明了真实主题和代理主题的共同接口，使得在任何使用真实主题的地方都可以使用代理主题，客户端通常需要针对抽象主题角色进行编程。
+- `Proxy（代理主题角色）`：代理主题角色内部包含了对真实主题的引用，从而可以在任何时候操作真实主题对象。在代理主题角色中提供一个与真实主题角色相同的接口，以便在任何时候都可以替代真实主题。代理主题角色还可以控制对真实主题的使用，负责在需要的时候创建和删除真实主题对象，并对真实主题对象的使用加以约束。通常，在代理主题角色中，客户端在调用所引用的真实主题操作之前或之后还需要执行其他操作，而不仅仅是单纯调用真实主题对象中的操作。
+- `RealSubject（真实主题角色）`：它定义了代理角色所代表的真实对象，在真实主题角色中实现了真实的业务操作，客户端可以通过代理主题角色间接调用真实主题角色中定义的操作。
 
 ## 实例代码
 
+> Sunny软件公司承接了某信息咨询公司的收费商务信息查询系统的开发任务，该系统的基本需求如下：
+> 
+>（1）在进行商务信息查询之前用户需要通过身份验证，只有合法用户才能够使用该查询系统。
+> 
+>（2）在进行商务信息查询时，系统需要记录查询日志，以便根据查询次数收取查询费用。
+> 
+>Sunny软件公司开发人员已完成了商务信息查询模块的开发任务，他们希望能够以一种松耦合的方式向原有系统增加身份验证和日志记录功能。客户端代码可以无区别地对待原始的商务信息查询模块和增加新功能之后的商务信息查询模块，而且可能在将来还要在该信息查询模块中增加一些新的功能。
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202205271552435.png)
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202205271553875.png)
+
+
+
 ## 模式拓展
+
+### 代理和装饰的区别
+
+代理模式和装饰模式在实现时有些类似，但是代理模式主要是给真实主题类`增加一些全新的职责`，例如权限控制、缓冲处理、智能引用、远程访问等，这些职责与原有职责`不属于同一个问题域`。而装饰模式是通过装饰类为具体构件类增加一些相关的职责，是对原有职责的扩展，这些职责`属于同一问题域`。代理模式和装饰模式的目的也不相同，前者是`控制对对象的访问`，而后者是为对象`动态地增加功能`。
 
 ## 效果
 

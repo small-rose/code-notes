@@ -9,7 +9,7 @@ package com.luguosong._04_structural._06_flyweight_pattern;
 public abstract class IgoChessman {
     public abstract String getColor();
 
-    public void display(){
-        System.out.println("棋子的颜色："+this.getColor());
+    public void display(Coordinates coord){
+        System.out.println("棋子的颜色："+this.getColor()+",棋子的位置："+coord.getX()+","+coord.getY());
     }
 }

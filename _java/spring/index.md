@@ -339,4 +339,16 @@ public class AnnotationTest {
 
 用于导入其他配置类
 
-# AOP
+# AOP(Aspect Oriented Programming)
+
+`面向切面编程（AOP）`：程序运行期间，在不修改源码的情况下对方法进行功能增强
+
+# 动态代理
+
+## JDK动态代理
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220530221802.png)
+
+## cglib动态代理
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220530221820.png)

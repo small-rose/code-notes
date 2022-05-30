@@ -19,6 +19,7 @@
         <module>_04_ioc_bean_dependency_injection</module>
         <module>_05_ioc_annotation_hello</module>
         <module>_06_ioc_annotation_configuration</module>
+        <module>_07_aop_proxy_jdk</module>
     </modules>
 
     <properties>

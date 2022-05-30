@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--默认情况使用无参构造方法创建对象-->
+    <bean id="user1" class="com.luguosong.UserImpl"></bean>
+
+    <!--使用静态工厂方法创建对象-->
+    <bean id="user2" class="com.luguosong._02_static_factory.UserStaticFactory" factory-method="getUser"></bean>
+
+
+    <!--使用非静态工厂方法创建对象-->
+    <bean id="userFactory" class="com.luguosong._03_factory.UserFactory"></bean>
+    <bean id="user3" factory-bean="userFactory" factory-method="getUser"></bean>
+</beans>

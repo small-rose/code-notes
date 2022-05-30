@@ -1,5 +1,6 @@
 package com.luguoosng;
 
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
@@ -8,7 +9,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class Demo {
     public static void main(String[] args) {
-        ClassPathXmlApplicationContext app = new ClassPathXmlApplicationContext("applicationContext.xml");
+        ApplicationContext app = new ClassPathXmlApplicationContext("applicationContext.xml");
         User user = (User)app.getBean("user");
         user.hello();
     }

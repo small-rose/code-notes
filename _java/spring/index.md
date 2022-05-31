@@ -347,8 +347,125 @@ public class AnnotationTest {
 
 ## JDK动态代理
 
-![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220530221802.png)
+JDK动态代理生成的`代理对象`和`真实对象`实现相同的接口，`代理对象`和`真实对象`之间时兄弟关系
+
+- 为什么JDK动态代理是基于接口，而不是继承被代理类进行方法增强？
+  - `代理设计模式`就是这种基于接口的结构
+  - 因为Proxy生成的代理类是继承了Proxy类的，因为Java是单继承，没办法再继承被代理的类，只能实现被代理类实现的接口
+- 为什么JDK生成的动态代理类要继承Proxy类？
+  - 首先，动态代理类并没有使用Proxy中的什么属性或者方法（虽然使用了InvocationHandler对象，但是也可以在生成class之初就将InvocationHandler放入到代理类中）
+  - Proxy类统一维护InvocationHandler接口对象
+
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202205311711348.png)
+
+简单代码演示：
+
+```java
+/**
+ * @author 10545
+ * @date 2022/5/30 22:32
+ */
+public interface User {
+    public void hello();
+
+    public void hello2();
+}
+
+/**
+ * @author 10545
+ * @date 2022/5/30 23:09
+ */
+public class UserImpl implements User{
+  @Override
+  public void hello() {
+    System.out.println("hello");
+  }
+
+  @Override
+  public void hello2() {
+    System.out.println("hello2");
+  }
+}
+
+/**
+ * @author 10545
+ * @date 2022/5/30 23:10
+ */
+public class ProxyDemo {
+
+  public static void main(String[] args) {
+
+    UserImpl user=new UserImpl();
+
+    User userProxy= (User)Proxy.newProxyInstance(
+            user.getClass().getClassLoader(),
+            user.getClass().getInterfaces(),
+            (Object proxy, Method method,Object[] args1)->{
+              //只对hello方法进行增强，hello2方法不进行增强
+              if ("hello".equals(method.getName())){
+                System.out.println("前置增强");
+              }
+              Object invoke = method.invoke(user, args1);
+              if ("hello".equals(method.getName())){
+                System.out.println("后置增强");
+              }
+              return invoke;
+            }
+    );
+    userProxy.hello();
+    userProxy.hello2();
+  }
+}
+```
 
 ## cglib动态代理
 
-![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220530221820.png)
+如果需要被动态代理的类`没有实现接口`，则无法使用JDK的`Proxy类`生成代理对象。这个时候需要使用cglib生成代理对象
+
+cglib生成的`代理对象`是`真实对象`的子类，`真实对象`和`代理对象`是父子关系
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202205311712390.png)
+
+```java
+/**
+ * 被代理的类，采用cglib，没有接口
+ *
+ * @author luguosong
+ * @date 2022/5/31 17:30
+ */
+public class User {
+    public void hello(){
+        System.out.println("hello");
+    }
+}
+
+/**
+ * @author luguosong
+ * @date 2022/5/31 17:45
+ */
+public class Demo {
+  public static void main(String[] args) {
+    User user = new User();
+
+    //创建增强器
+    Enhancer enhancer = new Enhancer();
+    //设置父类（也就是要被代理的类）
+    enhancer.setSuperclass(user.getClass());
+    //设置回调
+    enhancer.setCallback(new MethodInterceptor() {
+      @Override
+      public Object intercept(Object o, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
+        System.out.println("前置增强");
+        Object invoke = method.invoke(user, objects);
+        System.out.println("后置增强");
+        return invoke;
+      }
+    });
+    //生成代理对象，动态生成的代理类是被代理类的子类
+    User proxy = (User)enhancer.create();
+    //执行被增强后的方法
+    proxy.hello();
+  }
+}
+```

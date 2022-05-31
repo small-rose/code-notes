@@ -1,6 +1,7 @@
 package com.luguosong._04_structural._07_proxy_pattern;
 
 /**
+ * 具体查询类，充当真实主题角色
  * @author luguosong
  * @date 2022/5/27 17:12
  */

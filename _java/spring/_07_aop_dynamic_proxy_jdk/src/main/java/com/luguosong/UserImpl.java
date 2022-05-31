@@ -9,4 +9,9 @@ public class UserImpl implements User{
     public void hello() {
         System.out.println("hello");
     }
+
+    @Override
+    public void hello2() {
+        System.out.println("hello2");
+    }
 }

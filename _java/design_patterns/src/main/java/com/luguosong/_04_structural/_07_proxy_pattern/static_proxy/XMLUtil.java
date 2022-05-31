@@ -1,4 +1,4 @@
-package com.luguosong._04_structural._07_proxy_pattern;
+package com.luguosong._04_structural._07_proxy_pattern.static_proxy;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -21,7 +21,7 @@ public class XMLUtil {
             DocumentBuilderFactory dFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = dFactory.newDocumentBuilder();
             Document doc;
-            doc = builder.parse(new File("_java/design_patterns/src/main/java/com/luguosong/_04_structural/_07_proxy_pattern/config.xml"));
+            doc = builder.parse(new File("_java/design_patterns/src/main/java/com/luguosong/_04_structural/_07_proxy_pattern/static_proxy/config.xml"));
 
             //获取包含类名的文本节点
             NodeList n1 = doc.getElementsByTagName("className");

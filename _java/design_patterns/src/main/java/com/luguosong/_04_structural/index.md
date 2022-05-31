@@ -1711,7 +1711,155 @@ false
 
 ![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202205271553875.png)
 
+```java
+/**
+ * 身份验证类
+ * @author luguosong
+ * @date 2022/5/27 15:57
+ */
+public class AccessValidator {
+    public boolean validate(String userId){
+        System.out.println("在数据库中验证用户'"+userId+"'是否为合法用户？");
+        if (userId.equalsIgnoreCase("杨过")){
+            System.out.println("登录成功");
+            return true;
+        }else {
+            System.out.println("登录失败");
+            return false;
+        }
+    }
+}
 
+/**
+ * 日志记录类
+ * @author luguosong
+ * @date 2022/5/27 16:52
+ */
+public class Logger {
+  public void log(String userId){
+    System.out.println("更新数据库，用户'"+userId+"'查询次数加1！");
+  }
+}
+
+/**
+ * 抽象查询类，充当抽象主题角色
+ * @author luguosong
+ * @date 2022/5/27 17:10
+ */
+public interface Searcher {
+  public String doSearch(String userId,String keyword);
+}
+
+/**
+ * 具体查询类，充当真实主题角色
+ * @author luguosong
+ * @date 2022/5/27 17:12
+ */
+public class RealSearcher implements Searcher{
+  @Override
+  public String doSearch(String userId, String keyword) {
+    System.out.println("用户'"+userId+"'使用关键词'"+keyword+"'查询商务信息！");
+    return "返回具体内容";
+  }
+}
+
+/**
+ * 代理查询类，充当代理主题角色
+ *
+ * @author luguosong
+ * @date 2022/5/27 17:16
+ */
+public class ProxySearcher implements Searcher {
+
+  private RealSearcher searcher = new RealSearcher();
+  private AccessValidator validator;
+  private Logger logger;
+
+  @Override
+  public String doSearch(String userId, String keyword) {
+    if (this.validate(userId)) {
+      String result = searcher.doSearch(userId, keyword);
+      this.log(userId);
+      return result;
+    } else {
+      return null;
+    }
+  }
+
+  public boolean validate(String userId) {
+    validator = new AccessValidator();
+    return validator.validate(userId);
+  }
+
+  public void log(String userId) {
+    logger = new Logger();
+    logger.log(userId);
+  }
+}
+```
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<config>
+  <className>com.luguosong._04_structural._07_proxy_pattern.static_proxy.ProxySearcher</className>
+</config>
+```
+
+```java
+/**
+ * 工具类，通过配置文件创建具体构造器
+ *
+ * @author luguosong
+ * @date 2022/3/15 13:54
+ */
+public class XMLUtil {
+    public static Object getBean() {
+        try {
+            //创建DOM文件对象
+            DocumentBuilderFactory dFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = dFactory.newDocumentBuilder();
+            Document doc;
+            doc = builder.parse(new File("_java/design_patterns/src/main/java/com/luguosong/_04_structural/_07_proxy_pattern/config.xml"));
+
+            //获取包含类名的文本节点
+            NodeList n1 = doc.getElementsByTagName("className");
+            Node classNode = n1.item(0).getFirstChild();
+            String cName = classNode.getNodeValue();
+
+
+            Class<?> c = Class.forName(cName);
+            Object obj = c.newInstance();
+            return obj;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+}
+```
+
+```java
+/**
+ * 测试类
+ * @author luguosong
+ * @date 2022/5/27 18:49
+ */
+public class Demo {
+    public static void main(String[] args) {
+        Searcher searcher;
+        searcher=(Searcher) XMLUtil.getBean();
+        String result = searcher.doSearch("杨过", "玉女心经");
+    }
+}
+```
+
+```text
+在数据库中验证用户'杨过'是否为合法用户？
+登录成功
+用户'杨过'使用关键词'玉女心经'查询商务信息！
+更新数据库，用户'杨过'查询次数加1！
+```
 
 ## 模式拓展
 
@@ -1719,6 +1867,182 @@ false
 
 代理模式和装饰模式在实现时有些类似，但是代理模式主要是给真实主题类`增加一些全新的职责`，例如权限控制、缓冲处理、智能引用、远程访问等，这些职责与原有职责`不属于同一个问题域`。而装饰模式是通过装饰类为具体构件类增加一些相关的职责，是对原有职责的扩展，这些职责`属于同一问题域`。代理模式和装饰模式的目的也不相同，前者是`控制对对象的访问`，而后者是为对象`动态地增加功能`。
 
+### 远程代理
+
+远程业务对象在本地主机中有一个代理对象，该代理对象负责对远程业务对象的访问和网络通信，它对于客户端对象而言是透明的。客户端无须关心实现具体业务的是谁，只需要按照服务接口所定义的方式直接与本地主机中的代理对象交互即可。
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202205311417379.png)
+
+在Java语言中，可以通过RMI（Remote Method Invocation，远程方法调用）机制来实现远程代理，它能够实现一个Java虚拟机中的对象调用另一个Java虚拟机中对象的方法。在RMI中，客户端对象可以通过一个桩（Stub）对象与远程主机上的业务对象进行通信。由于桩对象和远程业务对象接口一致，因此对于客户端而言，操作远程对象和本地桩对象没有任何区别，桩对象就是远程业务对象在本地主机的代理对象。
+
+在RMI实现过程中，远程主机端有一个Skeleton（骨架）对象来负责与Stub对象通信，RMI的基本实现步骤如下：
+
+1. 客户端发起请求，将请求转交至RMI客户端的Stub类。
+2. Stub类将请求的接口、方法、参数等信息进行序列化。
+3. 将序列化后的流使用Socket传输至服务器端。
+4. 服务器端接收到流后将其转发至相应的Skeleton类。
+5. Skeleton类将请求信息反序列化后调用实际的业务处理类。
+6. 业务处理类处理完毕后将结果返回给Skeleton类。
+7. Skeleton类将结果序列化，再次通过Socket将流传送给客户端的Stub。
+8. Stub在接收到流后进行反序列化，将反序列化后得到的Java Object对象返回给客户端调用者。
+
+至此，一次完整的远程方法调用得以完成。
+
+除了RMI之外，在Java语言中还可以通过很多其他方式来实现远程通信和远程方法调用，例如XML-RPC、Binary-RPC、JBoss-Remoting、Spring-Remoting、Hessian等。
+
+### 虚拟代理
+
+对于一些占用系统资源较多或者加载时间较长的对象，可以给这些对象提供一个虚拟代理。
+
+在真实对象创建成功之前，虚拟代理扮演真实对象的替身。而当真实对象创建之后，虚拟代理将用户的请求转发给真实对象。
+
+在以下两种情况下可以考虑使用虚拟代理：
+
+- 由于对象本身的复杂性或者网络等原因导致一个对象需要较长的加载时间，此时可以用一个加载时间相对较短的代理对象来代表真实对象。通常在实现时可以结合多线程技术，一个线程用于显示代理对象，其他线程用于加载真实对象。这种虚拟代理模式可以应用在程序启动的时候，由于创建代理对象在时间和处理复杂度上要少于创建真实对象，因此，在程序启动时，可以用代理对象代替真实对象初始化，大大加速系统的启动时间。当需要使用真实对象时，再通过代理对象来引用，而此时真实对象可能已经成功加载完毕，可以缩短用户的等待时间。
+- 当一个对象的加载十分耗费系统资源的时候，也非常适合使用虚拟代理。虚拟代理可以让那些占用大量内存或处理起来非常复杂的对象推迟到使用它们的时候才创建，而在此之前用一个相对来说占用资源较少的代理对象来代表真实对象，再通过代理对象来引用真实对象。为了节省内存，在第一次引用真实对象时再创建对象，并且该对象可被多次重用，在以后每次访问时需要检测所需对象是否已经被创建，因此在访问该对象时需要进行存在性检测，这需要消耗一定的系统时间，但是可以节省内存空间，这是一种用时间换取空间的做法。
+
+### Java动态代理
+
+让系统在运行时根据实际需要来动态创建代理类。
+
+动态代理是一种较为高级的代理模式，它在事务管理、AOP（Aspect-Oriented Programming，面向方面编程）等领域都发挥了重要的作用。
+
+Java语言实现动态代理需要用到`java.lang.reflect`包中的一些类。
+
+- Proxy类
+
+```java
+public class Proxy implements java.io.Serializable {
+  /**
+   * @param loader 代理类的类加载器
+   * @param interfaces 代理类的接口数组（与真实主题类的接口列表一致）
+   * @return 返回一个Class类型的代理类
+   * @throws IllegalArgumentException
+   */
+  public static Class<?> getProxyClass(ClassLoader loader,
+                                       Class<?>... interfaces)
+          throws IllegalArgumentException
+  {
+      //代码省略
+  }
+
+  /**
+   * @param loader 代理类的类加载器
+   * @param interfaces 代理类所实现的接口列表（与真实主题类的接口列表一致）
+   * @param h 所指派的调用处理程序类
+   * @return 返回一个动态创建的代理类的实例
+   * @throws IllegalArgumentException
+   */
+  public static Object newProxyInstance(ClassLoader loader,
+                                        Class<?>[] interfaces,
+                                        InvocationHandler h)
+          throws IllegalArgumentException
+  {
+      //代码省略
+  }
+}
+```
+
+- InvocationHandler接口
+
+该接口作为代理实例的调用处理者的公共父类。每个代理类的实例都可以提供一个相关的具体调用处理者（InvocationHandler接口的子类）。
+
+```java
+public interface InvocationHandler {
+  /**
+   * 用于处理对代理类实例的方法调用并返回相应的结果
+   * @param proxy 代理类的实例
+   * @param method 表示需要代理的方法
+   * @param args  代理方法的参数数组
+   * @return
+   * @throws Throwable
+   */
+  public Object invoke(Object proxy, Method method, Object[] args)
+          throws Throwable;
+}
+```
+
+对实例代码的静态代理进行动态代理改造：
+
+```java
+/**
+ * @author luguosong
+ * @date 2022/5/31 16:09
+ */
+public class SearchHandler implements InvocationHandler {
+
+    private Searcher searcher;
+
+    private AccessValidator accessValidator;
+
+    private Logger logger;
+
+    /**
+     * 构造方法进行依赖注入
+     *
+     * @param searcher
+     * @param accessValidator
+     * @param logger
+     */
+    public SearchHandler(Searcher searcher, AccessValidator accessValidator, Logger logger) {
+        this.searcher = searcher;
+        this.accessValidator = accessValidator;
+        this.logger = logger;
+    }
+
+    @Override
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        if (accessValidator.validate((String) args[0])) {
+            Object invoke = method.invoke(searcher, args);
+            logger.log((String) args[0]);
+            return invoke;
+        } else {
+            return null;
+        }
+    }
+}
+```
+
+```java
+/**
+ * @author luguosong
+ * @date 2022/5/31 16:34
+ */
+public class Demo {
+    public static void main(String[] args) {
+        RealSearcher realSearcher = new RealSearcher();
+        AccessValidator accessValidator = new AccessValidator();
+        Logger logger = new Logger();
+        SearchHandler searchHandler = new SearchHandler(realSearcher, accessValidator, logger);
+
+        Searcher searchProxy = (Searcher) Proxy.newProxyInstance(
+                realSearcher.getClass().getClassLoader(),
+                realSearcher.getClass().getInterfaces(),
+                searchHandler);
+
+        searchProxy.doSearch("杨过", "玉女心经");
+    }
+}
+```
+
+JDK中提供的动态代理只能代理一个或多个接口，如果需要动态代理具体类或抽象类，可以使用CGLib（Code Generation Library）等工具。CGLib是一个功能较为强大、性能和质量也较好的代码生成包，在许多AOP框架中得到了广泛应用。
+
 ## 效果
 
+- 优点
+  - 代理模式能够协调调用者和被调用者，在一定程度上降低了系统的耦合度，满足迪米特法则。
+  - 客户端可以针对抽象主题角色进行编程，增加和更换代理类无须修改源代码，符合开闭原则，系统具有较好的灵活性和可扩展性。
+  - 远程代理为位于两个不同地址空间对象的访问提供了一种实现机制，可以将一些消耗资源较多的对象和操作移至性能更好的计算机上，提高系统的整体运行效率。
+  - 虚拟代理通过一个消耗资源较少的对象来代表一个消耗资源较多的对象，可以在一定程度上节省系统的运行开销。
+  - 保护代理可以控制对一个对象的访问权限，为不同用户提供不同级别的使用权限。
+- 缺点
+  - 由于在客户端和真实主题之间增加了代理对象，因此有些类型的代理模式可能会造成请求的处理速度变慢，例如保护代理。
+  - 实现代理模式需要额外的工作，有些代理模式的实现非常复杂，例如远程代理。
+
 ## 模式适用性
+
+- 当客户端对象需要访问远程主机中的对象时，可以使用远程代理。
+- 当需要用一个消耗资源较少的对象来代表一个消耗资源较多的对象，从而降低系统开销、缩短运行时间时，可以使用虚拟代理。例如一个对象需要很长时间才能完成加载时。
+- 当需要控制对一个对象的访问，为不同用户提供不同级别的访问权限时，可以使用保护代理。
+- 当需要为某一个被频繁访问的操作结果提供一个临时存储空间，以供多个客户端共享访问这些结果时，可以使用缓冲代理。通过缓冲代理，系统无须在客户端每次访问时都重新执行操作，只需直接从临时缓冲区获取操作结果即可。
+- 当需要为一个对象的访问（引用）提供一些额外的操作时，可以使用智能引用代理。

@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>_07_aop_proxy_jdk</artifactId>
+    <artifactId>_07_aop_dynamic_proxy_jdk</artifactId>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

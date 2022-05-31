@@ -1,6 +1,13 @@
-package com.luguosong._04_structural._07_proxy_pattern;
+package com.luguosong._04_structural._07_proxy_pattern.static_proxy;
+
+import com.luguosong._04_structural._07_proxy_pattern.AccessValidator;
+import com.luguosong._04_structural._07_proxy_pattern.Logger;
+import com.luguosong._04_structural._07_proxy_pattern.RealSearcher;
+import com.luguosong._04_structural._07_proxy_pattern.Searcher;
 
 /**
+ * 代理查询类，充当代理主题角色
+ *
  * @author luguosong
  * @date 2022/5/27 17:16
  */

@@ -6,4 +6,6 @@ package com.luguosong;
  */
 public interface User {
     public void hello();
+
+    public void hello2();
 }

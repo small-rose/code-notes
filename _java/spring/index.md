@@ -248,23 +248,24 @@ public class DynamicFactoryBean {
 - 导入依赖
 
 ```xml
+
 <dependencies>
-  <dependency>
-    <groupId>org.springframework</groupId>
-    <artifactId>spring-context</artifactId>
-    <version>5.3.20</version>
-  </dependency>
-  <dependency>
-    <groupId>org.springframework</groupId>
-    <artifactId>spring-test</artifactId>
-    <version>5.3.20</version>
-  </dependency>
-  <dependency>
-    <groupId>org.junit.jupiter</groupId>
-    <artifactId>junit-jupiter</artifactId>
-    <version>5.8.2</version>
-    <scope>test</scope>
-  </dependency>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context</artifactId>
+        <version>5.3.20</version>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-test</artifactId>
+        <version>5.3.20</version>
+    </dependency>
+    <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter</artifactId>
+        <version>5.8.2</version>
+        <scope>test</scope>
+    </dependency>
 </dependencies>
 ```
 
@@ -281,7 +282,7 @@ public class AnnotationTest {
     private User user;
 
     @Test
-    public void test(){
+    public void test() {
         user.hello();
     }
 }
@@ -296,6 +297,7 @@ public class AnnotationTest {
 指定哪个包及其子包下的Bean需要进行扫描以便识别使用注解配置的类、字段和方法。
 
 ```xml
+
 <context:component-scan base-package="com.luguosong"/>
 ```
 
@@ -339,9 +341,13 @@ public class AnnotationTest {
 
 用于导入其他配置类
 
-# AOP(Aspect Oriented Programming)
+# 面向切面编程(Aspect Oriented Programming)
 
 `面向切面编程（AOP）`：程序运行期间，在不修改源码的情况下对方法进行功能增强
+
+Spring框架监控切入点方法的执行。一旦监控到切入点方法被运行，使用代理机制，动态创建目标对象的代理对象，根据通知类别，在代理对象的对应位置，将通知对应的功能织入，完成完整的代码逻辑运行
+
+Spring会根据目标类是否实现了接口来决定采用JDK代理还是cglib代理
 
 # 动态代理
 
@@ -350,12 +356,11 @@ public class AnnotationTest {
 JDK动态代理生成的`代理对象`和`真实对象`实现相同的接口，`代理对象`和`真实对象`之间时兄弟关系
 
 - 为什么JDK动态代理是基于接口，而不是继承被代理类进行方法增强？
-  - `代理设计模式`就是这种基于接口的结构
-  - 因为Proxy生成的代理类是继承了Proxy类的，因为Java是单继承，没办法再继承被代理的类，只能实现被代理类实现的接口
+    - `代理设计模式`就是这种基于接口的结构
+    - 因为Proxy生成的代理类是继承了Proxy类的，因为Java是单继承，没办法再继承被代理的类，只能实现被代理类实现的接口
 - 为什么JDK生成的动态代理类要继承Proxy类？
-  - 首先，动态代理类并没有使用Proxy中的什么属性或者方法（虽然使用了InvocationHandler对象，但是也可以在生成class之初就将InvocationHandler放入到代理类中）
-  - Proxy类统一维护InvocationHandler接口对象
-
+    - 首先，动态代理类并没有使用Proxy中的什么属性或者方法（虽然使用了InvocationHandler对象，但是也可以在生成class之初就将InvocationHandler放入到代理类中）
+    - Proxy类统一维护InvocationHandler接口对象
 
 ![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202205311711348.png)
 
@@ -376,16 +381,16 @@ public interface User {
  * @author 10545
  * @date 2022/5/30 23:09
  */
-public class UserImpl implements User{
-  @Override
-  public void hello() {
-    System.out.println("hello");
-  }
+public class UserImpl implements User {
+    @Override
+    public void hello() {
+        System.out.println("hello");
+    }
 
-  @Override
-  public void hello2() {
-    System.out.println("hello2");
-  }
+    @Override
+    public void hello2() {
+        System.out.println("hello2");
+    }
 }
 
 /**
@@ -394,28 +399,28 @@ public class UserImpl implements User{
  */
 public class ProxyDemo {
 
-  public static void main(String[] args) {
+    public static void main(String[] args) {
 
-    UserImpl user=new UserImpl();
+        UserImpl user = new UserImpl();
 
-    User userProxy= (User)Proxy.newProxyInstance(
-            user.getClass().getClassLoader(),
-            user.getClass().getInterfaces(),
-            (Object proxy, Method method,Object[] args1)->{
-              //只对hello方法进行增强，hello2方法不进行增强
-              if ("hello".equals(method.getName())){
-                System.out.println("前置增强");
-              }
-              Object invoke = method.invoke(user, args1);
-              if ("hello".equals(method.getName())){
-                System.out.println("后置增强");
-              }
-              return invoke;
-            }
-    );
-    userProxy.hello();
-    userProxy.hello2();
-  }
+        User userProxy = (User) Proxy.newProxyInstance(
+                user.getClass().getClassLoader(),
+                user.getClass().getInterfaces(),
+                (Object proxy, Method method, Object[] args1) -> {
+                    //只对hello方法进行增强，hello2方法不进行增强
+                    if ("hello".equals(method.getName())) {
+                        System.out.println("前置增强");
+                    }
+                    Object invoke = method.invoke(user, args1);
+                    if ("hello".equals(method.getName())) {
+                        System.out.println("后置增强");
+                    }
+                    return invoke;
+                }
+        );
+        userProxy.hello();
+        userProxy.hello2();
+    }
 }
 ```
 
@@ -435,7 +440,7 @@ cglib生成的`代理对象`是`真实对象`的子类，`真实对象`和`代�
  * @date 2022/5/31 17:30
  */
 public class User {
-    public void hello(){
+    public void hello() {
         System.out.println("hello");
     }
 }
@@ -445,27 +450,42 @@ public class User {
  * @date 2022/5/31 17:45
  */
 public class Demo {
-  public static void main(String[] args) {
-    User user = new User();
+    public static void main(String[] args) {
+        User user = new User();
 
-    //创建增强器
-    Enhancer enhancer = new Enhancer();
-    //设置父类（也就是要被代理的类）
-    enhancer.setSuperclass(user.getClass());
-    //设置回调
-    enhancer.setCallback(new MethodInterceptor() {
-      @Override
-      public Object intercept(Object o, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
-        System.out.println("前置增强");
-        Object invoke = method.invoke(user, objects);
-        System.out.println("后置增强");
-        return invoke;
-      }
-    });
-    //生成代理对象，动态生成的代理类是被代理类的子类
-    User proxy = (User)enhancer.create();
-    //执行被增强后的方法
-    proxy.hello();
-  }
+        //创建增强器
+        Enhancer enhancer = new Enhancer();
+        //设置父类（也就是要被代理的类）
+        enhancer.setSuperclass(user.getClass());
+        //设置回调
+        enhancer.setCallback(new MethodInterceptor() {
+            @Override
+            public Object intercept(Object o, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
+                System.out.println("前置增强");
+                Object invoke = method.invoke(user, objects);
+                System.out.println("后置增强");
+                return invoke;
+            }
+        });
+        //生成代理对象，动态生成的代理类是被代理类的子类
+        User proxy = (User) enhancer.create();
+        //执行被增强后的方法
+        proxy.hello();
+    }
 }
 ```
+
+# AOP相关概念
+
+- `Target(目标对象)`：代理的目标对象，对应代理设计模式中的`RealSubject（真实主题角色）`
+- `Proxy(代理)`：`Target(目标对象)`被AOP织入增强后，就产生一个结果代理类。对应代理设计模式中的`Proxy（代理主题角色）`
+- `JoinPoint(连接点)`：`Target(目标对象)`中可以被增强的方法
+- `PointCut(切入点)`：`Target(目标对象)`中真正被增强的方法
+- `Advice(通知/增强)`：对方法增强的内容
+- `Aspect(切面)`:`切入点`和`通知`的结合，被增强后的方法
+- `Weaving(织入)`：`切入点`和`通知`结合的过程
+
+# AOP XML开发
+
+
+

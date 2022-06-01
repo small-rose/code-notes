@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <bean id="user" class="com.luguosong.User"></bean>
+
+    <bean id="userAspect" class="com.luguosong.UserAspect"></bean>
+
+    <aop:config>
+        <!--声明切面-->
+        <aop:aspect ref="userAspect">
+            <!--切面=通知+切点-->
+            <aop:before method="before" pointcut="execution(public void com.luguosong.User.hello())"/>
+        </aop:aspect>
+    </aop:config>
+</beans>

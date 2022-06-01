@@ -21,6 +21,8 @@
         <module>_06_ioc_annotation_configuration</module>
         <module>_07_aop_dynamic_proxy_jdk</module>
         <module>_08_aop_dynamic_proxy_cglib</module>
+        <module>_09_aop_xml</module>
+        <module>_10_aop_annotation</module>
     </modules>
 
     <properties>
@@ -38,6 +40,12 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <version>5.3.20</version>
+        </dependency>
+        <!--AOP织入-->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.9.9.1</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>

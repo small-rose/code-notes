@@ -43,6 +43,8 @@ plugins:
 
 
 collections:
+  basic:
+    output: true
   java:
     output: true
   front_end:
@@ -54,6 +56,8 @@ collections:
 
 just_the_docs:
   collections:
+    basic:
+      name: 基础知识
     java:
       name: Java
     front_end:

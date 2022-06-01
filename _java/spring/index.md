@@ -341,14 +341,6 @@ public class AnnotationTest {
 
 用于导入其他配置类
 
-# 面向切面编程(Aspect Oriented Programming)
-
-`面向切面编程（AOP）`：程序运行期间，在不修改源码的情况下对方法进行功能增强
-
-Spring框架监控切入点方法的执行。一旦监控到切入点方法被运行，使用代理机制，动态创建目标对象的代理对象，根据通知类别，在代理对象的对应位置，将通知对应的功能织入，完成完整的代码逻辑运行
-
-Spring会根据目标类是否实现了接口来决定采用JDK代理还是cglib代理
-
 # 动态代理
 
 ## JDK动态代理
@@ -475,7 +467,17 @@ public class Demo {
 }
 ```
 
-# AOP相关概念
+# 面向切面编程(Aspect Oriented Programming)
+
+## 概述
+
+`面向切面编程（AOP）`：程序运行期间，在不修改源码的情况下对方法进行功能增强
+
+Spring框架监控切入点方法的执行。一旦监控到切入点方法被运行，使用代理机制，动态创建目标对象的代理对象，根据通知类别，在代理对象的对应位置，将通知对应的功能织入，完成完整的代码逻辑运行
+
+Spring会根据目标类是否实现了接口来决定采用JDK代理还是cglib代理
+
+## 名词解释
 
 - `Target(目标对象)`：代理的目标对象，对应代理设计模式中的`RealSubject（真实主题角色）`
 - `Proxy(代理)`：`Target(目标对象)`被AOP织入增强后，就产生一个结果代理类。对应代理设计模式中的`Proxy（代理主题角色）`
@@ -485,7 +487,143 @@ public class Demo {
 - `Aspect(切面)`:`切入点`和`通知`的结合，被增强后的方法
 - `Weaving(织入)`：`切入点`和`通知`结合的过程
 
+## 通知类型
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202206011055828.png)
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202206011349006.png)
+
+## AOP切点表达式
+
+```
+execution([修饰符] 返回值类型 包名.类名.方法名(参数))
+```
+
+- 访问修饰符可以省略
+- 返回值类型、包、类名、方法名可以使用`*`代表任意
+- 包名与类名之间一个点`.`代表当前包下的类，两个点`..`表示当前包及其子包下的类
+- 参数列表可以使用两个点`..`表示任意个数、任意类型的参数列表
+
 # AOP XML开发
 
+```java
+/**
+ * @author luguosong
+ * @date 2022/6/1 9:23
+ */
+public class User {
+    public void hello(){
+        System.out.println("hello");
+    }
+}
 
+/**
+ * @author luguosong
+ * @date 2022/6/1 9:25
+ */
+public class UserAspect {
+  public void before(){
+    System.out.println("前置增强");
+  }
+}
+```
 
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <bean id="user" class="com.luguosong.User"></bean>
+
+    <bean id="userAspect" class="com.luguosong.UserAspect"></bean>
+
+    <aop:config>
+        <!--声明切面-->
+        <aop:aspect ref="userAspect">
+            <!--切面=通知+切点-->
+            <aop:before method="before" pointcut="execution(public void com.luguosong.User.hello())"/>
+        </aop:aspect>
+    </aop:config>
+</beans>
+```
+
+```java
+/**
+ * @author luguosong
+ * @date 2022/6/1 9:33
+ */
+@SpringJUnitConfig(locations = "classpath:applicationContext.xml")
+public class AopTest {
+    @Autowired
+    private User user;
+
+    @Test
+    public void test(){
+        user.hello();
+    }
+}
+```
+
+```text
+前置增强
+hello
+```
+
+# AOP注解开发
+
+```java
+/**
+ * @author luguosong
+ * @date 2022/6/1 9:23
+ */
+@Component
+public class User {
+    public void hello(){
+        System.out.println("hello");
+    }
+}
+
+/**
+ * @author luguosong
+ * @date 2022/6/1 9:25
+ */
+@Component
+@Aspect //标注当前类是切面类
+public class UserAspect {
+
+  @Before("execution(void com.luguosong.User.hello())")
+  public void before(){
+    System.out.println("前置增强");
+  }
+}
+
+/**
+ * @author luguosong
+ * @date 2022/6/1 11:23
+ */
+@Configuration
+@ComponentScan("com.luguosong")
+@EnableAspectJAutoProxy //AOP自动代理
+public class SpringConfig {
+}
+
+/**
+ * @author luguosong
+ * @date 2022/6/1 11:25
+ */
+@SpringJUnitConfig(SpringConfig.class)
+public class AopTest {
+  @Autowired
+  private User user;
+
+  @Test
+  public void test(){
+    user.hello();
+  }
+}
+```

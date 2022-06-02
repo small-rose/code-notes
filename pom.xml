@@ -10,8 +10,17 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>_java/design_patterns</module>
-        <module>_java/javase</module>
+        <module>_java/java_se</module>
         <module>_java/spring</module>
         <module>_java/java_database</module>
+        <module>_java/data_structure</module>
+        <module>_java/jvm</module>
+        <module>_java/concurrency</module>
+        <module>_java/java_ee</module>
+        <module>_java/spring_boot</module>
+        <module>_java/java_web</module>
+        <module>_java/java_log</module>
+        <module>_java/java_security</module>
+        <module>_java/java_test</module>
     </modules>
 </project>

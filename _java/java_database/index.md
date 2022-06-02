@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Java数据库相关
-nav_order: 6
+nav_order: 90
 ---
 
 # JDBC(Java Database Connectivity)

@@ -10,30 +10,11 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>java_database</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>jdbc_01_hello</module>
-        <module>jdbc_02_statement</module>
-    </modules>
+    <artifactId>concurrency</artifactId>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.29</version>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>5.8.2</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
 
 </project>

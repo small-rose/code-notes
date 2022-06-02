@@ -22,5 +22,6 @@
         <module>_java/java_log</module>
         <module>_java/java_security</module>
         <module>_java/java_test</module>
+        <module>_java/microservices</module>
     </modules>
 </project>

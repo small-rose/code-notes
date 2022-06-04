@@ -13,6 +13,8 @@
     <packaging>pom</packaging>
     <modules>
         <module>eureka_server</module>
+        <module>eureka_client_user</module>
+        <module>eureka_client_order</module>
     </modules>
 
     <properties>

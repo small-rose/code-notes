@@ -6,8 +6,8 @@ import org.mybatis.spring.annotation.MapperScan;
 
 @MapperScan("com.luguosong.mapper")
 @SpringBootApplication
-public class UserApplication {
+public class RestTemplateUserApplication {
     public static void main(String[] args) {
-        SpringApplication.run(UserApplication.class, args);
+        SpringApplication.run(RestTemplateUserApplication.class, args);
     }
 }

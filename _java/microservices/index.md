@@ -58,26 +58,161 @@ SpringCloud集成了各种微服务功能组件，并基于`SpringBoot`实现了
 
 `SpringCloud`和`SpringBoot`之间存在版本对应关系
 
-# 注册中心
-
-## Eureka
+# 注册中心-Eureka
 
 ![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220602211231.png)
 
-- 服务端
-  - 记录服务信息
-  - 心跳监控
-- 客户端
-  - 服务提供者
-    - 注册自己的信息到服务端
-    - 每隔30秒像服务端发送心跳
-  - 服务消费者
-    - 根据服务名从服务端拉取服务列表
-    - 基于服务列表做负载均衡，选中一个服务后发起远程调用
+## 服务端
 
-# 服务间远程调用
+- 记录服务信息
+- 心跳监控
 
-## RestTemplate
+服务端搭建：
+
+- 导入依赖
+
+```xml
+<dependencies>
+    <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+    </dependency>
+</dependencies>
+```
+
+- 配置
+
+```yaml
+server:
+  port: 10086
+spring:
+  application:
+    name: eurekaserver
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:10086/eureka
+```
+
+- SpringBoot启动类配置自动装配
+
+```java
+/**
+ * @author 10545
+ */
+@EnableEurekaServer //表示让SpringBoot自动装配
+@SpringBootApplication
+public class EurekaServerApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(EurekaServerApplication.class,args);
+    }
+}
+```
+
+## 客户端
+
+- 服务提供者
+  - 注册自己的信息到服务端
+  - 每隔30秒像服务端发送心跳
+- 服务消费者
+  - 根据服务名从服务端拉取服务列表
+  - 基于服务列表做负载均衡，选中一个服务后发起远程调用
+
+多个客户端搭建步骤是一样的，具体如下：
+
+- 引入客户端依赖
+
+```xml
+<dependencies>
+    <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+    </dependency>
+</dependencies>
+```
+
+- 配置服务名称和配置eureka服务端地址，这里以`eureka_client_user`工程为例
+
+```yaml
+server:
+  port: 8081
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/cloud_user?useSSL=false
+    username: root
+    password: 12345678
+    driver-class-name: com.mysql.jdbc.Driver
+  application:
+    name: user_server #指定服务名称
+mybatis:
+  type-aliases-package: com.luguosong.pojo
+  configuration:
+    map-underscore-to-camel-case: true
+logging:
+  level:
+    com.luguosong: debug
+  pattern:
+    dateformat: MM-dd HH:mm:ss:SSS
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:10086/eureka  #配置eureka地址
+```
+
+- 服务消费方调用服务提供方
+
+```java
+@Service
+public class OrderService {
+    @Resource
+    private OrderMapper orderMapper;
+
+    @Autowired
+    private RestTemplate restTemplate;
+
+    public Order queryOrderById(Long orderId) {
+        // 1.查询订单
+        Order order = orderMapper.findById(orderId);
+        //2.通过RestTemplate发送请求
+        //通过服务名称访问服务，而不是写死IP和端口
+        String url="http://user_server/user/"+order.getUserId();
+        User user = restTemplate.getForObject(url, User.class);
+        //3.将User对象注入到Order
+        order.setUser(user);
+        // 4.返回
+        return order;
+    }
+}
+```
+
+配置负载均衡：
+
+```java
+@MapperScan("com.luguosong.mapper")
+@SpringBootApplication
+public class EurekaClientOrderApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(EurekaClientOrderApplication.class, args);
+    }
+
+    /**
+     * 通过@LoadBalanced配置负载均衡
+     * @return
+     */
+    @Bean
+    @LoadBalanced
+    public RestTemplate restTemplate(){
+        return new RestTemplate();
+    }
+}
+```
+
+# Nacos安装
+
+# 注册中心-Nacos
+
+# 服务间远程调用-RestTemplate
 
 - 将RestTemplate注入到Spring容器中
 
@@ -121,3 +256,14 @@ public class OrderService {
     }
 }
 ```
+
+# 负载均衡
+
+## RestTemplate负载均衡
+
+- 通过`@LoadBalanced`注解标记`RestTemplate`
+- 被注解标记的`RestTemplate`发送的HTTP请求会被`LoadBalancerInterceptor`拦截器拦截
+- `LoadBalancerInterceptor`拦截请求，获取请求中在`eureka`注册的服务名称
+- 通过负载均衡器进行负载均衡返回最终访问地址，之前默认为`Ribbon`，现在已经改为`Spring-cloud-loadbalancer`
+
+

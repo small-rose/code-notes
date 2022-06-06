@@ -5,6 +5,10 @@ nav_order: 3
 parent: 设计模式（Design Pattern）
 ---
 
+# 创建型模式概述
+
+将软件模块中对象的创建和使用分离，对用户隐藏了对象的创建细节
+
 # 简单工厂模式（Simple Factory）
 
 ## 模式分类

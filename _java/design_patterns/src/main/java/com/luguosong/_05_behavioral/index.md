@@ -5,7 +5,7 @@ nav_order: 5
 parent: 设计模式（Design Pattern）
 ---
 
-# 行为模式概述
+# 行为型模式概述
 
 关注对象或类之间的相互作用和职责划分
 
@@ -52,7 +52,202 @@ parent: 设计模式（Design Pattern）
 
 ![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220606112823.png)
 
+```java
+/**
+ * 采购单类，充当请求类
+ *
+ * @author luguosong
+ * @date 2022/6/6 13:39
+ */
+public class PurchaseRequest {
+    private double amount; //采购金额
+    private int number; //采购单编号
+    private String purpose; //采购目的
 
+    public PurchaseRequest(double amount, int number, String purpose) {
+        this.amount = amount;
+        this.number = number;
+        this.purpose = purpose;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    public String getPurpose() {
+        return purpose;
+    }
+
+    public void setPurpose(String purpose) {
+        this.purpose = purpose;
+    }
+}
+
+/**
+ * 审批者类，充当抽象处理者
+ *
+ * @author luguosong
+ * @date 2022/6/6 13:46
+ */
+public abstract class Approver {
+    protected Approver successor;
+    protected String name;
+
+    public Approver(String name) {
+        this.name = name;
+    }
+
+    public void setSuccessor(Approver successor) {
+        this.successor = successor;
+    }
+
+    //抽象请求处理方法
+    public abstract void processRequest(PurchaseRequest request);
+}
+
+/**
+ * 主任类，充当具体处理者
+ * @author luguosong
+ * @date 2022/6/6 14:08
+ */
+public class Director extends Approver {
+    public Director(String name) {
+        super(name);
+    }
+
+    /**
+     * 具体请求处理方法
+     * @param request
+     */
+    @Override
+    public void processRequest(PurchaseRequest request) {
+        if (request.getAmount() < 50000) {
+            System.out.println("主任" + this.name +
+                    "审批采购单：" + request.getNumber() +
+                    ",金额：" + request.getAmount() +
+                    "元，采购目的：" + request.getPurpose());
+            //处理请求
+        } else {
+            this.successor.processRequest(request);
+        }
+    }
+}
+
+/**
+ * 副董事长类，充当具体处理者
+ * @author luguosong
+ * @date 2022/6/6 14:16
+ */
+public class VicePresident extends Approver{
+    public VicePresident(String name) {
+        super(name);
+    }
+
+    @Override
+    public void processRequest(PurchaseRequest request) {
+        if (request.getAmount() < 100000) {
+            System.out.println("副董事长" + this.name +
+                    "审批采购单：" + request.getNumber() +
+                    ",金额：" + request.getAmount() +
+                    "元，采购目的：" + request.getPurpose());
+            //处理请求
+        } else {
+            this.successor.processRequest(request);
+        }
+    }
+}
+
+/**
+ * 董事长类，充当具体处理者
+ * @author luguosong
+ * @date 2022/6/6 14:26
+ */
+public class President extends Approver{
+    public President(String name) {
+        super(name);
+    }
+
+    @Override
+    public void processRequest(PurchaseRequest request) {
+        if (request.getAmount() < 500000) {
+            System.out.println("董事长" + this.name +
+                    "审批采购单：" + request.getNumber() +
+                    ",金额：" + request.getAmount() +
+                    "元，采购目的：" + request.getPurpose());
+            //处理请求
+        } else {
+            this.successor.processRequest(request);
+        }
+    }
+}
+
+/**
+ * 董事会类，充当具体处理者
+ * @author luguosong
+ * @date 2022/6/6 14:37
+ */
+public class Congress extends Approver{
+    public Congress(String name) {
+        super(name);
+    }
+
+    @Override
+    public void processRequest(PurchaseRequest request) {
+        System.out.println("召开董事会审批采购单：" +
+                request.getNumber() +
+                ",金额：" + request.getAmount() +
+                "元，采购目的：" + request.getPurpose());
+        //处理请求
+    }
+}
+```
+
+```java
+/**
+ * 测试类
+ * @author luguosong
+ * @date 2022/6/6 18:32
+ */
+public class Demo {
+    public static void main(String[] args) {
+        Approver wjzhang,gyang,jguo,meeting;
+        wjzhang = new Director("张无忌");
+        gyang = new VicePresident("杨过");
+        jguo = new President("郭靖");
+        meeting = new Congress("董事会");
+
+        //创建职责链
+        wjzhang.setSuccessor(gyang);
+        gyang.setSuccessor(jguo);
+        jguo.setSuccessor(meeting);
+
+        //创建采购单
+        PurchaseRequest pr1 = new PurchaseRequest(45000,10001,"购买倚天剑");
+        wjzhang.processRequest(pr1);
+
+        PurchaseRequest pr2 = new PurchaseRequest(60000,10002,"购买《葵花宝典》");
+        wjzhang.processRequest(pr2);
+
+        PurchaseRequest pr3 = new PurchaseRequest(160000,10003,"购买《金刚经》");
+        wjzhang.processRequest(pr3);
+
+        PurchaseRequest pr4 = new PurchaseRequest(800000,10004,"购买桃花岛");
+        wjzhang.processRequest(pr4);
+    }
+}
+```
 
 ## 模式拓展
 

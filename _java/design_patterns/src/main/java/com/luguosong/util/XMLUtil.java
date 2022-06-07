@@ -1,4 +1,4 @@
-package com.luguosong._04_structural._01_adapter_pattern;
+package com.luguosong.util;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -7,6 +7,8 @@ import org.w3c.dom.NodeList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 工具类
@@ -20,23 +22,27 @@ public class XMLUtil {
      *
      * @return
      */
-    public static Object getBean() {
+    public static List<Object> getBean(String xmlPath) {
         try {
             //创建DOM文档对象
             DocumentBuilderFactory dFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = dFactory.newDocumentBuilder();
             Document doc;
-            doc = builder.parse(new File("_java/design_patterns/src/main/java/com/luguosong/_04_structural/_01_adapter_pattern/config.xml"));
+            doc = builder.parse(new File(xmlPath));
 
             //获取包含类名的文件节点
             NodeList n1 = doc.getElementsByTagName("className");
-            Node classNode = n1.item(0).getFirstChild();
-            String cName = classNode.getNodeValue();
+            List<Object> objects = new ArrayList<>();
+            for (int i = 0; i < n1.getLength(); i++) {
+                Node classNode = n1.item(i).getFirstChild();
+                String cName = classNode.getNodeValue();
 
-            //通过类名创建实例对象并返回
-            Class c = Class.forName(cName);
-            Object obj = c.newInstance();
-            return obj;
+                //通过类名创建实例对象并返回
+                Class c = Class.forName(cName);
+                Object obj = c.newInstance();
+                objects.add(obj);
+            }
+            return objects;
 
         } catch (Exception e) {
             e.printStackTrace();

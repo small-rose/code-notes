@@ -334,17 +334,19 @@ public class FileLoggerFactory implements LoggerFactory {
 }
 
 /**
+ * 通过反射和配置文件，将客户端改进为满足开闭原则
+ *
  * @author luguosong
- * @date 2022/2/10 17:35
+ * @date 2022/2/22 15:27
  */
-public class Demo {
-    public static void main(String[] args) {
-        LoggerFactory factory;
-        Logger logger;
-        factory = new FileLoggerFactory();
-        logger = factory.createLogger();
-        logger.writeLog();
-    }
+public class Demo2 {
+  public static void main(String[] args) {
+    LoggerFactory factory;
+    Logger logger;
+    factory = (LoggerFactory) XMLUtil.getBean("_java/design_patterns/src/main/java/com/luguosong/_03_creational/_02_factory_method_pattern/config.xml").get(0); //getBean()的返回类型为Object，需要进行强制类型转换
+    logger = factory.createLogger();
+    logger.writeLog();
+  }
 }
 ```
 
@@ -586,60 +588,30 @@ public class SummerSkinFactory implements SkinFactory {
 }
 
 /**
- * 从xml配置文件中提取具体工厂类的类名，并返回一个实例对象
- *
- * @author 10545
- * @date 2022/2/28 21:47
- */
-public class XMLUtil {
-    public static Object getBean() {
-        try {
-            //创建DOM对象
-            DocumentBuilderFactory dFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = dFactory.newDocumentBuilder();
-            Document doc = builder.parse("_java/design-pattern/src/main/java/cn/com/lgs/abstract_factory_pattern/config.xml");
-
-            //获取包含类名的文本节点
-            NodeList nl = doc.getElementsByTagName("className");
-            Node classNode = nl.item(0).getFirstChild();
-            String cName = classNode.getNodeValue();
-
-            //通过类名生成实例对象并将其返回
-            Class<?> c = Class.forName(cName);
-            Object obj = c.newInstance();
-            return obj;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-}
-
-/**
  * 客户端调用
  *
  * @author 10545
  * @date 2022/2/28 22:22
  */
 public class Demo {
-    public static void main(String[] args) {
-        //使用抽象层定义
-        SkinFactory factory;
-        Button bt;
-        TextField tf;
-        ComboBox cb;
-        //使用工具类创建工厂
-        factory = (SkinFactory) XMLUtil.getBean();
-        //工厂创建对象
-        bt = factory.createButton();
-        tf = factory.createTextField();
-        cb = factory.createComboBox();
+  public static void main(String[] args) {
+    //使用抽象层定义
+    SkinFactory factory;
+    Button bt;
+    TextField tf;
+    ComboBox cb;
+    //使用工具类创建工厂
+    factory=(SkinFactory) XMLUtil.getBean("_java/design_patterns/src/main/java/com/luguosong/_03_creational/_03_abstract_factory_pattern/config.xml").get(0);
+    //工厂创建对象
+    bt=factory.createButton();
+    tf=factory.createTextField();
+    cb=factory.createComboBox();
 
-        //运行具体产品
-        bt.display();
-        tf.display();
-        cb.display();
-    }
+    //运行具体产品
+    bt.display();
+    tf.display();
+    cb.display();
+  }
 }
 ```
 
@@ -958,57 +930,25 @@ public class ActorController {
 }
 
 /**
- * 工具类，通过配置文件创建具体构造器
- *
- * @author luguosong
- * @date 2022/3/15 13:54
- */
-public class XMLUtil {
-    public static Object getBean() {
-        try {
-            //创建DOM文件对象
-            DocumentBuilderFactory dFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = dFactory.newDocumentBuilder();
-            Document doc;
-            doc = builder.parse(new File("_java/design-pattern/src/main/java/cn/com/lgs/builder_pattern/config.xml"));
-
-            //获取包含类名的文本节点
-            NodeList n1 = doc.getElementsByTagName("className");
-            Node classNode = n1.item(0).getFirstChild();
-            String cName = classNode.getNodeValue();
-
-
-            Class<?> c = Class.forName(cName);
-            Object obj = c.newInstance();
-            return obj;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-}
-
-/**
  * 客户端
  *
  * @author luguosong
  * @date 2022/3/15 16:39
  */
 public class Demo {
-    public static void main(String[] args) {
-        //通过xml创建具体生成器对象
-        ActorBuilder ab;
-        ab = (ActorBuilder) XMLUtil.getBean();
+  public static void main(String[] args) {
+    //通过xml创建具体生成器对象
+    ActorBuilder ab;
+    ab=(ActorBuilder) XMLUtil.getBean("_java/design_patterns/src/main/java/com/luguosong/_03_creational/_04_builder_pattern/config.xml").get(0);
 
-        //创建指挥官，并通过指挥官创建对象的各个部件，最后返回对象
-        ActorController ac = new ActorController();
-        Actor actor;
-        actor = ac.construct(ab);
+    //创建指挥官，并通过指挥官创建对象的各个部件，最后返回对象
+    ActorController ac = new ActorController();
+    Actor actor;
+    actor = ac.construct(ab);
 
-        //打印对象
-        System.out.println(actor);
-    }
+    //打印对象
+    System.out.println(actor);
+  }
 }
 ```
 

@@ -1,5 +1,7 @@
 package com.luguosong._04_structural._01_adapter_pattern;
 
+import com.luguosong.util.XMLUtil;
+
 /**
  * 客户端测试类
  *
@@ -9,7 +11,7 @@ package com.luguosong._04_structural._01_adapter_pattern;
 public class Demo {
     public static void main(String[] args) {
         CarController car;
-        car = (CarController) XMLUtil.getBean();
+        car = (CarController) XMLUtil.getBean("_java/design_patterns/src/main/java/com/luguosong/_04_structural/_01_adapter_pattern/config.xml").get(0);
         car.move();
         car.phonate();
         car.twinkle();

@@ -131,59 +131,19 @@ public class PoliceCarAdapter extends CarController {
 
 ```java
 /**
- * 工具类
- *
- * @author 10545
- * @date 2022/5/2 21:03
- */
-public class XMLUtil {
-    /**
-     * 从xml配置文件中提取具体类的类名，并返回一个实例对象
-     *
-     * @return
-     */
-    public static Object getBean() {
-        try {
-            //创建DOM文档对象
-            DocumentBuilderFactory dFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = dFactory.newDocumentBuilder();
-            Document doc;
-            doc = builder.parse(new File("_java/design-pattern/src/main/java/cn/com/lgs/adapter_pattern/config.xml"));
-
-            //获取包含类名的文件节点
-            NodeList n1 = doc.getElementsByTagName("className");
-            Node classNode = n1.item(0).getFirstChild();
-            String cName = classNode.getNodeValue();
-
-            //通过类名创建实例对象并返回
-            Class c = Class.forName(cName);
-            Object obj = c.newInstance();
-            return obj;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-
-    }
-}
-```
-
-```java
-/**
  * 客户端测试类
  *
  * @author 10545
  * @date 2022/5/2 21:12
  */
 public class Demo {
-    public static void main(String[] args) {
-        CarController car;
-        car = (CarController) XMLUtil.getBean();
-        car.move();
-        car.phonate();
-        car.twinkle();
-    }
+  public static void main(String[] args) {
+    CarController car;
+    car = (CarController) XMLUtil.getBean("_java/design_patterns/src/main/java/com/luguosong/_04_structural/_01_adapter_pattern/config.xml").get(0);
+    car.move();
+    car.phonate();
+    car.twinkle();
+  }
 }
 ```
 
@@ -423,70 +383,22 @@ public class GIFImage extends Image {
 
 ```java
 /**
- * 工具类
- *
- * @author 10545
- * @date 2022/5/8 20:53
- */
-public class XMLUtil {
-    /**
-     * 该方法用于从XML配置文件中提取具体类的类名，并返回一个实例对象
-     *
-     * @param args
-     * @return
-     */
-    public static Object getBean(String args) {
-        try {
-            DocumentBuilderFactory dFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = dFactory.newDocumentBuilder();
-            Document doc;
-            doc = builder.parse(new File("_java/design-pattern/src/main/java/cn/com/lgs/bridge_pattern/config.xml"));
-            NodeList n1 = null;
-            Node classNode = null;
-            String cName = null;
-            n1 = doc.getElementsByTagName("className");
-
-            //获取第一个包含类名的结点，即扩充抽象类
-            if (args.equals("image")) {
-                classNode = n1.item(0).getFirstChild();
-            }
-
-            //获取第二个包含类名的结点，即具体实现类
-            if (args.equals("os")) {
-                classNode = n1.item(1).getFirstChild();
-            }
-
-            cName = classNode.getNodeValue();
-            Class c = Class.forName(cName);
-            Object obj = c.newInstance();
-            return obj;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-}
-```
-
-```java
-/**
  * 测试类
  *
  * @author 10545
  * @date 2022/5/8 23:03
  */
 public class Demo {
-    public static void main(String[] args) {
-        Image image;
-        ImageImp imp;
-        image = (Image) XMLUtil.getBean("image");
-        imp = (ImageImp) XMLUtil.getBean("os");
-        //依赖注入
-        image.setImageImp(imp);
+  public static void main(String[] args) {
+    Image image;
+    ImageImp imp;
+    image = (Image) XMLUtil.getBean("_java/design_patterns/src/main/java/com/luguosong/_04_structural/_02_bridge_pattern/config.xml").get(0);
+    imp = (ImageImp) XMLUtil.getBean("_java/design_patterns/src/main/java/com/luguosong/_04_structural/_02_bridge_pattern/config.xml").get(1);
+    //依赖注入
+    image.setImageImp(imp);
 
-        image.parseFile("小龙女");
-    }
+    image.parseFile("小龙女");
+  }
 }
 ```
 
@@ -1814,50 +1726,16 @@ public class ProxySearcher implements Searcher {
 
 ```java
 /**
- * 工具类，通过配置文件创建具体构造器
- *
- * @author luguosong
- * @date 2022/3/15 13:54
- */
-public class XMLUtil {
-    public static Object getBean() {
-        try {
-            //创建DOM文件对象
-            DocumentBuilderFactory dFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = dFactory.newDocumentBuilder();
-            Document doc;
-            doc = builder.parse(new File("_java/design_patterns/src/main/java/com/luguosong/_04_structural/_07_proxy_pattern/config.xml"));
-
-            //获取包含类名的文本节点
-            NodeList n1 = doc.getElementsByTagName("className");
-            Node classNode = n1.item(0).getFirstChild();
-            String cName = classNode.getNodeValue();
-
-
-            Class<?> c = Class.forName(cName);
-            Object obj = c.newInstance();
-            return obj;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-}
-```
-
-```java
-/**
  * 测试类
  * @author luguosong
  * @date 2022/5/27 18:49
  */
 public class Demo {
-    public static void main(String[] args) {
-        Searcher searcher;
-        searcher=(Searcher) XMLUtil.getBean();
-        String result = searcher.doSearch("杨过", "玉女心经");
-    }
+  public static void main(String[] args) {
+    Searcher searcher;
+    searcher=(Searcher) XMLUtil.getBean("_java/design_patterns/src/main/java/com/luguosong/_04_structural/_07_proxy_pattern/static_proxy/config.xml").get(0);
+    String result = searcher.doSearch("杨过", "玉女心经");
+  }
 }
 ```
 

@@ -388,3 +388,7 @@ public class OrderService {
 - 通过负载均衡器进行负载均衡返回最终访问地址，之前默认为`Ribbon`，现在已经改为`Spring-cloud-loadbalancer`
 
 
+
+
+
+

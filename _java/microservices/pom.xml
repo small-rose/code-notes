@@ -12,6 +12,8 @@
         <module>rest_template_demo</module>
         <module>eureka_demo</module>
         <module>nacos_demo</module>
+        <module>nacos_config_demo</module>
+        <module>openfeign_demo</module>
     </modules>
 
     <parent>

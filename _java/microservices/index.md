@@ -346,7 +346,7 @@ spring:
 
 其中：`Data ID`=服务名称+环境+后缀
 
-![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220607220311.png)
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220609225335.png)
 
 ## 服务实例读取nacos配置
 
@@ -360,13 +360,66 @@ SpringBoot实例需要先去nacos服务端读取配置文件，并将读取到�
 
 - 引入Nacos的配置管理客户端依赖
 
-![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220607222653.png)
+```xml
+<dependencies>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <!--服务发现依赖-->
+    <dependency>
+        <groupId>com.alibaba.cloud</groupId>
+        <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+    </dependency>
+    <!--统一配置依赖-->
+    <dependency>
+        <groupId>com.alibaba.cloud</groupId>
+        <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+    </dependency>
+    <!--新版本需要导入spring-cloud-starter-bootstrap才会先读取bootstrap配置文件-->
+    <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-bootstrap</artifactId>
+    </dependency>
+</dependencies>
+```
 
 - 新建`bootstrap.yml`配置文件
 
 其中：`name`+`active`+`file-extension`= 服务端`Data ID`
 
-![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220607222808.png)
+```yaml
+spring:
+  application:
+    name: nacos-config-demo
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:8848
+      config:
+        file-extension: yaml
+```
+
+- 实例可以拿到服务端的配置
+
+```java
+/**
+ * @author 10545
+ * @date 2022/6/9 22:16
+ */
+@RestController
+public class TestController {
+
+    @Value("${pattern.dateformat}")
+    private String dateformat;
+
+    @GetMapping("test")
+    public String test(){
+        return LocalDateTime.now().format(DateTimeFormatter.ofPattern(dateformat));
+    }
+}
+```
 
 ## 配置热更新
 
@@ -534,7 +587,7 @@ Feign底层的客户端实现：
 
 这种方式不推荐，一旦接口变了，服务消费者和提供者都得修改代码。且这种方法对Spring MVC不起作用
 
-- `方式二（引用）`：将FeignClienti抽取为独立模块，并且把接口有关的POO、默认的Feign配置都放到这个模块中，提供给所有消费者使用
+- `方式二（引用）`：将FeignClient抽取为独立模块，并且把接口有关的POJO、默认的Feign配置都放到这个模块中，提供给所有消费者使用
 
 ![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220608111506.png)
 
@@ -549,7 +602,29 @@ Feign底层的客户端实现：
 - `LoadBalancerInterceptor`拦截请求，获取请求中在`eureka`注册的服务名称
 - 通过负载均衡器进行负载均衡返回最终访问地址，之前默认为`Ribbon`，现在已经改为`Spring-cloud-loadbalancer`
 
+# 网关
+
+## 网关的功能
+
+- 身份认证和权限校验
+- 服务路由、负载均衡
+- 请求限流
+
+# 网关-zuul
+
+Zuul是基于servlet的实现，属于阻塞式编程。
+
 # 网关-Gateway
+
+Gateway是基于`Spring5`中提供的`WebFlux`,属于响应式编程，具备更好的性能
+
+## 开发步骤
+
+- 创建网关模块，引入Gateway依赖和nacos的服务发现依赖
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220609213920.png)
+
+
 
 
 

@@ -618,11 +618,26 @@ Zuul是基于servlet的实现，属于阻塞式编程。
 
 Gateway是基于`Spring5`中提供的`WebFlux`,属于响应式编程，具备更好的性能
 
-## 开发步骤
+## 导入依赖
 
 - 创建网关模块，引入Gateway依赖和nacos的服务发现依赖
 
-![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220609213920.png)
+```xml
+<dependencies>
+    <!--网关依赖-->
+    <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-gateway</artifactId>
+    </dependency>
+    <!--nacos服务发现依赖-->
+    <dependency>
+        <groupId>com.alibaba.cloud</groupId>
+        <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+    </dependency>
+</dependencies>
+```
+
+## 路由配置
 
 
 

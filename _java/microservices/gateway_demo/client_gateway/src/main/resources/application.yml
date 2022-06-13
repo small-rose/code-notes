@@ -8,13 +8,15 @@ spring:
       server-addr: localhost:8848
     gateway:
       routes:
-        - id：router1 #路由标识，必须唯一
+        - id: router1
           uri: lb://client-gateway-user #路由的目标地址
           predicates:
             - Path=/user/** # 路径断言，判断路径是否是以/user开头
-        - id：router2 #路由标识，必须唯一
-          uri: lb://client-gateway-order #路由的目标地址
+        - id: router2
+          uri: lb://client-gateway-order
           predicates:
-            - Path=/order/** # 路径断言，判断路径是否是以/user开头
-
-
+            - Path=/order/**
+          filters:
+            - AddRequestHeader=key1,value1 #向order实例添加自定义请求头
+      default-filters:
+        - AddRequestHeader=key2,value2 # 默认过滤器，作用于所有实例

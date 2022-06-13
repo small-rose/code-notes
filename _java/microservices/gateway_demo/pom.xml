@@ -14,6 +14,7 @@
     <modules>
         <module>client_gateway</module>
         <module>client_gateway_user</module>
+        <module>client_gateway_order</module>
     </modules>
 
     <properties>

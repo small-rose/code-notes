@@ -22,7 +22,7 @@ public class OrderService {
         Order order = orderMapper.findById(orderId);
         //2.通过RestTemplate发送请求
         //通过服务名称访问服务，而不是写死IP和端口
-        String url="http://user-server/user/"+order.getUserId();
+        String url="http://client-gateway-user/user/"+order.getUserId();
         User user = restTemplate.getForObject(url, User.class);
         //3.将User对象注入到Order
         order.setUser(user);

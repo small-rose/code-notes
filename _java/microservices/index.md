@@ -624,23 +624,191 @@ Gateway是基于`Spring5`中提供的`WebFlux`,属于响应式编程，具备更
 
 ```xml
 <dependencies>
-    <!--网关依赖-->
-    <dependency>
-        <groupId>org.springframework.cloud</groupId>
-        <artifactId>spring-cloud-starter-gateway</artifactId>
-    </dependency>
-    <!--nacos服务发现依赖-->
-    <dependency>
-        <groupId>com.alibaba.cloud</groupId>
-        <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-    </dependency>
+  <!--网关依赖-->
+  <dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-gateway</artifactId>
+  </dependency>
+  <!--nacos服务发现依赖-->
+  <dependency>
+    <groupId>com.alibaba.cloud</groupId>
+    <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+  </dependency>
+  <!--spring Cloud新版本负载均衡从ribbon变为loadbalancer，需要手动导入依赖-->
+  <dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+  </dependency>
 </dependencies>
 ```
 
 ## 路由配置
 
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220611161903.png)
+
+方式一，手动配置：
+
+```yaml
+server:
+  port: 10010
+spring:
+  application:
+    name: gateway
+  cloud:
+    nacos:
+      server-addr: localhost:8848
+    gateway:
+      routes:
+        - id: router1
+          uri: lb://client-gateway-user #路由的目标地址
+          predicates:
+            - Path=/user/** # 路径断言，判断路径是否是以/user开头
+        - id: router2
+          uri: lb://client-gateway-order
+          predicates:
+            - Path=/order/**
+```
+
+方式二`spring.cloud.gateway.discovery.locator.enabled`设置为true，生成默认的`id=xservice,uri: lb://xserver , path=/serviceId/**`不需要再手动配置路由：
+
+```yaml
+server:
+  port: 10010
+spring:
+  application:
+    name: gateway
+  cloud:
+    nacos:
+      server-addr: localhost:8848
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+```
+
+## 路由断言（predicates）
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220611162158.png)
+
+## 路由过滤器（GatewayFilter）
+
+`GatewayFilter`是网关中提供的一种过滤器，可以对进入网关的请求和微服务返回的响应做处理
+
+Spring:提供了31种不同的路由过滤器工厂。
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220611164952.png)
+
+下面是添加请求头的过滤器示例：
+
+```yaml
+server:
+  port: 10010
+spring:
+  application:
+    name: gateway
+  cloud:
+    nacos:
+      server-addr: localhost:8848
+    gateway:
+      routes:
+        - id: router1
+          uri: lb://client-gateway-user #路由的目标地址
+          predicates:
+            - Path=/user/** # 路径断言，判断路径是否是以/user开头
+        - id: router2
+          uri: lb://client-gateway-order
+          predicates:
+            - Path=/order/**
+          filters:
+            - AddRequestHeader=key1,value1 #向order实例添加自定义请求头
+      default-filters:
+        - AddRequestHeader=key2,value2 # 默认过滤器，作用于所有实例
+```
+
+在order中进行测试
+
+```java
+@RestController
+@RequestMapping("order")
+public class OrderController {
+    /**
+     * 测试gateway过滤器
+     * @param key1
+     * @return
+     */
+    @GetMapping("gatewayFilterTest")
+    public String gatewayFilterTest(@RequestHeader String key1) {
+        return key1;
+    }
+}
+```
+
+## 自定义全局过滤器
+
+上面的过滤器都是框架事先定义好了的，只能在配置文件中进行参数配置。如果要完成自定义逻辑的过滤，需要在gateway中自定义全局过滤器
+
+步骤：
+
+- 编写实现`GlobalFilter`接口的过滤器类
+- 添加`@Component注解`将类注入到Spring容器中
+- 添加`@Order注解`或者实现`Order接口`指定过滤器的顺序
+- 编写业务逻辑
+
+```java
+/**
+ * Gateway自定义全局过滤器
+ *
+ * @author luguosong
+ * @date 2022/6/11 18:18
+ */
+//@Order(0)
+@Component
+public class AuthorizeFilter implements GlobalFilter, Ordered {
+    @Override
+    public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+        //1.获取请求参数列表
+        ServerHttpRequest request = exchange.getRequest();
+        MultiValueMap<String, String> queryParams = request.getQueryParams();
+        //获取参数中的authorization参数
+        String auth = queryParams.getFirst("authorization");
+        //判断参数值是否等于admin
+        if ("admin".equals(auth)){
+            //是：放行
+            return chain.filter(exchange);
+        }
+
+        //否：拦截
+        //设置响应状态码
+        exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+        //拦截请求
+        return exchange.getResponse().setComplete();
+    }
 
 
+    @Override
+    public int getOrder() {
+        return 0;
+    }
+}
+```
+
+## 过滤器的执行顺序
+
+请求路由后，会将当前`路由过滤器`和`DefaultFilter`、`GlobalFilter`,合并到一个过滤器链（集合）中，排序后依次执行每个过滤器
+
+其中`路由过滤器`和`DefaultFilter`都是`GatewayFilter`。而`GlobalFilter`也通过`GatewayFilterAdapter`适配器转化为`GatewayFilter`，做到网关中所有过滤器都是`GatewayFilter`类型
+
+- 每一个过滤器都必须指定一个int类型的order值，`order值越小，优先级越高，执行顺序越靠前`。
+- `GlobalFilter`通过实现Ordered接口，或者添加@Order注解来指定order值，由我们自己指定
+- `路由过滤器`和`defaultFilter`的order由Spring指定，默认是`按照声明顺序`从1递增。
+- 当过滤器的`order值一样时`，会按照`defaultFilter`>`路由过滤器`>`GlobalFilter`的顺序执行。
+
+## 跨域问题处理
+
+跨域问题：`浏览器禁止`请求的发起者与服务端发生跨域ajx请求，请求被浏览器拦截的问题
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220612105440.png)
 
 
 

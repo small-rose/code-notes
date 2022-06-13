@@ -4,21 +4,31 @@ package com.luguosong.web;
 import com.luguosong.pojo.Order;
 import com.luguosong.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("order")
 public class OrderController {
 
-   @Autowired
-   private OrderService orderService;
+    @Autowired
+    private OrderService orderService;
 
-    @GetMapping("{orderId}")
+    @GetMapping("queryOrderByUserId/{orderId}")
     public Order queryOrderByUserId(@PathVariable("orderId") Long orderId) {
         // 根据id查询订单并返回
         return orderService.queryOrderById(orderId);
+    }
+
+    /**
+     * 测试gateway过滤器
+     * @param key1
+     * @return
+     */
+    @GetMapping("gatewayFilterTest")
+    public String gatewayFilterTest(@RequestHeader String key1) {
+        return key1;
     }
 }

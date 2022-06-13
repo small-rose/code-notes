@@ -15,7 +15,6 @@
         <module>nacos_config_demo</module>
         <module>openfeign_demo</module>
         <module>gateway_demo</module>
-        <module>gateway_demo/client_gateway_order</module>
     </modules>
 
     <parent>

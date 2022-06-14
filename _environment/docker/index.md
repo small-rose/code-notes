@@ -288,6 +288,121 @@ docker volume rm 数据卷名称
 
 `Dockerfile`就是一个文本文件，其中包含一个个的指令(Instruction),用指令来说明要执行什么操作来构建镜像。每一个指令都会形成一层Layer。
 
-```dockerfile
+## 镜像结构
 
+- 层(Layer)
+  - 基础镜像层(BaseImage)
+    - 系统函数库
+    - 环境
+    - 配置
+    - 文件
+  - 入口（Entrypoint）
+    - 程序启动的脚本和参数
+
+## dockerfile示例
+
+```dockerfile
+# 指定基础镜像
+FROM ubuntu:16.04
+# 配置环境变量，JDK的安装目录
+ENV JAVA_DIR=/usr/local
+
+# 拷贝jdk和java项目的包
+COPY ./jdk8.tar.gz $JAVA_DIR/
+
+# 安装JDK
+RUN cd $JAVA_DIR \
+ && tar -xf ./jdk8.tar.gz \
+ && mv ./jdk1.8.0_144 ./java8
+
+# 配置环境变量
+ENV JAVA_HOME=$JAVA_DIR/java8
+ENV PATH=$PATH:$JAVA_HOME/bin
+
+COPY ./docker-demo.jar /tmp/app.jar
+
+# 暴露端口
+EXPOSE 8090
+# 入口，java项目的启动命令
+ENTRYPOINT java -jar /tmp/app.jar
 ```
+
+上面的配置可以简写为下面部分：
+
+```dockerfile
+FROM java:8-alpine
+
+COPY ./docker-demo.jar /tmp/app.jar
+
+# 暴露端口
+EXPOSE 8090
+# 入口，java项目的启动命令
+ENTRYPOINT java -jar /tmp/app.jar
+```
+
+输入命令生成docker镜像：
+
+```shell
+docker build -t 镜像名称:版本 镜像所在目录
+```
+
+# DockerCompose
+
+Docker Compose可以基于Compose文件帮我们`快速的部署分布式应用`，而无需手动一个个创建和运行容器！
+
+## 下载安装
+
+```shell
+curl -L https://github.com/docker/compose/releases/download/1.23.1/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+```
+
+如果下载速度较慢，或者下载失败，可以将[docker-compose](docker-compose)文件直接上传到`/usr/local/bin/`目录
+
+```shell
+# 修改权限
+chmod +x /usr/local/bin/docker-compose
+```
+
+```shell
+# 补全命令
+curl -L https://raw.githubusercontent.com/docker/compose/1.29.1/contrib/completion/bash/docker-compose > /etc/bash_completion.d/docker-compose
+```
+
+如果这里出现错误，需要修改自己的hosts文件：
+
+```sh
+echo "199.232.68.133 raw.githubusercontent.com" >> /etc/hosts
+```
+
+## DockerCompose文件示例
+
+```yaml
+version: "3.2"
+
+services:
+  nacos: # 服务名称
+    image: nacos/nacos-server # 镜像名称
+    environment: # 环境变量
+      MODE: standalone
+    ports: # 端口
+      - "8848:8848"
+  mysql: # 服务名称
+    image: mysql:5.7.25 # 镜像名称
+    environment:
+      MYSQL_ROOT_PASSWORD: 123
+    volumes:
+      - "$PWD/mysql/data:/var/lib/mysql"
+      - "$PWD/mysql/conf:/etc/mysql/conf.d/"
+  userservice:
+    build: ./user-service
+  orderservice:
+    build: ./order-service
+  gateway:
+    build: ./gateway
+    ports:
+      - "10010:10010"
+```
+
+
+# 私有镜像仓库搭建
+

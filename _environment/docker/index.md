@@ -390,7 +390,7 @@ services:
     image: mysql:5.7.25 # 镜像名称
     environment:
       MYSQL_ROOT_PASSWORD: 123
-    volumes:
+    volumes: # 数据卷挂载
       - "$PWD/mysql/data:/var/lib/mysql"
       - "$PWD/mysql/conf:/etc/mysql/conf.d/"
   userservice:
@@ -403,6 +403,17 @@ services:
       - "10010:10010"
 ```
 
+## 部署
+
+创建镜像并构建容器
+
+```shell
+docker-compose build
+```
+
+```shell
+docker-compose up -d
+```
 
 # 私有镜像仓库搭建
 

@@ -417,3 +417,66 @@ docker-compose up -d
 
 # 私有镜像仓库搭建
 
+## 简化版docker仓库搭建
+
+安装docker官方的镜像`registry`
+
+```shell
+docker run -d \
+    --restart=always \
+    --name registry	\
+    -p 5000:5000 \
+    -v registry-data:/var/lib/registry \
+    registry
+```
+
+## 带图形化的版本
+
+通过DockerCompose将`registry`和`joxit/docker-registry-ui`组合部署
+
+```yaml
+version: '3.0'
+services:
+  registry:
+    image: registry
+    volumes:
+      - ./registry-data:/var/lib/registry
+  ui:
+    image: joxit/docker-registry-ui:static
+    ports:
+      - 8080:80
+    environment:
+      - REGISTRY_TITLE=传智教育私有仓库
+      - REGISTRY_URL=http://registry:5000
+    depends_on:
+      - registry
+```
+
+## 配置Docker信任地址
+
+需要镜像发布到私有的镜像仓库，本地需要配置仓库信任地址
+
+```shell
+# 打开要修改的文件
+vi /etc/docker/daemon.json
+# 添加内容：
+"insecure-registries":["http://192.168.150.101:8080"]
+# 重加载
+systemctl daemon-reload
+# 重启docker
+systemctl restart docker
+```
+
+## 推送镜像到私有仓库
+
+- 重命名镜像，因为此时本地docker配置了多个远程仓库，如果不重命名仓库可能发送冲突
+
+```shell
+docker tag 原镜像名:原版本 自建仓库ip/新镜像名:新版本
+```
+
+- 推送
+
+```shell
+docker push 自建仓库ip/新镜像名:新版本
+```

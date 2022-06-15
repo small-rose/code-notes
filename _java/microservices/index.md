@@ -517,7 +517,7 @@ public class OrderService {
 }
 ```
 
-# 服务间远程调用-Feign
+# 服务间远程调用-OpenFeign
 
 ## 概述
 
@@ -810,5 +810,45 @@ public class AuthorizeFilter implements GlobalFilter, Ordered {
 
 ![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220612105440.png)
 
+
+# 消息队列
+
+## 同步通讯
+
+优点：时效性强，可以立刻获得结果
+
+基于`Feign`的调用就属于同步方式，存在一些问题:
+- 耦合度高：每次加入新需求都需要修改原来的代码
+- 性能下降：调用时长是调用链时长之和
+- 浪费资源：调用链中每个服务等待过程中，不能释放请求占用的资源
+- 级联失败：如果服务提供者出现问题，会导致服务调用者跟着出问题
+
+## 异步通讯
+
+事件驱动模式
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220615225006.png)
+
+- 优点
+  - 服务解耦
+  - 性能提高，吞吐量提高
+  - 服务之间没有强依赖关系，不用担心级联失败问题
+  - 流量削峰，当大量并发时，服务提供者不至于产生过大压力
+
+- 缺点
+  - 依赖于Broker的可靠性，安全性、吞吐能力
+  - 架构复杂了，业务没有明显的流程线，不好追踪管理，出了问题不好排查
+
+## 消息队列
+
+也就是事件驱动中的Broker。
+
+`消息`也就是`事件驱动`中的事件
+
+## 各个消息队列实现的区别
+
+
+
+# 消息队列-RabbitMQ
 
 

@@ -15,6 +15,7 @@
         <module>nacos_config_demo</module>
         <module>openfeign_demo</module>
         <module>gateway_demo</module>
+        <module>rabbitmq_hello</module>
     </modules>
 
     <parent>

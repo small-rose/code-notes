@@ -847,8 +847,157 @@ public class AuthorizeFilter implements GlobalFilter, Ordered {
 
 ## 各个消息队列实现的区别
 
-
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220616213931.png)
 
 # 消息队列-RabbitMQ
 
+`RabbitMQ`是基于`Erlang语言`开发的开源消息通信中间件
 
+## 基于docker安装
+
+```shell
+# 拉取镜像
+docker pull rabbitmq
+```
+
+```shell
+# 运行MQ容器
+docker run \
+ -e RABBITMQ_DEFAULT_USER=user \
+ -e RABBITMQ_DEFAULT_PASS=12345678 \
+ --name mq \
+ --hostname mq1 \
+ -p 15672:15672 \
+ -p 5672:5672 \
+ -d \
+ rabbitmq
+```
+
+通过`localhost:15672`访问
+
+## 结构和概念
+
+- channel:操作mq的工具
+- exchange:消息路由
+- queue:缓存消息
+- virtual host:虚拟主机，对资源的逻辑分组
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220616223058.png)
+
+## SpringAMQP
+
+`AMQP(Advanced Message Queuing Protocol)`:是用于在应用程序或之间传递业务消息的开放标准。该协议与语言和平台无关，更符合微服务中独立性的要求。
+
+`Spring AMQP`:对AMQP协议的具体实现。提供了模板来发送和接收消息。包含两部分，其中`spring-amqp`是基础抽象，`spring-rabbit`是底层的默认实现。
+
+特征：
+- 侦听器容器，用于异步处理入站消息
+- 用于发送和接收消息的RabbitTemplate
+- RabbitAdmin用于自动声明队列，交换和绑定
+
+## 常见消息模型
+
+### 基本消息队列
+
+- publisher：消息发布者，将消息发送到队列
+- queue：消息队列，负责接收并缓存消息
+- consumer：订阅队列，处理队列中的消息
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220616223952.png)
+
+基本消息队列的消息发送流程：
+1. 建立connection
+2. 创建channel
+3. 利用channel声明队列
+4. 利用channel向队列发送消息
+
+```java
+//不使用AMQP的服务发布者代码
+public class PublisherTest {
+    @Test
+    public void testSendMessage() throws IOException, TimeoutException {
+        // 1.建立连接
+        ConnectionFactory factory = new ConnectionFactory();
+        // 1.1.设置连接参数，分别是：主机名、端口号、vhost、用户名、密码
+        factory.setHost("192.168.150.101");
+        factory.setPort(5672);
+        factory.setVirtualHost("/");
+        factory.setUsername("itcast");
+        factory.setPassword("123321");
+        // 1.2.建立连接
+        Connection connection = factory.newConnection();
+
+        // 2.创建通道Channel
+        Channel channel = connection.createChannel();
+
+        // 3.创建队列
+        String queueName = "simple.queue";
+        channel.queueDeclare(queueName, false, false, false, null);
+
+        // 4.发送消息
+        String message = "hello, rabbitmq!";
+        channel.basicPublish("", queueName, null, message.getBytes());
+        System.out.println("发送消息成功：【" + message + "】");
+
+        // 5.关闭通道和连接
+        channel.close();
+        connection.close();
+
+    }
+}
+```
+
+基本消息队列的消息接收流程：
+5. 建立connection
+6. 创建channel
+7. 利用channel声明队列
+8. 定义consumer的消费行为handleDelivery()
+9. 利用channel将消费者与队列绑定
+
+```java
+//不使用AMQP的服务接收者代码
+public class ConsumerTest {
+
+    public static void main(String[] args) throws IOException, TimeoutException {
+        // 1.建立连接
+        ConnectionFactory factory = new ConnectionFactory();
+        // 1.1.设置连接参数，分别是：主机名、端口号、vhost、用户名、密码
+        factory.setHost("192.168.150.101");
+        factory.setPort(5672);
+        factory.setVirtualHost("/");
+        factory.setUsername("itcast");
+        factory.setPassword("123321");
+        // 1.2.建立连接
+        Connection connection = factory.newConnection();
+
+        // 2.创建通道Channel
+        Channel channel = connection.createChannel();
+
+        // 3.创建队列
+        String queueName = "simple.queue";
+        channel.queueDeclare(queueName, false, false, false, null);
+
+        // 4.订阅消息
+        channel.basicConsume(queueName, true, new DefaultConsumer(channel){
+            @Override
+            public void handleDelivery(String consumerTag, Envelope envelope,
+                                       AMQP.BasicProperties properties, byte[] body) throws IOException {
+                // 5.处理消息
+                String message = new String(body);
+                System.out.println("接收到消息：【" + message + "】");
+            }
+        });
+        System.out.println("等待接收消息。。。。");
+    }
+}
+```
+
+### 工作消息队列
+
+### 广播发布订阅
+
+### 路由发布订阅
+
+### 主题发布订阅
+
+## 

@@ -534,11 +534,220 @@ public class Demo {
 
 ![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/0c602d2ddfa997b75dc69127907e6a0f)
 
-## 模式拓展
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220617094957.png)
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220617095032.png)
+
+```java
+/**
+ * 抽象节点类，充当抽象表达式角色
+ * @author luguosong
+ * @date 2022/6/17
+ */
+public abstract class AbstractNode {
+    public abstract String interpret();
+}
+
+/**
+ * And节点类，充当非终结符表达式角色
+ * @author luguosong
+ * @date 2022/6/17
+ */
+public class AndNode extends AbstractNode{
+
+  private AbstractNode left;
+  private AbstractNode right;
+
+  public AndNode(AbstractNode left, AbstractNode right) {
+    this.left = left;
+    this.right = right;
+  }
+
+  @Override
+  public String interpret() {
+    return left.interpret() + "再" +right.interpret();
+  }
+}
+
+/**
+ * 单句子节点类，充当非终结符表达式角色
+ * @author luguosong
+ * @date 2022/6/17
+ */
+public class SentenceNode extends AbstractNode{
+
+  private AbstractNode direction;
+  private AbstractNode action;
+  private AbstractNode distance;
+
+  public SentenceNode(AbstractNode direction, AbstractNode action, AbstractNode distance) {
+    this.direction = direction;
+    this.action = action;
+    this.distance = distance;
+  }
+
+  @Override
+  public String interpret() {
+    return direction.interpret()+action.interpret()+distance.interpret();
+  }
+}
+
+/**
+ * 方向节点类，充当终结符表达式角色
+ * @author luguosong
+ * @date 2022/6/17
+ */
+public class DirectionNode extends AbstractNode{
+
+  private String direction;
+
+  public DirectionNode(String direction) {
+    this.direction = direction;
+  }
+
+  @Override
+  public String interpret() {
+    switch (direction){
+      case "up":
+        return "向上";
+      case "down":
+        return "向下";
+      case "left":
+        return "向左";
+      case "right":
+        return "向右";
+      default:
+        return "无效指令";
+    }
+  }
+}
+
+/**
+ * 动作节点类，充当终结符表达式角色
+ * @author luguosong
+ * @date 2022/6/17
+ */
+public class ActionNode extends AbstractNode{
+  private String action;
+
+  public ActionNode(String action) {
+    this.action = action;
+  }
+
+  @Override
+  public String interpret() {
+    switch (action){
+      case "move":
+        return "移动";
+      case "run":
+        return "快速移动";
+      default:
+        return "无效命令";
+    }
+  }
+}
+
+/**
+ * @author luguosong
+ * @date 2022/6/17
+ */
+public class DistanceNode extends AbstractNode{
+  private String distance;
+
+  public DistanceNode(String distance) {
+    this.distance = distance;
+  }
+
+  @Override
+  public String interpret() {
+    return this.distance;
+  }
+}
+
+/**
+ * 指令处理类
+ *
+ * @author luguosong
+ * @date 2022/6/17
+ */
+public class InstructionHandler {
+  private AbstractNode node;
+
+  public void handle(String instruction) {
+    AbstractNode left = null, right = null;
+    AbstractNode direction = null, action = null, distance = null;
+    //声明一个栈对象，用于存储抽象语法树
+    Stack<AbstractNode> stack = new Stack<>();
+    String[] words = instruction.split(" ");
+    for (int i = 0; i < words.length; i++) {
+      if (words[i].equalsIgnoreCase("and")) {
+        left = (AbstractNode) stack.pop();
+        String word1 = words[++i];
+        direction = new DirectionNode(word1);
+        String word2 = words[++i];
+        action = new ActionNode(word2);
+        String word3 = words[++i];
+        distance = new DistanceNode(word3);
+        right=new SentenceNode(direction,action,distance);
+        stack.push(new AndNode(left,right));
+      }else{
+        String word1=words[i];
+        direction = new DirectionNode(word1);
+        String word2=words[++i];
+        action=new ActionNode(word2);
+        String word3=words[++i];
+        distance=new DistanceNode(word3);
+        left=new SentenceNode(direction,action,distance);
+        stack.push(left);
+      }
+    }
+    this.node=(AbstractNode) stack.pop();
+  }
+
+  public String output(){
+    String result = node.interpret(); //解释表达式
+    return result;
+  }
+}
+```
+
+```java
+/**
+ * @author luguosong
+ * @date 2022/6/17
+ */
+public class Demo {
+    public static void main(String[] args) {
+        String instruction = "down run 10 and left move 20";
+        InstructionHandler handler = new InstructionHandler();
+        handler.handle(instruction);
+
+        System.out.println(handler.output());
+    }
+}
+```
+
+```text
+向下快速移动10再向左移动20
+```
 
 ## 效果
 
+- 优点
+  - 易于改变和扩展文法。由于在解释器模式中使用类来表示语言的文法规则，因此可以通过继承等机制来改变或扩展文法。
+  - 每一条文法规则都可以表示为一个类，因此可以方便地实现一个简单的语言。
+  - 实现文法较为容易。在抽象语法树中每一个表达式节点类的实现方式都是相似的，这些类的代码编写都不会特别复杂，还可以通过一些工具自动生成节点类代码。
+  - 增加新的解释表达式较为方便。如果用户需要增加新的解释表达式只需要对应增加一个新的终结符表达式或非终结符表达式类，原有表达式类代码无须修改，符合开闭原则。
+- 缺点
+  - 对于复杂文法难以维护。在解释器模式中，每一条规则至少需要定义一个类，因此如果一种语言包含太多文法规则，类的个数将会急剧增加，导致系统难以管理和维护，此时可以考虑使用语法分析程序等方式来取代解释器模式。
+  - 执行效率较低。由于在解释器模式中使用了大量的循环和递归调用，因此在解释较为复杂的句子时其速度很慢，而且代码的调试过程也比较麻烦。
+
 ## 模式适用性
+
+- 可以将一个需要解释执行的语言中的句子表示为一个抽象语法树。
+- 一些重复出现的问题可以用一种简单的语言来进行表达。
+- 一个语言的文法较为简单。
+- 执行效率不是关键问题。（注：高效的解释器通常不是通过直接解释抽象语法树来实现的，而是需要将它们转换成其他形式，使用解释器模式的执行效率并不高。）
 
 # 迭代器模式（Iterator）
 

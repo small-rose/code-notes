@@ -853,11 +853,20 @@ public class AuthorizeFilter implements GlobalFilter, Ordered {
 
 `RabbitMQ`是基于`Erlang语言`开发的开源消息通信中间件
 
+## 结构和概念
+
+- channel:操作mq的工具
+- exchange:消息路由
+- queue:缓存消息
+- virtual host:虚拟主机，对资源的逻辑分组
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220616223058.png)
+
 ## 基于docker安装
 
 ```shell
 # 拉取镜像
-docker pull rabbitmq
+docker pull rabbitmq:3-management
 ```
 
 ```shell
@@ -870,40 +879,24 @@ docker run \
  -p 15672:15672 \
  -p 5672:5672 \
  -d \
- rabbitmq
+ rabbitmq:3-management
 ```
 
 通过`localhost:15672`访问
 
-## 结构和概念
+## RabbitMQ控制台简单说明
 
-- channel:操作mq的工具
-- exchange:消息路由
-- queue:缓存消息
-- virtual host:虚拟主机，对资源的逻辑分组
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220618205659.png)
 
-![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220616223058.png)
+- `Overview`：节点详细详细
+- `Connections`：消息的`发布者`或`消费者`与`RabbitMQ`建立的连接
+- `Channels`:连接后的服务基于`channels通道`进行消息的发送和接收。是做消息发送的具体对象。
+- `Exchanges`:消息路由
+- `Queues`：消息存储
+- `Admin`:对用户等信息进行管理
 
-## SpringAMQP
 
-`AMQP(Advanced Message Queuing Protocol)`:是用于在应用程序或之间传递业务消息的开放标准。该协议与语言和平台无关，更符合微服务中独立性的要求。
-
-`Spring AMQP`:对AMQP协议的具体实现。提供了模板来发送和接收消息。包含两部分，其中`spring-amqp`是基础抽象，`spring-rabbit`是底层的默认实现。
-
-特征：
-- 侦听器容器，用于异步处理入站消息
-- 用于发送和接收消息的RabbitTemplate
-- RabbitAdmin用于自动声明队列，交换和绑定
-
-## 常见消息模型
-
-### 基本消息队列
-
-- publisher：消息发布者，将消息发送到队列
-- queue：消息队列，负责接收并缓存消息
-- consumer：订阅队列，处理队列中的消息
-
-![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220616223952.png)
+## 入门案例
 
 基本消息队列的消息发送流程：
 1. 建立connection
@@ -916,33 +909,32 @@ docker run \
 public class PublisherTest {
     @Test
     public void testSendMessage() throws IOException, TimeoutException {
-        // 1.建立连接
-        ConnectionFactory factory = new ConnectionFactory();
-        // 1.1.设置连接参数，分别是：主机名、端口号、vhost、用户名、密码
-        factory.setHost("192.168.150.101");
-        factory.setPort(5672);
-        factory.setVirtualHost("/");
-        factory.setUsername("itcast");
-        factory.setPassword("123321");
-        // 1.2.建立连接
-        Connection connection = factory.newConnection();
+      // 1.建立连接
+      ConnectionFactory factory = new ConnectionFactory();
+      // 1.1.设置连接参数，分别是：主机名、端口号、vhost、用户名、密码
+      factory.setHost("127.0.0.1");
+      factory.setPort(5672);
+      factory.setVirtualHost("/");
+      factory.setUsername("user");
+      factory.setPassword("12345678");
+      // 1.2.建立连接
+      Connection connection = factory.newConnection();
 
-        // 2.创建通道Channel
-        Channel channel = connection.createChannel();
+      // 2.创建通道Channel
+      Channel channel = connection.createChannel();
 
-        // 3.创建队列
-        String queueName = "simple.queue";
-        channel.queueDeclare(queueName, false, false, false, null);
+      // 3.创建队列
+      String queueName = "simple.queue";
+      channel.queueDeclare(queueName, false, false, false, null);
 
-        // 4.发送消息
-        String message = "hello, rabbitmq!";
-        channel.basicPublish("", queueName, null, message.getBytes());
-        System.out.println("发送消息成功：【" + message + "】");
+      // 4.发送消息
+      String message = "hello, rabbitmq!";
+      channel.basicPublish("", queueName, null, message.getBytes());
+      System.out.println("发送消息成功：【" + message + "】");
 
-        // 5.关闭通道和连接
-        channel.close();
-        connection.close();
-
+      // 5.关闭通道和连接
+      channel.close();
+      connection.close();
     }
 }
 ```
@@ -992,7 +984,131 @@ public class ConsumerTest {
 }
 ```
 
+## SpringAMQP
+
+`AMQP(Advanced Message Queuing Protocol)`:是用于在应用程序或之间传递业务消息的开放标准。该协议与语言和平台无关，更符合微服务中独立性的要求。
+
+`Spring AMQP`:对AMQP协议的具体实现。提供了模板来发送和接收消息。包含两部分，其中`spring-amqp`是基础抽象，`spring-rabbit`是底层的默认实现。
+
+特征：
+- 侦听器容器，用于异步处理入站消息
+- 用于发送和接收消息的RabbitTemplate
+- RabbitAdmin用于自动声明队列，交换和绑定
+
+## 常见消息模型
+
+### 基本消息队列
+
+- publisher：消息发布者，将消息发送到队列
+- queue：消息队列，负责接收并缓存消息
+- consumer：订阅队列，处理队列中的消息
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220616223952.png)
+
+- 父工程引入AMQP依赖
+
+```xml
+<dependencies>
+    <!--父工程中引入AMQP工程-->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-amqp</artifactId>
+    </dependency>
+</dependencies>
+```
+
+- 服务发布者
+
+```yaml
+spring:
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    virtual-host: /
+    username: user
+    password: 12345678
+```
+
+```java
+/**
+ * @author luguosong
+ * @date 2022/6/18
+ */
+@SpringBootApplication
+public class RabbitmqHelloPublisher {
+    public static void main(String[] args) {
+        SpringApplication.run(RabbitmqHelloPublisher.class,args);
+    }
+}
+```
+
+```java
+/**
+ * 发布消息
+ * @author luguosong
+ * @date 2022/6/18
+ */
+
+@SpringBootTest
+public class RabbitMQTest {
+
+    @Autowired
+    private AmqpTemplate amqpTemplate;
+
+    @Test
+    public void test(){
+        String queueName="simple.queue";
+        String message="hello,Spring amqp!";
+        amqpTemplate.convertAndSend(queueName,message);
+    }
+}
+```
+
+- 服务接收者
+
+```yaml
+spring:
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    virtual-host: /
+    username: user
+    password: 12345678
+```
+
+```java
+/**
+ * @author luguosong
+ * @date 2022/6/18
+ */
+@SpringBootApplication
+public class RabbitmqHelloConsumer {
+    public static void main(String[] args) {
+        SpringApplication.run(RabbitmqHelloConsumer.class,args);
+    }
+}
+```
+
+```java
+/**
+ * @author luguosong
+ * @date 2022/6/18
+ */
+@Component
+public class SpringRabbitListener {
+
+    @RabbitListener(queues = "simple.queue")
+    public void listen(String msg){
+        System.out.println(msg);
+    }
+}
+```
+
 ### 工作消息队列
+
+一个队列绑定多个消费者，提高消息处理效率
+
+
 
 ### 广播发布订阅
 

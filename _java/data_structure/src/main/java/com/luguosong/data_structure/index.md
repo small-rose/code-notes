@@ -76,3 +76,4 @@ public interface Iterator<E> {
 # Collection接口
 
 所有集合的`根接口`，对所有集合应具备的操作功能进行了规定。
+

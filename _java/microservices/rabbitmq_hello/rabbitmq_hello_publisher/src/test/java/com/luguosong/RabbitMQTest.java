@@ -17,12 +17,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class RabbitMQTest {
 
     @Autowired
-    private AmqpTemplate amqpTemplate;
+    private RabbitTemplate rabbitTemplate;
 
     @Test
     public void test(){
         String queueName="simple.queue";
         String message="hello,Spring amqp!";
-        amqpTemplate.convertAndSend(queueName,message);
+        rabbitTemplate.convertAndSend(queueName,message);
     }
 }

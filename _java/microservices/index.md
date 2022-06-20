@@ -1104,16 +1104,14 @@ public class SpringRabbitListener {
 }
 ```
 
-### 工作消息队列
+### 工作消息队列(Work queues)
 
 一个队列绑定多个消费者，提高消息处理效率
 
-
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220620230123.png)
 
 ### 广播发布订阅
 
 ### 路由发布订阅
 
 ### 主题发布订阅
-
-## 

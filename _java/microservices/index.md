@@ -1179,4 +1179,53 @@ public class SpringRabbitListener {
 
 ## TC服务器搭建
 
+- 本地安装
 
+直接下载压缩包解压
+
+- docker安装
+
+```shell
+docker pull seataio/seata-server
+```
+
+```shell
+$ docker run --name seata-server \
+        -p 8091:8091 \
+        -e SEATA_CONFIG_NAME=file:/root/seata-config/registry \
+        -v 本机路径:/root/seata-config  \
+        seataio/seata-server
+```
+
+- 配置注册中心和配置中心
+
+```yaml
+seata:
+  config:
+    # support: nacos, consul, apollo, zk, etcd3
+    type: nacos
+    nacos:
+      server-addr: 127.0.0.1:8848
+      namespace:
+      group: SEATA_GROUP
+      username:nacos
+      password:nacos
+      ##if use MSE Nacos with auth, mutex with username/password attribute
+      #access-key: ""
+      #secret-key: ""
+      data-id: seataServer.properties
+  registry:
+    # support: nacos, eureka, redis, zk, consul, etcd3, sofa
+    type: nacos
+    nacos:
+      application: seata-server
+      server-addr: 127.0.0.1:8848
+      group: DEFAULT_GROUP
+      namespace:
+      cluster: default
+      username:nacos
+      password:nacos
+      ##if use MSE Nacos with auth, mutex with username/password attribute
+      #access-key: ""
+      #secret-key: ""
+```

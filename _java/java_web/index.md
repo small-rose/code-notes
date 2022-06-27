@@ -53,5 +53,107 @@ JavaEE Web服务器软件：
 
 ## 项目部署方式
 
-- 方式一：
+- `方式一`：直接将项目放到webapps目录下，或将项目打成war包放在webapp目录下
+- `方式二`：在server.xml配置文件中配置`项目存放路径`与`虚拟目录`映射关系
 
+```xml
+<Server port="8005" shutdown="SHUTDOWN">
+  <Service name="Catalina">
+    <Engine name="Catalina" defaultHost="localhost">
+      <Host name="localhost"  appBase="webapps" unpackWARs="true" autoDeploy="true">
+        <!--配置映射关系-->
+        <Context path="虚拟目录" docBase="项目路径"/>
+      </Host>
+    </Engine>
+  </Service>
+</Server>
+```
+
+- `方式三`：在`/conf/Catalina/localhost`目录下创建任意名称的xml文件，在其中指定项目路径。虚拟目录为xml文件名
+
+```xml
+<Context docBase="项目路径"/>
+```
+
+
+
+# 创建web项目
+
+## idea集成Tomcat
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220625181254.png)
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220625181459.png)
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220625181540.png)
+
+## Java动态项目目录结构
+
+- 项目根目录
+  - WEB-INF目录
+    - web.xml:web项目核心配置文件
+    - classes目录：放置字节码文件
+    - lib目录：放置依赖jar包
+
+## 创建javaweb项目
+
+- 首先创建一个普通的`maven项目`
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220625182124.png)
+
+- 为`maven`项目添加`web框架`
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220625182314.png)
+
+- 在新增的web目录下创建`index.jsp`
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220625182606.png)
+
+- 基于模块创建工件
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220625183000.png)
+
+- 新建tomcat配置，并添加工件
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220625183223.png)
+
+- 指定工件后可以修改访问的虚拟目录
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220625184434.png)
+
+- 启动tomcat运行
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220625183436.png)
+
+一些细节：当前maven项目并没有依赖除jdk之外的其它库，之所以项目能将jsp转为html展示给浏览器，依赖的是tomcat服务器
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220625184805.png)
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220625184943.png)
+
+
+## 项目细节
+
+- 热部署配置
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220625185451.png)
+
+- idea会为每个tomcat配置定制独立的配置文件
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220625185903.png)
+
+- `工件`会存放到项目根路径下的out目录下
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220625190254.png)
+
+- `WEB-INF目录`下的内容是不能被浏览器直接访问的
+
+# Servlet
+
+## 概述
+
+`Servlet（server applet）`:运行在服务端的小程序
+
+为了达到动态资源的效果，我们需要用Java类写一些逻辑达到动态资源的效果。
+
+但随便写一个类Tomcat是不认识的，需要实现统一的接口才行，这个接口就是

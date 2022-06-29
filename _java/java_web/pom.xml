@@ -13,8 +13,7 @@
     <artifactId>java_web</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>_01_hello_web</module>
-        <module>_02_hello_servlet</module>
+        <module>_01_http_demo</module>
     </modules>
 
     <properties>

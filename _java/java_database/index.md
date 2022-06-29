@@ -115,9 +115,9 @@ public class JDBCDemo {
 
 ## ResultSet接口
 
-结果集对象
+结果集对象，`Statement`对象执行executeQuery语句的返回结果
 
 ## PreparedStatement接口
 
-继承`Statement`接口。执行动态sql
+继承`Statement`接口。执行动态sql(预编译sql)
 

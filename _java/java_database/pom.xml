@@ -13,8 +13,7 @@
     <artifactId>java_database</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>jdbc_01_hello</module>
-        <module>jdbc_02_statement</module>
+        <module>_01_jdbc</module>
     </modules>
 
     <properties>

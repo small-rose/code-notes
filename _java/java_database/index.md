@@ -181,9 +181,61 @@ public class StatementDemo {
 
 结果集对象，`Statement`对象执行executeQuery语句的返回结果
 
+```java
+/**
+ * @author 10545
+ * @date 2022/7/1 21:47
+ */
+public class ResultSetDemo {
+    public static void main(String[] args) {
+        Connection connection = null;
+        Statement statement = null;
+        try {
+            connection = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/database_learning",
+                    "root",
+                    "12345678");
+            statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM products");
+            while (resultSet.next()){
+                String column1 = resultSet.getString(1);
+                System.out.print(column1+" ");
 
+                int column2 = resultSet.getInt(2);
+                System.out.print(column2+" ");
+
+                String column3 = resultSet.getString("prod_name");
+                System.out.println(column3+" ");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+    }
+}
+```
 
 ## PreparedStatement接口
 
 继承`Statement`接口。执行动态sql(预编译sql)
+
+
+# JDBC工具类
+
+把一些重复代码封装成工具类
+
 

@@ -1,12 +1,12 @@
-package com.luguosong._03_result_set;
+package com.luguosong._04_prepare_statement;
 
 import java.sql.*;
 
 /**
- * @author 10545
- * @date 2022/7/1 21:47
+ * @author luguosong
+ * @date 2022/7/3
  */
-public class ResultSetDemo {
+public class PrepareStatementDemo {
     public static void main(String[] args) {
         Connection connection = null;
         Statement statement = null;
@@ -15,18 +15,12 @@ public class ResultSetDemo {
                     "jdbc:mysql://localhost:3306/java_database",
                     "root",
                     "12345678");
+
             statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM products");
-            while (resultSet.next()) {
-                String column1 = resultSet.getString(1);
-                System.out.print(column1 + " ");
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM user WHERE name='张三' AND password='a' OR 'a' = 'a'");
+            System.out.println("静态sql查询结果："+resultSet.next());
 
-                int column2 = resultSet.getInt(2);
-                System.out.print(column2 + " ");
-
-                String column3 = resultSet.getString("prod_name");
-                System.out.println(column3 + " ");
-            }
+            connection.prepareStatement("SELECT * FROM user WHERE name=? AND password=?");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {

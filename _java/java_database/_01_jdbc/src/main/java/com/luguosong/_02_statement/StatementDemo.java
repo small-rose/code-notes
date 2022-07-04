@@ -17,7 +17,7 @@ public class StatementDemo {
             //1.注册驱动：mysql-connector-java 版本5以后会自动注册驱动
             //2.获取数据库连接
             conn = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/database_learning",
+                    "jdbc:mysql://localhost:3306/java_database",
                     "root",
                     "12345678");
             //定义sql语句

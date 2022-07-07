@@ -1,14 +1,14 @@
 <html>
   <body>
     <img id="myImage" onclick="changeImage()" src="cat.png" >
-    <p>°´ÏÂÊó±ê£¬ÇĞ»»Í¼Æ¬</p>
+    <p>æŒ‰ä¸‹é¼ æ ‡ï¼Œåˆ‡æ¢å›¾ç‰‡</p>
 
     <script>
       function changeImage(){
-        //¶¨ÒåÒ»¸öimage±äÁ¿À´ÒıÓÃidÎª¡°myImage¡±µÄÔªËØ
+        //å®šä¹‰ä¸€ä¸ªimageå˜é‡æ¥å¼•ç”¨idä¸ºâ€œmyImageâ€çš„å…ƒç´ 
         var image = document.getElementById('myImage');
 
-        //ÇĞ»»´ıÏÔÊ¾µÄÍ¼Æ¬ÎÄ¼ş
+        //åˆ‡æ¢å¾…æ˜¾ç¤ºçš„å›¾ç‰‡æ–‡ä»¶
         if(image.src.match("mouse.png")) {
           image.src = "cat.png";
         }else {

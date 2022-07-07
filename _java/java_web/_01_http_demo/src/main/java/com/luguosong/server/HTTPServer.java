@@ -3,6 +3,9 @@ package com.luguosong.server;
 import java.io.*;
 import java.net.*;
 
+/**
+ * HTTP服务端
+ */
 public class HTTPServer {
     public static void main(String args[]) {
         int port;
@@ -84,9 +87,10 @@ public class HTTPServer {
         //HTTP响应头
         String responseHeader = "Content-Type:" + contentType + "\r\n\r\n";
         //获得读取响应正文数据的输入流
+        System.out.println(uri);
         InputStream in = HTTPServer
                 .class
-                .getResourceAsStream("classpath:root/" + uri);
+                .getResourceAsStream("/root" + uri);
 
         /*发送HTTP响应结果 */
         OutputStream socketOut = socket.getOutputStream(); //获得输出流

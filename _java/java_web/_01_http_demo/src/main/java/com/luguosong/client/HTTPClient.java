@@ -5,7 +5,7 @@ import java.io.OutputStream;
 import java.net.Socket;
 
 /**
- * Http�ͻ���
+ * Http客户端
  * @author luguosong
  * @date 2022/7/7
  */

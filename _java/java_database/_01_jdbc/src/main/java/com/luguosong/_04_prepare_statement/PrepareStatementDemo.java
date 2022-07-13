@@ -11,6 +11,7 @@ public class PrepareStatementDemo {
         Connection connection = null;
         Statement statement = null;
         ResultSet resultSet = null;
+        PreparedStatement preparedStatement = null;
         try {
             connection = DriverManager.getConnection(
                     "jdbc:mysql://localhost:3306/java_database",
@@ -21,7 +22,7 @@ public class PrepareStatementDemo {
             resultSet = statement.executeQuery("SELECT * FROM user WHERE name='张三' AND password='a' OR 'a' = 'a'");
             System.out.println("静态sql查询结果：" + resultSet.next());
             //通过preparedStatement查询
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM user WHERE name=? AND password=?");
+            preparedStatement = connection.prepareStatement("SELECT * FROM user WHERE name=? AND password=?");
             preparedStatement.setString(1, "张三");
             preparedStatement.setString(2, "'a' OR 'a' = 'a'");
             ResultSet resultSet1 = preparedStatement.executeQuery();
@@ -39,6 +40,13 @@ public class PrepareStatementDemo {
             if (statement != null) {
                 try {
                     statement.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            if (preparedStatement!=null){
+                try {
+                    preparedStatement.close();
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }

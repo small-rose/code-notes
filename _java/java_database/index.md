@@ -78,7 +78,6 @@ public class JDBCDemo {
           throw new RuntimeException(e);
         }
       }
-
     }
   }
 }
@@ -109,7 +108,85 @@ public class JDBCDemo {
     - 提交事务：void commit()
     - 回滚事务：void rollback()
 
+```java
+/**
+ * 事务
+ *
+ * @author 10545
+ * @date 2022/7/11 21:32
+ */
+public class TransactionDemo {
+    public static void main(String[] args) {
+        Connection connection = null;
+        PreparedStatement preparedStatement1 = null;
+        PreparedStatement preparedStatement2 = null;
+        ResultSet resultSet = null;
+        try {
+            connection = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/java_database",
+                    "root",
+                    "12345678");
+            //开启事务
+            connection.setAutoCommit(false);
 
+            preparedStatement1 = connection.prepareStatement("UPDATE account SET balance = balance - ? WHERE id = ?");
+            preparedStatement1.setInt(1, 100);
+            preparedStatement1.setInt(2, 1);
+            preparedStatement1.executeUpdate();
+
+            //模拟异常
+            int i = 1 / 0;
+
+            preparedStatement2 = connection.prepareStatement("UPDATE account SET balance = balance + ? WHERE id = ?");
+            preparedStatement2.setInt(1, 100);
+            preparedStatement2.setInt(2, 2);
+            preparedStatement2.executeUpdate();
+
+            //提交事务
+            connection.commit();
+        } catch (Exception e) {
+            try {
+                if (connection != null) {
+                    //回滚事务
+                    connection.rollback();
+                }
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+            throw new RuntimeException(e);
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            if (preparedStatement1 != null) {
+                try {
+                    preparedStatement1.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            if (preparedStatement2 != null) {
+                try {
+                    preparedStatement2.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+    }
+}
+```
 
 ## Statement接口
 
@@ -249,51 +326,59 @@ SELECT * FROM user WHERE name = 'zhangsan' and password = 'a' or 'a' = 'a';
  * @date 2022/7/3
  */
 public class PrepareStatementDemo {
-    public static void main(String[] args) {
-        Connection connection = null;
-        Statement statement = null;
-        ResultSet resultSet = null;
+  public static void main(String[] args) {
+    Connection connection = null;
+    Statement statement = null;
+    ResultSet resultSet = null;
+    PreparedStatement preparedStatement = null;
+    try {
+      connection = DriverManager.getConnection(
+              "jdbc:mysql://localhost:3306/java_database",
+              "root",
+              "12345678");
+      //静态sql
+      statement = connection.createStatement();
+      resultSet = statement.executeQuery("SELECT * FROM user WHERE name='张三' AND password='a' OR 'a' = 'a'");
+      System.out.println("静态sql查询结果：" + resultSet.next());
+      //通过preparedStatement查询
+      preparedStatement = connection.prepareStatement("SELECT * FROM user WHERE name=? AND password=?");
+      preparedStatement.setString(1, "张三");
+      preparedStatement.setString(2, "'a' OR 'a' = 'a'");
+      ResultSet resultSet1 = preparedStatement.executeQuery();
+      System.out.println("动态sql查询结果：" + resultSet1.next());
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    } finally {
+      if (resultSet != null) {
         try {
-            connection = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/java_database",
-                    "root",
-                    "12345678");
-            //静态sql
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery("SELECT * FROM user WHERE name='张三' AND password='a' OR 'a' = 'a'");
-            System.out.println("静态sql查询结果：" + resultSet.next());
-            //通过preparedStatement查询
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM user WHERE name=? AND password=?");
-            preparedStatement.setString(1, "张三");
-            preparedStatement.setString(2, "'a' OR 'a' = 'a'");
-            ResultSet resultSet1 = preparedStatement.executeQuery();
-            System.out.println("动态sql查询结果：" + resultSet1.next());
+          resultSet.close();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } finally {
-            if (resultSet != null) {
-                try {
-                    resultSet.close();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            if (statement != null) {
-                try {
-                    statement.close();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
+          throw new RuntimeException(e);
         }
+      }
+      if (statement != null) {
+        try {
+          statement.close();
+        } catch (SQLException e) {
+          throw new RuntimeException(e);
+        }
+      }
+      if (preparedStatement!=null){
+        try {
+          preparedStatement.close();
+        } catch (SQLException e) {
+          throw new RuntimeException(e);
+        }
+      }
+      if (connection != null) {
+        try {
+          connection.close();
+        } catch (SQLException e) {
+          throw new RuntimeException(e);
+        }
+      }
     }
+  }
 }
 ```
 
@@ -400,4 +485,7 @@ public class Demo {
     }
 }
 ```
+
+# 数据库连接池
+
 

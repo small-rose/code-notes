@@ -22,7 +22,7 @@ Java类库中就对ADT进行了实现，这篇博客将从头将这些实现写�
 
 # Iterable接口
 
-`Iterable接口`是java 集合框架的顶级接口,实现此接口使集合对象可以通过迭代器遍历自身元素。
+`Iterable接口`是java集合框架的顶级接口,实现此接口使集合对象可以通过迭代器遍历自身元素。
 
 ```java
 public interface Iterable<T> {

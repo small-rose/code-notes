@@ -1,9 +1,3 @@
----
-layout: default
-title: 基本概念
-nav_order: 2
-parent: JavaSE
----
 
 # 语言基础（Language Basics）
 

@@ -1,7 +1,7 @@
 ---
 layout: default
 title: 面向对象
-nav_order: 3
+nav_order: 30
 parent: JavaSE
 ---
 
@@ -67,9 +67,10 @@ parent: JavaSE
 
 可以让你在编写代码时不依赖于具体的类
 
-面向对象语言使用的机制是`后期绑定（late binding）`。
+面向对象语言使用的机制是`后期绑定（late binding）`。898
 
 # 接口
+
 
 
 

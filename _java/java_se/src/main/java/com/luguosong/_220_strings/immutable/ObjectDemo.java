@@ -1,4 +1,4 @@
-package com.luguosong._04_strings.immutable;
+package com.luguosong._220_strings.immutable;
 
 /**
  * @author luguosong

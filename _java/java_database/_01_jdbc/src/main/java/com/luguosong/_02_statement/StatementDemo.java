@@ -1,5 +1,7 @@
 package com.luguosong._02_statement;
 
+import com.luguosong.util.Util;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -25,15 +27,15 @@ public class StatementDemo {
             statement = conn.createStatement();
 
             //执行新增语句
-            int count = statement.executeUpdate("INSERT INTO products VALUES ('AA',1004,'coffee',2.50,'describe')");
+            int count = statement.executeUpdate("INSERT INTO user VALUES (null,"+ Util.getName() +",'1234')");
             System.out.println("添加返回结果：" + count);
 
             //执行修改语句
-            count = statement.executeUpdate("UPDATE products set prod_price = 2.0 where prod_id = 'AA'");
+            count = statement.executeUpdate("UPDATE user SET password ='1111' WHERE id = 1");
             System.out.println("修改返回结果："+count);
 
             //执行删除语句
-            count = statement.executeUpdate("DELETE FROM products where prod_id = 'AA'");
+            count = statement.executeUpdate("DELETE FROM user where id = 2");
             System.out.println("删除返回结果："+count);
 
             //执行DDL语句：删除表

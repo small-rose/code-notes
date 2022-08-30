@@ -26,7 +26,7 @@ public class JDBCDemo {
                     "root",
                     "12345678");
             //定义sql语句
-            String sql = "UPDATE products SET prod_price =10.01 WHERE prod_id = 'FB'";
+            String sql = "UPDATE user SET password ='1111' WHERE id = 1";
             //获取执行sql的对象
             statement = conn.createStatement();
             //执行sql
@@ -52,7 +52,6 @@ public class JDBCDemo {
                     throw new RuntimeException(e);
                 }
             }
-
         }
     }
 }

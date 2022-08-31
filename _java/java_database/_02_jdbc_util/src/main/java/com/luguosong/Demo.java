@@ -16,15 +16,15 @@ public class Demo {
         try {
             Connection connection = JDBCUtils.getConnection();
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM products");
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM user");
             while (resultSet.next()) {
                 String column1 = resultSet.getString(1);
                 System.out.print(column1 + " ");
 
-                int column2 = resultSet.getInt(2);
+                String column2 = resultSet.getString("name");
                 System.out.print(column2 + " ");
 
-                String column3 = resultSet.getString("prod_name");
+                String column3 = resultSet.getString(3);
                 System.out.println(column3 + " ");
             }
             JDBCUtils.close(resultSet, statement, connection);

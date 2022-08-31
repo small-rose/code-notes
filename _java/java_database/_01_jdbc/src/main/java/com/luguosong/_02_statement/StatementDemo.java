@@ -1,6 +1,5 @@
 package com.luguosong._02_statement;
 
-import com.luguosong.util.Util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -27,7 +26,7 @@ public class StatementDemo {
             statement = conn.createStatement();
 
             //执行新增语句
-            int count = statement.executeUpdate("INSERT INTO user VALUES (null,"+ Util.getName() +",'1234')");
+            int count = statement.executeUpdate("INSERT INTO user VALUES (null,'王五','1234')");
             System.out.println("添加返回结果：" + count);
 
             //执行修改语句
@@ -38,14 +37,13 @@ public class StatementDemo {
             count = statement.executeUpdate("DELETE FROM user where id = 2");
             System.out.println("删除返回结果："+count);
 
-            //执行DDL语句：删除表
-            count = statement.executeUpdate("DROP TABLE IF EXISTS student");
-            System.out.println("删除表返回结果："+count);
-
             //执行DDL语句：建表
             count = statement.executeUpdate("CREATE TABLE student (id int,name varchar(20))");
             System.out.println("建表返回结果："+count);
 
+            //执行DDL语句：删除表
+            count = statement.executeUpdate("DROP TABLE IF EXISTS student");
+            System.out.println("删除表返回结果："+count);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {

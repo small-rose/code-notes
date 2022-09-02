@@ -4,7 +4,6 @@ title: git
 nav_order: 20
 mermaid: true
 ---
-
 # 概述
 
 ## Git概述
@@ -48,6 +47,10 @@ git config --global user.email 邮箱
 #初始化本地库
 git init
 ```
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220902191828.png)
+
+
 
 ## 查看本地库状态
 
@@ -160,6 +163,7 @@ git pull 别名 分支名
 克隆项目，不需要任何身份认证
 
 克隆会做三件事：
+
 - 拉取代码
 - 初始化本地库
 - 创建别名
@@ -177,10 +181,36 @@ git clone 远程仓库地址
 
 ![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220902163607.png)
 
-- aaa
+- 进入项目，点击fork将其叉入自己的远程库中
 
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220902174133.png)
 
 ## 发送Pull requests
+
+- 点击`New pull request`按钮向仓库管理员发送更改请求
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220902174810.png)
+
+# 使用SSH登录远程仓库
+
+- 使用`ssh -keygen`生成ssh公钥认证所需的公钥和私钥文件。并放入c盘用户目录下的`.ssh`文件夹中
+
+```shell
+ssh-keygen -t rsa -C "备注"
+```
+
+| 参数   | 解释                                                  |
+| ------ | ----------------------------------------------------- |
+| -b     | 采用长度1024bit的密钥对,b=bits,最长4096，不过没啥必要 |
+| -t rsa | 采用rsa加密方式,t=type                                |
+| -f     | 生成文件名,f=output_keyfiles                          |
+| -C     | 备注，C=comment                                       |
+
+- 将公钥信息复制到github
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220902190549.png)
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220902190740.png)
 
 # Idea集成Git
 

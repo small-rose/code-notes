@@ -1,7 +1,7 @@
 ---
 layout: default
 title: 面向对象
-nav_order: 30
+nav_order: 80
 parent: JavaSE
 ---
 

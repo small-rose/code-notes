@@ -66,6 +66,8 @@ git status
 git add 文件
 ```
 
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220904102714.png)
+
 ## 删除暂存区文件
 
 ```shell
@@ -107,6 +109,14 @@ git reset --hard 版本号
 git branch 分支名
 ```
 
+idea新建分支（方式一）：
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220904160319.png)
+
+idea新建分支（方式二）：
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220904163332.png)
+
 ## 查看分支
 
 ```shell
@@ -124,6 +134,8 @@ git branch -v
 git checkout 分支名
 ```
 
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220904163456.png)
+
 ## 分支合并
 
 ```shell
@@ -132,6 +144,8 @@ git merge 要合并的分支名
 ```
 
 遇到有冲突的分支，需要手动合并
+
+
 
 # 团队协作机制
 
@@ -212,10 +226,4 @@ ssh-keygen -t rsa -C "备注"
 
 ![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220902190740.png)
 
-# Idea集成Git
 
-# Github
-
-# Gitee
-
-# GitLab

@@ -27,6 +27,12 @@ parent: JavaSE
 - 字段类型。
 - 字段名。
 
+## 默认值
+
+字段声明时，不一定总要赋初值。编译器会为那些已经声明但未初始化的字段赋予一个`默认值`。
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220908093124.png)
+
 # 声明方法
 
 ## 组成

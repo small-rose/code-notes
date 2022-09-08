@@ -10,6 +10,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <groupId>com.luguosong</groupId>
     <artifactId>java_se</artifactId>
 
     <properties>

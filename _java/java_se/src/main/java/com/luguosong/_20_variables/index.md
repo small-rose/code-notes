@@ -29,3 +29,39 @@ Java支持`八种`基本数据类型
 
 ![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220830111703.png)
 
+# 字
+
+## 概述
+
+初始化基本类型的变量时不能使用关键字`new`。基本类型是内嵌在Java语言中的特殊数据类型，它们不需要用类来创建。`字（或文字，literal)`是用源代码表示的固定值。字不需要计算，直接由代码表示。
+
+## 整型字
+
+整型字默认就是`int类型`,`int类型`的整型字不能超出int的取值范围。
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220908101743.png)
+
+以`L`或`l`结尾的整型字表示`long类型`
+
+byte、short、int和long类型的值可以由`int类型字`创建,long类型由`long类型字`创建
+
+
+
+整型字可以由不同进制表示：
+
+```java
+class Demo{
+    /**
+     * 数字 26，十进制
+     */
+    int decVal = 26;
+    /**
+     * 数字 26，十六进制
+     */
+    int hexVal = 0x1a;
+    /**
+     * 数字 26，二进制
+     */
+    int binVal = 0b11010;
+}
+```

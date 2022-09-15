@@ -24,5 +24,6 @@
         <module>_java/java_test</module>
         <module>_java/microservices</module>
         <module>_java/cryptography</module>
+        <module>_java/java_se2</module>
     </modules>
 </project>

@@ -15,6 +15,7 @@
     <modules>
         <module>_01_jdbc</module>
         <module>_02_jdbc_util</module>
+        <module>_03_connection_pool/c3p0-demo</module>
     </modules>
 
     <properties>
@@ -22,17 +23,4 @@
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.29</version>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>5.8.2</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
 </project>

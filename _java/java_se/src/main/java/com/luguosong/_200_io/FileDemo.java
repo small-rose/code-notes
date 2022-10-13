@@ -1,15 +1,14 @@
----
-layout: default
-title: IO
-nav_order: 200
-parent: JavaSE
----
+package com.luguosong._200_io;
 
-# File类
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.stream.Stream;
 
-代表`文件`或`文件目录`
-
-```java
+/**
+ * @author luguosong
+ * @date 2022/9/28
+ */
 public class FileDemo {
     public static void main(String[] args) {
 
@@ -66,8 +65,3 @@ public class FileDemo {
         System.out.println(file3.isHidden());
     }
 }
-```
-
-# IO流概述
-
- 

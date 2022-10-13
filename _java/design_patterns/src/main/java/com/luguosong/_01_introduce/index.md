@@ -1,9 +1,8 @@
 ---
 layout: default
 title: 设计模式简介
-nav_order: 10
-parent: 设计模式概述
-grand_parent: 设计模式（Design Pattern）
+nav_order: 1
+parent: 设计模式（Design Pattern）
 ---
 
 # 什么是设计模式
@@ -18,3 +17,6 @@ grand_parent: 设计模式（Design Pattern）
 
 `算法更像是菜谱`：提供达成目标的明确步骤。而`模式更像是蓝图`：你可以看到最终的结果和模式的功能，但需要自己确定实现步骤。
 
+# 模式总览
+
+![](http://edrawcloudpubliccn.oss-cn-shenzhen.aliyuncs.com/viewer/self/1059758/share/2022-5-10/1652153096/main.svg)

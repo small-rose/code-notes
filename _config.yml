@@ -35,7 +35,7 @@ gitment_oauth:
   client_id: 0d8aaec11145d797cdfa
   client_secret: 43cec67aeda473d51e3975f5f9ea4b2d60fb1cb3
 
-color_scheme: dark
+#color_scheme: dark
 plugins:
   - jekyll-feed
   - jekyll-seo-tag

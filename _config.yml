@@ -41,6 +41,19 @@ plugins:
   - jekyll-seo-tag
 
 
+callouts_level: loud
+callouts:
+  highlight:
+    color: blue
+  important:
+    color: purple
+  new:
+    color: green
+  note:
+    color: yellow
+  warning:
+    color: red
+
 collections:
   basic:
     output: true
@@ -99,3 +112,12 @@ search:
   # Enable or disable the search button that appears in the bottom right corner of every page
   # Supports true or false (default)
   button: true
+
+compress_html:
+  ignore:
+    envs: all
+
+kramdown:
+  syntax_highlighter_opts:
+    block:
+      line_numbers: true

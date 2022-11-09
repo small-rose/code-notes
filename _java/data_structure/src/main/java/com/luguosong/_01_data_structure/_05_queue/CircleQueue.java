@@ -20,7 +20,7 @@ public class CircleQueue<E> {
      *
      * @param capacity
      */
-    public void ensureCapacity(int capacity) {
+    private void ensureCapacity(int capacity) {
         if (elements.length < capacity) {
             //获取原数组容量
             int oldCapacity = elements.length;
@@ -29,12 +29,17 @@ public class CircleQueue<E> {
             //创建新数组
             E[] newElements = (E[]) new Object[newCapacity];
             for (int i = 0; i < size; i++) {
-                newElements[i] = elements[(i + front) % elements.length];
+                newElements[i] = elements[index(i)];
             }
             elements = newElements;
             //重置front
             front = 0;
         }
+    }
+
+    private int index(int index) {
+        index += front;
+        return index - (elements.length > index ? 0 : elements.length);
     }
 
     public CircleQueue() {
@@ -51,23 +56,37 @@ public class CircleQueue<E> {
 
     public void enQueue(E element) {
         ensureCapacity(size + 1);
-        elements[(front + size) % elements.length] = element;
+        elements[index(size)] = element;
         size++;
     }
 
     public E deQueue() {
         E old = elements[front];
         elements[front] = null;
-        front = (front + 1) % elements.length;
+        front = index(1);
         size--;
         return old;
     }
 
+    /**
+     * 获取第一个元素
+     *
+     * @return
+     */
     public E front() {
         return elements[front];
     }
 
-
+    /**
+     * 清空
+     */
+    public void clear() {
+        for (int i = 0; i < size; i++) {
+            elements[index(i)] = null;
+        }
+        size = 0;
+        front = 0;
+    }
 
     /**
      * 打印数组

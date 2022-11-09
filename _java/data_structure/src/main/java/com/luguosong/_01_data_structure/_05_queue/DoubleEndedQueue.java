@@ -84,4 +84,11 @@ public class DoubleEndedQueue<E> {
     public E rear() {
         return list.get(list.size() - 1);
     }
+
+    /**
+     * 清空
+     */
+    public void clear(){
+        list.clear();
+    }
 }

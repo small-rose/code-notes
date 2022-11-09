@@ -1,4 +1,6 @@
+//
 // Labels (not the form kind)
+//
 
 .label,
 .label-blue {
@@ -10,11 +12,9 @@
   margin-right: $sp-2;
   margin-left: $sp-2;
   color: $white;
-  text-transform: uppercase;
   vertical-align: middle;
   background-color: $blue-100;
   @include fs-2;
-
   border-radius: 12px;
 }
 

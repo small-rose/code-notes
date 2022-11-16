@@ -24,7 +24,7 @@ public class MessageDigestTest {
      * @param md
      */
     private void testMessageDigest(MessageDigest md) {
-        System.out.println("密码服务提供者为："+md.getProvider());
+        System.out.println("密码服务提供者为：" + md.getProvider());
         md.update("abc".getBytes());
         byte[] digest = md.digest();
         System.out.println(Hex.toHexString(digest).toUpperCase());
@@ -49,12 +49,11 @@ public class MessageDigestTest {
     @Test
     public void testBC() {
         try {
-            Security.addProvider(new BouncyCastleProvider());
-            MessageDigest md = MessageDigest.getInstance("SM31","BC");
+            //将BC库添加为首选服务提供者
+            Security.insertProviderAt(new BouncyCastleProvider(), 1);
+            MessageDigest md = MessageDigest.getInstance("SM3");
             testMessageDigest(md);
         } catch (NoSuchAlgorithmException e) {
-            System.out.println(e.getMessage());
-        } catch (NoSuchProviderException e) {
             System.out.println(e.getMessage());
         }
     }

@@ -184,7 +184,7 @@ public class IODemo {
         //确保文件存在
         File file = new File("src/main/resources/file_read_write/1.txt");
         file.getParentFile().mkdirs();
-        file.createNewFile();
+        //file.createNewFile();
 
         FileWriter fw = new FileWriter(file);
         BufferedWriter bfw = new BufferedWriter(fw);
@@ -207,4 +207,82 @@ public class IODemo {
         file.delete();
         file.getParentFile().delete();
     }
+
+    /**
+     * 数据流测试，用于存储基本数据类型
+     *
+     * @throws IOException
+     */
+    @Test
+    public void testDataStream() throws IOException {
+        //确保文件存在
+        File file = new File("src/main/resources/file_read_write/1.txt");
+        file.getParentFile().mkdirs();
+
+        DataOutputStream dos = new DataOutputStream(new FileOutputStream(file));
+        dos.writeInt(20);
+        dos.writeDouble(1.75);
+        dos.writeUTF("数据流");
+        dos.close();
+
+        DataInputStream dis = new DataInputStream(new FileInputStream(file));
+        System.out.println(dis.readInt());
+        System.out.println(dis.readDouble());
+        System.out.println(dis.readUTF());
+        dis.close();
+
+        //将测试文件清理掉
+        file.delete();
+        file.getParentFile().delete();
+    }
+
+    private static class Student implements Serializable {
+        private String name;
+        private Integer age;
+
+        //被transient修饰的变量不会被序列化
+        private transient Double height;
+
+        public Student(String name, Integer age, Double height) {
+            this.name = name;
+            this.age = age;
+            this.height = height;
+        }
+
+        @Override
+        public String toString() {
+            return "Student{" +
+                    "name='" + name + '\'' +
+                    ", age=" + age +
+                    ", height=" + height +
+                    '}';
+        }
+    }
+
+    /**
+     * 对象流
+     *
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
+    @Test
+    public void testObjectStream() throws IOException, ClassNotFoundException {
+        //确保文件存在
+        File file = new File("src/main/resources/file_read_write/1.txt");
+        file.getParentFile().mkdirs();
+
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file));
+        Student student = new Student("张三", 19, 180.0);
+        oos.writeObject(student);
+        oos.close();
+
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
+        System.out.println((Student) ois.readObject());
+        ois.close();
+
+        //将测试文件清理掉
+        file.delete();
+        file.getParentFile().delete();
+    }
+
 }

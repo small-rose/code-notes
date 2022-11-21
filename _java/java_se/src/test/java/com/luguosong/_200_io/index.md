@@ -284,3 +284,111 @@ class Demo {
     }
 }
 ```
+
+# 数据流（Data Stream）
+
+`DataInputStream`和`DataOutputStream`。支持基本数据类型、字符串的读写。
+
+```java
+class Demo {
+    /**
+     * 数据流测试，用于存储基本数据类型
+     */
+    @Test
+    public void testDataStream() throws IOException {
+        //确保文件存在
+        File file = new File("src/main/resources/file_read_write/1.txt");
+        file.getParentFile().mkdirs();
+
+        DataOutputStream dos = new DataOutputStream(new FileOutputStream(file));
+        dos.writeInt(20);
+        dos.writeDouble(1.75);
+        dos.writeUTF("数据流");
+        dos.close();
+
+        DataInputStream dis = new DataInputStream(new FileInputStream(file));
+        System.out.println(dis.readInt());
+        System.out.println(dis.readDouble());
+        System.out.println(dis.readUTF());
+        dis.close();
+
+        //将测试文件清理掉
+        file.delete();
+        file.getParentFile().delete();
+    }
+}
+```
+
+# 对象流（Object Stream）
+
+`ObjectInputStream`和`ObjectOutputStream`，用于对象读写操作。
+
+只有实现了`java.io.Serializable`接口的类才能使用对象流进行I/O操作。
+被`transient`修饰的变量不会被序列化
+
+`序列化`：将对象转为二进制
+
+`反序列化`：将二进制转为对象
+
+
+{: .warning-title}
+> 注意
+> 
+> 每一个可序列化类都有一个 `serialVersionUID`, 相当于类的版本号
+> 默认情况下会根据类的详细信息计算出`serialVersionUID`的值 ，根据编译器实现的不同可能干差万别
+> 如果序列化、反序列时的`serialVersionUID`不一致，会抛出 `java.io.InvalidClassException`异常
+> 
+> 强烈建议每一个可序列化类都自定义serialVersionUID, 
+> 建议声明为 `private static final long serialVersionUID xxx`
+
+```java
+class Demo {
+    private static class Student implements Serializable {
+        private String name;
+        private Integer age;
+
+        //被transient修饰的变量不会被序列化
+        private transient Double height;
+
+        public Student(String name, Integer age, Double height) {
+            this.name = name;
+            this.age = age;
+            this.height = height;
+        }
+
+        @Override
+        public String toString() {
+            return "Student{" +
+                    "name='" + name + '\'' +
+                    ", age=" + age +
+                    ", height=" + height +
+                    '}';
+        }
+    }
+
+    /**
+     * 对象流
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
+    @Test
+    public void testObjectStream() throws IOException, ClassNotFoundException {
+        //确保文件存在
+        File file = new File("src/main/resources/file_read_write/1.txt");
+        file.getParentFile().mkdirs();
+
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file));
+        Student student = new Student("张三", 19, 180.0);
+        oos.writeObject(student);
+        oos.close();
+
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
+        System.out.println((Student) ois.readObject());
+        ois.close();
+
+        //将测试文件清理掉
+        file.delete();
+        file.getParentFile().delete();
+    }
+}
+```

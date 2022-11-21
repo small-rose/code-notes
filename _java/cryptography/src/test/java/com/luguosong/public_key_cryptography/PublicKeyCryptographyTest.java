@@ -1,34 +1,36 @@
 package com.luguosong.public_key_cryptography;
 
-import org.bouncycastle.asn1.ASN1InputStream;
-import org.bouncycastle.asn1.ASN1Primitive;
-import org.bouncycastle.asn1.ASN1Sequence;
-import org.bouncycastle.asn1.gm.GMObjectIdentifiers;
-import org.bouncycastle.asn1.pkcs.RSAPublicKey;
 import org.bouncycastle.asn1.x500.X500Name;
 import org.bouncycastle.asn1.x500.X500NameBuilder;
-import org.bouncycastle.asn1.x509.X509Name;
-import org.bouncycastle.jcajce.provider.BouncyCastleFipsProvider;
+import org.bouncycastle.asn1.x500.style.BCStyle;
+import org.bouncycastle.cert.X509CertificateHolder;
+import org.bouncycastle.cert.X509v1CertificateBuilder;
+import org.bouncycastle.cert.jcajce.JcaX509CertificateConverter;
+import org.bouncycastle.cert.jcajce.JcaX509CertificateHolder;
+import org.bouncycastle.cert.jcajce.JcaX509v1CertificateBuilder;
 import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPrivateKey;
 import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPublicKey;
 import org.bouncycastle.jcajce.spec.SM2ParameterSpec;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.operator.ContentSigner;
+import org.bouncycastle.operator.OperatorCreationException;
+import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
 import org.bouncycastle.util.Strings;
 import org.bouncycastle.util.encoders.Hex;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import sun.rmi.transport.Transport;
 
 import javax.crypto.*;
 import javax.crypto.spec.OAEPParameterSpec;
 import javax.crypto.spec.PSource;
-import javax.crypto.spec.SecretKeySpec;
 import javax.security.auth.x500.X500Principal;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.security.*;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.security.spec.*;
-import java.util.LinkedList;
+import java.util.Date;
 
 /**
  * 公钥密码学测试类
@@ -256,6 +258,7 @@ public class PublicKeyCryptographyTest {
      *
      * @throws IOException
      */
+    @Test
     public void testX500NameToX500Principal() throws IOException {
         X500NameBuilder x500Bldr = new X500NameBuilder();
         //X500Name转X500Principal
@@ -265,5 +268,75 @@ public class PublicKeyCryptographyTest {
     }
 
 
+    /**
+     * 工具类：以秒为单位计算日期
+     *
+     * @param hoursInFuture
+     * @return
+     */
+    private Date calculateDate(int hoursInFuture) {
+        long secs = System.currentTimeMillis() / 1000;
 
+        return new Date((secs + (hoursInFuture * 60 * 60)) * 1000);
+    }
+
+    private static long serialNumberBase = System.currentTimeMillis();
+
+    /**
+     * 工具类：生成序列号
+     *
+     * @return
+     */
+    private static BigInteger calculateSerialNumber() {
+        return BigInteger.valueOf(serialNumberBase++);
+    }
+
+    /**
+     * 创建V1版证书
+     *
+     * @return
+     * @throws OperatorCreationException
+     * @throws NoSuchAlgorithmException
+     */
+    @Test
+    public void createTrustAnchor()
+            throws OperatorCreationException, NoSuchAlgorithmException, CertificateException {
+
+        //初始化密钥对
+        KeyPairGenerator kpGen = KeyPairGenerator.getInstance("EC");
+        KeyPair keyPair = kpGen.generateKeyPair();
+
+        String sigAlg = "SM3withSM2";
+
+        X500NameBuilder x500NameBld = new X500NameBuilder(BCStyle.INSTANCE)
+                .addRDN(BCStyle.C, "AU")
+                .addRDN(BCStyle.ST, "Victoria")
+                .addRDN(BCStyle.L, "Melbourne")
+                .addRDN(BCStyle.O, "The Legion of the Bouncy Castle")
+                .addRDN(BCStyle.CN, "Demo Root Certificate");
+
+        X500Name name = x500NameBld.build();
+
+
+        X509v1CertificateBuilder certBldr = new JcaX509v1CertificateBuilder(
+                name,
+                calculateSerialNumber(),
+                calculateDate(0),
+                calculateDate(24 * 31),
+                name,
+                keyPair.getPublic());
+
+        ContentSigner signer = new JcaContentSignerBuilder(sigAlg)
+                .setProvider("BC").build(keyPair.getPrivate());
+
+        X509CertificateHolder certHolder1 = certBldr.build(signer);
+
+        //X509CertificateHolder转为X509Certificate
+        X509Certificate x509Cert = new JcaX509CertificateConverter().getCertificate(certHolder1);
+
+        //这段主要展示X509Certificate转为X509CertificateHolder
+        X509CertificateHolder certHolder2 = new JcaX509CertificateHolder(x509Cert);
+
+
+    }
 }

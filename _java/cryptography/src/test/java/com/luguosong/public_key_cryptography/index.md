@@ -19,6 +19,12 @@ JCA提供了密钥对的基本接口：
 
 # X509
 
+## 结构
+
+- tbsCertificate
+- signatureAlgorithm
+- signature：签名值是根据tbsCertificate的DER编码计算出的
+
 ## X.500 name
 
 

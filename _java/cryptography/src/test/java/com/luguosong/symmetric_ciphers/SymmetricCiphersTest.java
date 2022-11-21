@@ -4,10 +4,11 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.util.encoders.Hex;
 import org.junit.jupiter.api.Test;
 
-import javax.crypto.*;
-import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-import java.security.*;
+import java.security.NoSuchAlgorithmException;
+import java.security.Security;
 
 /**
  * @author luguosong

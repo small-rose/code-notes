@@ -86,6 +86,11 @@ layout: table_wrappers
     </nav>
     <footer class="site-footer">
         <div>
+            <span id="busuanzi_container_site_pv">
+                本站总访问量<span id="busuanzi_value_site_pv"><i class="fa fa-spinner"></i></span>次
+            </span>
+        </div>
+        <div>
             &copy;{{ "now" | date: "%Y" }} <a href="#" id="weixing">陆国松</a>.
             <div class="shake" style="display: inline-block">
                 <a href="#" id="apply">打赏支持</a>
@@ -95,7 +100,6 @@ layout: table_wrappers
             <img id="weixingImg" src="https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202109241714054.jpg"
                  hidden>
         </div>
-        </span>
     </footer>
 </div>
 
@@ -262,7 +266,6 @@ layout: table_wrappers
 <div class="toc side-bar-right js-toc">
 
 </div>
-
 
 <script>
     let gitalk = new Gitalk({

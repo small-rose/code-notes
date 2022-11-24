@@ -24,10 +24,13 @@ import javax.crypto.*;
 import javax.crypto.spec.OAEPParameterSpec;
 import javax.crypto.spec.PSource;
 import javax.security.auth.x500.X500Principal;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.security.*;
+import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.security.spec.*;
 import java.util.Date;
@@ -299,7 +302,7 @@ public class PublicKeyCryptographyTest {
      * @throws NoSuchAlgorithmException
      */
     @Test
-    public void createTrustAnchor()
+    public X509CertificateHolder createTrustAnchor()
             throws OperatorCreationException, NoSuchAlgorithmException, CertificateException {
 
         //初始化密钥对
@@ -329,14 +332,50 @@ public class PublicKeyCryptographyTest {
         ContentSigner signer = new JcaContentSignerBuilder(sigAlg)
                 .setProvider("BC").build(keyPair.getPrivate());
 
-        X509CertificateHolder certHolder1 = certBldr.build(signer);
+        return certBldr.build(signer);
+
+
+
+
+    }
+
+    /**
+     * X509CertificateHolder和X509Certificate互相转换
+     *
+     * @throws CertificateException
+     * @throws NoSuchAlgorithmException
+     * @throws OperatorCreationException
+     */
+    public void convertingX509CertificateHolder() throws CertificateException, NoSuchAlgorithmException, OperatorCreationException {
+        X509CertificateHolder certHolder1 = createTrustAnchor();
 
         //X509CertificateHolder转为X509Certificate
         X509Certificate x509Cert = new JcaX509CertificateConverter().getCertificate(certHolder1);
 
         //这段主要展示X509Certificate转为X509CertificateHolder
         X509CertificateHolder certHolder2 = new JcaX509CertificateHolder(x509Cert);
+    }
 
+    /**
+     * CertificateFactory通过流解析x509
+     * inStream中提供的证书必须是 DER 编码的，并且可以二进制或可打印 (Base64) 编码提供。
+     * 如果证书以 Base64 编码提供，则必须在开头以 -----BEGIN CERTIFICATE----- 为界，并且必须在结尾以 -----END CERTIFICATE----- 为界.
+     *
+     * @throws CertificateException
+     * @throws NoSuchAlgorithmException
+     * @throws OperatorCreationException
+     * @throws IOException
+     */
+    @Test
+    public void getX509Certificate() throws CertificateException, NoSuchAlgorithmException, OperatorCreationException, IOException {
 
+        CertificateFactory cFact = CertificateFactory.getInstance("X.509");
+        //获取base64编码的x509
+        Certificate certificateBase64 = cFact.generateCertificate(new FileInputStream("src/test/resources/cert/base64.cer"));
+        System.out.println(certificateBase64);
+
+        //获取der编码的x509
+        Certificate certificateDer = cFact.generateCertificate(new FileInputStream("src/test/resources/cert/der.cer"));
+        System.out.println(certificateDer);
     }
 }

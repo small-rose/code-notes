@@ -1,10 +1,22 @@
 ---
 layout: default
-title: 接口和实现
+title: 抽象类和接口
 nav_order: 90
 parent: JavaSE
 ---
 
+# 抽象方法
+
+{: .new-title}
+> 抽象方法
+> 
+> 被`abstract`修饰的方法
+
+- 抽象方法只有方法声明，没有方法实现
+
+# 抽象类
+
+# 接口
 
 # 接口和抽象类的区别
 

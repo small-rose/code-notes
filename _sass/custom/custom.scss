@@ -53,38 +53,7 @@
       &::before {
         position: absolute;
         margin-left: -1.4em;
-        color: $grey-dk-000;
-        content: "🥇";
-      }
-
-      > ul > li {
-        &::before {
-          content: "🥈";
-        }
-
-        > ul > li {
-          &::before {
-            content: "🥉";
-          }
-
-          > ul > li {
-            &::before {
-              content: "🏅";
-            }
-
-            > ul > li {
-              &::before {
-                content: "🎖️";
-              }
-
-              > ul > li {
-                &::before {
-                  content: "🏆";
-                }
-              }
-            }
-          }
-        }
+        content: url("../../assets/css/image/li.svg");
       }
     }
   }

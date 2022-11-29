@@ -1,7 +1,6 @@
 package com.luguosong.asn1;
 
 import org.bouncycastle.asn1.*;
-import org.bouncycastle.asn1.x509.AlgorithmIdentifier;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -99,6 +98,6 @@ public class Asn1Test {
      */
     @Test
     public void testBitString() throws IOException {
-        
+
     }
 }

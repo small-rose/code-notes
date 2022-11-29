@@ -320,7 +320,6 @@ public class PublicKeyCryptographyTest {
 
         X500Name name = x500NameBld.build();
 
-
         X509v1CertificateBuilder certBldr = new JcaX509v1CertificateBuilder(
                 name,
                 calculateSerialNumber(),
@@ -333,9 +332,6 @@ public class PublicKeyCryptographyTest {
                 .setProvider("BC").build(keyPair.getPrivate());
 
         return certBldr.build(signer);
-
-
-
 
     }
 
@@ -354,6 +350,7 @@ public class PublicKeyCryptographyTest {
 
         //这段主要展示X509Certificate转为X509CertificateHolder
         X509CertificateHolder certHolder2 = new JcaX509CertificateHolder(x509Cert);
+
     }
 
     /**
@@ -378,4 +375,30 @@ public class PublicKeyCryptographyTest {
         Certificate certificateDer = cFact.generateCertificate(new FileInputStream("src/test/resources/cert/der.cer"));
         System.out.println(certificateDer);
     }
+
+    class PrivateCredential {
+        private final X509Certificate certificate;
+        private final PrivateKey privateKey;
+
+        /**
+         * Base constructor.
+         * Chapter 10: Key and Certificate Storage 265
+         *
+         * @param certificate the public key certificate matching privateKey.
+         * @param privateKey  the private key matching the certificate parameter.
+         */
+        public PrivateCredential(X509Certificate certificate, PrivateKey privateKey) {
+            this.certificate = certificate;
+            this.privateKey = privateKey;
+        }
+
+        public PrivateKey getPrivateKey() {
+            return privateKey;
+        }
+
+        public X509Certificate getCertificate() {
+            return certificate;
+        }
+    }
+
 }

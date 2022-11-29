@@ -165,6 +165,8 @@ class Demo {
 
 `static`和`final`共同修饰的字段。
 
+常量是与类的对象无关的，因此使用static修饰
+
 {: .note-title}
 > 常量命名
 > 

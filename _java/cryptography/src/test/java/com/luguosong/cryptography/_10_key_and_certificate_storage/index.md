@@ -18,7 +18,7 @@ JCA的原始密钥库格式，提供一定程度的防篡改保护。
 没有密钥库密码无法恢复私钥
 
 ```java
-class Demo{
+class Demo {
     /**
      * JKS密钥库
      *
@@ -69,26 +69,27 @@ class Demo{
 
 ## UBER
 
-`UBER`格式基于`BKS`，但与`BKS`不同的是，它会将密钥库存储为加密的blob，并使用`Twofish`加密算法进行保护。这意味着如果不使用密码，则无法使用Java密钥工具访问密钥库。
+`UBER`格式基于`BKS`，但与`BKS`不同的是，它会将密钥库存储为加密的blob，并使用`Twofish`
+加密算法进行保护。这意味着如果不使用密码，则无法使用Java密钥工具访问密钥库。
 
-# keytool
+# keytool工具
 
 keytool是一个Java实用程序,它提供密钥库的命令行处理。默认情况下，它与`JKS`密钥库一起使用
 
-- -delete             删除条目
-- -exportcert         导出证书
-- -genkeypair         生成密钥对
-- -genseckey          生成密钥
-- -gencert            根据证书请求生成证书
-- -importcert         导入证书或证书链
-- -importpass         导入口令
-- -importkeystore     从其他密钥库导入一个或所有条目
-- -keypasswd          更改条目的密钥口令
-- -list               列出密钥库中的条目
-- -printcert          打印证书内容
-- -printcertreq       打印证书请求的内容
-- -printcrl           打印 CRL 文件的内容
-- -storepasswd        更改密钥库的存储口令
+- -delete 删除条目
+- -exportcert 导出证书
+- -genkeypair 生成密钥对
+- -genseckey 生成密钥
+- -gencert 根据证书请求生成证书
+- -importcert 导入证书或证书链
+- -importpass 导入口令
+- -importkeystore 从其他密钥库导入一个或所有条目
+- -keypasswd 更改条目的密钥口令
+- -list 列出密钥库中的条目
+- -printcert 打印证书内容
+- -printcertreq 打印证书请求的内容
+- -printcrl 打印 CRL 文件的内容
+- -storepasswd 更改密钥库的存储口令
 
 ## 查看密钥库信息
 
@@ -123,4 +124,123 @@ keytool -certreq -alias key -file csr.txt -keystore rsa.jks
 
 ## 导入从证书颁发机构接收到的证书
 
+```shell
+# 导入trust anchor
+keytool -import -alias ca-name -keystore rsa.jks -file ca-trustanchor.pem
+```
 
+```shell
+# 导入证书
+keytool -import -alias key -keystore rsa.jks -file ca-response.pem
+```
+
+## 密码库转换
+
+```shell
+keytool -importkeystore -srckeystore rsa.jks -destkeystore rsa.bcfks -deststoretype BCFKS
+```
+
+# PKCS12存储
+
+PKCS #12：个人信息交换语法
+
+与JKS不同，PKCS12中密钥没有与之关联的密码。因为PKCS12是为个人数据设计的，因此只需要一个保护密钥库的密码。
+
+```java
+class Demo {
+    /**
+     * PKCS12
+     */
+    @Test
+    public void testPKCS12() throws Exception {
+        PrivateCredential cred = createSelfSignedCredentials();
+
+        KeyStore store = KeyStore.getInstance("PKCS12", "BC");
+
+        store.load(null, null);
+
+        store.setKeyEntry("key", cred.getPrivateKey(), null,
+                new Certificate[]{cred.getCertificate()});
+
+        FileOutputStream fOut = new FileOutputStream("src/test/resources/store/basic.p12");
+
+        store.store(fOut, "storePass".toCharArray());
+
+        fOut.close();
+    }
+}
+```
+
+使用keytool查看PKCS12:
+
+```shell
+keytool -list -keystore basic.p12 -storetype PKCS12
+```
+
+# BCFKS/BCSFKS存储
+
+```java
+class Demo {
+    /**
+     * BCFKS
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testBCFKS() throws Exception {
+        PrivateCredential cred = createSelfSignedCredentials();
+
+        KeyStore store = KeyStore.getInstance("BCFKS", "BC");
+
+        store.load(null, null);
+
+        store.setKeyEntry("key", cred.getPrivateKey(), "keyPass".toCharArray(),
+                new Certificate[]{cred.getCertificate()});
+
+        FileOutputStream fOut = new FileOutputStream("src/test/resources/store/basic.fks");
+
+        store.store(fOut, "storePass".toCharArray());
+
+        fOut.close();
+    }
+}
+```
+
+由于 BCFKS 格式完全由存储在其数据文件中的算法标识符驱动，因此可以将不同的算法引入格式中。
+
+```java
+class Demo {
+    /**
+     * BCFKSwithScrypt
+     * @throws Exception
+     */
+    @Test
+    public void testBCFKSwithScrypt() throws Exception {
+        PrivateCredential cred = createSelfSignedCredentials();
+
+        // 指定加密参数
+        PBKDFConfig config = new ScryptConfig.Builder(1024, 8, 1)
+                .withSaltLength(20).build();
+
+        KeyStore store = KeyStore.getInstance("BCFKS", "BC");
+
+        // 初始化空存储以使用 scrypt
+        store.load(new BCFKSLoadStoreParameter.Builder()
+                .withStorePBKDFConfig(config)
+                .build());
+
+        store.setKeyEntry("key", cred.getPrivateKey(), "keyPass".toCharArray(),
+                new Certificate[]{cred.getCertificate()});
+
+        FileOutputStream fOut = new FileOutputStream("src/test/resources/store/scrypt.fks");
+
+        store.store(fOut, "storePass".toCharArray());
+
+        fOut.close();
+    }
+}
+```
+
+如果您运行的应用程序希望保证每个线程的隔离，请使用下面详述的`IBCFKS`变体。
+
+`IBCFKS`密钥库旨在在不同线程之间共享。它是围绕常规`BCFKS`密钥库的不可变包装器，`它始终需要密码才能解锁密钥`。如果您已有不想更改的`BCFKS`密钥库，则可以使用`IBCFKS`来防止应用程序线程在加载后更改密钥库

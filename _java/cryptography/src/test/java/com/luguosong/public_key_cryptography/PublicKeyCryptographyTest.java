@@ -142,6 +142,8 @@ public class PublicKeyCryptographyTest {
         String signHex = Hex.toHexString(signResult);
         System.out.println("签名结果：" + signHex);
 
+
+
         //验签
         Signature verify = Signature.getInstance("SM3withSM2");
         verify.setParameter(sm2ParameterSpec);  //这一步非必要

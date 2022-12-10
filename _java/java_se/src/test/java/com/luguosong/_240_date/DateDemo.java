@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -38,5 +39,13 @@ public class DateDemo {
         //String转Date
         Date date2 = fmt.parse("2020年12月10日 12:12:12");
         System.out.println(date2);
+    }
+
+    @Test
+    public void testCalendar(){
+        //Calendar是抽象类，不能直接new
+        Calendar calendar = Calendar.getInstance();
+        System.out.println(calendar.getTime());
+        System.out.println(calendar.get(calendar.YEAR));
     }
 }

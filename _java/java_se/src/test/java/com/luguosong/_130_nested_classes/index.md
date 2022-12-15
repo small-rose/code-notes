@@ -1,6 +1,6 @@
 ---
 layout: default
-title: 嵌套类（Nested Classes）
+title: 嵌套类
 nav_order: 130
 parent: JavaSE
 ---

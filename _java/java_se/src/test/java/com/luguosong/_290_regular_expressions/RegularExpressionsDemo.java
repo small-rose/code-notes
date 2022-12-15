@@ -94,4 +94,41 @@ public class RegularExpressionsDemo {
             System.out.println("位置：" + matcher.start() + "-" + matcher.end());
         }
     }
+
+    /**
+     * 捕获组
+     */
+    @Test
+    public void testCapturingGroup(){
+        System.out.println("dogdogdog".matches("(dog){3}"));  //true
+        System.out.println("dog".matches("(o|d|g){3}")); //true
+        //使用反斜杠+组编号引用组的内容
+        System.out.println("mjPKPKmj".matches("([a-z]{2})([A-Z]{2})\\2\\1"));
+        System.out.println("I Love You Love You Love You".matches("((I)( Love( You)))\\3{2}")); //true
+    }
+
+
+    /**
+     * 边界匹配符
+     */
+    @Test
+    public void testBoundaryMatcher(){
+        //表示单词边界为d
+        Pattern pattern = Pattern.compile("\\bd..");
+        Matcher matcher = pattern.matcher("dog dad cat day");
+        while (matcher.find()){
+            System.out.println(matcher.group());
+        }
+    }
+
+    @Test
+    public void testModel(){
+        //不区分大小写，方式一
+        System.out.println("Dog".matches("(?i)dog"));
+
+        //不区分大小写：方式二
+        Pattern pattern = Pattern.compile("dog", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher("Dog");
+        System.out.println(matcher.find());
+    }
 }

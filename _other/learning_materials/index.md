@@ -82,10 +82,16 @@ nav_order: 1
 
 ## 数据库
 
--课程
+- 课程
+  - [oe Hellerstein 在 Berkeley 的数据库课程](https://archive.org/details/UCBerkeley_Course_Computer_Science_186)
+  - [数据库系统（上）：模型与语言](https://www.xuetangx.com/course/HIT08091000101/10318348?channel=i.area.manual_search)
+  - [数据库系统（中）：建模与设计](https://www.xuetangx.com/course/HIT08091000103/10322088?channel=i.area.manual_search)
+  - [数据库系统（下）：管理与技术](https://www.xuetangx.com/course/HIT08091000102/10318351?channel=i.area.manual_search)
 
-- [oe Hellerstein 在 Berkeley 的数据库课程](https://archive.org/details/UCBerkeley_Course_Computer_Science_186)
 - 书籍
+    - [MySQL必知必会](https://book.douban.com/subject/3354490/)
+    - [数据库系统概念](https://book.douban.com/subject/10548379/)
+    - [数据库系统实现](https://book.douban.com/subject/10548379/)
     - [数据库管理系统原理与设计](https://book.douban.com/subject/1155934/)
     - [Readings in Database Systems](https://book.douban.com/subject/2256069/)
         - [网站](http://www.redbook.io/)
@@ -122,6 +128,11 @@ nav_order: 1
 ### Jvm
 
 ### 设计模式
+
+- 书籍
+  - [《Java设计模式》](https://book.douban.com/subject/30173863/)和[博客](https://blog.csdn.net/lovelion/article/details/17517213)，以及[设计模式学习网站](https://refactoringguru.cn/design-patterns)整理。
+  - [设计模式学习网站](https://refactoringguru.cn/design-patterns)
+  - [大话设计模式](https://book.douban.com/subject/36116620/)
 
 ### JavaEE
 

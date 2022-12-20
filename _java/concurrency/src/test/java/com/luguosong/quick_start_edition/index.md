@@ -1,16 +1,61 @@
-package com.luguosong._250_concurrency;
+---
+layout: default
+title: 快速入门版
+nav_order: 1
+parent: 并发编程
+---
 
-import org.junit.jupiter.api.Test;
+# 基本概念
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+{: .new-title}
+> 进程
+>
+> 在操作系统中运行的一个应用程序
+>
+> 每个进程之间是独立的，每个进程均运行在其专用且受保护的内存空间内
 
-/**
- * @author luguosong
- * @date 2022/12/13
- */
-public class ConcurrencyDemo {
+{: .new-title}
+> 线程
+>
+> 一个`进程`想要执行任务，必须得有`线程`
+>
+> 每个`进程`至少有一个`线程`
+>
+> 一个`进程`的所有任务都在`线程`中执行
 
+{: .new-title}
+> 线程的串行
+>
+> 一个线程中执行多个任务，那么只能一个一个地按顺序执行这些任务
+>
+> 在同一时间内，一个线程只能执行一个任务
+
+# 多线程
+
+{: .new-title}
+> 多线程
+>
+> 一个进程可以开启多个线程
+>
+> 所有线程可以并行执行不同的任务，提高执行效率
+
+- 优点
+    - 能适当提高程序的执行效率
+    - 能适当提高CPU、内存利用率
+- 缺点
+    - 开启线程需要占用一定的内存空间
+    - 线程越多，CPU在调度线程上的开销就越大
+    - 程序设计更加复杂
+
+{: .new-title}
+> 默认线程
+>
+> 每一个Java程序启动后，会默认开启一个线程，称为主线程（main方法所在的线程）
+
+# 开启线程
+
+```java
+class Demo {
     /**
      * 开启新线程，方式一
      */
@@ -24,15 +69,18 @@ public class ConcurrencyDemo {
         //启动线程
         thread.start();
     }
+}
+```
 
-
-    class MyThread extends Thread {
-        @Override
-        public void run() {
-            System.out.println("线程：" + Thread.currentThread().getName());
-        }
+```java
+class MyThread extends Thread {
+    @Override
+    public void run() {
+        System.out.println("线程：" + Thread.currentThread().getName());
     }
+}
 
+class Demo {
     /**
      * 开启新线程，方式二
      */
@@ -43,72 +91,111 @@ public class ConcurrencyDemo {
         //启动线程
         thread.start();
     }
+}
+```
 
-    /**
-     * sleep和interrupt
-     */
-    @Test
-    public void testThreadState() {
-        Thread thread = new Thread(() -> {
-            System.out.println(1);
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            System.out.println(2);
-        });
-        //开启多线程
-        thread.start();
+{: .warning}
+> 虽然`start()`内部调用的是`run()`方法
+>
+> 需要调用`start()`方法才能开启多线程，而不是直接调用`run()`方法
 
-        System.out.println(3);
 
-        //中断线程
-        thread.interrupt();
-    }
+{: .note-title}
+> 多线程内存布局
+>
+> 每个线程都有自己的`PC寄存器`，`虚拟机栈`,`本地方法栈`
+>
+> 多个线程共享`堆`,`方法区`
 
-    /**
-     * join方法
-     */
-    @Test
-    public void testJoin() {
-        Thread thread = new Thread(() -> {
-            System.out.println(1);
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            System.out.println(2);
-        });
-        thread.start();
-        try {
-            //等线程thread执行完，当前线程再继续执行任务
-            thread.join();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        System.out.println(3);
-    }
+# 线程的状态
 
+- `NEW`：新建
+- `RUNNABLE`：可运行状态
+- `BLOCKED`：阻塞状态，等待内部锁
+- `WATTING`：等待状态
+- `TIMED_WAITTING`：定时等待状态
+- `TERMINATED`：终止状态
+
+# 线程常用方法
+
+- `sleep()`:线程休眠
+- `interrupt()`:终止线程
+- `join()`:等指定线程执行完后再执行当前任务
+- `isAlive()`:判断线程是否还活着
+
+# 线程安全问题
+
+## 问题描述
+
+多个线程共享同一个资源，至少一个线程在执行写操作，则会出现线程安全问题。
+
+**不考虑线程安全问题进行卖票：**
+
+```java
+class Demo {
     static int tickets = 100;
 
     /**
      * 不考虑线程安全问题进行卖票
      */
     @Test
-    public void testThreadSafe1() {
+    public void testThreadSafe() {
         for (int i = 1; i <= 4; i++) {
             Thread thread = new Thread(() -> {
                 String name = Thread.currentThread().getName();
                 while (tickets > 0) {
-                    System.out.println(name + "卖出一张票,还剩：" + --tickets);
+                    System.out.println(name + "卖出一张票,还剩：" + tickets--);
                 }
             });
             thread.setName("线程" + i);
             thread.start();
         }
     }
+}
+```
+
+可以看到，结果存在问题
+
+```text
+线程2卖出一张票,还剩：100
+线程2卖出一张票,还剩：98
+线程2卖出一张票,还剩：97
+线程2卖出一张票,还剩：96
+线程2卖出一张票,还剩：95
+线程2卖出一张票,还剩：94
+线程2卖出一张票,还剩：93
+线程4卖出一张票,还剩：92
+线程3卖出一张票,还剩：99
+.
+省略...
+.
+线程3卖出一张票,还剩：5
+线程3卖出一张票,还剩：4
+线程3卖出一张票,还剩：3
+线程3卖出一张票,还剩：2
+线程3卖出一张票,还剩：1
+线程4卖出一张票,还剩：59
+线程2卖出一张票,还剩：69
+线程1卖出一张票,还剩：22
+```
+
+## 线程同步-同步语句
+
+{: .new-title}
+> synchronized(obj)原理
+>
+> 每个对象都有一个与它相关的内部锁
+>
+> 第一个执行到同步语句的线程可以获得`obj`的内部锁,在执行完同步语句中的代码后释放此锁
+>
+> 只要一个线程持有了内部锁，那么其它线程在同一时间将无法获得此锁。当他们试图获取此锁时，会进入`BLOCKED`状态。
+
+{: .warning}
+> 要保证线程使用的是`同一个对象`的内部锁
+
+```java
+class Demo {
+    static int tickets = 100;
 
     /**
      * 同步语句解决线程安全问题
@@ -135,6 +222,18 @@ public class ConcurrencyDemo {
             thread.start();
         }
     }
+}
+```
+
+## 线程同步-同步方法
+
+用`synchronized`修饰成员方法，不包括构造方法和静态方法
+
+同步方法会锁住整个方法，没有同步语句灵活精确
+
+```java
+class Demo {
+    static int tickets = 100;
 
     private synchronized void sell() {
         String name = Thread.currentThread().getName();
@@ -158,7 +257,25 @@ public class ConcurrencyDemo {
             thread.start();
         }
     }
+}
+```
 
+## 线程安全经典案例
+
+- 单例懒汉模式
+- `ArrayList`中的方法没有用synchronized修饰，线程不安全。`Vector`中的代码使用synchronized修饰，线程安全。
+- `StringBuilder`非线程安全，`StringBuffer`线程安全
+- `HashMap`非线程安全，`Hashtable`线程安全
+
+# 死锁
+
+{: .new-title}
+> 死锁
+>
+> 两个或多个线程永远阻塞，相互等待
+
+```java
+class Demo {
     class Person {
         private String name;
 
@@ -196,7 +313,21 @@ public class ConcurrencyDemo {
             ls.hello(zs);
         }).start();
     }
+}
+```
 
+# 线程间通信
+
+- `wait()`:导致当前线程等待，直到另一个线程为此对象调用`notify()`方法或`notifyAll()`方法。`释放内部锁`
+  ，当前线程进入`WAITING`或`TIMED_WAITING`状态
+- `notify()`:唤醒在此对象的监视器上等待的单个线程。如果有任何线程正在等待该对象，则选择唤醒其中一个线程。选择是任意的，由实现自行决定。
+- `notifyAll()`:唤醒在此对象的监视器上等待的所有线程。
+
+{: .warning}
+> 只有当线程获取线程锁时，才能通过锁对象调用这些方法
+
+```java
+class Demo {
     static boolean hasFood = false;
 
     /**
@@ -270,7 +401,52 @@ public class ConcurrencyDemo {
         System.out.println("主线程退出");
 
     }
+}
+```
 
+# 可重入锁（ReentrantLock）
+
+{: .note-title}
+> 可重入
+>
+> 同一线程可以重复获取同一个锁
+>
+> 其实`synchronized`也是可重入的
+
+- ReentrantLock.lock
+    - 如果此锁没有被另一个线程持有，则将锁的持有计数设为 1，并且此方法立即返回
+    - 如果当前线程已经持有此锁，则将锁的持有计数加 1，并且此方法立即返回
+    - 如果此锁被另一个线程持有，并且在获得锁之前，此线程将一直处于休眠状态，此时锁的持有计数被设为 1
+- ReentrantLock.tryLock
+    - 如果此锁没有被另一个线程持有，则将锁的持有计数设为 1，并且此方法立即返回 true
+    - 如果当前线程已经持有此锁，则将锁的持有计数加 1，并且此方法立即返回 true。
+    - 如果锁被另一个线程持有，则此方法立即返回 false
+- ReentrantLock.unlock
+    - 如果当前线程持有此锁，则将持有计数减 1
+    - 如果持有计数现在为 0，则释放此锁
+    - 如果当前线程没有持有此锁，则抛出 java.lang.IllegalMonitorStateException
+- ReentrantLock.isLocked
+    - 查看此锁是否被任意线程持有
+
+# 线程池（Thread Pool）
+
+{: .note-title}
+> 普通线程
+>
+> 执行完一个任务后，生命周期就结束了
+
+{: .note-title}
+> 工作线程
+>
+> 任务没来一直等，任务来了干活
+
+{: .new-title}
+> 线程池
+>
+> 线程池由`工作线程`组成，可以最大程度减少线程创建、销毁带来的开销。
+
+```java
+class Demo {
     /**
      * 线程池示例
      */
@@ -297,5 +473,5 @@ public class ConcurrencyDemo {
         });
         pool.shutdown();
     }
-
 }
+```

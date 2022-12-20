@@ -1,4 +1,4 @@
-package com.luguosong._250_concurrency;
+package com.luguosong.quick_start_edition;
 
 import org.junit.jupiter.api.Test;
 

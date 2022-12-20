@@ -71,6 +71,40 @@ try或catch正常执行完毕后，一定会执行finally中的代码。
 # 自定义异常
 
 - 自定义检查型异常
-  - 继承`Exception`
+    - 继承`Exception`
 - 自定义非检查型异常
-  - 继承`RuntimeException`
+    - 继承`RuntimeException`
+
+# Closeable接口
+
+`try-catch`支持自动执行实现了`Closeable`接口的`close()`方法
+
+```java
+class Demo {
+    class MyStream implements Closeable {
+
+        @Override
+        public void close() throws IOException {
+            System.out.println("Closeable的close方法执行！");
+        }
+    }
+
+    /**
+     * Closeable接口
+     */
+    @Test
+    public void testCloseable() {
+        try (MyStream m1 = new MyStream(); MyStream m2 = new MyStream()) {
+            //模拟异常
+            int i = 1 / 0;
+        } catch (Exception e) {
+
+        }
+    }
+}
+```
+
+```text
+Closeable的close方法执行！
+Closeable的close方法执行！
+```

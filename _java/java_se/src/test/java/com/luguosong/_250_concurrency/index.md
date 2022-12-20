@@ -1,9 +1,3 @@
----
-layout: default
-title: 并发
-nav_order: 250
-parent: JavaSE
----
 
 # 基本概念
 
@@ -408,28 +402,70 @@ class Demo {
 
 {: .note-title}
 > 可重入
-> 
+>
 > 同一线程可以重复获取同一个锁
-> 
+>
 > 其实`synchronized`也是可重入的
 
-
 - ReentrantLock.lock
-  - 如果此锁没有被另一个线程持有，则将锁的持有计数设为 1，并且此方法立即返回
-  - 如果当前线程已经持有此锁，则将锁的持有计数加 1，并且此方法立即返回
-  - 如果此锁被另一个线程持有，并且在获得锁之前，此线程将一直处于休眠状态，此时锁的持有计数被设为 1
+    - 如果此锁没有被另一个线程持有，则将锁的持有计数设为 1，并且此方法立即返回
+    - 如果当前线程已经持有此锁，则将锁的持有计数加 1，并且此方法立即返回
+    - 如果此锁被另一个线程持有，并且在获得锁之前，此线程将一直处于休眠状态，此时锁的持有计数被设为 1
 - ReentrantLock.tryLock
-  - 如果此锁没有被另一个线程持有，则将锁的持有计数设为 1，并且此方法立即返回 true
-  - 如果当前线程已经持有此锁，则将锁的持有计数加 1，并且此方法立即返回 true。
-  - 如果锁被另一个线程持有，则此方法立即返回 false
+    - 如果此锁没有被另一个线程持有，则将锁的持有计数设为 1，并且此方法立即返回 true
+    - 如果当前线程已经持有此锁，则将锁的持有计数加 1，并且此方法立即返回 true。
+    - 如果锁被另一个线程持有，则此方法立即返回 false
 - ReentrantLock.unlock
-  - 如果当前线程持有此锁，则将持有计数减 1
-  - 如果持有计数现在为 0，则释放此锁
-  - 如果当前线程没有持有此锁，则抛出 java.lang.IllegalMonitorStateException
+    - 如果当前线程持有此锁，则将持有计数减 1
+    - 如果持有计数现在为 0，则释放此锁
+    - 如果当前线程没有持有此锁，则抛出 java.lang.IllegalMonitorStateException
 - ReentrantLock.isLocked
-  - 查看此锁是否被任意线程持有
-
+    - 查看此锁是否被任意线程持有
 
 # 线程池（Thread Pool）
 
+{: .note-title}
+> 普通线程
+>
+> 执行完一个任务后，生命周期就结束了
 
+{: .note-title}
+> 工作线程
+>
+> 任务没来一直等，任务来了干活
+
+{: .new-title}
+> 线程池
+>
+> 线程池由`工作线程`组成，可以最大程度减少线程创建、销毁带来的开销。
+
+```java
+class Demo {
+    /**
+     * 线程池示例
+     */
+    @Test
+    public void testThreadPool() {
+        ExecutorService pool = Executors.newFixedThreadPool(3);
+        pool.execute(() -> {
+            System.out.println(Thread.currentThread());
+        });
+        pool.execute(() -> {
+            System.out.println(Thread.currentThread());
+        });
+        pool.execute(() -> {
+            System.out.println(Thread.currentThread());
+        });
+        pool.execute(() -> {
+            System.out.println(Thread.currentThread());
+        });
+        pool.execute(() -> {
+            System.out.println(Thread.currentThread());
+        });
+        pool.execute(() -> {
+            System.out.println(Thread.currentThread());
+        });
+        pool.shutdown();
+    }
+}
+```

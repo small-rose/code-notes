@@ -72,3 +72,8 @@ class Professor {
 - `组合`：对象 A 知道对象 B、由 B 构成而且管理着 B 的生命周期。类 A 依赖于类 B。 
 - `实现`：类 A 定义的方法由接口 B 声明。对象 A 可被视为对象B。类 A 依赖于类 B。 
 - `继承`：类 A 继承类 B 的接口和实现， 但是可以对其进行扩展。对象 A 可被视为对象 B。类 A 依赖于类 B。
+
+
+举例说明：
+
+![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/design_14.png)

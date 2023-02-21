@@ -22,3 +22,4 @@ parent: JavaSE
 Java平台包含`Java虚拟机`和`Java应用程序接口（API）`
 
 ![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20220829231254.png)
+

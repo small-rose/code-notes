@@ -1,103 +1,110 @@
 <head>
-  <meta charset="UTF-8">
-  <!--静态文件添加缓存，刷新页面没必要每次从服务器获取静态文件-->
-  <meta http-equiv="Cache-Control" content="max-age=7200" />
-  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-  {% unless site.plugins contains "jekyll-seo-tag" %}
-  <title>{% if page.title %}{{ page.title }} - {% endif %} {{ site.title }}</title>
-  {% if page.description %}
-  <meta name="Description" content="{{ page.description }}">
-  {% endif %}
-  {% endunless %}
-  <meta name="keywords" content="陆国松,博客,编程,Java,java,数学,c,操作系统"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <!--静态文件添加缓存，刷新页面没必要每次从服务器获取静态文件-->
+    <meta http-equiv="Cache-Control" content="max-age=7200"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    {% unless site.plugins contains "jekyll-seo-tag" %}
+    <title>{% if page.title %}{{ page.title }} - {% endif %} {{ site.title }}</title>
+    {% if page.description %}
+    <meta name="Description" content="{{ page.description }}">
+    {% endif %}
+    {% endunless %}
+    <meta name="keywords" content="陆国松,博客,编程,Java,java,数学,c,操作系统"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="shortcut icon" href="{{ 'favicon.ico' | relative_url }}" type="image/x-icon">
-  <link rel="stylesheet" href="{{ '/assets/css/just-the-docs-default.css' | relative_url }}">
-  {% if site.ga_tracking != nil %}
-  <script async src="https://www.googletagmanager.com/gtag/js?id={{ site.ga_tracking }}"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', '{{ site.ga_tracking }}'{% unless site.ga_tracking_anonymize_ip == nil %}, { 'anonymize_ip': true }{% endunless %});
-  </script>
-  {% endif %}
+    <link rel="shortcut icon" href="{{ 'favicon.ico' | relative_url }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ '/assets/css/just-the-docs-default.css' | relative_url }}">
+    {% if site.ga_tracking != nil %}
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ site.ga_tracking }}"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
 
-  <!--百度统计-->
-  <script>
-    var _hmt = _hmt || [];
-    (function() {
-      var hm = document.createElement("script");
-      hm.src = "https://hm.baidu.com/hm.js?82d9deb8eda64c4210c1fa8e7bc8076b";
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(hm, s);
-    })();
-  </script>
-
-  <!--网站统计-->
-  <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
-  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-  <!--toc目录-->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/guosonglu/code-notes@master/assets/css/tocbot/tocbot.css">
-  <script src="https://cdn.jsdelivr.net/gh/guosonglu/code-notes@master/assets/js/tocbot/tocbot.min.js"></script>
-  <!--博客评论功能-->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/guosonglu/code-notes@master/assets/css/gitalk/gitalk.css">
-  <script src="https://cdn.jsdelivr.net/gh/guosonglu/code-notes@master/assets/js/gitalk/gitalk.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/guosonglu/code-notes@master/assets/js/md5.js"></script>
-  <!--支持LaTeX显示-->
-  {% if page.latex %}
-  <script>
-    MathJax = {
-      tex: {
-        inlineMath: [['$', '$'], ['\\(', '\\)']]
-      },
-      svg: {
-        fontCache: 'global'
-      }
-    };
-  </script>
-  <script type="text/javascript" id="MathJax-script" async
-          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
-  </script>
-  {% endif %}
-  <!--mermaid-->
-  {% if page.mermaid %}
-  <script>
-    function initMermaid() {
-      var config = {
-        startOnLoad: true,
-        theme: "neutral",
-        fontFamily: 'Source Code Pro,ZCOOL KuaiLe,KaiTi',
-        flowchart:{
-          useMaxWidth: true,
-          rankSpacing: 30,
-          nodeSpacing: 10,
+        function gtag() {
+            dataLayer.push(arguments);
         }
-      };
-      mermaid.initialize(config);
-      window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
-    }
-  </script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/mermaid/8.6.0/mermaid.min.js"
-          async
-          onload="initMermaid()">
-  </script>
-  {% endif %}
-  <!--图片查看-->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/guosonglu/code-notes@master/assets/css/viewerjs/viewer.css">
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/guosonglu/code-notes@master/assets/js/viewerjs/viewer.js"></script>
-  <!--搜索功能-->
-  {% if site.search_enabled != false %}
-    <script type="text/javascript" src="{{ 'https://cdn.jsdelivr.net/gh/guosonglu/code-notes@master/assets/js/vendor/lunr.min.js' | relative_url }}"></script>
-  {% endif %}
 
-  <script  type="text/javascript" src="{{ '/assets/js/just-the-docs.js' | relative_url }}"></script>
+        gtag('js', new Date());
+    </script>
+    {% endif %}
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--百度统计-->
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?82d9deb8eda64c4210c1fa8e7bc8076b";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
 
-  {% seo %}
+    <!--网站统计-->
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-  {% include head_custom.html %}
+    <!--toc目录-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/guosonglu/code-notes@master/assets/css/tocbot/tocbot.css">
+    <script src="https://cdn.jsdelivr.net/gh/guosonglu/code-notes@master/assets/js/tocbot/tocbot.min.js"></script>
+    <!--博客评论功能-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/guosonglu/code-notes@master/assets/css/gitalk/gitalk.css">
+    <script src="https://cdn.jsdelivr.net/gh/guosonglu/code-notes@master/assets/js/gitalk/gitalk.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/guosonglu/code-notes@master/assets/js/md5.js"></script>
+    <!--支持LaTeX显示-->
+    {% if page.latex %}
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']]
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+    <script type="text/javascript" id="MathJax-script" async
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+    </script>
+    {% endif %}
+    <!--mermaid-->
+    {% if page.mermaid %}
+    <script>
+        function initMermaid() {
+            var config = {
+                startOnLoad: true,
+                theme: "neutral",
+                fontFamily: 'Source Code Pro,ZCOOL KuaiLe,KaiTi',
+                flowchart: {
+                    useMaxWidth: true,
+                    rankSpacing: 30,
+                    nodeSpacing: 10,
+                }
+            };
+            mermaid.initialize(config);
+            window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+        }
+    </script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/mermaid/8.6.0/mermaid.min.js"
+            async
+            onload="initMermaid()">
+    </script>
+    {% endif %}
+    <!--图片查看-->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/gh/guosonglu/code-notes@master/assets/css/viewerjs/viewer.css">
+    <script type="text/javascript"
+            src="https://cdn.jsdelivr.net/gh/guosonglu/code-notes@master/assets/js/viewerjs/viewer.js"></script>
+    <!--搜索功能-->
+    {% if site.search_enabled != false %}
+    <script type="text/javascript"
+            src="{{ 'https://cdn.jsdelivr.net/gh/guosonglu/code-notes@master/assets/js/vendor/lunr.min.js' | relative_url }}"></script>
+    <!--<script src="/assets/js/vendor/lunr-chinese.min.js"></script>-->
+    {% endif %}
+
+    <script type="text/javascript" src="{{ '/assets/js/just-the-docs.js' | relative_url }}"></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    {% seo %}
+
+    {% include head_custom.html %}
 </head>

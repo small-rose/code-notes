@@ -3,7 +3,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Zhi+Mang+Xing&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Shadows+Into+Light&family=Zhi+Mang+Xing&display=swap');
 
-
 ::-webkit-scrollbar {
   width: 14px;
   height: 14px;
@@ -29,8 +28,140 @@
   background: transparent;
 }
 
+//鼠标移动上面放大效果
+.zoom:hover {
+  transform: scale(1.1, 1.1);
+  cursor: pointer;
+  display: inline-block;
+}
 
-.main-content {
+//页面
+.main-page {
+  display: flex;
+  height: 100vh;
+  background-color: #27262b;
+  font-family: 'Source Code Pro', 'ZCOOL KuaiLe';
+  color: #D8D9D4;
+}
+
+//左侧面板
+.left {
+  width: 18rem;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px dotted #44434d;
+}
+
+.left.visible{
+  display: none;
+}
+
+@media (max-width: 950px) {
+  .left{
+    display: none;
+  }
+
+  .left.visible{
+    display: flex;
+  }
+}
+
+  //左侧面板头部
+.left-header {
+  height: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid #44434d;
+}
+
+.left-header > div {
+  height: 100%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center
+}
+
+//左侧面板头部图片
+.left-header img {
+  height: 2rem;
+  background: none;
+}
+
+//左侧面板头部文字
+.left-header a {
+  font-size: 1.2rem;
+  color: white;
+  flex: 1;
+  text-align: center;
+  line-height: 3rem;
+}
+
+//左侧内容
+.left-content {
+  width: 100%;
+  padding-top: 1rem;
+  overflow: auto;
+}
+
+//左侧底部
+.left-bottom {
+  padding-top: 0.5rem;
+  font-size: 0.8rem;
+  height: 6rem;
+  border-top: 1px dashed #44434d;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+//访问量
+.views-counts {
+  font-weight: lighter;
+  text-decoration: underline;
+  display: inline-block;
+  margin: 0 0.3rem;
+}
+
+
+.middle {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.middle-scroll {
+  height: calc(100% - 3rem);
+  overflow: auto;
+}
+
+.middle-header {
+  height: 3rem;
+  display: flex;
+  border-bottom: 1px solid #44434d;
+  border-right: 1px solid #44434d;
+}
+
+.middle-title {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  text-align: center;
+}
+
+.middle-page-counts {
+  text-align: right;
+  padding-right: 3rem;
+  font-size: 0.8rem;
+  font-weight: lighter;
+}
+
+.middle-bread {
+  padding-left: 1rem;
+}
+
+.middle-context {
+  padding: 1rem 2rem;
+  flex: 1;
 
   img {
     max-width: 60%;
@@ -51,17 +182,12 @@
       color: #b1bdc9;
 
       &::before {
-        position: absolute;
+        position: relative;
         margin-left: -1.4em;
         content: url("../../assets/css/image/li.svg");
       }
     }
   }
-
-  blockquote {
-    background-color: #444444;
-  }
-
 
   h1:before {
     content: "/";
@@ -120,144 +246,36 @@
       margin-top: 0;
     }
   }
-
-  h1 {
-    margin-top: 1.5em;
-  }
 }
 
-.side-bar {
-  z-index: 0;
-  display: flex;
-  flex-wrap: wrap;
-  background-color: $sidebar-color;
+//右侧toc
+.right {
+  width: 18rem;
+  margin-top: 3rem;
   overflow: auto;
-
-  @include mq(lg) {
-    flex-wrap: nowrap;
-    position: fixed;
-    width: 20%;
-    height: 100%;
-    flex-direction: column;
-    border-right: $border $border-color;
-    align-items: flex-end;
-    min-width: $nav-width;
-  }
+  border-left: 1px dotted #44434d;
 }
 
-.side-bar-right {
-  z-index: 0;
-  display: flex;
-  flex-wrap: wrap;
-  background-color: $sidebar-color;
-  margin-top: 60px;
-  font-size: 0.9em;
-  width: 20%;
-  height: calc(100% - 60px);
-  overflow: visible;
-  box-sizing: content-box;
-
-  @include mq(md) {
-    left: 80%;
-    top: 0;
-    flex-wrap: nowrap;
-    position: fixed;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-}
-
-.toc-link:hover {
-  color: #7bbfea;
-}
-
-.main {
-  overflow: auto;
-  @include mq(md) {
-    position: relative;
-    margin-left: 10px;
-    max-width: 2000px;
-    width: 80%;
-  }
-
-  @include mq(lg) {
-    width: 60%;
-    margin-left: 20%;
-  }
-}
-
-.page-title {
-  text-align: center;
-  margin: 0;
-  color: #dcdbda;
-  font-family: 'Shadows Into Light', 'Zhi Mang Xing';
-}
-
-.page-count {
-  display: inline-block;
-  font-size: 0.5em;
-  color: #616569;
-}
-
-.main-header {
-  @include mq(md) {
-    width: 100%;
-  }
-
-  &.nav-open {
-    display: block;
-
-    @include mq(lg) {
-      display: flex;
-    }
-  }
-}
-
-.site-nav,
-.site-header,
-.site-footer {
-  width: 100%;
-
-  @include mq(lg) {
-    min-width: $nav-width;
-  }
-}
-
-.site-nav {
+.right.visible{
   display: none;
+}
 
-  &.nav-open {
-    display: block;
+@media (max-width: 750px) {
+  .right{
+    display: none;
   }
 
-  @include mq(lg) {
-    display: block;
-    padding-top: $sp-4;
-    padding-bottom: $gutter-spacing-sm;
-    overflow: auto;
-    overflow-anchor: auto;
-    flex: 1 1 auto;
+  .right.visible{
+    display: flex;
   }
 }
 
-.site-header {
-  @include mq(md) {
-    width: 80%;
-  }
-
-  @include mq(lg) {
-    width: 100%;
-  }
+.right a:hover {
+  transform: scale(1.1, 1.1);
+  display: inline-block;
+  text-decoration: underline;
 }
 
-body {
-  font-family: 'Source Code Pro', 'ZCOOL KuaiLe';
-  color: #D8D9D4;
-}
-
-.site-footer {
-  text-align: center;
-}
 
 //代码样式
 code {
@@ -328,6 +346,5 @@ code {
 .highlight .kc {
   color: #cc7832;
 }
-
 
 

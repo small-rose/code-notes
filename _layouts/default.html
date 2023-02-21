@@ -1,11 +1,14 @@
----
-layout: table_wrappers
----
-<!DOCTYPE html>
-
+<!doctype html>
 <html lang="{{ site.lang | default: 'zh-CN' }}">
 {% include head.html %}
-<body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body style="margin: 0">
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
     <symbol id="svg-link" viewBox="0 0 24 24">
         <title>{% if page.title %}{{ page.title }} - {% endif %} {{ site.title }}</title>
@@ -54,218 +57,175 @@ layout: table_wrappers
     </symbol>
 </svg>
 
-{%- comment -%}
-获取当前collection中的页面
-{%- endcomment -%}
-{% assign current_collection = site[page.collection] %}
-{% include current_pages.html pages=current_collection %}
-
-
-<div class="side-bar">
-    <div class="site-header">
-        <a href="{{ '/' | absolute_url }}" class="site-title lh-tight">{% include title.html %}</a>
-        <a href="#" id="menu-button" class="site-button">
-            <svg viewBox="0 0 24 24" class="icon">
-                <use xlink:href="#svg-menu"></use>
-            </svg>
-        </a>
-    </div>
-    <nav role="navigation" aria-label="Main" id="site-nav" class="site-nav">
-        {% assign collections_size = site.just_the_docs.collections | size %}
-        {% for collection_entry in site.just_the_docs.collections %}
-        {% assign collection_key = collection_entry[0] %}
-        {% assign collection_value = collection_entry[1] %}
-        {% assign collection = site[collection_key] %}
-        {% if collection_value.nav_exclude != true %}
-        {% if collections_size > 1 %}
-        <div class="nav-category">{{ collection_value.name }}</div>
-        {% endif %}
-        {% include nav.html pages=collection %}
-        {% endif %}
-        {% endfor %}
-    </nav>
-    <footer class="site-footer">
-        <div>
+<!--页面-->
+<div class="main-page">
+    <!--左侧-->
+    <div class="left" id="left-sidebar">
+        <!--左侧顶部logo和标题-->
+        <div class="left-header">
+            <div>
+                <img src="https://cdn.jsdelivr.net/gh/guosonglu/code-notes@master/assets/images/hacker.png"
+                     class="zoom">
+                <a href="/" class="zoom">
+                    &nbsp{{ site.title }}
+                </a>
+            </div>
+        </div>
+        <nav role="navigation" aria-label="Main" id="site-nav" class="left-content">
+            {% assign collections_size = site.just_the_docs.collections | size %}
+            {% for collection_entry in site.just_the_docs.collections %}
+            {% assign collection_key = collection_entry[0] %}
+            {% assign collection_value = collection_entry[1] %}
+            {% assign collection = site[collection_key] %}
+            {% if collection_value.nav_exclude != true %}
+            {% if collections_size > 1 %}
+            <div class="nav-category">{{ collection_value.name }}</div>
+            {% endif %}
+            {% include nav.html pages=collection %}
+            {% endif %}
+            {% endfor %}
+        </nav>
+        <div class="left-bottom">
             <span id="busuanzi_container_site_pv">
-                本站总访问量<span id="busuanzi_value_site_pv"><i class="fa fa-spinner"></i></span>次
+                本站总访问量<span id="busuanzi_value_site_pv" class="zoom views-counts"><i
+                    class="fa fa-spinner"></i></span>次
             </span>
-        </div>
-        <div>
-            &copy;{{ "now" | date: "%Y" }} <a href="#" id="weixing">陆国松</a>.
-            <div class="shake" style="display: inline-block">
-                <a href="#" id="apply">打赏支持</a>
+            <div>
+                &copy;{{ "now" | date: "%Y" }}<a href="#" id="weixing" class="zoom">陆国松</a>.
+                <a href="#" id="apply" class="zoom">打赏支持</a>
+                <img id="applyImg"
+                     src="https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202109241659148.jpg"
+                     hidden>
+                <img id="weixingImg"
+                     src="https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202109241714054.jpg"
+                     hidden>
             </div>
-            <img id="applyImg" src="https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202109241659148.jpg"
-                 hidden>
-            <img id="weixingImg" src="https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/202109241714054.jpg"
-                 hidden>
         </div>
-    </footer>
-</div>
+    </div>
 
-<div class="main" id="top">
-    <div id="main-header" class="main-header">
-        {% if site.search_enabled != false %}
-        <div class="search">
-            <div class="search-input-wrap">
-                <input type="text" id="search-input" class="search-input" tabindex="0"
-                       placeholder="Search {{ site.title }}"
-                       aria-label="Search {{ site.title }}" autocomplete="off">
-                <label for="search-input" class="search-label">
-                    <svg viewBox="0 0 24 24" class="search-icon">
-                        <use xlink:href="#svg-search"></use>
-                    </svg>
-                </label>
-            </div>
-            <div id="search-results" class="search-results"></div>
+    <!--内容-->
+    <div class="middle">
+
+        <div class="middle-header">
+            <a href="#" id="menu-button-left" class="site-button-left site-button">
+                <svg viewBox="0 0 24 24" class="icon">
+                    <use xlink:href="#svg-menu"></use>
+                </svg>
+            </a>
+
+            {% include header_custom.html %}
+            {% if site.aux_links %}
+            <nav aria-label="Auxiliary" class="aux-nav" style="flex: 1">
+                <ul class="aux-nav-list">
+                    {% for link in site.aux_links %}
+                    <li class="aux-nav-list-item">
+                        <a href="{{ link.last }}" class="site-button"
+                           {% if site.aux_links_new_tab %}
+                           target="_blank" rel="noopener noreferrer"
+                           {% endif %}
+                        >
+                            {{ link.first }}
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </nav>
+            {% endif %}
+
+            {% if site.back_to_top %}
+            <a href="#top" id="back-to-top" style="line-height: 3rem">{{ site.back_to_top_text }}</a>
+            {% endif %}
+
+            <a href="#" id="menu-button-right" class="site-button-right site-button">
+                <svg viewBox="0 0 24 24" class="icon">
+                    <use xlink:href="#svg-menu"></use>
+                </svg>
+            </a>
         </div>
-        {% endif %}
-        {% include header_custom.html %}
-        {% if site.aux_links %}
-        <nav aria-label="Auxiliary" class="aux-nav">
-            <ul class="aux-nav-list">
-                {% for link in site.aux_links %}
-                <li class="aux-nav-list-item">
-                    <a href="{{ link.last }}" class="site-button"
-                       {% if site.aux_links_new_tab %}
-                       target="_blank" rel="noopener noreferrer"
-                       {% endif %}
-                    >
-                        {{ link.first }}
-                    </a>
-                </li>
-                {% endfor %}
-            </ul>
-        </nav>
-        {% endif %}
-    </div>
-    <h1 class="js-toc-ignore shake page-title">{{ page.title }}</h1>
-    <div style="text-align: right">
-        <div class="page-count shake">
-            本文：
-            {% assign count = page.content | strip_html | strip_newlines | remove: " " | size %}
-            {% if count > 10000 %}
-            {{ count | divided_by: 10000 }} 万 {{ count | modulo: 10000 }}
-            {% else %}
-            {{ count }}
-            {% endif %}字
-        </div>
-    </div>
-    <div id="main-content-wrap" class="main-content-wrap">
-        {% unless page.url == "/" %}
-        {% if page.parent %}
-        {%- for node in current_list -%}
-        {%- if node.parent == nil -%}
-        {%- if page.parent == node.title or page.grand_parent == node.title -%}
-        {%- assign first_level_url = node.url | absolute_url -%}
-        {%- endif -%}
-        {%- if node.has_children -%}
-        {%- assign children_list = current_list | where: "parent", node.title -%}
-        {%- for child in children_list -%}
-        {%- if page.url == child.url or page.parent == child.title -%}
-        {%- assign second_level_url = child.url | absolute_url -%}
-        {%- endif -%}
-        {%- endfor -%}
-        {%- endif -%}
-        {%- endif -%}
-        {%- endfor -%}
-        <nav aria-label="Breadcrumb" class="breadcrumb-nav">
-            <ol class="breadcrumb-nav-list">
-                {% if page.grand_parent %}
-                <li class="breadcrumb-nav-list-item"><a href="{{ first_level_url }}">{{ page.grand_parent }}</a></li>
-                <li class="breadcrumb-nav-list-item"><a href="{{ second_level_url }}">{{ page.parent }}</a></li>
+        <!--标题-->
+        <div class="middle-scroll">
+            <div id="top"></div>
+            <h1 class="middle-title">{{ page.title }}</h1>
+            <div class="middle-page-counts">
+                本文：
+                {% assign count = page.content | strip_html | strip_newlines | remove: " " | size %}
+                {% if count > 10000 %}
+                {{ count | divided_by: 10000 }} 万 {{ count | modulo: 10000 }}
                 {% else %}
-                <li class="breadcrumb-nav-list-item"><a href="{{ first_level_url }}">{{ page.parent }}</a></li>
+                {{ count }}
+                {% endif %}字
+            </div>
+
+            <div class="middle-bread">
+                {% if page.has_children == true and page.has_toc != false %}
+                <hr>
+                {% include toc_heading_custom.html %}
+                <ul>
+                    {% for child in include.toc_list %}
+                    <li>
+                        <a href="{{ child.url | relative_url }}">{{ child.title }}</a>{% if child.summary %} - {{
+                        child.summary }}{% endif %}
+                    </li>
+                    {% endfor %}
+                </ul>
                 {% endif %}
-                <li class="breadcrumb-nav-list-item"><span>{{ page.title }}</span></li>
-            </ol>
-        </nav>
-        {% endif %}
-        {% endunless %}
-
-        <div id="main-content" class="main-content" role="main">
-            {% if site.heading_anchors != false %}
-            {% include vendor/anchor_headings.html html=content beforeHeading="true" anchorBody="
-            <svg viewBox='0 0 16 16 ' aria-hidden='true'>
-                <use xlink:href=\"#svg-link\"></use>
-            </svg>
-            " anchorClass="anchor-heading" anchorAttrs="aria-labelledby=\"%html_id%\"" %}
-            {% else %}
-            {{ content }}
-            {% endif %}
-
-            {% if page.has_children == true and page.has_toc != false %}
-            <hr>
-            <h2 class="text-delta js-toc-ignore">{{page.title}}-目录</h2>
-            <ul>
-                {%- assign children_list = current_list | where: "parent", page.title | where: "grand_parent",
-                page.parent -%}
-                {% for child in children_list %}
-                <li>
-                    <a href="{{ child.url | absolute_url }}">{{ child.title }}</a>{% if child.summary %} - {{
-                    child.summary }}{% endif %}
-                </li>
-                {% endfor %}
-            </ul>
-            {% endif %}
-
-            {% capture footer_custom %}
-            {%- include footer_custom.html -%}
-            {% endcapture %}
-            {% if footer_custom != "" or site.last_edit_timestamp or site.gh_edit_link %}
-            <hr>
-            <footer>
-                {% if site.back_to_top %}
-                <p><a href="#top" id="back-to-top">{{ site.back_to_top_text }}</a></p>
+            </div>
+            <div id="main-content" class="main-content middle-context" role="main">
+                {% if site.heading_anchors != false %}
+                {% include vendor/anchor_headings.html html=content beforeHeading="true" anchorBody="
+                <svg viewBox='0 0 16 16 ' aria-hidden='true'>
+                    <use xlink:href=\"#svg-link\"></use>
+                </svg>
+                " anchorClass="anchor-heading" anchorAttrs="aria-labelledby=\"%html_id%\"" %}
+                {% else %}
+                {{ content }}
                 {% endif %}
 
-                <!--评论区-->
-                <div id="gitalk-container"></div>
+                {% capture footer_custom %}
+                {%- include footer_custom.html -%}
+                {% endcapture %}
+                {% if footer_custom != "" or site.last_edit_timestamp or site.gh_edit_link %}
+                <hr>
+                <footer>
 
-                {% if site.last_edit_timestamp or site.gh_edit_link %}
-                <div class="d-flex mt-2">
-                    {% if site.last_edit_timestamp and site.last_edit_time_format and page.last_modified_date %}
-                    <p class="text-small text-grey-dk-000 mb-0 mr-2">
-                        Page last modified: <span class="d-inline-block">{{ page.last_modified_date | date: site.last_edit_time_format }}</span>.
-                    </p>
+
+                    <!--评论区-->
+                    <div id="gitalk-container"></div>
+
+                    {% if site.last_edit_timestamp or site.gh_edit_link %}
+                    <div class="d-flex mt-2">
+                        {% if site.last_edit_timestamp and site.last_edit_time_format and page.last_modified_date %}
+                        <p class="text-small text-grey-dk-000 mb-0 mr-2">
+                            Page last modified: <span class="d-inline-block">{{ page.last_modified_date | date: site.last_edit_time_format }}</span>.
+                        </p>
+                        {% endif %}
+                        {% if
+                        site.gh_edit_link and
+                        site.gh_edit_link_text and
+                        site.gh_edit_repository and
+                        site.gh_edit_branch and
+                        site.gh_edit_view_mode
+                        %}
+                        <p class="text-small text-grey-dk-000 mb-0" style="text-indent: 0">
+                            <a href="{{ site.gh_edit_repository }}/{{ site.gh_edit_view_mode }}/{{ site.gh_edit_branch }}{% if site.gh_edit_source %}/{{ site.gh_edit_source }}{% endif %}/{{ page.path }}"
+                               id="edit-this-page">{{ site.gh_edit_link_text }}</a>
+                        </p>
+                        {% endif %}
+                    </div>
                     {% endif %}
-                    {% if
-                    site.gh_edit_link and
-                    site.gh_edit_link_text and
-                    site.gh_edit_repository and
-                    site.gh_edit_branch and
-                    site.gh_edit_view_mode
-                    %}
-                    <p class="text-small text-grey-dk-000 mb-0" style="text-indent: 0">
-                        <a href="{{ site.gh_edit_repository }}/{{ site.gh_edit_view_mode }}/{{ site.gh_edit_branch }}{% if site.gh_edit_source %}/{{ site.gh_edit_source }}{% endif %}/{{ page.path }}"
-                           id="edit-this-page">{{ site.gh_edit_link_text }}</a>
-                    </p>
-                    {% endif %}
-                </div>
+
+                    {{ footer_custom }}
+                </footer>
                 {% endif %}
-
-                {{ footer_custom }}
-            </footer>
-            {% endif %}
-
+            </div>
         </div>
     </div>
+    <!--右侧TOC-->
+    <div class="right toc js-toc" id="right-sidebar">
 
-    {% if site.search_enabled != false %}
-    {% if site.search.button %}
-    <a href="#" id="search-button" class="search-button">
-        <svg viewBox="0 0 24 24" class="icon">
-            <use xlink:href="#svg-search"></use>
-        </svg>
-    </a>
-    {% endif %}
-
-    <div class="search-overlay"></div>
-    {% endif %}
+    </div>
 </div>
-<div class="toc side-bar-right js-toc">
 
-</div>
 
 <script>
     let gitalk = new Gitalk({
@@ -394,8 +354,23 @@ layout: table_wrappers
         showEle(eleButton, hiddens[i], false);
         hiddens[i].before(eleButton);
     }
+</script>
 
+<!--侧边栏的显示与隐藏-->
+<script>
+    const menuButtonLeft = document.getElementById('menu-button-left');
+    const leftSidebar = document.getElementById('left-sidebar');
 
+    menuButtonLeft.addEventListener('click', () => {
+        leftSidebar.classList.toggle('visible');
+    })
+
+    const menuButtonRight = document.getElementById('menu-button-right');
+    const rightSidebar = document.getElementById('right-sidebar');
+
+    menuButtonRight.addEventListener('click', () => {
+        rightSidebar.classList.toggle('visible');
+    })
 </script>
 
 </body>

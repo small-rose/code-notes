@@ -1,3 +1,10 @@
+---
+layout: default
+title: 快速入门版
+nav_order: 1
+parent: 网络编程
+---
+
 # 网络互联模型
 
 ![](https://cdn.jsdelivr.net/gh/guosonglu/images@master/blog-img/20221215174416.png)

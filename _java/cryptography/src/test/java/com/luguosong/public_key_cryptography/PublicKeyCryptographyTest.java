@@ -5,11 +5,9 @@ import org.bouncycastle.asn1.x500.X500NameBuilder;
 import org.bouncycastle.asn1.x500.style.BCStyle;
 import org.bouncycastle.cert.X509CertificateHolder;
 import org.bouncycastle.cert.X509v1CertificateBuilder;
-import org.bouncycastle.cert.X509v3CertificateBuilder;
 import org.bouncycastle.cert.jcajce.JcaX509CertificateConverter;
 import org.bouncycastle.cert.jcajce.JcaX509CertificateHolder;
 import org.bouncycastle.cert.jcajce.JcaX509v1CertificateBuilder;
-import org.bouncycastle.cert.jcajce.JcaX509v3CertificateBuilder;
 import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPrivateKey;
 import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPublicKey;
 import org.bouncycastle.jcajce.spec.SM2ParameterSpec;
@@ -27,7 +25,6 @@ import javax.crypto.spec.OAEPParameterSpec;
 import javax.crypto.spec.PSource;
 import javax.security.auth.x500.X500Principal;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.security.*;
@@ -144,6 +141,7 @@ public class PublicKeyCryptographyTest {
         byte[] signResult = sign.sign();
         String signHex = Hex.toHexString(signResult);
         System.out.println("签名结果：" + signHex);
+
 
 
         //验签
@@ -380,49 +378,6 @@ public class PublicKeyCryptographyTest {
         System.out.println(certificateDer);
     }
 
-    /**
-     * @throws NoSuchAlgorithmException
-     * @throws NoSuchProviderException
-     * @throws KeyStoreException
-     * @throws CertificateException
-     * @throws IOException
-     * @throws OperatorCreationException
-     * @throws InvalidAlgorithmParameterException
-     */
-    @Test
-    public void testSelfSignedSM2Cert() throws NoSuchAlgorithmException, NoSuchProviderException, KeyStoreException, CertificateException, IOException, OperatorCreationException, InvalidAlgorithmParameterException {
-
-        //指定为椭圆曲线算法
-        KeyPairGenerator kpGen = KeyPairGenerator.getInstance("ec");
-
-        //初始化为国密椭圆曲线
-        ECGenParameterSpec sm2Spec = new ECGenParameterSpec("sm2p256v1");
-        kpGen.initialize(sm2Spec);
-
-        //kpGen.initialize(256, new SecureRandom());
-        KeyPair kp = kpGen.generateKeyPair();
-
-        X500NameBuilder nameBuilder = new X500NameBuilder(BCStyle.INSTANCE);
-        nameBuilder.addRDN(BCStyle.CN, "上海绿建根证书");
-        X509v3CertificateBuilder certBuilder = new JcaX509v3CertificateBuilder(
-                nameBuilder.build(),
-                BigInteger.valueOf(1),
-                new Date(System.currentTimeMillis() - 1000L * 60 * 60 * 24 * 365),
-                new Date(System.currentTimeMillis() + 1000L * 60 * 60 * 24 * 365),
-                nameBuilder.build(),
-                kp.getPublic());
-
-        X509Certificate cert = new JcaX509CertificateConverter().getCertificate(
-                certBuilder.build(new JcaContentSignerBuilder("SM3withSM2").build(kp.getPrivate())));
-
-        KeyStore keyStore = KeyStore.getInstance("PKCS12", "BC");
-        keyStore.load(null, null);
-        keyStore.setKeyEntry("root", kp.getPrivate(), null, new X509Certificate[]{cert});
-        try (FileOutputStream fos = new FileOutputStream("rootCA.p12")) {
-            keyStore.store(fos, "password".toCharArray());
-        }
-    }
-
     class PrivateCredential {
         private final X509Certificate certificate;
         private final PrivateKey privateKey;
@@ -447,6 +402,5 @@ public class PublicKeyCryptographyTest {
             return certificate;
         }
     }
-
 
 }

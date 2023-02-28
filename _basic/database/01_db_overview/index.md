@@ -5,6 +5,44 @@ nav_order: 10
 parent: 数据库
 ---
 
+# 数据库相关概念
+
+## 数据库
+
+`数据库（database）`：保存有组织的数据的容器（通常是一个文件或一组文件）。
+
+数据库是一个以某种有组织的方式存储的数据集合。
+
+## 表
+
+`表（table）`：某种特定类型数据的结构化清单。
+
+## 列和数据类型
+
+`列（column）`：表中的一个字段。所有表都是由一个或多个列组成的。
+
+`数据类型（datatype）`：所容许的数据的类型。每个表列都有相应的数据类型，它限制（或容许）该列中存储的数据。
+
+## 行
+
+`行（row）`：表中的一个记录。
+
+## 主键
+
+`主键（primarykey）`：一列（或一组列），其值能够唯一区分表中每个行。
+
+# 数据库管理系统
+
+`数据库管理系统`（英语：database management system，缩写：DBMS） 是一种针对对象数据库，为管理数据库而设计的大型电脑软件管理系统。具有代表性的数据管理系统有：Oracle、Microsoft SQL Server、Access、MySQL及PostgreSQL等。通常数据库管理师会使用数据库管理系统来创建数据库系统。
+
+分类：
+- 基于共享文件系统：Microsoft Access、FileMaker
+- 基于客户机—服务器：MySQL、Oracle、Microsoft SQL Server
+
+# SQL(Structured Query Language)
+
+`SQL`是一种专门用来与数据库通信的语言。
+
 # 常见数据库简介
 
 {: .note-title}
@@ -34,6 +72,15 @@ parent: 数据库
 > - `Redis`
     是一种内存键值数据库，它支持多种数据结构，如字符串、哈希表、列表、集合和有序集合。它的性能非常出色，因为它将所有数据存储在内存中，可以快速地读写数据。它是免费的开源软件，没有商业版。Redis被广泛应用于缓存、消息队列、实时分析和实时数据处理中。它还可以作为数据库、搜索引擎和分布式锁的替代方案。由于其高性能和灵活性，Redis在大型Web应用程序和实时数据处理中非常受欢迎。
 
+# MySQL
+
+数据的所有存储、检索、管理和处理实际上是由数据库软件——`DBMS（Database Management Systems,数据库管理系统）`完成的。`MySQL`是一种`DBMS`，即它是一种数据库软件。
+
+各个版本mysql主要更改：
+- `4`：InnoDB引擎，增加事务处理、并、改进全文本搜索等的支持。
+- `4.1`：对函数库、子查询、集成帮助等的重要增加。
+- `5`：存储过程、触发器、游标、视图等。
+
 # Mysql安装
 
 压缩版[下载地址](https://downloads.mysql.com/archives/community/)
@@ -48,16 +95,16 @@ parent: 数据库
 配置文件参数说明：
 
 - client：客户端连接MySQL的配置项
-  - port：MySQL服务监听的端口号，默认是3306
-  - default-character-set：默认使用的字符集
+    - port：MySQL服务监听的端口号，默认是3306
+    - default-character-set：默认使用的字符集
 - mysql：命令行工具的配置项
-  - default-character-set：默认使用的字符集
+    - default-character-set：默认使用的字符集
 - mysqld：MySQL服务器的配置项
-  - port：MySQL服务监听的端口号，默认是3306
-  - character-set-server：MySQL服务器默认使用的字符集
-  - collation-server：MySQL服务器默认使用的排序规则
-  - default-storage-engine：MySQL默认使用的存储引擎
-  - datadir:设置数据存储位置
+    - port：MySQL服务监听的端口号，默认是3306
+    - character-set-server：MySQL服务器默认使用的字符集
+    - collation-server：MySQL服务器默认使用的排序规则
+    - default-storage-engine：MySQL默认使用的存储引擎
+    - datadir:设置数据存储位置
 
 ```ini
 [client]
@@ -85,3 +132,42 @@ mysqld --initialize-insecure
 ```shell
 mysqld -install
 ```
+
+- 初始化用户名密码
+
+```shell
+mysqladmin -u root password 1234
+```
+
+
+
+# 使用Mysql
+
+## 连接Mysql
+
+- -h 或 --host：指定 MySQL 服务器的主机名或 IP 地址。
+- -u 或 --user：指定连接到 MySQL 服务器的用户名。
+- -p 或 --password：指定连接到 MySQL 服务器的密码。请注意，不要在命令行中明文指定密码，而应该使用 -p 参数，然后在提示符下输入密码。
+- -P 或 --port：指定 MySQL 服务器的端口号。默认情况下，MySQL 服务器使用端口 3306。
+- -D 或 --database：指定连接到的默认数据库。
+- --ssl-mode：指定使用 SSL 加密连接。可用值包括 DISABLED（不使用 SSL）、REQUIRED（必须使用 SSL）、PREFERRED（优先使用 SSL）和 VERIFY_CA（需要验证服务器证书）等。
+- -v 或 --verbose：显示更详细的连接信息。
+- -h 或 --help：显示帮助信息。
+
+```shell
+#完整参数
+mysql -h 127.0.0.1 -P 3306 -u root -p
+
+#本地连接可以省略-h和-P
+mysql -u root -p
+```
+
+## 选择数据库
+
+```shell
+mysql> USE database_learning;
+Database changed
+```
+
+
+

@@ -123,9 +123,14 @@ let str = "123";
 console.log(typeof str); // string
 let num = Number(str); // 变成 number 类型 123
 console.log(typeof num); // number
+console.log(parseInt("123.1"));
+console.log(parseFloat("123.1"));
 ```
 
+## 布尔类型转换
 
+直观上为`空`的值（如 0、空字符串、null、undefined和NaN）将变为`false`。
+其他值变成`true`。
 
 # typeof运算符
 
@@ -133,8 +138,150 @@ typeof运算符返回`参数的类型`。
 
 # 操作符
 
+```javascript
+console.log("=== 数学运算符 ===")
+console.log("加法：3 + 4 = " + (3 + 4)) //加法：3 + 4 = 7
+console.log("减法：3 - 4 = " + (3 - 4)) //减法：3 - 4 = -1
+console.log("乘法：3 * 4 = " + (3 * 4)) //乘法：3 * 4 = 12
+console.log("除法：3 / 4 = " + (3 / 4)) //除法：3 / 4 = 0.75
+console.log("取余：3 % 4 = " + (3 % 4)) //取余：3 % 4 = 3
+console.log("求幂：3 ** 4 = " + (3 ** 4)) //求幂：3 ** 4 = 81
+
+console.log("=== 自增/自减 ===");
+let i = 1;
+//前置递增运算符：i = 1,++i = 2,运算后的i：2
+console.log("前置递增运算符：i = 1,++i = " + ++i + ",运算后的i：" + i);
+i = 1;
+//后置递增运算符：i = 1,i++ = 1,运算后的i：2
+console.log("后置递增运算符：i = 1,i++ = " + i++ + ",运算后的i：" + i);
+i = 1;
+//前置递减运算符：i = 1,--i = 0,运算后的i：0
+console.log("前置递减运算符：i = 1,--i = " + --i + ",运算后的i：" + i);
+i = 1;
+//后置递减运算符：i = 1,i-- = 1,运算后的i：0
+console.log("后置递减运算符：i = 1,i-- = " + i-- + ",运算后的i：" + i);
+
+
+console.log("=== 比较运算符 ===");
+console.log("小于号：1 < 2 = " + (1 < 2)); //小于号：1 < 2 = true
+console.log("大于号：1 > 2 = " + (1 > 2)); //大于号：1 > 2 = false
+console.log("小于等于号：1 <= 2 = " + (1 <= 2)); //小于等于号：1 <= 2 = true
+console.log("大于等于号：1 >= 2 = " + (1 >= 2)); //大于等于号：1 >= 2 = false
+console.log("判等号：1 == 2 = " + (1 == 2)); //判等号：1 == 2 = false
+console.log("不等号：1 != 2 = " + (1 != 2)); //不等号：1 != 2 = true
+console.log("全等：1 === '1' = " + (1 === '1')); //全等：1 === '1' = false
+
+console.log("=== 逻辑运算符 ===");
+console.log("逻辑与运算符：true && false = " + (true && false)); //false
+console.log("逻辑或运算符：true || false = " + (true || false)); //true
+console.log("逻辑非运算符：!true = " + !true) //false
+
+console.log("=== 赋值运算符 ===");
+console.log("num = 10");
+console.log("num += 10");
+console.log("num -= 10");
+console.log("num *= 10");
+console.log("num /= 10");
+```
+
 # 控制流
 
+## 顺序结构
+
+按照代码的书写顺序依次执行，没有跳过或重复的步骤。
+
+## 分支结构
+
+根据条件判断的结果选择执行不同的代码块。
+
+### if-else
+
+```javascript
+// if条件语句
+let year = 2023;
+if (year < 2015) {
+    console.log('Too early...');
+} else if (year > 2015) {
+    console.log('Too late');
+} else {
+    console.log('Exactly!');
+}
+```
+
+### 三元表达式
+
+```javascript
+year < 2015 ? console.log('Too early...') : console.log('Too late');
+```
+
+### switch语句
+
+```javascript
+let a = 4;
+switch (a) {
+    case 3:
+        console.log('Too small');
+        break;
+    case 4:
+        console.log('Exactly!');
+        break;
+    case 5:
+        console.log('Too big');
+        break;
+    default:
+        console.log("I don't know such values");
+}
+```
+
+## 循环结构
+
+反复执行一段代码，直到满足某个条件才停止。
+
+### for循环
+
+```javascript
+for (let i = 0; i < 3; i++) { // 结果为 0、1、2
+  alert(i);
+}
+```
+
+### while循环
+
+```javascript
+let i = 0;
+while (i < 3) { // 依次显示 0、1 和 2
+  alert( i );
+  i++;
+}
+```
+
+### do-while循环
+
+```javascript
+let i = 0;
+do {
+  alert( i );
+  i++;
+} while (i < 3);
+```
+
+### continue break
+
+当程序执行到`continue`语句时，它会立即跳过本次循环中剩余的语句，然后执行下一次循环。
+
+`break`语句用于跳出循环或者switch语句。
+
 # 数组
+
+```javascript
+//创建数组
+let arr1 = new Array();  //方式一
+let arr2 = []; //方式二
+```
+
+```javascript
+// 数组中可以存放不同类型的元素
+let arr3 = [123,123.1,'张三',true];
+```
 
 # 函数

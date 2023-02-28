@@ -9,3 +9,6 @@ let str = "123";
 console.log(typeof str); // string
 let num = Number(str); // 变成 number 类型 123
 console.log(typeof num); // number
+console.log(parseInt("123.1"));
+console.log(parseFloat("123.1"));
+

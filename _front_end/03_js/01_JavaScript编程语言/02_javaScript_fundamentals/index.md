@@ -1,6 +1,6 @@
 ---
 layout: default
-title: JavaScript基础知识
+title: 基础知识
 nav_order: 20
 parent: JavaScript编程语言
 grand_parent: javascript
@@ -285,3 +285,71 @@ let arr3 = [123,123.1,'张三',true];
 ```
 
 # 函数
+
+## 函数基础
+
+```javascript
+/**
+ * 函数声明方式一
+ * @param num1 参数一
+ * @param num2 参数二
+ */
+function sum1(num1, num2) {
+    return num1 + num2;
+}
+
+/**
+ * 函数声明方式二
+ * @param num1
+ * @param num2
+ * @returns {*}
+ */
+let sum2 = function (num1, num2) {
+    return num1 + num2;
+}
+
+/**
+ * 函数调用
+ */
+console.log(sum1(2, 3));
+console.log(sum2(2, 3));
+```
+
+{: .warning}
+> 函数如果没有返回值，返回的是`undefined`
+
+## arguments对象
+
+`arguments`表示函数被调用时传递给函数的参数列表。arguments对象可以在函数内部使用，用于访问函数的参数，而不需要明确地声明这些参数。
+
+{: .warning}
+> `arguments`不是一个真正的数组对象，因为它没有数组对象的所有属性和方法，如`length`、`forEach()`等。
+
+```javascript
+/**
+ * arguments对象
+ * @returns {number}
+ */
+function sum2() {
+    let sum = 0;
+    for (let i = 0; i < arguments.length; i++) {
+        sum += arguments[i];
+    }
+    return sum;
+}
+
+console.log("1+2+3=" + sum2(1, 2, 3));
+```
+
+## 作用域
+
+- 全局作用域：在整个script标签或一个单独的js文件中可以使用
+- 局部作用域：在函数内部可以使用
+
+# 预解析
+
+- 变量声明预解析
+- 函数声明预解析
+
+{: .warning}
+> 变量声明预解析仅仅是变量声明，并不会对变量进行初始化。
